@@ -7,6 +7,7 @@
   Usage:
   {% render 'header-search', input_id: 'My-Id'%}
 {% endcomment %}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
 
 <details-modal class="header__search">
   <details>
@@ -22,6 +23,9 @@
         <span class="svg-wrapper header__icon-close">
           {{- 'icon-close.svg' | inline_asset_content -}}
         </span>
+      </span>
+      <span>
+        Search
       </span>
     </summary>
     <div

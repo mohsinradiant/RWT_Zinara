@@ -1,0 +1,64 @@
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+<section class="page-width home-about-us-container">
+  <h2 class="section-heading">{{ section.settings.heading }}</h2>
+  <div class="home-about-us">
+    <div class="home-about-us-left">
+      <img src="{{ section.settings.image | img_url: 'medium' }}">
+    </div>
+    <div class="home-about-us-right">
+      <p>{{ section.settings.content }}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-about-us {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+  }
+  .home-about-us-left {
+    width: 35%;
+  }
+  .home-about-us-right {
+    width: 50%;
+  }
+  .home-about-us-left img,
+  .home-about-us-right img {
+    width: 100%;
+  }
+  .home-about-us p {
+    font-size: 1.7rem;
+    margin: 0;
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Home About Us",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Section Heading",
+        "default": "About Us"
+      }, {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      }, {
+        "type": "text",
+        "id": "content",
+        "label": "Content",
+        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius."
+      }
+    ],
+    "presets": [
+      {
+        "name": "Home About Us",
+        "category": "Custom"
+      }
+    ]
+  }
+{% endschema %}

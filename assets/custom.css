@@ -435,6 +435,7 @@ sticky-header .header__search {
 
     #shopify-section-template--24203645747384__home_tryathome_aqqR4j {
         margin-top: 45px !important;
+        padding-top: 0 !important;
     }
 
     #shopify-section-template--24203645747384__collapsible_content_8wA47G .accordion {
@@ -471,7 +472,7 @@ sticky-header .header__search {
     }
 
     .home-testimonials-carousel-parent .testimonial-container {
-        padding-left: 10px;
+        padding-left: 20px;
     }
 
     .testimonial-container:not(.active) {

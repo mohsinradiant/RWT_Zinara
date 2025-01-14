@@ -29,11 +29,11 @@
 }
 
 .slider-counter__link--active.slider-counter__link--dots .dot {
-    background-color: #610C27 !important;
+    background-color: #fff !important;
 }
 
 .slider-counter__link--dots .dot {
-    border: 0.1rem solid #610C27 !important;
+    border: 0.1rem solid #fff !important;
 }
 
 .header__icon--search {
@@ -305,6 +305,24 @@ sticky-header .header__search {
 
     .category-tabs-row {
         overflow: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .category-tabs-row::-webkit-scrollbar,
+    .category-items-row::-webkit-scrollbar,
+    .occasion-images-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .category-items-row,
+    .occasion-images-container {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .category-tabs-row {
+        margin-bottom: 0 !important;
     }
 
     .category-item {
@@ -321,7 +339,11 @@ sticky-header .header__search {
 
     .shop-by-category-section {
         padding-top: 50px !important;
-        padding-bottom: 20px !important;
+        padding-bottom: 40px !important;
+    }
+
+    .home-try-at-home-section-left .section-heading {
+        margin: 0 !important;
     }
 
     .section-heading,
@@ -374,7 +396,7 @@ sticky-header .header__search {
         scroll-snap-align: start;
     }
 
-    .image-carousel img:nth-of-type(1) {
+    .image-carousel img {
         padding-left: 10px;
     }
 
@@ -385,6 +407,14 @@ sticky-header .header__search {
     .image-carousel img:not(.active) {
         opacity: 1 !important;
         transform: scale(1) !important;
+    }
+
+    .home-testimonials-container {
+        padding-top: 20px !important;
+    }
+
+    #shopify-section-template--24208249323704__home_about_7agqRh {
+        padding-top: 20px !important;
     }
 
     .header-drawer-and-logo {
@@ -476,5 +506,18 @@ sticky-header .header__search {
 
     footer {
         margin-top: 20px !important;
+    }
+
+    .testimonial-container p {
+        font-size: 1.5rem !important;
+        line-height: 2.5rem !important;
+    }
+
+    .testimonial-name img {
+        width: 17% !important;
+    }
+
+    #shopify-section-template--24208249323704__slideshow_K6fGxD .slider-button {
+        display: none !important;
     }
 }

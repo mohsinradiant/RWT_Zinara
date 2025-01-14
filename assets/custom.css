@@ -264,7 +264,9 @@ sticky-header .header__search {
 }
 
 @media (max-width: 756px) {
-    footer li a {
+
+    footer li a,
+    footer li p {
         font-size: 1.4rem !important;
         line-height: 2rem !important;
         padding: 6px 0 !important;

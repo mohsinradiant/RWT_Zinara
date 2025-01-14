@@ -42,6 +42,13 @@
     font-size: 1.7rem;
     margin: 0;
   }
+
+  /* Media Query for Mobile */
+  @media (max-width: 756px) {
+    .home-about-us-left img {
+      width: 100% !important;
+    }
+  }
 </style>
 
 <script>
@@ -61,13 +68,13 @@
 
   function handleResize() {
     const viewportWidth = window.innerWidth;
-    const images = document.querySelectorAll(".home-about-us-left img");
 
     if (viewportWidth > 756) {
       initializeImageClickListener();
     } else {
       // Remove large-image class for smaller screens
-      images.forEach((img) => img.classList.remove("large-image"));
+      const images = document.querySelectorAll(".home-about-us-left img");
+      images.forEach((img) => img.classList.add("large-image"));
     }
   }
 

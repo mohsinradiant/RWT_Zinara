@@ -317,7 +317,7 @@ sticky-header .header__search {
     }
 
     .shop-by-category-section {
-        padding-top: 40px !important;
+        padding-top: 50px !important;
         padding-bottom: 20px !important;
     }
 
@@ -397,5 +397,13 @@ sticky-header .header__search {
     #shopify-section-template--24203645747384__collapsible_content_8wA47G,
     #shopify-section-template--24203645747384__home_about_7agqRh {
         padding-top: 20px;
+    }
+
+    .image-carousel-container {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    .home-try-at-home-section-left a{
+        font-size: 1.3rem !important;
     }
 }

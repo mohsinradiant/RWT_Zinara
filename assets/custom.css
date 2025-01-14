@@ -85,12 +85,15 @@
     font-weight: bold !important;
 }
 
-#shopify-section-template--24203645747384__home_shop_by_occasion_hiVcrk,
-#shopify-section-template--24203645747384__home_benefits_e9Pe77,
 #shopify-section-template--24203645747384__home_tryathome_aqqR4j,
-#shopify-section-template--24203645747384__collapsible_content_8wA47G,
-#shopify-section-template--24203645747384__home_about_7agqRh {
+#shopify-section-template--24203645747384__collapsible_content_8wA47G {
     padding-top: 60px;
+}
+
+#shopify-section-template--24203645747384__home_about_7agqRh,
+#shopify-section-template--24203645747384__home_shop_by_occasion_hiVcrk,
+#shopify-section-template--24203645747384__home_benefits_e9Pe77 {
+    padding-top: 35px;
 }
 
 .section_heading_with_button {

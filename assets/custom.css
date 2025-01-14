@@ -78,11 +78,11 @@
 
 .section-heading,
 .collapsible-content__heading {
-    text-align: left;
-    margin-top: 25px;
-    margin-bottom: 40px;
-    font-size: 3rem;
-    font-weight: bold;
+    text-align: left !important;
+    margin-top: 25px !important;
+    margin-bottom: 40px !important;
+    font-size: 3rem !important;
+    font-weight: bold !important;
 }
 
 #shopify-section-template--24203645747384__home_shop_by_occasion_hiVcrk,
@@ -259,7 +259,7 @@ sticky-header .header__search {
 
     .section-heading,
     .collapsible-content__heading {
-        font-size: 2.2rem;
+        font-size: 2.2rem !important;
     }
 
     .home-try-at-home-section-left p {
@@ -326,7 +326,7 @@ sticky-header .header__search {
 
     .section-heading,
     .collapsible-content__heading {
-        margin-bottom: 20px;
+        margin-bottom: 20px !important;
     }
 
     .zinara-benefits-content {

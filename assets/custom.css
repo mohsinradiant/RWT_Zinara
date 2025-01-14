@@ -266,10 +266,11 @@ sticky-header .header__search {
 
 @media (max-width: 756px) {
     .mobile-search .header__icon--search {
-        width: 90% !important;
+        width: 100% !important;
         margin-right: 0px;
-        padding-right: 5px;
-        padding-left: 5px;
+        padding-right: 13px;
+        padding-left: 13px;
+        opacity: .6;
     }
 
     .mobile-search details {
@@ -318,7 +319,7 @@ sticky-header .header__search {
 
     sticky-header .header__search {
         display: block;
-        padding: 0 8px 10px;
+        padding: 0 20px 10px;
     }
 
     .header {

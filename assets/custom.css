@@ -403,7 +403,33 @@ sticky-header .header__search {
         padding-top: 40px;
         padding-bottom: 40px;
     }
-    .home-try-at-home-section-left a{
+
+    .home-try-at-home-section-left a {
         font-size: 1.3rem !important;
+    }
+
+    .testimonial-carousel-arrow {
+        display: none !important;
+    }
+
+    .testimonial-container {
+        scroll-snap-align: start;
+        min-width: 80% !important;
+    }
+
+    .home-testimonials-carousel-parent {
+        padding-left: 10px;
+        gap: 10px;
+        overflow: auto;
+        scroll-snap-type: x mandatory;
+    }
+
+    .home-testimonials-carousel-parent .testimonial-container {
+        padding-left: 10px;
+    }
+
+    .testimonial-container:not(.active) {
+        opacity: 1 !important;
+        transform: scale(1) !important;
     }
 }

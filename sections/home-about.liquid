@@ -45,7 +45,7 @@
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  function initializeImageClickListener() {
     const images = document.querySelectorAll(".home-about-us-left img");
 
     images.forEach((img) => {
@@ -57,7 +57,22 @@
         this.classList.add("large-image");
       });
     });
-  });
+  }
+
+  function handleResize() {
+    const viewportWidth = window.innerWidth;
+    const images = document.querySelectorAll(".home-about-us-left img");
+
+    if (viewportWidth > 756) {
+      initializeImageClickListener();
+    } else {
+      // Remove large-image class for smaller screens
+      images.forEach((img) => img.classList.remove("large-image"));
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", handleResize);
+  window.addEventListener("resize", handleResize);
 </script>
 
 

@@ -219,23 +219,165 @@ footer li a {
 
 .desktop-image {
     display: block !important;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .mobile-image {
     display: none !important;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .desktop-image img,
 .mobile-image img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: auto;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+
+slideshow-component .slideshow {
+    min-height: 600px !important;
     width: 100%;
 }
 
+sticky-header .header__search {
+    display: none;
+}
+
 @media (max-width: 756px) {
+    .section-heading {
+        font-size: 2.2rem;
+    }
+
+    .home-try-at-home-section-left p {
+        font-size: 1.3rem;
+    }
+
+    slideshow-component .slideshow {
+        height: 450px;
+        width: 100%;
+    }
+
     .desktop-image {
         display: none !important;
     }
 
     .mobile-image {
         display: block !important;
+    }
+
+    .c-menu2,
+    .c-menu3 {
+        display: none;
+    }
+
+    header .header__search {
+        display: none !important;
+    }
+
+    sticky-header .header__search {
+        display: block;
+        padding: 0 8px 10px;
+    }
+
+    .header {
+        justify-content: space-between;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .header__icons {
+        width: fit-content;
+    }
+
+    .category-tabs-row {
+        overflow: auto;
+    }
+
+    .category-item {
+        min-width: 37% !important;
+    }
+
+    .occasion-tab-content {
+        width: 40% !important;
+    }
+
+    .occasion-images-container {
+        gap: 10px !important;
+    }
+
+    .shop-by-category-section {
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
+    }
+
+    .section-heading {
+        margin-bottom: 20px;
+    }
+
+    .zinara-benefits-content {
+        min-width: 110px;
+    }
+
+    .zinara-benefits-content p {
+        font-size: 1.2rem;
+        line-height: 1.4rem;
+    }
+
+    .home-benefits-container {
+        gap: 15px;
+    }
+
+    .home-try-at-home-section-left a:nth-of-type(2) {
+        display: none;
+    }
+
+    .home-try-at-home-section-right {
+        width: 48% !important;
+    }
+
+    .home-try-at-home-section-left {
+        gap: 10px !important;
+    }
+
+    .home-try-at-home-section-left a {
+        padding: 9px 28px !important;
+    }
+
+    .image-carousel-container .carousel-arrow {
+        display: none !important;
+    }
+
+    .images-parent-div {
+        overflow: auto;
+        padding-left: 10px;
+        scroll-snap-type: x mandatory;
+    }
+
+
+    .image-carousel img {
+        width: 75% !important;
+        scroll-snap-align: start;
+    }
+    .image-carousel img:nth-of-type(1){
+        padding-left: 10px;
+    }
+    .image-carousel img:nth-last-of-type(1){
+        padding-right: 10px;
+    }
+
+    .image-carousel img:not(.active) {
+        opacity: 1 !important;
+        transform: scale(1) !important;
     }
 }

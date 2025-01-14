@@ -304,7 +304,9 @@
       {% endif %}
     {% endfor %}
   </div>
+  <div class="mobile-search">
   {% render 'header-search', input_id: 'Search-In-Modal' %}
+  </div>
 </{% if section.settings.sticky_header_type != 'none' %}sticky-header{% else %}div{% endif %}>
 
 {%- if settings.cart_type == "notification" -%}

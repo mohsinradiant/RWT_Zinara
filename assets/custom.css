@@ -265,6 +265,18 @@ sticky-header .header__search {
 }
 
 @media (max-width: 756px) {
+    .mobile-search .header__icon--search {
+        width: 90% !important;
+        margin-right: 0px;
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+    .mobile-search details {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     footer li a,
     footer li p {

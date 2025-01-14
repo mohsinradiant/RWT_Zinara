@@ -230,7 +230,7 @@ footer li a {
     width: 100%;
 }
 
-@media screen and (max-width: 756px) {
+@media (max-width: 756px) {
     .desktop-image {
         display: none !important;
     }

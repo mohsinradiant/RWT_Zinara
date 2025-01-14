@@ -400,12 +400,20 @@ sticky-header .header__search {
     #shopify-section-template--24203645747384__home_tryathome_aqqR4j,
     #shopify-section-template--24203645747384__collapsible_content_8wA47G,
     #shopify-section-template--24203645747384__home_about_7agqRh,
-    .home-testimonials-container {
+    .home-testimonials-container .home-testimonials-container {
         padding-top: 20px;
     }
 
     #shopify-section-template--24203645747384__home_tryathome_aqqR4j {
         margin-top: 45px !important;
+    }
+
+    #shopify-section-template--24208249323704__collapsible_content_8wA47G .accordion {
+        margin: 0 !important;
+    }
+
+    #shopify-section-template--24208249323704__collapsible_content_8wA47G .accordion h3 {
+        font-family: "Quicksand", sans-serif !important;
     }
 
     .image-carousel-container {
@@ -464,5 +472,9 @@ sticky-header .header__search {
 
     .home-about-us-right {
         width: 100% !important;
+    }
+
+    footer {
+        margin-top: 20px !important;
     }
 }

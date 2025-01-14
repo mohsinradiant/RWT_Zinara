@@ -338,7 +338,7 @@ sticky-header .header__search {
     }
 
     .shop-by-category-section {
-        padding-top: 50px !important;
+        padding-top: 40px !important;
         padding-bottom: 40px !important;
     }
 
@@ -427,7 +427,6 @@ sticky-header .header__search {
 
     #shopify-section-template--24203645747384__home_shop_by_occasion_hiVcrk,
     #shopify-section-template--24203645747384__home_benefits_e9Pe77,
-    #shopify-section-template--24203645747384__home_tryathome_aqqR4j,
     #shopify-section-template--24203645747384__collapsible_content_8wA47G,
     #shopify-section-template--24203645747384__home_about_7agqRh,
     .home-testimonials-container .home-testimonials-container {
@@ -447,8 +446,8 @@ sticky-header .header__search {
     }
 
     .image-carousel-container {
-        padding-top: 40px;
-        padding-bottom: 40px;
+        padding-top: 45px !important;
+        padding-bottom: 45px !important;
     }
 
     .home-try-at-home-section-left a {
@@ -519,5 +518,9 @@ sticky-header .header__search {
 
     #shopify-section-template--24203645747384__slideshow_K6fGxD .slider-button {
         display: none !important;
+    }
+
+    .home-try-at-home-section-container {
+        padding: 45px 0 !important;
     }
 }

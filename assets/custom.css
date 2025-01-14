@@ -317,7 +317,7 @@ sticky-header .header__search {
     }
 
     .shop-by-category-section {
-        padding-top: 20px !important;
+        padding-top: 40px !important;
         padding-bottom: 20px !important;
     }
 
@@ -369,15 +369,33 @@ sticky-header .header__search {
         width: 75% !important;
         scroll-snap-align: start;
     }
-    .image-carousel img:nth-of-type(1){
+
+    .image-carousel img:nth-of-type(1) {
         padding-left: 10px;
     }
-    .image-carousel img:nth-last-of-type(1){
+
+    .image-carousel img:nth-last-of-type(1) {
         padding-right: 10px;
     }
 
     .image-carousel img:not(.active) {
         opacity: 1 !important;
         transform: scale(1) !important;
+    }
+
+    .header-drawer-and-logo {
+        gap: 0;
+    }
+
+    .header__icon .svg-wrapper {
+        height: 35px;
+    }
+
+    #shopify-section-template--24203645747384__home_shop_by_occasion_hiVcrk,
+    #shopify-section-template--24203645747384__home_benefits_e9Pe77,
+    #shopify-section-template--24203645747384__home_tryathome_aqqR4j,
+    #shopify-section-template--24203645747384__collapsible_content_8wA47G,
+    #shopify-section-template--24203645747384__home_about_7agqRh {
+        padding-top: 20px;
     }
 }

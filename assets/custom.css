@@ -218,11 +218,11 @@ footer li a {
 }
 
 .desktop-image {
-    display: block;
+    display: block !important;
 }
 
 .mobile-image {
-    display: none;
+    display: none !important;
 }
 
 .desktop-image img,
@@ -232,10 +232,10 @@ footer li a {
 
 @media screen and (max-width: 756px) {
     .desktop-image {
-        display: none;
+        display: none !important;
     }
 
     .mobile-image {
-        display: block;
+        display: block !important;
     }
 }

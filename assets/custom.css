@@ -432,4 +432,28 @@ sticky-header .header__search {
         opacity: 1 !important;
         transform: scale(1) !important;
     }
+
+    .testimonial-container {
+        border-bottom: solid 1px #00000050;
+    }
+
+    .home-about-us {
+        flex-direction: column;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 10px;
+    }
+
+    .home-about-us-left {
+        width: 100% !important;
+        overflow: auto;
+    }
+
+    .home-about-us-left .home-about-us-left_small_image {
+        width: 200px !important;
+    }
+
+    .home-about-us-right {
+        width: 100% !important;
+    }
 }

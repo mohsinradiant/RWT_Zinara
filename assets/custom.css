@@ -78,6 +78,7 @@
 
 .section-heading {
     text-align: left;
+    margin-top: 25px;
     margin-bottom: 40px;
     font-size: 3rem;
     font-weight: bold;
@@ -86,7 +87,8 @@
 #shopify-section-template--24208249323704__home_shop_by_occasion_hiVcrk,
 #shopify-section-template--24208249323704__home_benefits_e9Pe77,
 #shopify-section-template--24208249323704__home_tryathome_aqqR4j,
-#shopify-section-template--24208249323704__collapsible_content_8wA47G {
+#shopify-section-template--24208249323704__collapsible_content_8wA47G,
+#shopify-section-template--24208249323704__home_about_7agqRh {
     padding-top: 60px;
 }
 
@@ -122,11 +124,95 @@
     display: flex;
 }
 
-.c-menu2 a {
+.c-menu2 a,
+.c-menu3 a {
     color: #000;
     font-size: 1.5rem;
 }
 
 .c-menu2 .header__search span {
     font-size: 1.5rem;
+}
+
+.c-menu3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F4EEEB;
+}
+
+.home-try-at-home-section-left p {
+    font-size: 2rem;
+    margin: 0;
+    width: 80%;
+}
+
+/* Dropdown styling */
+.c-menu3 .dropdown {
+    position: relative;
+}
+
+.c-menu3 .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 200px;
+    padding: 10px 0;
+}
+
+.c-menu3 .dropdown:hover .dropdown-menu,
+.c-menu3 .dropdown.active .dropdown-menu {
+    display: block;
+}
+
+/* Caret icon styling */
+.c-menu3 .caret-icon {
+    width: 10px;
+    height: 10px;
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+}
+
+/* Rotate caret when active or hovered */
+.c-menu3 .dropdown:hover .caret-icon,
+.c-menu3 .dropdown.active .caret-icon {
+    transform: rotate(180deg);
+}
+
+/* Dropdown item styling */
+.c-menu3 .dropdown-item {
+    padding: 10px 20px;
+    color: black;
+    text-decoration: none;
+    display: block;
+}
+
+.c-menu3 .dropdown-item:hover {
+    background-color: #f4f4f4;
+}
+
+.c-menu3 svg {
+    width: 11px;
+}
+
+.c-menu3 .dropdown a {
+    display: flex;
+    gap: 7px;
+}
+
+.header-drawer-and-logo {
+    display: flex;
+    gap: 10px;
+}
+
+footer {
+    margin-top: 60px !important;
+}
+
+footer li a {
+    text-decoration: none !important;
 }

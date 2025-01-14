@@ -107,11 +107,11 @@
     "badge_corner_radius": 40,
     "sale_badge_color_scheme": "scheme-4",
     "sold_out_badge_color_scheme": "scheme-3",
-    "brand_headline": "",
-    "brand_description": "<p></p>",
+    "brand_headline": "Contact Us",
+    "brand_description": "<p>Inditren Technologies Pvt. Ltd.A-277-278, 2nd Floor, Dhaka Johar, G.T.B Nagar, North West Delhi, Delhi - 110009</p>",
     "brand_image_width": 100,
-    "social_facebook_link": "",
-    "social_instagram_link": "",
+    "social_facebook_link": "https://www.facebook.com/profile.php?id=61560450745044",
+    "social_instagram_link": "https://www.instagram.com/zinaraofficial/",
     "social_youtube_link": "",
     "social_tiktok_link": "",
     "social_twitter_link": "",
@@ -207,6 +207,17 @@
           "button": "#610c27",
           "button_label": "#ffffff",
           "secondary_button_label": "#610c27",
+          "shadow": "#121212"
+        }
+      },
+      "scheme-a0833cff-1252-4aa2-8751-2f7cf27edbb0": {
+        "settings": {
+          "background": "#f4eeeb",
+          "background_gradient": "",
+          "text": "#712242",
+          "button": "#121212",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#121212",
           "shadow": "#121212"
         }
       }

@@ -1,10 +1,10 @@
-{{ 'custom.css' | asset_url | stylesheet_tag }}
-
 <section class="page-width home-about-us-container">
   <h2 class="section-heading">{{ section.settings.heading }}</h2>
   <div class="home-about-us">
     <div class="home-about-us-left">
       <img src="{{ section.settings.image | img_url: 'medium' }}">
+      <img class="home-about-us-left_small_image" src="{{ section.settings.image_2 | img_url: 'medium' }}">
+      <img class="home-about-us-left_small_image" src="{{ section.settings.image_3 | img_url: 'medium' }}">
     </div>
     <div class="home-about-us-right">
       <p>{{ section.settings.content }}</p>
@@ -19,7 +19,17 @@
     align-items: start;
   }
   .home-about-us-left {
-    width: 35%;
+    width: 45%;
+    gap: 2%;
+    align-items: end;
+    display: flex;
+  }
+  .home-about-us-left img {
+    width: 60 %%;
+  }
+  .home-about-us-left .home-about-us-left_small_image {
+    width: 15%;
+    height: fit-content;
   }
   .home-about-us-right {
     width: 50%;
@@ -43,10 +53,21 @@
         "id": "heading",
         "label": "Section Heading",
         "default": "About Us"
-      }, {
+      },
+      {
         "type": "image_picker",
         "id": "image",
         "label": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_2",
+        "label": "Image 2"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_3",
+        "label": "Image 3"
       }, {
         "type": "text",
         "id": "content",

@@ -405,6 +405,8 @@
       "settings": {
         "heading": "About Us",
         "image": "shopify://shop_images/image_51.png",
+        "image_2": "shopify://shop_images/image_52_1.png",
+        "image_3": "shopify://shop_images/image_53.png",
         "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius."
       }
     },

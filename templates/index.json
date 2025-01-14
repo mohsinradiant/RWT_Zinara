@@ -347,7 +347,7 @@
       "type": "home-own_design",
       "settings": {
         "heading": "Get your own design",
-        "sub-heading": Have another design in mind? Something from a website or a magazine perhaps?,
+        "sub-heading": "Have another design in mind? Something from a website or a magazine perhaps?",
         "button-1": "Start Designing",
         "url-1": "",
         "image": "shopify://shop_images/image_50.png"
@@ -362,7 +362,7 @@
             "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "Carousel Image",
             "name": "Kartik Rao",
-            "review": "Have another design in mind? Something from a website or a magazine perhaps?"
+            "review": "\"Have another design in mind? Something from a website or a magazine perhaps?\""
           }
         },
         "image_picker_MxcGMD": {
@@ -371,7 +371,7 @@
             "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "Carousel Image",
             "name": "Malikka Narang (probably)",
-            "review": "Have another design in mind? Something from a website or a magazine perhaps?"
+            "review": "\"Have another design in mind? Something from a website or a magazine perhaps?\""
           }
         },
         "image_picker_NWYxUR": {
@@ -380,7 +380,7 @@
             "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "Carousel Image",
             "name": "Malikka Narang (probably)",
-            "review": "Have another design in mind? Something from a website or a magazine perhaps?"
+            "review": "\"Have another design in mind? Something from a website or a magazine perhaps?\""
           }
         },
         "image_picker_mCbmtD": {
@@ -389,7 +389,7 @@
             "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "Carousel Image",
             "name": "Malikka Narang (probably)",
-            "review": "Have another design in mind? Something from a website or a magazine perhaps?"
+            "review": "\"Have another design in mind? Something from a website or a magazine perhaps?\""
           }
         }
       },

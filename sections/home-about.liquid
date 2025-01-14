@@ -2,7 +2,7 @@
   <h2 class="section-heading">{{ section.settings.heading }}</h2>
   <div class="home-about-us">
     <div class="home-about-us-left">
-      <img src="{{ section.settings.image | img_url: 'medium' }}">
+      <img src="{{ section.settings.image | img_url: 'medium' }}" class="large-image">
       <img class="home-about-us-left_small_image" src="{{ section.settings.image_2 | img_url: 'medium' }}">
       <img class="home-about-us-left_small_image" src="{{ section.settings.image_3 | img_url: 'medium' }}">
     </div>
@@ -25,24 +25,41 @@
     display: flex;
   }
   .home-about-us-left img {
-    width: 60 %%;
+    transition: all 0.3s ease-in;
+    cursor: pointer;
   }
-  .home-about-us-left .home-about-us-left_small_image {
+  .home-about-us-left img.large-image {
+    width: 60%;
+  }
+  .home-about-us-left img:not(.large-image) {
     width: 15%;
     height: fit-content;
   }
   .home-about-us-right {
     width: 50%;
   }
-  .home-about-us-left img,
-  .home-about-us-right img {
-    width: 100%;
-  }
   .home-about-us p {
     font-size: 1.7rem;
     margin: 0;
   }
 </style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const images = document.querySelectorAll(".home-about-us-left img");
+
+    images.forEach((img) => {
+      img.addEventListener("click", function () {
+        // Remove the 'large-image' class from all images
+        images.forEach((img) => img.classList.remove("large-image"));
+
+        // Add the 'large-image' class to the clicked image
+        this.classList.add("large-image");
+      });
+    });
+  });
+</script>
+
 
 {% schema %}
   {

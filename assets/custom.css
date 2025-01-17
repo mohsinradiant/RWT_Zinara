@@ -264,6 +264,115 @@ sticky-header .header__search {
     display: none !important;
 }
 
+.noUi-handle {
+    border: none !important;
+    border-radius: 50% !important;
+    background: #610c27 !important;
+    cursor: pointer !important;
+    box-shadow: none !important;
+}
+
+.noUi-horizontal .noUi-handle {
+    height: 15px !important;
+    width: 15px !important;
+}
+
+.noUi-handle:after,
+.noUi-handle:before {
+    display: none !important;
+}
+
+.noUi-horizontal {
+    height: 4px !important;
+}
+
+.noUi-target {
+    background: #F4EEEB !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.price-slider-values {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.noUi-connect {
+    background: #610c27 !important;
+    display: flex !important;
+    margin-right: -10px;
+}
+
+.price-slider-values span {
+    color: #610C27;
+    padding-top: 10px;
+}
+
+.facets-vertical-form {
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.facets-vertical .active-facets {
+    position: absolute;
+    left: 321px;
+    top: 93px;
+    display: flex;
+    width: max-content;
+    flex-wrap: wrap;
+    z-index: 99;
+}
+
+#FacetsWrapperDesktop {
+    position: relative;
+}
+
+.active-facets__button--light .active-facets__button-inner,
+.facet-filters__field .select {
+    box-shadow: none;
+    border-radius: 0;
+    background: #F4EEEB;
+    padding: 10px 20px;
+    color: #610C27;
+}
+
+.facet-filters__field img {
+    width: 20px;
+    margin-right: 8px;
+}
+
+.facet-filters__field select {
+    color: #610C27;
+}
+
+.facet-filters .select .svg-wrapper {
+    right: 20px !important;
+}
+
+.facets-vertical .product-grid-container .grid:last-child {
+    margin-top: 40px;
+}
+
+.active-facets__button--light .active-facets__button-inner {
+    box-shadow: none !important;
+    transition: all ease-in .2s;
+}
+
+.active-facets__button--light .active-facets__button-inner:hover {
+    background-color: #610C27 !important;
+    color: #F4EEEB !important;
+}
+
+#FacetsWrapperDesktop details:first-of-type {
+    border-top: none !important;
+}
+
+.collapsible-content__grid .accordion h3,
+.collapsible-content__grid .accordion p {
+    font-family: "Quicksand", sans-serif !important;
+}
+
 @media (max-width: 756px) {
     .mobile-search .header__icon--search {
         width: 100% !important;

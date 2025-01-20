@@ -280,11 +280,11 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const facetsWrapper = document.querySelector('aside.facets-wrapper');
-    const filtersForm = document.querySelector('facet-filters-form');
+    const productGridContainer = document.querySelector('.product-grid-container');
     const collectionDiv = document.querySelector('.collection');
 
-    if (facetsWrapper && filtersForm && collectionDiv) {
-      filtersForm.insertAdjacentElement('afterend', facetsWrapper);
+    if (facetsWrapper && productGridContainer && collectionDiv) {
+      productGridContainer.insertBefore(facetsWrapper, collectionDiv);
     }
   });
 </script>

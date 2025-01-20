@@ -411,7 +411,7 @@ sticky-header .header__search {
         border-radius: 5px;
     }
 
-    #FacetsWrapperDesktop .product-count {
+    .facets-container .product-count {
         display: none !important;
     }
 

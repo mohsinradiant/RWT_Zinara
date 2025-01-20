@@ -419,6 +419,10 @@ sticky-header .header__search {
         margin: 0;
     }
 
+    .facets-container {
+        padding: 0 !important;
+    }
+
     .mobile-search .header__icon--search {
         width: 100% !important;
         margin-right: 0px;

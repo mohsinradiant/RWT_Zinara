@@ -388,6 +388,11 @@ sticky-header .header__search {
         top: 435px;
         width: 100%;
         overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+
+    facet-remove span {
+        text-wrap: nowrap;
     }
 
     .page-width--full-width {

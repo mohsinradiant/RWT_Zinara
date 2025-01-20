@@ -387,6 +387,7 @@ sticky-header .header__search {
         left: 15px;
         top: 435px;
         width: 100%;
+        overflow-x: auto;
     }
 
     .page-width--full-width {

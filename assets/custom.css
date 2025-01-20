@@ -417,8 +417,8 @@ sticky-header .header__search {
         display: flex;
         gap: 10px;
         position: absolute;
-        left: 2.7rem;
-        top: 450px;
+        left: 1.2rem;
+        top: 105px;
         width: 100%;
         overflow-x: auto;
         flex-wrap: nowrap;

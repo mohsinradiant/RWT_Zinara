@@ -428,7 +428,9 @@ sticky-header .header__search {
         padding: 5px 10px !important;
         border-radius: 5px !important;
     }
-
+    .active-facets__button--light .active-facets__button-inner{
+        padding: 0 !important;
+    }
     .facets-container .product-count {
         display: none !important;
     }

@@ -391,9 +391,11 @@ sticky-header .header__search {
         scrollbar-width: none;
         -ms-overflow-style: none;
     }
-.facets-container{
-    z-index: 10;
-}
+
+    .facets-container details {
+        z-index: 100;
+    }
+
     .facets-container::-webkit-scrollbar,
     .facets-vertical .active-facets::-webkit-scrollbar {
         display: none;

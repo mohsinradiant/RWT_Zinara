@@ -391,6 +391,9 @@ sticky-header .header__search {
     .mobile-facets__wrapper {
         display: none !important;
     }
+    #FacetsWrapperDesktop{
+        display: flex;
+    }
 
     .mobile-search .header__icon--search {
         width: 100% !important;

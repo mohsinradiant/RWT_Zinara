@@ -279,15 +279,18 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const facetsWrapper = document.querySelector('aside.facets-wrapper');
-    const productGridContainer = document.querySelector('.product-grid-container');
-    const collectionDiv = document.querySelector('.collection');
+    if (window.matchMedia('(max-width: 755px)').matches) {
+      const facetsWrapper = document.querySelector('aside.facets-wrapper');
+      const productGridContainer = document.querySelector('.product-grid-container');
+      const collectionDiv = document.querySelector('.collection');
 
-    if (facetsWrapper && productGridContainer && collectionDiv) {
-      productGridContainer.insertBefore(facetsWrapper, collectionDiv);
+      if (facetsWrapper && productGridContainer && collectionDiv) {
+        productGridContainer.insertBefore(facetsWrapper, collectionDiv);
+      }
     }
   });
 </script>
+
 {% schema %}
 {
   "name": "t:sections.main-collection-product-grid.name",

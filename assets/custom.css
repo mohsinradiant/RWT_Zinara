@@ -422,7 +422,8 @@ sticky-header .header__search {
         text-wrap: nowrap;
     }
 
-    #FacetsWrapperDesktop details {
+    #FacetsWrapperDesktop details,
+    .active-facets__button {
         background-color: #F4EEEB;
         padding: 5px 10px;
         border-radius: 5px;

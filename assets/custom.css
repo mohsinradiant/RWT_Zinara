@@ -403,6 +403,8 @@ sticky-header .header__search {
 
     #FacetsWrapperDesktop details {
         background-color: #F4EEEB;
+        padding: 5px 10px;
+        border-radius: 5px;
     }
 
     #FacetsWrapperDesktop summary {

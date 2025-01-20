@@ -382,6 +382,12 @@ sticky-header .header__search {
 }
 
 @media (max-width: 756px) {
+    .facets-container {
+        display: flex;
+        overflow-x: auto;
+        width: 100%;
+    }
+
     .mobile-search .header__icon--search {
         width: 100% !important;
         margin-right: 0px;

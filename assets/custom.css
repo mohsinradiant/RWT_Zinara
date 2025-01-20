@@ -383,6 +383,8 @@ sticky-header .header__search {
 
 @media (max-width: 756px) {
     .facets-vertical .active-facets {
+        display: flex;
+        gap: 10px;
         position: absolute;
         left: 2.7rem;
         top: 435px;

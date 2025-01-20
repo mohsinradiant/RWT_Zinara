@@ -394,7 +394,7 @@ sticky-header .header__search {
 
     #FacetsWrapperDesktop {
         display: flex;
-        gap: 20px;
+        gap: 10px;
     }
 
     #FacetsWrapperDesktop span {

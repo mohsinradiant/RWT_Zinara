@@ -390,10 +390,6 @@ sticky-header .header__search {
         display: block !important;
     }
 
-    .product-grid-container {
-        margin-top: -50px;
-    }
-
     .active-facets__button-remove {
         padding: 0 !important;
     }

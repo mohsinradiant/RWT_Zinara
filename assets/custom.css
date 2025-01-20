@@ -413,6 +413,10 @@ sticky-header .header__search {
         display: none;
     }
 
+    .product-grid-container .collection {
+        margin-top: 60px;
+    }
+
     .facets-vertical .active-facets {
         display: flex;
         gap: 10px;

@@ -405,6 +405,10 @@ sticky-header .header__search {
         background-color: #F4EEEB;
     }
 
+    #FacetsWrapperDesktop summary {
+        margin: 0;
+    }
+
     .mobile-search .header__icon--search {
         width: 100% !important;
         margin-right: 0px;

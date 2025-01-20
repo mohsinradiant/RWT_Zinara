@@ -387,7 +387,7 @@ sticky-header .header__search {
 
 @media (max-width: 756px) {
     .facet-filters {
-        display: none;
+        display: none !important;
     }
 
     .collection-hero--with-image {

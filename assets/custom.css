@@ -425,8 +425,8 @@ sticky-header .header__search {
     #FacetsWrapperDesktop details,
     .active-facets__button {
         background-color: #F4EEEB;
-        padding: 5px 10px;
-        border-radius: 5px;
+        padding: 5px 10px !important;
+        border-radius: 5px !important;
     }
 
     .facets-container .product-count {

@@ -389,7 +389,7 @@ sticky-header .header__search {
     }
 
     .mobile-facets__wrapper {
-        display: none;
+        display: none !important;
     }
 
     .mobile-search .header__icon--search {

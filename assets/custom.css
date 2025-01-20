@@ -388,6 +388,10 @@ sticky-header .header__search {
         width: 100%;
     }
 
+    .mobile-facets__wrapper {
+        display: none;
+    }
+
     .mobile-search .header__icon--search {
         width: 100% !important;
         margin-right: 0px;

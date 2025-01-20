@@ -373,7 +373,7 @@ sticky-header .header__search {
     font-family: "Quicksand", sans-serif !important;
 }
 
-.collection-hero--with-image {
+.collection-hero__inner {
     padding: 2rem 1rem 0 !important;
 }
 

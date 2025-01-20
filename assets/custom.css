@@ -422,6 +422,8 @@ sticky-header .header__search {
 
     #FacetsWrapperDesktop span {
         text-wrap: nowrap;
+        font-size: 1rem;
+        color: #610C27;
     }
 
     #FacetsWrapperDesktop details,

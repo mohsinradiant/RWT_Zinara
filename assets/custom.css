@@ -382,6 +382,13 @@ sticky-header .header__search {
 }
 
 @media (max-width: 756px) {
+    .facets-vertical .active-facets {
+        position: absolute;
+        left: 15px;
+        top: 435px;
+        width: 100%;
+    }
+
     .page-width--full-width {
         padding: 0 1.5rem;
     }

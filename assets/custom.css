@@ -377,6 +377,10 @@ sticky-header .header__search {
     padding: 2rem 1rem 0 !important;
 }
 
+.collection-hero__inner img {
+    border-radius: 15px;
+}
+
 @media (max-width: 756px) {
     .mobile-search .header__icon--search {
         width: 100% !important;

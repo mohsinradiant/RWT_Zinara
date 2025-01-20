@@ -411,6 +411,10 @@ sticky-header .header__search {
         border-radius: 5px;
     }
 
+    #FacetsWrapperDesktop .product-count {
+        display: none !important;
+    }
+
     #FacetsWrapperDesktop summary {
         margin: 0;
     }

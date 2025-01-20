@@ -381,7 +381,15 @@ sticky-header .header__search {
     border-radius: 15px;
 }
 
+.collection-hero--with-image {
+    display: none !important;
+}
+
 @media (max-width: 756px) {
+    .collection-hero--with-image {
+        display: flex !important;
+    }
+
     .active-facets__button-remove {
         padding: 0 !important;
     }

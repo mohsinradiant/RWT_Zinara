@@ -382,6 +382,18 @@ sticky-header .header__search {
 }
 
 @media (max-width: 756px) {
+
+    .facets-container,
+    .facets-vertical .active-facets {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .facets-container::-webkit-scrollbar,
+    .facets-vertical .active-facets::-webkit-scrollbar {
+        display: none;
+    }
+
     .facets-vertical .active-facets {
         display: flex;
         gap: 10px;

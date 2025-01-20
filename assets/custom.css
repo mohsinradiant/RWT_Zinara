@@ -395,6 +395,10 @@ sticky-header .header__search {
         text-wrap: nowrap;
     }
 
+    .active-facets__button {
+        padding: 0 !important;
+    }
+
     .page-width--full-width {
         padding: 0 1.5rem;
     }

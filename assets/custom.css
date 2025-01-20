@@ -382,6 +382,10 @@ sticky-header .header__search {
 }
 
 @media (max-width: 756px) {
+    .page-width--full-width {
+        padding: 0 1.5rem;
+    }
+
     .facets-container {
         display: flex;
         overflow-x: auto;

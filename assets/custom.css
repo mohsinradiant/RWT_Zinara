@@ -387,7 +387,7 @@ sticky-header .header__search {
 
 @media (max-width: 756px) {
     .collection-hero--with-image {
-        display: flex !important;
+        display: block !important;
     }
 
     .active-facets__button-remove {

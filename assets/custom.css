@@ -391,8 +391,10 @@ sticky-header .header__search {
     .mobile-facets__wrapper {
         display: none !important;
     }
-    #FacetsWrapperDesktop{
+
+    #FacetsWrapperDesktop {
         display: flex;
+        gap: 20px;
     }
 
     .mobile-search .header__icon--search {

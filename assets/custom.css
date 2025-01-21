@@ -388,6 +388,9 @@ sticky-header .header__search {
 }
 
 @media (max-width: 756px) {
+    .facets__summary{
+        margin: 0 !important;
+    }
     #FacetsWrapperDesktop details {
         background: #F4EEEB;
         padding: 10px 15px;

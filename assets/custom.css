@@ -400,6 +400,10 @@ sticky-header .header__search {
         display: flex !important;
     }
 
+    .facets-vertical .facets-wrapper facet-filters-form #FacetsWrapperDesktop span {
+        text-wrap: nowrap !important;
+    }
+
     .collection-hero__image-container {
         margin: 20px 0 0 0 !important;
         display: block !important;

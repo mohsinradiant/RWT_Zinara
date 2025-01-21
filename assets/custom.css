@@ -382,7 +382,9 @@ sticky-header .header__search {
     display: none !important;
     border-radius: 15px !important;
 }
-
+.collection-hero--with-image{
+    padding: 0 !important;
+}
 @media (max-width: 756px) {
     .collection-hero__image-container {
         margin: 0 !important;

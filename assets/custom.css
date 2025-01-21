@@ -411,6 +411,11 @@ sticky-header .header__search {
         display: none !important;
     }
 
+    .facets-vertical .active-facets {
+        left: 15px !important;
+        top: 520px !important;
+    }
+
     .page-width--full-width {
         padding: 0 1.5rem !important;
     }

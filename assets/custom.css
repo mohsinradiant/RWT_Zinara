@@ -390,6 +390,7 @@ sticky-header .header__search {
 @media (max-width: 756px) {
     .facets-container {
         display: flex !important;
+        flex-direction: column;
     }
 
     .collection-hero--with-image .collection-hero__inner {

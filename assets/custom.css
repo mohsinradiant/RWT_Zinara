@@ -462,6 +462,10 @@ sticky-header .header__search {
         color: #610C27;
     }
 
+    .facets-vertical aside {
+        width: 93%;
+    }
+
     .facets-container {
         display: flex !important;
         flex-direction: column;

@@ -398,6 +398,7 @@ sticky-header .header__search {
 
     .facets-vertical .facets-wrapper facet-filters-form {
         display: flex !important;
+        overflow-x: auto;
     }
 
     .facets-vertical .facets-wrapper facet-filters-form #FacetsWrapperDesktop {

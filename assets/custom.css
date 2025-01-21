@@ -388,6 +388,10 @@ sticky-header .header__search {
 }
 
 @media (max-width: 756px) {
+    .product-grid-container facet-filters-form {
+        display: flex !important;
+    }
+
     .page-width--full-width {
         padding: 0 1.5rem !important;
     }

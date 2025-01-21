@@ -388,6 +388,10 @@ sticky-header .header__search {
 }
 
 @media (max-width: 756px) {
+    .facets-vertical .facets-wrapper facet-filters-form {
+        display: flex !important;
+    }
+
     .collection-hero__image-container {
         margin: 20px 0 0 0 !important;
         display: block !important;

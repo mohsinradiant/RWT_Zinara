@@ -406,6 +406,10 @@ sticky-header .header__search {
         width: 30%;
     }
 
+    .mobile-facets__wrapper {
+        display: none !important;
+    }
+
     .page-width--full-width {
         padding: 0 1.5rem !important;
     }

@@ -421,6 +421,10 @@ sticky-header .header__search {
         flex-wrap: nowrap;
     }
 
+    .facets-vertical .active-facets span {
+        text-wrap: nowrap;
+    }
+
     .product-grid-container .collection {
         margin-top: 115px;
     }

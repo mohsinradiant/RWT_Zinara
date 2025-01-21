@@ -439,6 +439,7 @@ sticky-header .header__search {
     }
 
     .facets-wrapper {
+        width: 100%;
         position: absolute;
         top: 460px;
         left: 15px;

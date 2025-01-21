@@ -414,6 +414,7 @@ sticky-header .header__search {
     .facets-vertical .active-facets {
         left: 0 !important;
         top: 50px !important;
+        gap: 10px;
     }
 
     .product-grid-container .collection {

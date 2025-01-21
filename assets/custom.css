@@ -416,6 +416,12 @@ sticky-header .header__search {
         top: 520px !important;
     }
 
+    .facets-wrapper {
+        position: absolute;
+        top: 460px;
+        left: 15px;
+    }
+
     .page-width--full-width {
         padding: 0 1.5rem !important;
     }

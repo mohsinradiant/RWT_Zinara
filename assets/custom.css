@@ -403,6 +403,7 @@ sticky-header .header__search {
 
     .product-grid-container facet-filters-form form .facet-filters {
         padding: 0 !important;
+        width: 30%;
     }
 
     .page-width--full-width {

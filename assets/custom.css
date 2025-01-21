@@ -380,7 +380,7 @@ sticky-header .header__search {
 .collection-hero__image-container {
     margin: 0 !important;
     display: none !important;
-    border-radius: 15px;
+    border-radius: 15px !important;
 }
 
 @media (max-width: 756px) {

@@ -377,7 +377,17 @@ sticky-header .header__search {
     display: none;
 }
 
+.collection-hero__image-container {
+    margin: 0 !important;
+    display: none !important;
+}
+
 @media (max-width: 756px) {
+    .collection-hero__image-container {
+        margin: 0 !important;
+        display: block !important;
+    }
+
     .mobile-search .header__icon--search {
         width: 100% !important;
         margin-right: 0px;

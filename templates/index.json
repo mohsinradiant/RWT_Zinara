@@ -9,482 +9,76 @@
  */
 {
   "sections": {
-    "slideshow_K6fGxD": {
-      "type": "slideshow",
+    "image_banner": {
+      "type": "image-banner",
       "blocks": {
-        "slide_LmXmeR": {
-          "type": "slide",
+        "heading": {
+          "type": "heading",
           "settings": {
-            "image": "shopify://shop_images/image_42.png",
-            "image_mobile": "shopify://shop_images/2cc7099d8c8d3b36d96f7e7c5ee65156.png",
-            "heading": "",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "box_align": "middle-center",
-            "show_text_box": false,
-            "text_alignment": "center",
-            "image_overlay_opacity": 0,
-            "color_scheme": "scheme-df6532fc-b063-435e-9039-25f6aece7c28",
-            "text_alignment_mobile": "center"
+            "heading": "Browse our latest products",
+            "heading_size": "h0"
           }
         },
-        "slide_rRent3": {
-          "type": "slide",
+        "button": {
+          "type": "buttons",
           "settings": {
-            "image": "shopify://shop_images/3e45470d5b8268fd0a5f9114ca84b3e1.png",
-            "image_mobile": "shopify://shop_images/2cc7099d8c8d3b36d96f7e7c5ee65156.png",
-            "heading": "",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "box_align": "middle-center",
-            "show_text_box": false,
-            "text_alignment": "center",
-            "image_overlay_opacity": 0,
-            "color_scheme": "scheme-df6532fc-b063-435e-9039-25f6aece7c28",
-            "text_alignment_mobile": "center"
-          }
-        },
-        "slide_9NGJ7V": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/16b5aa81f0ed672e25ca3ca35afcd090.png",
-            "image_mobile": "shopify://shop_images/2cc7099d8c8d3b36d96f7e7c5ee65156.png",
-            "heading": "",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "box_align": "middle-center",
-            "show_text_box": false,
-            "text_alignment": "center",
-            "image_overlay_opacity": 0,
-            "color_scheme": "scheme-df6532fc-b063-435e-9039-25f6aece7c28",
-            "text_alignment_mobile": "center"
+            "button_label_1": "Shop all",
+            "button_link_1": "shopify://collections/all",
+            "button_style_secondary_1": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
           }
         }
       },
       "block_order": [
-        "slide_LmXmeR",
-        "slide_rRent3",
-        "slide_9NGJ7V"
+        "heading",
+        "button"
       ],
       "settings": {
-        "layout": "full_bleed",
-        "slide_height": "medium",
-        "slider_visual": "dots",
-        "auto_rotate": true,
-        "change_slides_speed": 5,
+        "image_overlay_opacity": 40,
+        "image_height": "large",
+        "desktop_content_position": "bottom-center",
+        "show_text_box": false,
         "image_behavior": "none",
-        "show_text_below": false,
-        "accessibility_info": "Slideshow about our brand"
+        "desktop_content_alignment": "center",
+        "color_scheme": "scheme-3",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": false,
+        "show_text_below": false
       }
     },
-    "home_shop_by_category_3i49W3": {
-      "type": "home-shop-by-category",
-      "blocks": {
-        "tab_RjLfgp": {
-          "type": "tab",
-          "settings": {
-            "tab_title": "Rings"
-          }
-        },
-        "tab_FthFXG": {
-          "type": "tab",
-          "settings": {
-            "tab_title": "Earrings"
-          }
-        },
-        "tab_dwcbbg": {
-          "type": "tab",
-          "settings": {
-            "tab_title": "Pendants"
-          }
-        },
-        "tab_dqxCmp": {
-          "type": "tab",
-          "settings": {
-            "tab_title": "Bracelets"
-          }
-        },
-        "tab_YNHVBw": {
-          "type": "tab",
-          "settings": {
-            "tab_title": "Necklaces"
-          }
-        },
-        "category_item_XxDkwj": {
-          "type": "category_item",
-          "settings": {
-            "collection": "rings",
-            "image": "shopify://shop_images/Engagement_Rings_Image.png",
-            "text": "View All Rings",
-            "associated_tab": "rings"
-          }
-        },
-        "category_item_nfGmpM": {
-          "type": "category_item",
-          "settings": {
-            "collection": "rings",
-            "image": "shopify://shop_images/Engagement_Rings_Image.png",
-            "text": "Daily Wear Rings",
-            "associated_tab": "rings"
-          }
-        },
-        "category_item_zxNiLJ": {
-          "type": "category_item",
-          "settings": {
-            "collection": "rings",
-            "image": "shopify://shop_images/Engagement_Rings_Image.png",
-            "text": "Eternity Rings",
-            "associated_tab": "rings"
-          }
-        },
-        "category_item_JWXXnw": {
-          "type": "category_item",
-          "settings": {
-            "collection": "rings",
-            "image": "shopify://shop_images/Engagement_Rings_Image.png",
-            "text": "Daily Wear Rings",
-            "associated_tab": "rings"
-          }
-        }
-      },
-      "block_order": [
-        "tab_RjLfgp",
-        "tab_FthFXG",
-        "tab_dwcbbg",
-        "tab_dqxCmp",
-        "tab_YNHVBw",
-        "category_item_XxDkwj",
-        "category_item_nfGmpM",
-        "category_item_zxNiLJ",
-        "category_item_JWXXnw"
-      ],
+    "featured_collection": {
+      "type": "featured-collection",
       "settings": {
-        "heading": "Shop by Category"
-      }
-    },
-    "home_shop_by_occasion_hiVcrk": {
-      "type": "home-shop-by-occasion",
-      "blocks": {
-        "tab_xQXdjt": {
-          "type": "tab",
-          "settings": {
-            "text": "Proposal",
-            "image": "shopify://shop_images/image_46.png",
-            "collection": "earrings"
-          }
-        },
-        "tab_3z96hY": {
-          "type": "tab",
-          "settings": {
-            "text": "Engagement",
-            "image": "shopify://shop_images/image_46.png",
-            "collection": "earrings"
-          }
-        },
-        "tab_7iEaGE": {
-          "type": "tab",
-          "settings": {
-            "text": "Daily Wear",
-            "image": "shopify://shop_images/image_46.png",
-            "collection": "earrings"
-          }
-        },
-        "tab_yceFM9": {
-          "type": "tab",
-          "settings": {
-            "text": "Office Wear",
-            "image": "shopify://shop_images/image_46.png",
-            "collection": "earrings"
-          }
-        }
-      },
-      "block_order": [
-        "tab_xQXdjt",
-        "tab_3z96hY",
-        "tab_7iEaGE",
-        "tab_yceFM9"
-      ],
-      "settings": {
-        "heading": "Shop by Occassion"
-      }
-    },
-    "home_benefits_e9Pe77": {
-      "type": "home-benefits",
-      "blocks": {
-        "tab_wwFHp7": {
-          "type": "tab",
-          "settings": {
-            "text": "Lifetime Buy-Back & Exchange",
-            "image": "shopify://shop_images/Vector_18.png"
-          }
-        },
-        "tab_LBKUh6": {
-          "type": "tab",
-          "settings": {
-            "text": "IGI/SGL Certified Diamonds",
-            "image": "shopify://shop_images/Certificate.png"
-          }
-        },
-        "tab_dpxHHi": {
-          "type": "tab",
-          "settings": {
-            "text": "BIS Hallmarked Gold",
-            "image": "shopify://shop_images/Certificate_1.png"
-          }
-        },
-        "tab_X4pLzM": {
-          "type": "tab",
-          "settings": {
-            "text": "Try at Home",
-            "image": "shopify://shop_images/Vector_17.png"
-          }
-        },
-        "tab_NRcA8Y": {
-          "type": "tab",
-          "settings": {
-            "text": "Insured & Free Shipping",
-            "image": "shopify://shop_images/Free_Shipping.png"
-          }
-        },
-        "tab_Yf4aXJ": {
-          "type": "tab",
-          "settings": {
-            "text": "Ethically Sourced Jewellery",
-            "image": "shopify://shop_images/Wedding_Rings.png"
-          }
-        }
-      },
-      "block_order": [
-        "tab_wwFHp7",
-        "tab_LBKUh6",
-        "tab_dpxHHi",
-        "tab_X4pLzM",
-        "tab_NRcA8Y",
-        "tab_Yf4aXJ"
-      ],
-      "settings": {
-        "heading": "Zinara Benefits"
-      }
-    },
-    "home_tryathome_aqqR4j": {
-      "type": "home-tryathome",
-      "settings": {
-        "heading": "Want to See Designs Personally?",
-        "sub-heading": "Get designs to try at home or schedule a video call",
-        "button-1": "Try at Home",
-        "url-1": "",
-        "button-2": "Video Call",
-        "url-2": "",
-        "image": "shopify://shop_images/image_50.png"
-      }
-    },
-    "home_image_gallery_carousel_xiKJ38": {
-      "type": "home-image_gallery-carousel",
-      "blocks": {
-        "image_picker_NkcmtK": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
-          }
-        },
-        "image_picker_aG66wz": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
-          }
-        },
-        "image_picker_9H6Br9": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
-          }
-        },
-        "image_picker_cAnCBV": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
-          }
-        },
-        "image_picker_hcdWMC": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
-          }
-        },
-        "image_picker_VRCGRj": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
-          }
-        }
-      },
-      "block_order": [
-        "image_picker_NkcmtK",
-        "image_picker_aG66wz",
-        "image_picker_9H6Br9",
-        "image_picker_cAnCBV",
-        "image_picker_hcdWMC",
-        "image_picker_VRCGRj"
-      ],
-      "settings": {}
-    },
-    "home_own_design_NUCgYq": {
-      "type": "home-own_design",
-      "settings": {
-        "heading": "Get your own design",
-        "sub-heading": "Have another design in mind? Something from a website or a magazine perhaps?",
-        "button-1": "Start Designing",
-        "url-1": "",
-        "image": "shopify://shop_images/image_50.png"
-      }
-    },
-    "home_testimonials_DceiKc": {
-      "type": "home-testimonials",
-      "blocks": {
-        "image_picker_QjN7GJ": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
-            "alt_text": "Carousel Image",
-            "name": "Kartik Rao",
-            "review": "\"Have another design in mind? Something from a website or a magazine perhaps?\""
-          }
-        },
-        "image_picker_MxcGMD": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
-            "alt_text": "Carousel Image",
-            "name": "Kartik Rao",
-            "review": "\"Have another design in mind? Something from a website or a magazine perhaps?\""
-          }
-        },
-        "image_picker_NWYxUR": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
-            "alt_text": "Carousel Image",
-            "name": "Kartik Rao",
-            "review": "\"Have another design in mind? Something from a website or a magazine perhaps?\""
-          }
-        },
-        "image_picker_mCbmtD": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
-            "alt_text": "Carousel Image",
-            "name": "Kartik Rao",
-            "review": "\"Have another design in mind? Something from a website or a magazine perhaps?\""
-          }
-        }
-      },
-      "block_order": [
-        "image_picker_QjN7GJ",
-        "image_picker_MxcGMD",
-        "image_picker_NWYxUR",
-        "image_picker_mCbmtD"
-      ],
-      "settings": {
-        "heading": "Testimonials"
-      }
-    },
-    "home_about_7agqRh": {
-      "type": "home-about",
-      "settings": {
-        "heading": "About Us",
-        "image": "shopify://shop_images/image_51.png",
-        "image_2": "shopify://shop_images/image_52_1.png",
-        "image_3": "shopify://shop_images/image_53.png",
-        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius."
-      }
-    },
-    "collapsible_content_8wA47G": {
-      "type": "collapsible-content",
-      "blocks": {
-        "collapsible_row_pPPFKn": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna?",
-            "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_EGWNCw": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna?",
-            "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_peGNDi": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna?",
-            "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_bdg74h": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna?",
-            "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
-            "page": ""
-          }
-        }
-      },
-      "block_order": [
-        "collapsible_row_pPPFKn",
-        "collapsible_row_EGWNCw",
-        "collapsible_row_peGNDi",
-        "collapsible_row_bdg74h"
-      ],
-      "settings": {
-        "caption": "",
-        "heading": "FAQs",
+        "title": "Featured products",
         "heading_size": "h2",
-        "heading_alignment": "left",
-        "layout": "none",
-        "color_scheme": "",
-        "container_color_scheme": "",
-        "open_first_collapsible_row": true,
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "all",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "swipe_on_mobile": false,
         "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 0,
-        "padding_bottom": 0
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "padding_top": 44,
+        "padding_bottom": 36
       }
     }
   },
   "order": [
-    "slideshow_K6fGxD",
-    "home_shop_by_category_3i49W3",
-    "home_shop_by_occasion_hiVcrk",
-    "home_benefits_e9Pe77",
-    "home_tryathome_aqqR4j",
-    "home_image_gallery_carousel_xiKJ38",
-    "home_own_design_NUCgYq",
-    "home_testimonials_DceiKc",
-    "home_about_7agqRh",
-    "collapsible_content_8wA47G"
+    "image_banner",
+    "featured_collection"
   ]
 }

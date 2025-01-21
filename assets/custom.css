@@ -391,7 +391,10 @@ sticky-header .header__search {
     .product-grid-container facet-filters-form {
         display: flex !important;
     }
-
+    .product-grid-container facet-filters-form form {
+        display: flex !important;
+        width: 100%;
+    }
     .page-width--full-width {
         padding: 0 1.5rem !important;
     }

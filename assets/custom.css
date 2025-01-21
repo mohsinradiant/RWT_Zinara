@@ -415,6 +415,7 @@ sticky-header .header__search {
         left: 0 !important;
         top: 50px !important;
         gap: 10px;
+        padding-left: 10px;
     }
 
     .product-grid-container .collection {
@@ -425,9 +426,11 @@ sticky-header .header__search {
         font-size: 1.4rem !important;
         border-radius: 15px !important;
     }
-    .active-facets__button{
+
+    .active-facets__button {
         padding: 0 !important;
     }
+
     .facets-wrapper {
         position: absolute;
         top: 460px;

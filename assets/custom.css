@@ -422,7 +422,7 @@ sticky-header .header__search {
 
     .active-facets__button-inner {
         font-size: 1.4rem !important;
-        border-radius: 15px;
+        border-radius: 15px !important;
     }
 
     .facets-wrapper {

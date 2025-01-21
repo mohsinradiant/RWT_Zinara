@@ -1,0 +1,163 @@
+<section class="image-carousel-container">
+  <button class="carousel-arrow left-arrow"><img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/7b951cb561babe2ffb9e42f5c8a29e65.png?v=1736405741"></button>
+  <div class="page-width image-carousel">
+    <div class="images-parent-div">
+      {% for block in section.blocks %}
+        {% if block.type == 'image_picker' %}
+          <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.alt_text }}">
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  <button class="carousel-arrow right-arrow"><img style="transform: rotate(180deg);" src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/7b951cb561babe2ffb9e42f5c8a29e65.png?v=1736405741"></button>
+</section>
+
+<style>
+  .image-carousel-container {
+    position: relative;
+    overflow: hidden;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .image-carousel {
+    padding: 0;
+    max-width: calc(var(--page-width) - 10rem);
+    position: relative;
+  }
+
+  .images-parent-div {
+    display: flex;
+    gap: 2%;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .image-carousel img {
+    width: 48%;
+    height: auto;
+    transition: opacity 0.3s ease-in-out
+    , transform 0.3s ease-in-out;
+  }
+
+  .image-carousel img.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .image-carousel img:not(.active) {
+    opacity: 0.1;
+    transform: scale(0.9);
+  }
+
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(0);
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    z-index: 10;
+  }
+  .carousel-arrow img {
+    width: 57px;
+    height: auto;
+  }
+
+  .left-arrow {
+    left: 40px;
+  }
+
+  .right-arrow {
+    right: 40px;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const carouselContainer = document.querySelector(".image-carousel");
+    const carousel = document.querySelector(".images-parent-div");
+    const leftArrow = document.querySelector(".left-arrow");
+    const rightArrow = document.querySelector(".right-arrow");
+    const images = carousel.querySelectorAll("img");
+  
+    let currentIndex = 0;
+    const transitionDuration = 500; // Match CSS transition duration in milliseconds
+  
+    function updateCarousel() {
+      const containerWidth = carouselContainer.offsetWidth;
+      carousel.style.transition = `transform ${transitionDuration}ms ease-in-out`;
+      carousel.style.transform = `translateX(-${currentIndex * containerWidth / 2}px)`;
+  
+      // Delay activating images until the animation completes
+      setTimeout(setActiveImages, transitionDuration);
+    }
+  
+    function setActiveImages() {
+      const containerRect = carouselContainer.getBoundingClientRect();
+  
+      images.forEach((img) => {
+        const imgRect = img.getBoundingClientRect();
+        if (
+          imgRect.left >= containerRect.left &&
+          imgRect.right <= containerRect.right
+        ) {
+          img.classList.add("active");
+        } else {
+          img.classList.remove("active");
+        }
+      });
+    }
+  
+    function moveLeft() {
+      currentIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+      updateCarousel();
+    }
+  
+    function moveRight() {
+      currentIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+      updateCarousel();
+    }
+  
+    leftArrow.addEventListener("click", moveLeft);
+    rightArrow.addEventListener("click", moveRight);
+  
+    window.addEventListener("resize", () => {
+      carousel.style.transition = "none"; // Disable animation during resize
+      updateCarousel();
+    });
+  
+    // Initial setup
+    setActiveImages();
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Image Gallery Carousel",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "image_picker",
+        "name": "Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          }, {
+            "type": "text",
+            "id": "alt_text",
+            "label": "Alt Text",
+            "default": "Carousel Image"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image Gallery Carousel",
+        "category": "Custom"
+      }
+    ]
+  }
+{% endschema %}

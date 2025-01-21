@@ -9,10 +9,12 @@
  */
 {
   "current": {
+    "logo": "shopify://shop_images/Frame_1116601359_1.png",
     "logo_width": 90,
-    "type_header_font": "inter_n7",
+    "favicon": "shopify://shop_images/Logo_Container.png",
+    "type_header_font": "playfair_display_n7",
     "heading_scale": 100,
-    "type_body_font": "inter_n4",
+    "type_body_font": "quicksand_n5",
     "body_scale": 100,
     "page_width": 1200,
     "spacing_sections": 0,
@@ -105,11 +107,11 @@
     "badge_corner_radius": 40,
     "sale_badge_color_scheme": "scheme-4",
     "sold_out_badge_color_scheme": "scheme-3",
-    "brand_headline": "",
-    "brand_description": "<p></p>",
+    "brand_headline": "Contact Us",
+    "brand_description": "<p>Inditren Technologies Pvt. Ltd.A-277-278, 2nd Floor, Dhaka Johar, G.T.B Nagar, North West Delhi, Delhi - 110009</p>",
     "brand_image_width": 100,
-    "social_facebook_link": "",
-    "social_instagram_link": "",
+    "social_facebook_link": "https://www.facebook.com/profile.php?id=61560450745044",
+    "social_instagram_link": "https://www.instagram.com/zinaraofficial/",
     "social_youtube_link": "",
     "social_tiktok_link": "",
     "social_twitter_link": "",
@@ -194,6 +196,28 @@
           "button": "#ffffff",
           "button_label": "#334fb4",
           "secondary_button_label": "#ffffff",
+          "shadow": "#121212"
+        }
+      },
+      "scheme-df6532fc-b063-435e-9039-25f6aece7c28": {
+        "settings": {
+          "background": "#ffffff",
+          "background_gradient": "",
+          "text": "#121212",
+          "button": "#610c27",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#610c27",
+          "shadow": "#121212"
+        }
+      },
+      "scheme-a0833cff-1252-4aa2-8751-2f7cf27edbb0": {
+        "settings": {
+          "background": "#f4eeeb",
+          "background_gradient": "",
+          "text": "#712242",
+          "button": "#121212",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#121212",
           "shadow": "#121212"
         }
       }

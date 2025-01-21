@@ -424,7 +424,9 @@ sticky-header .header__search {
         font-size: 1.4rem !important;
         border-radius: 15px !important;
     }
-
+    .active-facets__button{
+        padding: 0 !important;
+    }
     .facets-wrapper {
         position: absolute;
         top: 460px;

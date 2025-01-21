@@ -388,10 +388,15 @@ sticky-header .header__search {
 }
 
 @media (max-width: 756px) {
-    .collection-hero--with-image .collection-hero__inner{
+    .collection-hero--with-image .collection-hero__inner {
         padding-bottom: 0 !important;
     }
+
     .facets-vertical .facets-wrapper facet-filters-form {
+        display: flex !important;
+    }
+
+    .facets-vertical .facets-wrapper facet-filters-form #FacetsWrapperDesktop {
         display: flex !important;
     }
 

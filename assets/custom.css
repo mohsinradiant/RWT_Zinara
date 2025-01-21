@@ -420,6 +420,10 @@ sticky-header .header__search {
         margin-top: 115px;
     }
 
+    .active-facets__button-inner {
+        font-size: 1.4rem !important;
+    }
+
     .facets-wrapper {
         position: absolute;
         top: 460px;

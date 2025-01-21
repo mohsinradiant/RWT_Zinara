@@ -373,6 +373,10 @@ sticky-header .header__search {
     font-family: "Quicksand", sans-serif !important;
 }
 
+.collection-hero__text-wrapper {
+    display: none;
+}
+
 @media (max-width: 756px) {
     .mobile-search .header__icon--search {
         width: 100% !important;

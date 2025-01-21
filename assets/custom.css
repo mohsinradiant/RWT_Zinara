@@ -411,6 +411,7 @@ sticky-header .header__search {
 
     .facets-vertical .facets-wrapper facet-filters-form #FacetsWrapperDesktop {
         display: flex !important;
+        gap: 10px;
     }
 
     .facets-vertical .facets-wrapper facet-filters-form #FacetsWrapperDesktop span {

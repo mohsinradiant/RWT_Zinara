@@ -388,6 +388,13 @@ sticky-header .header__search {
 }
 
 @media (max-width: 756px) {
+    #FacetsWrapperDesktop details {
+        background: #F4EEEB;
+        padding: 10px 15px;
+        border-radius: 15px;
+        color: #610C27;
+    }
+
     .facets-container {
         display: flex !important;
         flex-direction: column;

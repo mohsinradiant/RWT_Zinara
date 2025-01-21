@@ -416,6 +416,10 @@ sticky-header .header__search {
         top: 50px !important;
     }
 
+    .product-grid-container .collection {
+        margin-top: 100px;
+    }
+
     .facets-wrapper {
         position: absolute;
         top: 460px;

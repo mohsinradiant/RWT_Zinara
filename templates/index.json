@@ -275,20 +275,65 @@
         "heading": "Zinara Benefits"
       }
     },
-    "home_image_gallery_carousel_73c7Ep": {
-      "type": "home-image_gallery-carousel",
-      "settings": {}
-    },
     "home_tryathome_UAw34q": {
       "type": "home-tryathome",
       "settings": {
         "heading": "Want to see designs personally?",
         "sub-heading": "Get designs to try at home or schedule a video call",
         "button-1": "Try at Home",
-        "url-1": "",
+        "url-1": "shopify://collections/rings",
         "button-2": "Video Call",
-        "url-2": ""
+        "url-2": "shopify://collections/rings",
+        "image": "shopify://shop_images/image_50.png"
       }
+    },
+    "home_image_gallery_carousel_73c7Ep": {
+      "type": "home-image_gallery-carousel",
+      "blocks": {
+        "image_picker_wrD7jz": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "alt_text": "Carousel Image"
+          }
+        },
+        "image_picker_gtLymc": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "alt_text": "Carousel Image"
+          }
+        },
+        "image_picker_zN3d8M": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "alt_text": "Carousel Image"
+          }
+        },
+        "image_picker_8FC4jK": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "alt_text": "Carousel Image"
+          }
+        },
+        "image_picker_rwCCJA": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "alt_text": "Carousel Image"
+          }
+        }
+      },
+      "block_order": [
+        "image_picker_wrD7jz",
+        "image_picker_gtLymc",
+        "image_picker_zN3d8M",
+        "image_picker_8FC4jK",
+        "image_picker_rwCCJA"
+      ],
+      "settings": {}
     },
     "home_testimonials_iX3QWY": {
       "type": "home-testimonials",
@@ -318,8 +363,8 @@
     "home_shop_by_category_jmQhfR",
     "home_shop_by_occasion_WePWCL",
     "home_benefits_pbKiTY",
-    "home_image_gallery_carousel_73c7Ep",
     "home_tryathome_UAw34q",
+    "home_image_gallery_carousel_73c7Ep",
     "home_testimonials_iX3QWY",
     "home_about_hDMerC",
     "home_own_design_WDng9w"

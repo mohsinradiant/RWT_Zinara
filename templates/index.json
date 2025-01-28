@@ -171,16 +171,108 @@
         "heading": "Shop by Category"
       }
     },
-    "home_benefits_pbKiTY": {
-      "type": "home-benefits",
-      "settings": {
-        "heading": "Zinara Benefits"
-      }
-    },
     "home_shop_by_occasion_WePWCL": {
       "type": "home-shop-by-occasion",
+      "blocks": {
+        "tab_xLqmkC": {
+          "type": "tab",
+          "settings": {
+            "text": "Proposal",
+            "image": "shopify://shop_images/image_46.png",
+            "collection": "rings"
+          }
+        },
+        "tab_KtkDJe": {
+          "type": "tab",
+          "settings": {
+            "text": "Engagement",
+            "image": "shopify://shop_images/image_46.png",
+            "collection": "rings"
+          }
+        },
+        "tab_wgzCbP": {
+          "type": "tab",
+          "settings": {
+            "text": "Daily Wear",
+            "image": "shopify://shop_images/image_46.png",
+            "collection": "rings"
+          }
+        },
+        "tab_6eXazx": {
+          "type": "tab",
+          "settings": {
+            "text": "Office Wear",
+            "image": "shopify://shop_images/image_46.png",
+            "collection": "rings"
+          }
+        }
+      },
+      "block_order": [
+        "tab_xLqmkC",
+        "tab_KtkDJe",
+        "tab_wgzCbP",
+        "tab_6eXazx"
+      ],
       "settings": {
-        "heading": "Shop by Category"
+        "heading": "Shop by Occasion"
+      }
+    },
+    "home_benefits_pbKiTY": {
+      "type": "home-benefits",
+      "blocks": {
+        "tab_7fV9BA": {
+          "type": "tab",
+          "settings": {
+            "text": "Lifetime Buy-Back & Exchange",
+            "image": "shopify://shop_images/Vector_18.png"
+          }
+        },
+        "tab_iJWKPH": {
+          "type": "tab",
+          "settings": {
+            "text": "IGI/SGL Certified Diamonds",
+            "image": "shopify://shop_images/Certificate.png"
+          }
+        },
+        "tab_TqxtAF": {
+          "type": "tab",
+          "settings": {
+            "text": "BIS Hallmarked Gold",
+            "image": "shopify://shop_images/Certificate_1.png"
+          }
+        },
+        "tab_MM97Qt": {
+          "type": "tab",
+          "settings": {
+            "text": "Try at Home",
+            "image": "shopify://shop_images/Vector_17.png"
+          }
+        },
+        "tab_wb9CEG": {
+          "type": "tab",
+          "settings": {
+            "text": "Insured & Free Shipping",
+            "image": "shopify://shop_images/Free_Shipping.png"
+          }
+        },
+        "tab_yQDX9k": {
+          "type": "tab",
+          "settings": {
+            "text": "Ethically Sourced Jewellery",
+            "image": "shopify://shop_images/Wedding_Rings.png"
+          }
+        }
+      },
+      "block_order": [
+        "tab_7fV9BA",
+        "tab_iJWKPH",
+        "tab_TqxtAF",
+        "tab_MM97Qt",
+        "tab_wb9CEG",
+        "tab_yQDX9k"
+      ],
+      "settings": {
+        "heading": "Zinara Benefits"
       }
     },
     "home_image_gallery_carousel_73c7Ep": {
@@ -224,8 +316,8 @@
   "order": [
     "slideshow_iE63EG",
     "home_shop_by_category_jmQhfR",
-    "home_benefits_pbKiTY",
     "home_shop_by_occasion_WePWCL",
+    "home_benefits_pbKiTY",
     "home_image_gallery_carousel_73c7Ep",
     "home_tryathome_UAw34q",
     "home_testimonials_iX3QWY",

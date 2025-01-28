@@ -86,32 +86,89 @@
         "accessibility_info": "Slideshow about our brand"
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "home_shop_by_category_jmQhfR": {
+      "type": "home-shop-by-category",
+      "blocks": {
+        "tab_qCGGww": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Rings"
+          }
+        },
+        "tab_qVM7eD": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Earrings"
+          }
+        },
+        "tab_PfgpzQ": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Pendants"
+          }
+        },
+        "tab_qyCRW7": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Bracelets"
+          }
+        },
+        "tab_6iK7P8": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Necklaces"
+          }
+        },
+        "category_item_UnpUTB": {
+          "type": "category_item",
+          "settings": {
+            "collection": "rings",
+            "image": "shopify://shop_images/Engagement_Rings_Image.png",
+            "text": "View All Rings",
+            "associated_tab": "Rings"
+          }
+        },
+        "category_item_GUPLzn": {
+          "type": "category_item",
+          "settings": {
+            "collection": "rings",
+            "image": "shopify://shop_images/Engagement_Rings_Image.png",
+            "text": "Engagement Rings",
+            "associated_tab": "Rings"
+          }
+        },
+        "category_item_LC3t6F": {
+          "type": "category_item",
+          "settings": {
+            "collection": "rings",
+            "image": "shopify://shop_images/Engagement_Rings_Image.png",
+            "text": "Daily Wear Rings",
+            "associated_tab": "Rings"
+          }
+        },
+        "category_item_xqWnqU": {
+          "type": "category_item",
+          "settings": {
+            "collection": "rings",
+            "image": "shopify://shop_images/Engagement_Rings_Image.png",
+            "text": "Eternity Rings",
+            "associated_tab": "Rings"
+          }
+        }
+      },
+      "block_order": [
+        "tab_qCGGww",
+        "tab_qVM7eD",
+        "tab_PfgpzQ",
+        "tab_qyCRW7",
+        "tab_6iK7P8",
+        "category_item_UnpUTB",
+        "category_item_GUPLzn",
+        "category_item_LC3t6F",
+        "category_item_xqWnqU"
+      ],
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 44,
-        "padding_bottom": 36
+        "heading": "Shop by Category"
       }
     },
     "home_benefits_pbKiTY": {
@@ -122,12 +179,6 @@
     },
     "home_shop_by_occasion_WePWCL": {
       "type": "home-shop-by-occasion",
-      "settings": {
-        "heading": "Shop by Category"
-      }
-    },
-    "home_shop_by_category_jmQhfR": {
-      "type": "home-shop-by-category",
       "settings": {
         "heading": "Shop by Category"
       }
@@ -172,10 +223,9 @@
   },
   "order": [
     "slideshow_iE63EG",
-    "featured_collection",
+    "home_shop_by_category_jmQhfR",
     "home_benefits_pbKiTY",
     "home_shop_by_occasion_WePWCL",
-    "home_shop_by_category_jmQhfR",
     "home_image_gallery_carousel_73c7Ep",
     "home_tryathome_UAw34q",
     "home_testimonials_iX3QWY",

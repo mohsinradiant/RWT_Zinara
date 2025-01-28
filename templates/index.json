@@ -9,43 +9,81 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "slideshow_iE63EG": {
+      "type": "slideshow",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "slide_BLKkdp": {
+          "type": "slide",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "image": "shopify://shop_images/image_42.png",
+            "image_mobile": "shopify://shop_images/2cc7099d8c8d3b36d96f7e7c5ee65156.png",
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "",
+            "text_alignment_mobile": "center"
           }
         },
-        "button": {
-          "type": "buttons",
+        "slide_ByegG4": {
+          "type": "slide",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "image": "shopify://shop_images/image_42.png",
+            "image_mobile": "shopify://shop_images/2cc7099d8c8d3b36d96f7e7c5ee65156.png",
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_eATNGz": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/image_42.png",
+            "image_mobile": "shopify://shop_images/2cc7099d8c8d3b36d96f7e7c5ee65156.png",
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "image_overlay_opacity": 0,
+            "color_scheme": "",
+            "text_alignment_mobile": "center"
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "slide_BLKkdp",
+        "slide_ByegG4",
+        "slide_eATNGz"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
+        "layout": "full_bleed",
+        "slide_height": "medium",
+        "slider_visual": "counter",
+        "auto_rotate": true,
+        "change_slides_speed": 5,
         "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
       }
     },
     "featured_collection": {
@@ -59,12 +97,11 @@
         "collection": "all",
         "products_to_show": 8,
         "columns_desktop": 4,
-        "color_scheme": "scheme-1",
         "full_width": false,
         "show_view_all": true,
         "view_all_style": "solid",
         "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
+        "color_scheme": "scheme-1",
         "image_ratio": "adapt",
         "image_shape": "default",
         "show_secondary_image": true,
@@ -72,13 +109,77 @@
         "show_rating": false,
         "quick_add": "none",
         "columns_mobile": "2",
+        "swipe_on_mobile": false,
         "padding_top": 44,
         "padding_bottom": 36
+      }
+    },
+    "home_benefits_pbKiTY": {
+      "type": "home-benefits",
+      "settings": {
+        "heading": "Zinara Benefits"
+      }
+    },
+    "home_shop_by_occasion_WePWCL": {
+      "type": "home-shop-by-occasion",
+      "settings": {
+        "heading": "Shop by Category"
+      }
+    },
+    "home_shop_by_category_jmQhfR": {
+      "type": "home-shop-by-category",
+      "settings": {
+        "heading": "Shop by Category"
+      }
+    },
+    "home_image_gallery_carousel_73c7Ep": {
+      "type": "home-image_gallery-carousel",
+      "settings": {}
+    },
+    "home_tryathome_UAw34q": {
+      "type": "home-tryathome",
+      "settings": {
+        "heading": "Want to see designs personally?",
+        "sub-heading": "Get designs to try at home or schedule a video call",
+        "button-1": "Try at Home",
+        "url-1": "",
+        "button-2": "Video Call",
+        "url-2": ""
+      }
+    },
+    "home_testimonials_iX3QWY": {
+      "type": "home-testimonials",
+      "settings": {
+        "heading": "Testimonials"
+      }
+    },
+    "home_about_hDMerC": {
+      "type": "home-about",
+      "settings": {
+        "heading": "About Us",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius."
+      }
+    },
+    "home_own_design_WDng9w": {
+      "type": "home-own_design",
+      "settings": {
+        "heading": "Get your own design",
+        "sub-heading": "Have another design in mind? Something from a website or a magazine perhaps?",
+        "button-1": "Start Designing",
+        "url-1": ""
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "slideshow_iE63EG",
+    "featured_collection",
+    "home_benefits_pbKiTY",
+    "home_shop_by_occasion_WePWCL",
+    "home_shop_by_category_jmQhfR",
+    "home_image_gallery_carousel_73c7Ep",
+    "home_tryathome_UAw34q",
+    "home_testimonials_iX3QWY",
+    "home_about_hDMerC",
+    "home_own_design_WDng9w"
   ]
 }

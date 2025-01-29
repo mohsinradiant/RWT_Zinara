@@ -377,11 +377,13 @@ sticky-header .header__search {
 .collapsible-content__grid .accordion h3 {
     font-family: "Quicksand", sans-serif !important;
     font-weight: 500;
+    letter-spacing: 0;
 }
 
 .collapsible-content__grid .accordion p {
     font-family: "Quicksand", sans-serif !important;
     font-weight: 400;
+    letter-spacing: 0;
 }
 
 .collection-hero__text-wrapper {

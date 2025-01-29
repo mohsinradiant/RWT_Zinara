@@ -24,6 +24,10 @@ slideshow-component .slideshow__controls .slider-button--next {
     transform: rotate(180deg);
 }
 
+slideshow-component .slideshow__controls .slider-counter {
+    display: none;
+}
+
 .slider-button .icon {
     height: 2rem !important;
 }

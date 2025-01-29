@@ -5,10 +5,11 @@
   padding: 1.5rem 0;
 }
 
-.accordion summary:first-of-type {
+.accordion details:first-of-type summary {
   padding: 0 0 1.5rem;
 }
-.collapsible-content .accordion:first-of-type{
+
+.collapsible-content .accordion:first-of-type {
   border: none;
 }
 

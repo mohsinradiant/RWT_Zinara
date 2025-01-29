@@ -397,6 +397,10 @@ sticky-header .header__search {
     margin: 50px 0;
 }
 
+.home-try-at-home-section-container .section-heading {
+    margin: 0 !important;
+}
+
 @media (max-width: 756px) {
     .product-grid-container facet-filters-form {
         display: flex !important;

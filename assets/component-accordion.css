@@ -8,6 +8,9 @@
 .accordion summary:first-of-type {
   padding: 0 0 1.5rem;
 }
+.collapsible-content .accordion:first-of-type{
+  border: none;
+}
 
 .accordion .summary__title {
   display: flex;

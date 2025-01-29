@@ -419,6 +419,7 @@ sticky-header .header__search {
 .home-try-at-home-section-left div {
     display: flex;
     gap: 25px;
+    margin-top: 20px;
 }
 
 .home-try-at-home-section-right {

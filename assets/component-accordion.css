@@ -10,7 +10,7 @@
 }
 
 .grid__item .accordion:first-of-type {
-  border: none;
+  border-top: 0;
 }
 
 .accordion .summary__title {

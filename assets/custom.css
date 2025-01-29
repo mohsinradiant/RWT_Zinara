@@ -574,13 +574,6 @@ sticky-header .header__search {
     .header__icons {
         width: fit-content;
     }
-
-    .category-tabs-row {
-        overflow: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-
     .category-tabs-row::-webkit-scrollbar,
     .category-items-row::-webkit-scrollbar,
     .occasion-images-container::-webkit-scrollbar {

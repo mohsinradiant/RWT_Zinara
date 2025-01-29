@@ -433,7 +433,7 @@ sticky-header .header__search {
     background: transparent;
     text-decoration: none;
     color: #610c27;
-    padding: 15px 30px;
+    padding: 8px 50px;
     font-size: 1.5rem;
     transition: all ease-in 0.3s;
     cursor: pointer;

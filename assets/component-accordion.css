@@ -9,7 +9,7 @@
   padding: 0 0 1.5rem;
 }
 
-.collapsible-content .accordion:first-of-type {
+.grid__item .accordion:first-of-type {
   border: none;
 }
 

@@ -154,6 +154,7 @@ slideshow-component .slideshow {
     font-size: 2rem;
     margin: 0;
     width: 80%;
+    font-weight: 400;
 }
 
 /* Dropdown styling */

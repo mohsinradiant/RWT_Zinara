@@ -5,7 +5,7 @@
   padding: 1.5rem 0;
 }
 
-.accordion details:first-of-type summary {
+.grid__item .accordion:first-of-type summary {
   padding: 0 0 1.5rem;
 }
 

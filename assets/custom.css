@@ -27,7 +27,9 @@ slideshow-component .slideshow__controls .slider-button--next {
 slideshow-component .slideshow__controls .slider-counter {
     display: none;
 }
-
+slideshow-component .slideshow__controls{
+    border: none !important;
+}
 .slider-button .icon {
     height: 2rem !important;
 }

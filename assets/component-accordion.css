@@ -5,16 +5,20 @@
   padding: 1.5rem 0;
 }
 
+.accordion summary:first-of-type {
+  padding: 0 0 1.5rem;
+}
+
 .accordion .summary__title {
   display: flex;
   flex: 1;
 }
 
-.accordion .summary__title + .icon-caret {
+.accordion .summary__title+.icon-caret {
   height: calc(var(--font-heading-scale) * 0.6rem);
 }
 
-.accordion + .accordion {
+.accordion+.accordion {
   margin-top: 0;
   border-top: none;
 }
@@ -42,7 +46,7 @@
   width: calc(var(--font-heading-scale) * 2rem);
 }
 
-.accordion details[open] > summary .icon-caret {
+.accordion details[open]>summary .icon-caret {
   transform: rotate(180deg);
 }
 

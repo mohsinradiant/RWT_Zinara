@@ -378,6 +378,7 @@ sticky-header .header__search {
     font-family: "Quicksand", sans-serif !important;
     font-weight: 500;
     letter-spacing: 0;
+    font-size: 1.9rem;
 }
 
 .collapsible-content__grid .accordion p {

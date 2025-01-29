@@ -27,9 +27,17 @@ slideshow-component .slideshow__controls .slider-button--next {
 slideshow-component .slideshow__controls .slider-counter {
     display: none;
 }
-slideshow-component .slideshow__controls{
+
+slideshow-component .slideshow__controls {
     border: none !important;
 }
+
+slideshow-component .slideshow {
+    min-height: auto !important;
+    height: auto !important;
+    aspect-ratio: 1440/640;
+}
+
 .slider-button .icon {
     height: 2rem !important;
 }

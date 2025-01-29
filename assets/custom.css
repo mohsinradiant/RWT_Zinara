@@ -105,8 +105,11 @@ slideshow-component .slideshow {
 
 #shopify-section-template--24203645747384__collapsible_content_8wA47G,
 #shopify-section-template--24203645747384__home_about_7agqRh,
-#shopify-section-template--24203645747384__home_shop_by_occasion_hiVcrk,
 #shopify-section-template--24203645747384__home_benefits_e9Pe77 {
+    padding-top: 35px;
+}
+
+.occasion-images-container-parent {
     padding-top: 35px;
 }
 
@@ -574,6 +577,7 @@ sticky-header .header__search {
     .header__icons {
         width: fit-content;
     }
+
     .category-tabs-row::-webkit-scrollbar,
     .category-items-row::-webkit-scrollbar,
     .occasion-images-container::-webkit-scrollbar {
@@ -685,7 +689,10 @@ sticky-header .header__search {
         height: 35px;
     }
 
-    #shopify-section-template--24203645747384__home_shop_by_occasion_hiVcrk,
+    .occasion-images-container-parent {
+        padding-top: 20px;
+    }
+
     #shopify-section-template--24203645747384__home_benefits_e9Pe77,
     #shopify-section-template--24203645747384__collapsible_content_8wA47G,
     #shopify-section-template--24203645747384__home_about_7agqRh,

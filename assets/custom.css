@@ -650,6 +650,7 @@ sticky-header .header__search {
 
     .category-tabs-row {
         margin-bottom: 0 !important;
+        padding: 0 !important;
     }
 
     .category-item {

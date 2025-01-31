@@ -596,6 +596,10 @@ sticky-header .header__search {
         aspect-ratio: 390/396;
     }
 
+    .category-tab-button {
+        font-size: 2rem !important;
+    }
+
     .slider.slider--everywhere .slider__slide {
         min-height: 100%;
     }

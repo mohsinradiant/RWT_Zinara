@@ -764,9 +764,11 @@ sticky-header .header__search {
 
     .occasion-images-container-parent {
         padding-top: 20px;
-        margin-top: 30px;
+        margin-top: 30px !important;
     }
-
+    .image-container img{
+        border-radius: 20px;
+    }
     #shopify-section-template--24203645747384__home_benefits_e9Pe77,
     #shopify-section-template--24203645747384__collapsible_content_8wA47G,
     #shopify-section-template--24203645747384__home_about_7agqRh {

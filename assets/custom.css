@@ -602,7 +602,7 @@ sticky-header .header__search {
     }
 
     .category-items-row p {
-        font-size: 1.5rem;
+        font-size: 1.5rem !important;
         line-height: 2rem;
     }
 

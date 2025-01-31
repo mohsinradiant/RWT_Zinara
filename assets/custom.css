@@ -597,7 +597,8 @@ sticky-header .header__search {
     }
 
     .category-tab-button {
-        font-size: 2rem !important;
+        font-size: 1.9rem !important;
+        padding: 10px 20px;
     }
 
     .slider.slider--everywhere .slider__slide {

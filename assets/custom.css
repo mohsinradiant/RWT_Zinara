@@ -597,7 +597,7 @@ sticky-header .header__search {
     }
 
     .shop-by-category-section {
-        margin-top: 30px;
+        margin-top: 30px !important;
     }
 
     .category-tab-button {

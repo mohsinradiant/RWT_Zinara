@@ -593,7 +593,9 @@ sticky-header .header__search {
         color: #000;
         line-height: 1.5rem;
     }
-
+    .home-try-at-home-section-left div{
+        margin-top: 5px !important;
+    }
     slideshow-component .slideshow {
         aspect-ratio: 390/396;
     }

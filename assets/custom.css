@@ -589,7 +589,9 @@ sticky-header .header__search {
     }
 
     .home-try-at-home-section-left p {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
+        color: #000;
+        line-height: 1.5rem;
     }
 
     slideshow-component .slideshow {
@@ -768,9 +770,11 @@ sticky-header .header__search {
         padding-top: 20px;
         margin-top: 30px !important;
     }
-    .image-container img{
+
+    .image-container img {
         border-radius: 9px;
     }
+
     #shopify-section-template--24203645747384__home_benefits_e9Pe77,
     #shopify-section-template--24203645747384__collapsible_content_8wA47G,
     #shopify-section-template--24203645747384__home_about_7agqRh {

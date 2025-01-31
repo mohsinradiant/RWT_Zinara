@@ -693,8 +693,8 @@ sticky-header .header__search {
     }
 
     .zinara-benefits-content p {
-        font-size: 1.2rem;
-        line-height: 1.4rem;
+        font-size: 1.2rem !important;
+        line-height: 1.4rem !important;
     }
 
     .home-benefits-container {

@@ -601,6 +601,11 @@ sticky-header .header__search {
         padding: 10px 20px;
     }
 
+    .category-items-row p {
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+
     .slider.slider--everywhere .slider__slide {
         min-height: 100%;
     }

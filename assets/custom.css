@@ -711,6 +711,7 @@ sticky-header .header__search {
 
     .home-try-at-home-section-left {
         gap: 10px !important;
+        width: 57% !important;
     }
 
     .home-try-at-home-section-left a {

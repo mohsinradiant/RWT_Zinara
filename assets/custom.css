@@ -920,7 +920,8 @@ body.no-scroll {
         padding: 9px 28px !important;
     }
 
-    .image-carousel-container .carousel-arrow {
+    .image-carousel-container .carousel-arrow,
+    .pdp-image-carousel-container .carousel-arrow {
         display: none !important;
     }
 

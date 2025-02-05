@@ -582,18 +582,19 @@ product-info variant-selects img {
 }
 
 .sizing-guide button {
-    font-size: 18px;
-    padding: 10px 20px;
+    font-size: 1.3rem;
     cursor: pointer;
     border: none;
-    background-color: #007BFF;
-    color: #fff;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    color: #612342;
+    background: transparent;
+    text-decoration: underline;
+    font-weight: 600;
+    font-family: 'Quicksand';
+    transition: all ease-in .3s;
 }
 
 .sizing-guide button:hover {
-    background-color: #0056b3;
+    opacity: .8;
 }
 
 .popup {

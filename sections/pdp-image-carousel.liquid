@@ -85,6 +85,7 @@
 
     let currentIndex = 0;
     const transitionDuration = 500;
+    const autoplayInterval = 3000; // 3 seconds
 
     function updateCarousel() {
       const containerWidth = carouselContainer.offsetWidth;
@@ -117,8 +118,15 @@
       updateCarousel();
     }
 
-    leftArrow.addEventListener('click', moveLeft);
-    rightArrow.addEventListener('click', moveRight);
+    leftArrow.addEventListener('click', () => {
+      moveLeft();
+      resetAutoplay();
+    });
+
+    rightArrow.addEventListener('click', () => {
+      moveRight();
+      resetAutoplay();
+    });
 
     window.addEventListener('resize', () => {
       carousel.style.transition = 'none';
@@ -126,6 +134,14 @@
     });
 
     setActiveImages();
+
+    // Autoplay
+    let autoplay = setInterval(moveRight, autoplayInterval);
+
+    function resetAutoplay() {
+      clearInterval(autoplay);
+      autoplay = setInterval(moveRight, autoplayInterval);
+    }
   });
 </script>
 

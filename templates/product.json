@@ -1,1 +1,330 @@
-{"sections":{"main":{"type":"main-product","blocks":{"vendor":{"type":"text","settings":{"text":"{{ product.vendor }}","text_style":"uppercase"}},"title":{"type":"title","settings":{}},"price":{"type":"price","settings":{}},"variant_picker":{"type":"variant_picker","settings":{"picker_type":"button","swatch_shape":"circle"}},"quantity_selector":{"type":"quantity_selector","settings":{}},"buy_buttons":{"type":"buy_buttons","settings":{"show_dynamic_checkout":true,"show_gift_card_recipient":true}},"description":{"type":"description","settings":{}},"share":{"type":"share","settings":{"share_label":"Share"}}},"block_order":["vendor","title","price","variant_picker","quantity_selector","buy_buttons","description","share"],"settings":{"enable_sticky_info":true,"color_scheme":"scheme-1","media_size":"large","constrain_to_viewport":true,"media_fit":"contain","gallery_layout":"stacked","media_position":"left","image_zoom":"lightbox","mobile_thumbnails":"hide","hide_variants":true,"enable_video_looping":false,"padding_top":36,"padding_bottom":12}},"related-products":{"type":"related-products","settings":{"heading":"You may also like","heading_size":"h2","products_to_show":4,"columns_desktop":4,"color_scheme":"scheme-1","image_ratio":"square","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"columns_mobile":"2","padding_top":36,"padding_bottom":28}}},"order":["main","related-products"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "variant_picker",
+        "description",
+        "buy_buttons"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "cover",
+        "gallery_layout": "thumbnail_slider",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "mobile_thumbnails": "hide",
+        "hide_variants": true,
+        "enable_video_looping": true,
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "home_benefits_BJVbVJ": {
+      "type": "home-benefits",
+      "blocks": {
+        "tab_mbgxna": {
+          "type": "tab",
+          "settings": {
+            "text": "Lifetime Buy-Back & Exchange",
+            "image": "shopify://shop_images/Vector_18.png"
+          }
+        },
+        "tab_AYEEN8": {
+          "type": "tab",
+          "settings": {
+            "text": "IGI/SGL Certified Diamonds",
+            "image": "shopify://shop_images/Certificate.png"
+          }
+        },
+        "tab_XeQhd6": {
+          "type": "tab",
+          "settings": {
+            "text": "BIS Hallmarked Gold",
+            "image": "shopify://shop_images/Certificate_1.png"
+          }
+        },
+        "tab_7JNEYz": {
+          "type": "tab",
+          "settings": {
+            "text": "Try at Home",
+            "image": "shopify://shop_images/Vector_17.png"
+          }
+        },
+        "tab_qjzXCB": {
+          "type": "tab",
+          "settings": {
+            "text": "Insured & Free Shipping",
+            "image": "shopify://shop_images/Free_Shipping.png"
+          }
+        },
+        "tab_bHJ89y": {
+          "type": "tab",
+          "settings": {
+            "text": "Ethically Sourced Jewellery",
+            "image": "shopify://shop_images/Wedding_Rings.png"
+          }
+        }
+      },
+      "block_order": [
+        "tab_mbgxna",
+        "tab_AYEEN8",
+        "tab_XeQhd6",
+        "tab_7JNEYz",
+        "tab_qjzXCB",
+        "tab_bHJ89y"
+      ],
+      "settings": {
+        "heading": "Zinara Benefits"
+      }
+    },
+    "home_image_gallery_carousel_wNDYwn": {
+      "type": "home-image_gallery-carousel",
+      "blocks": {
+        "image_picker_wWkQJG": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "alt_text": "Carousel Image"
+          }
+        },
+        "image_picker_RaMpYr": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "alt_text": "Carousel Image"
+          }
+        },
+        "image_picker_6zyXAX": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "alt_text": "Carousel Image"
+          }
+        },
+        "image_picker_86PKCc": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "alt_text": "Carousel Image"
+          }
+        },
+        "image_picker_drQmrt": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "alt_text": "Carousel Image"
+          }
+        },
+        "image_picker_HGKpVw": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "alt_text": "Carousel Image"
+          }
+        }
+      },
+      "block_order": [
+        "image_picker_wWkQJG",
+        "image_picker_RaMpYr",
+        "image_picker_6zyXAX",
+        "image_picker_86PKCc",
+        "image_picker_drQmrt",
+        "image_picker_HGKpVw"
+      ],
+      "settings": {}
+    },
+    "home_tryathome_JNFcWz": {
+      "type": "home-tryathome",
+      "settings": {
+        "heading": "Get your own design",
+        "sub-heading": "Have another design in mind? Something from a website or a magazine perhaps?",
+        "button-1": "Start Designing",
+        "url-1": "",
+        "button-2": "",
+        "url-2": "",
+        "image": "shopify://shop_images/image_50.png"
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "home_testimonials_zmE9Ch": {
+      "type": "home-testimonials",
+      "blocks": {
+        "image_picker_RjQtQF": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+          }
+        },
+        "image_picker_kWR7cr": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+          }
+        },
+        "image_picker_VJyX7G": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+          }
+        },
+        "image_picker_KRQyPm": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+          }
+        },
+        "image_picker_GMhzVb": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+          }
+        },
+        "image_picker_RhqVm9": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+          }
+        },
+        "image_picker_YFEd7Y": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+          }
+        }
+      },
+      "block_order": [
+        "image_picker_RjQtQF",
+        "image_picker_kWR7cr",
+        "image_picker_VJyX7G",
+        "image_picker_KRQyPm",
+        "image_picker_GMhzVb",
+        "image_picker_RhqVm9",
+        "image_picker_YFEd7Y"
+      ],
+      "settings": {
+        "heading": "Testimonials"
+      }
+    },
+    "collapsible_content_cmfTNX": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_fqJAEL": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "icon": "none",
+            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_fqJAEL"
+      ],
+      "settings": {
+        "caption": "",
+        "heading": "FAQs",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "color_scheme": "",
+        "container_color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "home_benefits_BJVbVJ",
+    "home_image_gallery_carousel_wNDYwn",
+    "home_tryathome_JNFcWz",
+    "related-products",
+    "home_testimonials_zmE9Ch",
+    "collapsible_content_cmfTNX"
+  ]
+}

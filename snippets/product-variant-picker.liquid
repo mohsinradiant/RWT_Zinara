@@ -72,7 +72,7 @@
               name="options[{{ option.name | escape }}]"
               form="{{ product_form_id }}"
             >
-              {{ option.name }}
+              <span>{{ option.name }}</span>
               {% render 'product-variant-options',
                 product: product,
                 option: option,

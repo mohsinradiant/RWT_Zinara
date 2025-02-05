@@ -322,8 +322,8 @@ sticky-header .header__search {
 .facets-vertical .active-facets {
     position: absolute;
     left: 321px;
-    top: 93px;
-    display: flex;
+    top: 323px;
+    display: flex !important;
     width: max-content;
     flex-wrap: wrap;
     z-index: 99;
@@ -593,9 +593,11 @@ sticky-header .header__search {
         color: #000;
         line-height: 1.5rem;
     }
-    .home-try-at-home-section-left div{
+
+    .home-try-at-home-section-left div {
         margin-top: 5px !important;
     }
+
     slideshow-component .slideshow {
         aspect-ratio: 390/396;
     }

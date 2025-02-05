@@ -780,7 +780,8 @@ body.no-scroll {
     }
 
     .section-heading,
-    .collapsible-content__heading {
+    .collapsible-content__heading,
+    .jdgm-rev-widg__title {
         font-size: 2.6rem !important;
     }
 
@@ -887,7 +888,8 @@ body.no-scroll {
     }
 
     .section-heading,
-    .collapsible-content__heading {
+    .collapsible-content__heading,
+    .jdgm-rev-widg__title {
         margin-bottom: 20px !important;
     }
 

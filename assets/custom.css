@@ -456,6 +456,16 @@ sticky-header .header__search {
     color: white;
 }
 
+@media(max-width:1000px) {
+    .facets-vertical .active-facets {
+        top: 285px;
+    }
+
+    .facets-vertical-form {
+        margin-bottom: 40px;
+    }
+}
+
 @media (max-width: 756px) {
     .product-grid-container facet-filters-form {
         display: flex !important;

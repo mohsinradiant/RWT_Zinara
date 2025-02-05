@@ -84,14 +84,13 @@
     const images = carousel.querySelectorAll('img');
 
     let currentIndex = 0;
-    const transitionDuration = 500; // Match CSS transition duration in milliseconds
+    const transitionDuration = 500;
 
     function updateCarousel() {
       const containerWidth = carouselContainer.offsetWidth;
       carousel.style.transition = `transform ${transitionDuration}ms ease-in-out`;
       carousel.style.transform = `translateX(-${(currentIndex * containerWidth) / 2}px)`;
 
-      // Delay activating images until the animation completes
       setTimeout(setActiveImages, transitionDuration);
     }
 
@@ -122,11 +121,10 @@
     rightArrow.addEventListener('click', moveRight);
 
     window.addEventListener('resize', () => {
-      carousel.style.transition = 'none'; // Disable animation during resize
+      carousel.style.transition = 'none';
       updateCarousel();
     });
 
-    // Initial setup
     setActiveImages();
   });
 </script>

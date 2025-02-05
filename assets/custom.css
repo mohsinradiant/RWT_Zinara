@@ -527,7 +527,7 @@ product-info variant-selects select {
 }
 
 product-info variant-selects img {
-    width: 100;
+    width: 100%;
 }
 
 .Variant-type-label {

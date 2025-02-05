@@ -678,13 +678,16 @@ body.no-scroll {
 
 .pincode-availability-left input {
     border: none;
-    color: #333;
-    font-size: 16px;
+    color: #712242;
+    font-size: 1.6rem;
+    letter-spacing: 0;
+    font-family: 'Quicksand';
+    font-weight: 600;
 }
 
 .pincode-availability-left input::placeholder {
-    color: #999;
-    font-size: 14px;
+    color: #712242;
+    font-size: 1.6rem;
 }
 
 

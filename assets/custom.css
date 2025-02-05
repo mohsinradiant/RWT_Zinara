@@ -567,6 +567,11 @@ product-info variant-selects img {
     border: solid 1px #712242;
 }
 
+.product-form__buttons button img {
+    height: 27px;
+    width: 27px;
+}
+
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;

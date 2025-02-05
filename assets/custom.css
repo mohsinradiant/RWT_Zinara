@@ -538,7 +538,9 @@ product-info variant-selects img {
 .Variant-type-label {
     display: none;
 }
-
+.product__info-container .product__description{
+    line-height: 2rem;
+}
 
 @media(max-width:1000px) {
     .facets-vertical .active-facets {

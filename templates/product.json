@@ -262,9 +262,9 @@
           "type": "collapsible_row",
           "repeater": "{{ product.metafields.content.frequently_asked_questions.value }}",
           "settings": {
-            "heading": "{{ block.repeater.description.value }}",
+            "heading": "{{ block.repeater.title.value }}",
             "icon": "none",
-            "row_content": "<p>{{ block.repeater.title.value }}</p>",
+            "row_content": "<p>{{ block.repeater.description.value }}</p>",
             "page": ""
           }
         }

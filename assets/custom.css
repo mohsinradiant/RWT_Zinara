@@ -675,14 +675,14 @@ body.no-scroll {
 }
 
 .pincode-availability-left img {
-    width: 26px;
-    height: 26px;
+    width: 19px;
+    height: 19px;
 }
 
 .pincode-availability-left input {
     border: none;
     color: #712242;
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     letter-spacing: 0;
     font-family: 'Quicksand';
     font-weight: 600;

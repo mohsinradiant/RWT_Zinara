@@ -478,6 +478,7 @@ product-info .price__container span {
     margin: -7px 0 1rem;
     font-size: 1.3rem;
     letter-spacing: 0;
+    font-weight: 400;
 }
 
 @media(max-width:1000px) {

@@ -556,6 +556,7 @@ product-info variant-selects img {
 .product-form__buttons a,
 .product-form__buttons button {
     width: 48%;
+    margin: 0;
 }
 
 @media(max-width:1000px) {

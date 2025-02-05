@@ -547,6 +547,12 @@ product-info variant-selects img {
     font-weight: 500;
 }
 
+.product-form__buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2%;
+}
+
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;

@@ -15,7 +15,10 @@
       <a href="{{ settings.social_facebook_link }}" class="link list-social__link">
         <span class="svg-wrapper">
           {% comment %} {{- 'icon-facebook.svg' | inline_asset_content -}} {% endcomment %}
-          <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Facebook.png?v=1738799605">
+          <img
+            class="icon icon-facebook"
+            src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Facebook.png?v=1738799605"
+          >
         </span>
         <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
       </a>

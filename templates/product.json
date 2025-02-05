@@ -260,10 +260,11 @@
       "blocks": {
         "collapsible_row_fqJAEL": {
           "type": "collapsible_row",
+          "repeater": "{{ product.metafields.content.frequently_asked_questions.value }}",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "heading": "{{ block.repeater.description.value }}",
             "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "row_content": "<p>{{ block.repeater.title.value }}</p>",
             "page": ""
           }
         }

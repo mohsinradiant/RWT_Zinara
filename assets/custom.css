@@ -529,7 +529,9 @@ product-info variant-selects select {
 product-info variant-selects img {
     width: 100%;
 }
-
+.product-form__input--dropdown{
+    margin: 0 !important;
+}
 .Variant-type-label {
     display: none;
 }

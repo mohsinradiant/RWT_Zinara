@@ -3,8 +3,10 @@
     <div class="product-page-details-list-container">
       <p class="product-page-details-list_heading">{{ list.heading }}</p>
       {% for list-item in list.product_details_item.value %}
-        <p class="product-page-details-list_title">{{ list-item.title }}</p>
-        <p class="product-page-details-list_content">{{ list-item.content }}</p>
+        <div class="product-page-details-list-parent">
+          <p class="product-page-details-list_title">{{ list-item.title }}</p>
+          <p class="product-page-details-list_content">{{ list-item.content }}</p>
+        </div>
       {% endfor %}
     </div>
   {% endfor %}

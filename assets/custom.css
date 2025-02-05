@@ -495,6 +495,7 @@ product-info .price__container span {
     padding: 8px 11px;
     font-size: 1.3rem;
     font-weight: 600;
+    margin: 0;
     letter-spacing: 0;
 }
 

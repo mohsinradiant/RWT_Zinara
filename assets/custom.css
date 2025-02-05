@@ -666,9 +666,12 @@ body.no-scroll {
 }
 
 .pincode-availability-left {
-    display: flex;
+    display: flex
+;
     justify-content: center;
     align-items: center;
+    border-bottom: solid 1px #71224250;
+    padding-bottom: 7px;
 }
 
 .pincode-availability-left img {

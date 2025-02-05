@@ -662,7 +662,7 @@
                 {% render 'icon-with-text', block: block %}
               {%- when 'product-features-badges' -%}
                 <div class="product-features-badges-container">
-                  {% for badge in product.metafields.content['product-features-badges'] %}
+                  {% for badge in product.metafields.content['product-features-badges'].value %}
                     <p class="product-features-badge-text">{{ badge }}</p>
                   {% endfor %}
                 </div>

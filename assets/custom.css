@@ -585,6 +585,7 @@ product-info variant-selects img {
 .sizing-guide button {
     font-size: 1.3rem;
     cursor: pointer;
+    line-height: 5px;
     border: none;
     color: #612342;
     background: transparent;

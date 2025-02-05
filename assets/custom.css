@@ -317,6 +317,7 @@ sticky-header .header__search {
 .facets-vertical-form {
     justify-content: space-between !important;
     align-items: center !important;
+    margin-bottom: 80px;
 }
 
 .facets-vertical .active-facets {

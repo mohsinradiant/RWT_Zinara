@@ -460,6 +460,13 @@ product-info .product__title h1 {
     font-family: 'Quicksand';
     font-weight: 400;
     font-size: 1.8rem;
+    letter-spacing: 0;
+}
+product-info .price__container span{
+    font-family: 'Quicksand';
+    font-weight: 600;
+    font-size: 3rem;
+    letter-spacing: 0;
 }
 
 .collection-hero__title {

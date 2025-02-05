@@ -126,6 +126,25 @@
         "heading": "Zinara Benefits"
       }
     },
+    "pdp_image_carousel_76BdGX": {
+      "type": "pdp-image-carousel",
+      "settings": {}
+    },
+    "1738792743f5d3661f": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_qetXF7": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_qetXF7"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
     "home_tryathome_JNFcWz": {
       "type": "home-tryathome",
       "settings": {
@@ -266,10 +285,6 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "pdp_image_carousel_76BdGX": {
-      "type": "pdp-image-carousel",
-      "settings": {}
     }
   },
   "order": [
@@ -277,6 +292,7 @@
     "product_page_details_8y4AjM",
     "home_benefits_BJVbVJ",
     "pdp_image_carousel_76BdGX",
+    "1738792743f5d3661f",
     "home_tryathome_JNFcWz",
     "related-products",
     "home_testimonials_zmE9Ch",

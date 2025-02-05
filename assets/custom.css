@@ -510,6 +510,7 @@ product-info variant-selects {
     flex-wrap: wrap;
     justify-content: start;
     align-items: start;
+    gap: 2%;
 }
 
 @media(max-width:1000px) {

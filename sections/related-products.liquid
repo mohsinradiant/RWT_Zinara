@@ -32,7 +32,7 @@
         {{ section.settings.heading }}
       </h2>
       <ul
-        class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
+        class="pdp-product-recommendations-ul grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
         role="list"
       >
         {% assign skip_card_product_styles = false %}
@@ -51,13 +51,34 @@
           {%- assign skip_card_product_styles = true -%}
         {% endfor %}
       </ul>
+      <button id="toggle-btn" class="view-more-btn">View More</button>
     {% endif %}
   </product-recommendations>
   {% if section.settings.image_shape == 'arch' %}
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
 </div>
+<style>
+  .pdp-product-recommendations-ul .grid__item:nth-child(n + 4) {
+    display: none;
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('toggle-btn');
+    const items = document.querySelectorAll('.pdp-product-recommendations-ul .grid__item:nth-child(n+4)');
+    let expanded = false;
 
+    btn.addEventListener('click', function () {
+      items.forEach((item) => {
+        item.style.display = expanded ? 'none' : 'block';
+      });
+
+      expanded = !expanded;
+      btn.textContent = expanded ? 'View Less' : 'View More';
+    });
+  });
+</script>
 {% schema %}
 {
   "name": "t:sections.related-products.name",

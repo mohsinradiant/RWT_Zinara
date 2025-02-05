@@ -717,6 +717,18 @@ body.no-scroll {
     color: #4b8b1c;
 }
 
+.expected-delivery-date {
+    font-family: 'Quicksand';
+    letter-spacing: 0;
+    font-size: 1.6rem;
+    margin: 5px 0 15px;
+    font-weight: 400;
+}
+
+.expected-delivery-date span {
+    font-weight: 600;
+}
+
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;

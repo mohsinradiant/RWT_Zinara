@@ -126,62 +126,6 @@
         "heading": "Zinara Benefits"
       }
     },
-    "home_image_gallery_carousel_wNDYwn": {
-      "type": "home-image_gallery-carousel",
-      "blocks": {
-        "image_picker_wWkQJG": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
-          }
-        },
-        "image_picker_RaMpYr": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
-          }
-        },
-        "image_picker_6zyXAX": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
-          }
-        },
-        "image_picker_86PKCc": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
-          }
-        },
-        "image_picker_drQmrt": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
-          }
-        },
-        "image_picker_HGKpVw": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
-          }
-        }
-      },
-      "block_order": [
-        "image_picker_wWkQJG",
-        "image_picker_RaMpYr",
-        "image_picker_6zyXAX",
-        "image_picker_86PKCc",
-        "image_picker_drQmrt",
-        "image_picker_HGKpVw"
-      ],
-      "settings": {}
-    },
     "home_tryathome_JNFcWz": {
       "type": "home-tryathome",
       "settings": {
@@ -322,13 +266,17 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "pdp_image_carousel_76BdGX": {
+      "type": "pdp-image-carousel",
+      "settings": {}
     }
   },
   "order": [
     "main",
     "product_page_details_8y4AjM",
     "home_benefits_BJVbVJ",
-    "home_image_gallery_carousel_wNDYwn",
+    "pdp_image_carousel_76BdGX",
     "home_tryathome_JNFcWz",
     "related-products",
     "home_testimonials_zmE9Ch",

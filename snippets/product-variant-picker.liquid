@@ -92,5 +92,15 @@
     <script type="application/json" data-selected-variant>
       {{ product.selected_or_first_available_variant | json }}
     </script>
+    <script>
+      document.querySelectorAll('option').forEach((option) => {
+        const text = option.textContent.trim(); // Get the text content of the option
+        if (text.includes(':')) {
+          const [beforeColon, afterColon] = text.split(':'); // Split the text at the colon
+          // Reconstruct the styled option using HTML entities to simulate bold
+          option.innerHTML = `<span style="font-weight: 600;">${beforeColon}:</span>${afterColon}`;
+        }
+      });
+    </script>
   </variant-selects>
 {%- endunless -%}

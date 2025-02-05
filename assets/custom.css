@@ -91,7 +91,8 @@ slideshow-component .slideshow {
 }
 
 .section-heading,
-.collapsible-content__heading {
+.collapsible-content__heading,
+.jdgm-rev-widg__title {
     text-align: left !important;
     margin-bottom: 40px !important;
     margin-top: 0 !important;

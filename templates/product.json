@@ -24,6 +24,10 @@
           "type": "product-features-badges",
           "settings": {}
         },
+        "pincode_availability_VEqKEh": {
+          "type": "pincode-availability",
+          "settings": {}
+        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
@@ -47,6 +51,7 @@
         "title",
         "price",
         "product_features_badges_8LbYCC",
+        "pincode_availability_VEqKEh",
         "variant_picker",
         "description",
         "buy_buttons"

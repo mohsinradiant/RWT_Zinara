@@ -525,6 +525,9 @@ product-info variant-selects select {
     letter-spacing: 0 !important;
     font-weight: 500 !important;
 }
+.Variant-type-label{
+    display: none;
+}
 
 @media(max-width:1000px) {
     .facets-vertical .active-facets {

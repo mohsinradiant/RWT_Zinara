@@ -693,16 +693,13 @@
                     const zipcodeInput = document.getElementById('zipcode');
                     const res = document.getElementById('res');
 
-                    // Restrict input to numbers only
                     zipcodeInput.addEventListener('input', (event) => {
                       event.target.value = event.target.value.replace(/[^0-9]/g, '');
                     });
 
-                    // Validate and check availability
                     btn.addEventListener('click', () => {
-                      const zipcode = zipcodeInput.value.trim(); // Trim spaces
+                      const zipcode = zipcodeInput.value.trim();
 
-                      // Regex to validate Indian pincodes (6-digit numeric values)
                       const pincodeRegex = /^[1-9][0-9]{5}$/;
 
                       if (pincodeRegex.test(zipcode)) {
@@ -715,7 +712,6 @@
                         res.className = 'pincode-checker-result invalid';
                       }
 
-                      // Clear input after checking
                       zipcodeInput.value = '';
                     });
                   });

@@ -703,6 +703,7 @@ body.no-scroll {
     font-weight: 600;
     letter-spacing: 0;
     font-size: 1.5rem;
+    cursor: pointer;
 }
 
 .pincode-checker-result {

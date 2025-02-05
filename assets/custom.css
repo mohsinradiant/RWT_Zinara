@@ -704,7 +704,9 @@ body.no-scroll {
     letter-spacing: 0;
     font-size: 1.5rem;
 }
-
+.pincode-checker-result.available{
+    color: green;
+}
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;

@@ -538,8 +538,13 @@ product-info variant-selects img {
 .Variant-type-label {
     display: none;
 }
-.product__info-container .product__description{
+
+.product__info-container .product__description {
     line-height: 2rem;
+    letter-spacing: 0;
+    font-size: 1.4rem;
+    margin: 0 !important;
+    font-weight: 400;
 }
 
 @media(max-width:1000px) {

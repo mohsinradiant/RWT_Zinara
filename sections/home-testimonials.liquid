@@ -121,6 +121,7 @@
 
     let currentIndex = 0;
     const transitionDuration = 500;
+    const autoplayInterval = 3000; // 3 seconds
     const totalTestimonials = testimonials.length;
 
     function updateCarousel() {
@@ -165,8 +166,15 @@
       updateCarousel();
     }
 
-    leftArrow.addEventListener('click', moveLeft);
-    rightArrow.addEventListener('click', moveRight);
+    leftArrow.addEventListener('click', () => {
+      moveLeft();
+      resetAutoplay();
+    });
+
+    rightArrow.addEventListener('click', () => {
+      moveRight();
+      resetAutoplay();
+    });
 
     window.addEventListener('resize', () => {
       testimonialCarousel.style.transition = 'none'; // Disable animation during resize
@@ -175,6 +183,14 @@
 
     // Initial setup
     updateCarousel();
+
+    // Autoplay
+    let autoplay = setInterval(moveRight, autoplayInterval);
+
+    function resetAutoplay() {
+      clearInterval(autoplay);
+      autoplay = setInterval(moveRight, autoplayInterval);
+    }
   });
 </script>
 

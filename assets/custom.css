@@ -663,12 +663,14 @@ body.no-scroll {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 25px 0 0;
 }
 
 .pincode-availability-left {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 4px;
     border-bottom: solid 1px #71224250;
     padding-bottom: 7px;
 }

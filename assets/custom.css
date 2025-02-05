@@ -557,6 +557,14 @@ product-info variant-selects img {
 .product-form__buttons button {
     width: 48%;
     margin: 0;
+    padding: 10px 0;
+}
+
+.product-form__buttons a {
+    text-align: center;
+    text-decoration: none;
+    color: #712242;
+    border: solid 1px #712242;
 }
 
 @media(max-width:1000px) {

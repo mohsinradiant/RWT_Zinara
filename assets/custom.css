@@ -635,8 +635,9 @@ product-info variant-selects img {
     position: absolute;
     top: 20px;
     right: 20px;
-    font-size: 24px;
+    font-size: 64px;
     color: #fff;
+    font-weight: 300;
     background: none;
     border: none;
     cursor: pointer;

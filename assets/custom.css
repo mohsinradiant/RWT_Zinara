@@ -525,7 +525,12 @@ product-info variant-selects select {
     letter-spacing: 0 !important;
     font-weight: 500 !important;
 }
-.Variant-type-label{
+
+product-info variant-selects img {
+    width: 100;
+}
+
+.Variant-type-label {
     display: none;
 }
 

@@ -95,22 +95,47 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const btn = document.getElementById('toggle-btn');
-    const ul = document.querySelector('.pdp-product-recommendations-ul');
+    let maxAttempts = 60; // 6 seconds (60 attempts * 100ms)
+    let attempts = 0;
 
-    if (btn && ul) {
-      console.log('Button and UL found'); // Debugging statement
-      let expanded = false;
+    const checkElements = setInterval(() => {
+      const btn = document.getElementById('toggle-btn');
+      const ul = document.querySelector('.pdp-product-recommendations-ul');
 
-      btn.addEventListener('click', function () {
-        console.log('Button clicked!'); // Debugging statement
-        ul.classList.toggle('expanded');
-        expanded = !expanded;
-        btn.textContent = expanded ? 'View Less' : 'View More';
-      });
-    } else {
-      console.error('Button or UL not found'); // Debugging statement
-    }
+      if (btn && ul) {
+        console.log('Button and UL found'); // Debugging statement
+        clearInterval(checkElements); // Stop checking once found
+
+        let expanded = false;
+        const items = ul.querySelectorAll('.grid__item');
+
+        // Initially hide items after the third one
+        items.forEach((item, index) => {
+          if (index >= 3) {
+            item.style.display = 'none';
+          }
+        });
+
+        btn.addEventListener('click', function () {
+          console.log('Button clicked!'); // Debugging statement
+          expanded = !expanded;
+
+          items.forEach((item, index) => {
+            if (index >= 3) {
+              item.style.display = expanded ? 'block' : 'none';
+            }
+          });
+
+          btn.textContent = expanded ? 'View Less' : 'View More';
+        });
+      }
+
+      attempts++;
+      if (attempts >= maxAttempts) {
+        clearInterval(checkElements);
+        console.error('Button or UL not found after 6 seconds');
+      }
+    }, 100); // Check every 100ms
   });
 </script>
 

@@ -98,14 +98,18 @@
     const btn = document.getElementById('toggle-btn');
     const ul = document.querySelector('.pdp-product-recommendations-ul');
 
-    if (btn) {
+    if (btn && ul) {
+      console.log('Button and UL found'); // Debugging statement
       let expanded = false;
 
       btn.addEventListener('click', function () {
+        console.log('Button clicked!'); // Debugging statement
         ul.classList.toggle('expanded');
         expanded = !expanded;
         btn.textContent = expanded ? 'View Less' : 'View More';
       });
+    } else {
+      console.error('Button or UL not found'); // Debugging statement
     }
   });
 </script>

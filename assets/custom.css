@@ -513,7 +513,8 @@ product-info variant-selects {
     gap: 2%;
 }
 
-product-info variant-selects .select:after {
+product-info variant-selects .select:after,
+product-info variant-selects .select:hover {
     border: none !important;
     box-shadow: none !important;
     background: #610C270D;

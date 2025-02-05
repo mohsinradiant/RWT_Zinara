@@ -413,6 +413,14 @@ sticky-header .header__search {
     margin: 0 !important;
 }
 
+.pdp-try-at-home-section-container {
+    margin: 50px 0;
+}
+
+.pdp-try-at-home-section-container .section-heading {
+    margin: 0 !important;
+}
+
 .home-try-at-home-section {
     display: flex;
     justify-content: space-between;

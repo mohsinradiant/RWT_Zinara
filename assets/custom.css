@@ -659,6 +659,12 @@ body.no-scroll {
     padding-bottom: 0 !important
 }
 
+.pincode-availability-checker-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;

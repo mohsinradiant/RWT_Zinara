@@ -258,7 +258,6 @@ footer li a {
 
 
 slideshow-component .slideshow {
-    min-height: 600px !important;
     width: 100%;
 }
 
@@ -318,15 +317,17 @@ sticky-header .header__search {
 .facets-vertical-form {
     justify-content: space-between !important;
     align-items: center !important;
+    margin-bottom: 80px;
 }
 
 .facets-vertical .active-facets {
     position: absolute;
     left: 321px;
-    top: 93px;
-    display: flex;
+    top: 323px;
+    display: flex !important;
     width: max-content;
     flex-wrap: wrap;
+    align-items: baseline !important;
     z-index: 99;
 }
 
@@ -453,6 +454,18 @@ sticky-header .header__search {
 .home-try-at-home-section-left a:hover {
     background: #610c27;
     color: white;
+}
+.collection-hero__title{
+    text-wrap: nowrap;
+}
+@media(max-width:1000px) {
+    .facets-vertical .active-facets {
+        top: 285px;
+    }
+
+    .facets-vertical-form {
+        margin-bottom: 40px;
+    }
 }
 
 @media (max-width: 756px) {
@@ -586,16 +599,43 @@ sticky-header .header__search {
 
     .section-heading,
     .collapsible-content__heading {
-        font-size: 2.2rem !important;
+        font-size: 2.6rem !important;
     }
 
     .home-try-at-home-section-left p {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
+        color: #000;
+        line-height: 1.5rem;
+    }
+
+    .home-try-at-home-section-left div {
+        margin-top: 5px !important;
     }
 
     slideshow-component .slideshow {
-        height: 450px;
-        width: 100%;
+        aspect-ratio: 390/396;
+    }
+
+    .shop-by-category-section {
+        margin-top: 30px !important;
+    }
+
+    .category-tab-button {
+        font-size: 1.9rem !important;
+        padding: 10px 20px;
+    }
+
+    .category-items-row p {
+        font-size: 1.5rem !important;
+        line-height: 2rem;
+    }
+
+    .slider.slider--everywhere .slider__slide {
+        min-height: 100%;
+    }
+
+    .banner--medium.banner--mobile-bottom:not(.banner--adapt) .banner__media {
+        height: 100% !important;
     }
 
     .desktop-image {
@@ -644,6 +684,7 @@ sticky-header .header__search {
 
     .category-tabs-row {
         margin-bottom: 0 !important;
+        padding: 0 !important;
     }
 
     .category-item {
@@ -660,6 +701,7 @@ sticky-header .header__search {
 
     .home-try-at-home-section-left .section-heading {
         margin: 0 !important;
+        font-size: 2.2rem !important;
     }
 
     .section-heading,
@@ -672,8 +714,8 @@ sticky-header .header__search {
     }
 
     .zinara-benefits-content p {
-        font-size: 1.2rem;
-        line-height: 1.4rem;
+        font-size: 1.2rem !important;
+        line-height: 1.4rem !important;
     }
 
     .home-benefits-container {
@@ -685,11 +727,12 @@ sticky-header .header__search {
     }
 
     .home-try-at-home-section-right {
-        width: 48% !important;
+        width: 41% !important;
     }
 
     .home-try-at-home-section-left {
         gap: 10px !important;
+        width: 57% !important;
     }
 
     .home-try-at-home-section-left a {
@@ -725,10 +768,6 @@ sticky-header .header__search {
         transform: scale(1) !important;
     }
 
-    .home-testimonials-container {
-        padding-top: 20px !important;
-    }
-
     #shopify-section-template--24208249323704__home_about_7agqRh {
         padding-top: 20px !important;
     }
@@ -743,6 +782,11 @@ sticky-header .header__search {
 
     .occasion-images-container-parent {
         padding-top: 20px;
+        margin-top: 30px !important;
+    }
+
+    .image-container img {
+        border-radius: 9px;
     }
 
     #shopify-section-template--24203645747384__home_benefits_e9Pe77,
@@ -762,11 +806,6 @@ sticky-header .header__search {
 
     #shopify-section-template--24203645747384__collapsible_content_8wA47G .accordion h3 {
         font-family: "Quicksand", sans-serif !important;
-    }
-
-    .image-carousel-container {
-        padding-top: 45px !important;
-        padding-bottom: 45px !important;
     }
 
     .home-try-at-home-section-left a {
@@ -830,12 +869,6 @@ sticky-header .header__search {
         font-size: 1.5rem !important;
         line-height: 2.5rem !important;
     }
-
-    .testimonial-name img {
-        width: 17% !important;
-    }
-
-
 
     .footer__content-top {
         padding-left: 20px !important;

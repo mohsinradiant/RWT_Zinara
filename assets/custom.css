@@ -544,7 +544,7 @@ product-info variant-selects img {
     letter-spacing: 0;
     font-size: 1.4rem;
     margin: 0 !important;
-    font-weight: 400;
+    font-weight: 500;
 }
 
 @media(max-width:1000px) {

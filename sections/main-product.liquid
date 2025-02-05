@@ -687,16 +687,45 @@
                   </button>
                 </div>
                 <div id="res" class="pincode-checker-result"></div>
+                <p>Get it delivered by: <span id="delivery-date"></span></p>
+
                 <script>
                   document.addEventListener('DOMContentLoaded', () => {
                     const btn = document.getElementById('submit-btn');
                     const zipcodeInput = document.getElementById('zipcode');
                     const res = document.getElementById('res');
+                    const deliveryDateSpan = document.getElementById('delivery-date');
 
+                    // Calculate the next 15th date
+                    function getNext15thDate() {
+                      const today = new Date();
+                      const currentDay = today.getDate();
+                      const currentMonth = today.getMonth();
+                      const currentYear = today.getFullYear();
+
+                      let deliveryDate;
+                      if (currentDay <= 15) {
+                        // This month's 15th
+                        deliveryDate = new Date(currentYear, currentMonth, 15);
+                      } else {
+                        // Next month's 15th
+                        deliveryDate = new Date(currentYear, currentMonth + 1, 15);
+                      }
+
+                      // Format the date as "DD Month, YYYY"
+                      const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                      return deliveryDate.toLocaleDateString('en-US', options);
+                    }
+
+                    // Set the delivery date in the span
+                    deliveryDateSpan.textContent = getNext15thDate();
+
+                    // Restrict input to numbers only
                     zipcodeInput.addEventListener('input', (event) => {
                       event.target.value = event.target.value.replace(/[^0-9]/g, '');
                     });
 
+                    // Validate and check availability
                     btn.addEventListener('click', () => {
                       const zipcode = zipcodeInput.value.trim();
 

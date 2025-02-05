@@ -586,6 +586,7 @@ product-info variant-selects img {
     cursor: pointer;
     border: none;
     color: #612342;
+    line-height: 0;
     background: transparent;
     text-decoration: underline;
     font-weight: 600;

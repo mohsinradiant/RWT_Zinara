@@ -665,6 +665,29 @@ body.no-scroll {
     align-items: center;
 }
 
+.pincode-availability-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pincode-availability-left img {
+    width: 26px;
+    height: 26px;
+}
+
+.pincode-availability-left input {
+    border: none;
+    color: #333;
+    font-size: 16px;
+}
+
+.pincode-availability-left input::placeholder {
+    color: #999;
+    font-size: 14px;
+}
+
+
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;

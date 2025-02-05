@@ -1,10 +1,10 @@
 <div class="page-width product-page-details-container">
   {% for list in product.metafields.content.product_details_list.value %}
     <div class="product-page-details-list-container">
-      <p>{{ list.heading }}</p>
+      <p class="product-page-details-list_heading">{{ list.heading }}</p>
       {% for list-item in list.product_details_item.value %}
-        <p>{{ list-item.title }}</p>
-        <p>{{ list-item.content }}</p>
+        <p class="product-page-details-list_title">{{ list-item.title }}</p>
+        <p class="product-page-details-list_content">{{ list-item.content }}</p>
       {% endfor %}
     </div>
   {% endfor %}

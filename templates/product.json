@@ -62,6 +62,12 @@
         "padding_bottom": 12
       }
     },
+    "product_page_details_8y4AjM": {
+      "type": "product-page-details",
+      "settings": {
+        "heading": "Product Details"
+      }
+    },
     "home_benefits_BJVbVJ": {
       "type": "home-benefits",
       "blocks": {
@@ -320,6 +326,7 @@
   },
   "order": [
     "main",
+    "product_page_details_8y4AjM",
     "home_benefits_BJVbVJ",
     "home_image_gallery_carousel_wNDYwn",
     "home_tryathome_JNFcWz",

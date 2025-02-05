@@ -112,7 +112,7 @@
         // Initially hide items after the third one
         items.forEach((item, index) => {
           if (index >= 3) {
-            item.style.display = 'none';
+            item.classList.add('hidden-item');
           }
         });
 
@@ -122,7 +122,13 @@
 
           items.forEach((item, index) => {
             if (index >= 3) {
-              item.style.display = expanded ? 'block' : 'none';
+              if (expanded) {
+                item.classList.remove('hidden-item');
+                item.classList.add('visible-item');
+              } else {
+                item.classList.remove('visible-item');
+                item.classList.add('hidden-item');
+              }
             }
           });
 

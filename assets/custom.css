@@ -566,7 +566,10 @@ product-info variant-selects img {
     color: #712242;
     border: solid 1px #712242;
 }
-
+.product-form__buttons button {
+    display: flex;
+    gap: 10px;
+}
 .product-form__buttons button img {
     height: 27px;
     width: 27px;

@@ -666,8 +666,7 @@ body.no-scroll {
 }
 
 .pincode-availability-left {
-    display: flex
-;
+    display: flex;
     justify-content: center;
     align-items: center;
     border-bottom: solid 1px #71224250;
@@ -693,6 +692,16 @@ body.no-scroll {
     font-size: 1.6rem;
 }
 
+.pincode-availability-checker-container button {
+    border: none;
+    background: transparent;
+    color: #712242;
+    text-decoration: underline;
+    font-family: 'Quicksand';
+    font-weight: 600;
+    letter-spacing: 0;
+    font-size: 1.5rem;
+}
 
 @media(max-width:1000px) {
     .facets-vertical .active-facets {

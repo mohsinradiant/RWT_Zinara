@@ -455,9 +455,17 @@ sticky-header .header__search {
     background: #610c27;
     color: white;
 }
-.collection-hero__title{
+
+product-info .product__title h1 {
+    font-family: 'Quicksand';
+    font-weight: 400;
+    font-size: 1.8rem;
+}
+
+.collection-hero__title {
     text-wrap: nowrap;
 }
+
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;

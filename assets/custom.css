@@ -640,6 +640,15 @@ body.no-scroll {
     overflow: hidden;
 }
 
+.jdgm-rev-widg {
+    padding-top: 50px !important;
+    padding-bottom: 0 !important
+}
+
+.jdgm-widget:not(.jdgm-review-widget--small, .jdgm-review-widget--medium) .jdgm-row-stars {
+    padding-bottom: 0 !important
+}
+
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;

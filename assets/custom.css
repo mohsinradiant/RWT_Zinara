@@ -92,7 +92,8 @@ slideshow-component .slideshow {
 
 .section-heading,
 .collapsible-content__heading,
-.jdgm-rev-widg__title {
+.jdgm-rev-widg__title,
+.related-products__heading {
     text-align: left !important;
     margin-bottom: 40px !important;
     margin-top: 0 !important;
@@ -799,7 +800,8 @@ body.no-scroll {
 
     .section-heading,
     .collapsible-content__heading,
-    .jdgm-rev-widg__title {
+    .jdgm-rev-widg__title,
+    .related-products__heading {
         font-size: 2.6rem !important;
     }
 
@@ -907,7 +909,8 @@ body.no-scroll {
 
     .section-heading,
     .collapsible-content__heading,
-    .jdgm-rev-widg__title {
+    .jdgm-rev-widg__title,
+    .related-products__heading {
         margin-bottom: 20px !important;
     }
 

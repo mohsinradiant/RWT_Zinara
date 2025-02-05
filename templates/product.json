@@ -106,14 +106,75 @@
         "image_picker_RjQtQF": {
           "type": "image_picker",
           "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
-            "name": "",
-            "review": ""
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+          }
+        },
+        "image_picker_kWR7cr": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+          }
+        },
+        "image_picker_VJyX7G": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+          }
+        },
+        "image_picker_KRQyPm": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+          }
+        },
+        "image_picker_GMhzVb": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+          }
+        },
+        "image_picker_RhqVm9": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+          }
+        },
+        "image_picker_YFEd7Y": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/DSC02204.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kartik Rao",
+            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
           }
         }
       },
       "block_order": [
-        "image_picker_RjQtQF"
+        "image_picker_RjQtQF",
+        "image_picker_kWR7cr",
+        "image_picker_VJyX7G",
+        "image_picker_KRQyPm",
+        "image_picker_GMhzVb",
+        "image_picker_RhqVm9",
+        "image_picker_YFEd7Y"
       ],
       "settings": {
         "heading": "Testimonials"
@@ -125,9 +186,9 @@
         "collapsible_row_fqJAEL": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Collapsible row",
+            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
             "icon": "none",
-            "row_content": "",
+            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
             "page": ""
           }
         }

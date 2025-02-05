@@ -486,6 +486,10 @@ product-info .price__container span {
     justify-content: start;
     align-items: center;
 }
+.product-features-badge-text{
+    text-wrap: nowrap;
+    
+}
 
 @media(max-width:1000px) {
     .facets-vertical .active-facets {

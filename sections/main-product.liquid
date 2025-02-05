@@ -666,6 +666,60 @@
                     <p class="product-features-badge-text">{{ badge }}</p>
                   {% endfor %}
                 </div>
+              {%- when 'pincode-availability' -%}
+                <div class="pincode-availability-checker-container">
+                  <p class="pincode-checker-description">
+                    Enter any valid Indian pincode (e.g., 443404, 411045, 440001)
+                  </p>
+                  <input
+                    id="zipcode"
+                    type="text"
+                    class="pincode-checker-input"
+                    placeholder="Enter the pincode"
+                    maxlength="6"
+                  >
+                  <button
+                    id="submit-btn"
+                    type="submit"
+                    class="pincode-checker-button"
+                  >
+                    Check
+                  </button>
+                  <div id="res" class="pincode-checker-result"></div>
+                </div>
+                <script>
+                  document.addEventListener('DOMContentLoaded', () => {
+                    const btn = document.getElementById('submit-btn');
+                    const zipcodeInput = document.getElementById('zipcode');
+                    const res = document.getElementById('res');
+
+                    // Restrict input to numbers only
+                    zipcodeInput.addEventListener('input', (event) => {
+                      event.target.value = event.target.value.replace(/[^0-9]/g, '');
+                    });
+
+                    // Validate and check availability
+                    btn.addEventListener('click', () => {
+                      const zipcode = zipcodeInput.value.trim(); // Trim spaces
+
+                      // Regex to validate Indian pincodes (6-digit numeric values)
+                      const pincodeRegex = /^[1-9][0-9]{5}$/;
+
+                      if (pincodeRegex.test(zipcode)) {
+                        console.log('true');
+                        res.textContent = 'Available';
+                        res.className = 'pincode-checker-result available';
+                      } else {
+                        console.log('false');
+                        res.textContent = 'Invalid Pincode';
+                        res.className = 'pincode-checker-result invalid';
+                      }
+
+                      // Clear input after checking
+                      zipcodeInput.value = '';
+                    });
+                  });
+                </script>
             {%- endcase -%}
           {%- endfor -%}
           <a href="{{ product.url }}" class="link product__view-details animate-arrow">

@@ -92,18 +92,18 @@
     background-color: #a51b24;
   }
   .hidden-item {
-    visibility: hidden;
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: visibility 0.3s, max-height 0.5s ease-in-out, opacity 0.5s;
+    visibility: hidden !important;
+    max-height: 0 !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+    transition: all ease-in 0.3s !important;
   }
 
   .visible-item {
-    visibility: visible;
-    max-height: unset;
-    opacity: 1;
-    transition: visibility 0.3s, max-height 0.5s ease-in-out, opacity 0.5s;
+    visibility: visible !important;
+    max-height: unset !important;
+    opacity: 1 !important;
+    transition: all ease-in 0.3s !important;
   }
 </style>
 

@@ -521,9 +521,9 @@ product-info variant-selects .select:hover {
 }
 
 product-info variant-selects select {
-    font-size: 1.3rem;
-    letter-spacing: 0;
-    font-weight: 500;
+    font-size: 1.3rem !important;
+    letter-spacing: 0 !important;
+    font-weight: 500 !important;
 }
 
 @media(max-width:1000px) {

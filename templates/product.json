@@ -82,6 +82,18 @@
         "padding_bottom": 12
       }
     },
+    "home_tryathome_JNFcWz": {
+      "type": "home-tryathome",
+      "settings": {
+        "heading": "Get your own design",
+        "sub-heading": "Have another design in mind? Something from a website or a magazine perhaps?",
+        "button-1": "Start Designing",
+        "url-1": "",
+        "button-2": "",
+        "url-2": "",
+        "image": "shopify://shop_images/image_50.png"
+      }
+    },
     "related-products": {
       "type": "related-products",
       "settings": {
@@ -214,6 +226,7 @@
   },
   "order": [
     "main",
+    "home_tryathome_JNFcWz",
     "related-products",
     "home_testimonials_zmE9Ch",
     "collapsible_content_cmfTNX"

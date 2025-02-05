@@ -462,7 +462,8 @@ product-info .product__title h1 {
     font-size: 1.8rem;
     letter-spacing: 0;
 }
-product-info .price__container span{
+
+product-info .price__container span {
     font-family: 'Quicksand';
     font-weight: 600;
     font-size: 3rem;
@@ -471,6 +472,12 @@ product-info .price__container span{
 
 .collection-hero__title {
     text-wrap: nowrap;
+}
+
+.product-info-price-subtitle {
+    margin: 0;
+    font-size: 1.3rem;
+    letter-spacing: 0;
 }
 
 @media(max-width:1000px) {

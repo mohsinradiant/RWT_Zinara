@@ -511,6 +511,7 @@ product-info variant-selects {
     justify-content: start;
     align-items: start;
     gap: 2%;
+    margin: 1rem 0;
 }
 
 product-info variant-selects .select:after,
@@ -529,12 +530,15 @@ product-info variant-selects select {
 product-info variant-selects img {
     width: 100%;
 }
-.product-form__input--dropdown{
+
+.product-form__input--dropdown {
     margin: 0 !important;
 }
+
 .Variant-type-label {
     display: none;
 }
+
 
 @media(max-width:1000px) {
     .facets-vertical .active-facets {

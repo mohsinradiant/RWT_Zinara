@@ -94,4 +94,34 @@
       {{ product.selected_or_first_available_variant | json }}
     </script>
   </variant-selects>
+  <div class="sizing-guide">
+    <button id="openPopup">Sizing Guide</button>
+  </div>
+
+  <div class="popup" id="popup">
+    <button class="close-btn" id="closePopup">&times;</button>
+    <img src="https://via.placeholder.com/600x400" alt="Sizing Guide Image">
+  </div>
+  <script>
+    const openPopup = document.getElementById('openPopup');
+    const closePopup = document.getElementById('closePopup');
+    const popup = document.getElementById('popup');
+
+    openPopup.addEventListener('click', () => {
+      popup.style.display = 'flex';
+      document.body.classList.add('no-scroll');
+    });
+
+    closePopup.addEventListener('click', () => {
+      popup.style.display = 'none';
+      document.body.classList.remove('no-scroll');
+    });
+
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup) {
+        popup.style.display = 'none';
+        document.body.classList.remove('no-scroll');
+      }
+    });
+  </script>
 {%- endunless -%}

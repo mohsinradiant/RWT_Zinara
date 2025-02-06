@@ -368,6 +368,8 @@
       rel="stylesheet"
     >
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    {{ 'flickity.css' | asset_url | stylesheet_tag }}
+    {{ 'flickity.js' | asset_url | script_tag }}
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">

@@ -1319,7 +1319,7 @@ a.product__text {
   padding-top: min(var(--constrained-height), var(--ratio-percent));
 }
 
-@media screen and (max-width: 749px) {
+/* @media screen and (max-width: 749px) { */
   .product-media-container.media-fit-cover {
     display: flex;
     align-self: stretch;
@@ -1329,45 +1329,15 @@ a.product__text {
     /* allow media img element to scale relative to modal-opener/product-media-container */
     position: initial;
   }
-}
+/* } */
 
-@media screen and (min-width: 750px) {
-  .product-media-container {
-    max-width: 100%;
-  }
-
-  .product-media-container:not(.media-type-image) {
-    /* override to use actual media ratio (not poster ratio) for video/models on desktop */
-    --aspect-ratio: var(--ratio);
-  }
-
-  .product-media-container.constrain-height {
-    --viewport-offset: 170px;
-    --constrained-min-height: 500px;
-  }
-
-  .product-media-container.media-fit-cover,
-  .product-media-container.media-fit-cover .product__modal-opener,
-  .product-media-container.media-fit-cover .media {
-    height: 100%;
-  }
-
-  .product-media-container.media-fit-cover .deferred-media__poster img {
-    object-fit: cover;
-    width: 100%;
-  }
-}
 
 .product-media-container .product__modal-opener {
   display: block;
   position: relative;
 }
 
-@media screen and (min-width: 750px) {
-  .product-media-container .product__modal-opener:not(.product__modal-opener--image) {
-    display: none;
-  }
-}
+
 
 /* Recipient form */
 .recipient-form {

@@ -112,18 +112,18 @@
 
     openPopup.addEventListener('click', () => {
       popup.style.display = 'flex';
-      document.body.classList.add('no-scroll');
+      // document.body.classList.add('no-scroll');
     });
 
     closePopup.addEventListener('click', () => {
       popup.style.display = 'none';
-      document.body.classList.remove('no-scroll');
+      // document.body.classList.remove('no-scroll');
     });
 
     popup.addEventListener('click', (e) => {
       if (e.target === popup) {
         popup.style.display = 'none';
-        document.body.classList.remove('no-scroll');
+        // document.body.classList.remove('no-scroll');
       }
     });
   </script>

@@ -91,7 +91,9 @@ slideshow-component .slideshow {
 }
 
 .section-heading,
-.collapsible-content__heading {
+.collapsible-content__heading,
+.jdgm-rev-widg__title,
+.related-products__heading {
     text-align: left !important;
     margin-bottom: 40px !important;
     margin-top: 0 !important;
@@ -412,6 +414,15 @@ sticky-header .header__search {
     margin: 0 !important;
 }
 
+.pdp-try-at-home-section-container {
+    padding: 30px 0 !important;
+    margin: 50px 0;
+}
+
+.pdp-try-at-home-section-container .section-heading {
+    margin: 0 !important;
+}
+
 .home-try-at-home-section {
     display: flex;
     justify-content: space-between;
@@ -624,19 +635,100 @@ product-info variant-selects img {
     position: absolute;
     top: 20px;
     right: 20px;
-    font-size: 24px;
+    font-size: 64px;
     color: #fff;
+    font-weight: 300;
     background: none;
     border: none;
     cursor: pointer;
 }
 
 .popup .close-btn:hover {
-    color: #ff0000;
+    color: #610C27;
 }
 
 body.no-scroll {
     overflow: hidden;
+}
+
+.jdgm-rev-widg {
+    padding-top: 50px !important;
+    padding-bottom: 0 !important
+}
+
+.jdgm-widget:not(.jdgm-review-widget--small, .jdgm-review-widget--medium) .jdgm-row-stars {
+    padding-bottom: 0 !important
+}
+
+.pincode-availability-checker-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 25px 0 0;
+}
+
+.pincode-availability-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-bottom: solid 1px #71224250;
+    padding-bottom: 7px;
+}
+
+.pincode-availability-left img {
+    width: 19px;
+    height: 19px;
+}
+
+.pincode-availability-left input {
+    border: none;
+    color: #712242;
+    font-size: 1.7rem;
+    letter-spacing: 0;
+    font-family: 'Quicksand';
+    font-weight: 600;
+}
+
+.pincode-availability-left input::placeholder {
+    color: #71224280;
+    font-size: 1.7rem;
+}
+
+.pincode-availability-checker-container button {
+    border: none;
+    background: transparent;
+    color: #712242;
+    text-decoration: underline;
+    font-family: 'Quicksand';
+    font-weight: 600;
+    letter-spacing: 0;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.pincode-checker-result {
+    font-family: 'Quicksand';
+    font-weight: 600;
+    letter-spacing: 0;
+    font-size: 1.7rem;
+    margin: 5px 0;
+}
+
+.pincode-checker-result.available {
+    color: #4b8b1c;
+}
+
+.expected-delivery-date {
+    font-family: 'Quicksand';
+    letter-spacing: 0;
+    font-size: 1.6rem;
+    margin: 5px 0 15px;
+    font-weight: 400;
+}
+
+.expected-delivery-date span {
+    font-weight: 600;
 }
 
 @media(max-width:1000px) {
@@ -779,7 +871,9 @@ body.no-scroll {
     }
 
     .section-heading,
-    .collapsible-content__heading {
+    .collapsible-content__heading,
+    .jdgm-rev-widg__title,
+    .related-products__heading {
         font-size: 2.6rem !important;
     }
 
@@ -886,7 +980,9 @@ body.no-scroll {
     }
 
     .section-heading,
-    .collapsible-content__heading {
+    .collapsible-content__heading,
+    .jdgm-rev-widg__title,
+    .related-products__heading {
         margin-bottom: 20px !important;
     }
 

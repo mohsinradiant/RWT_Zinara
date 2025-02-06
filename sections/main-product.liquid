@@ -666,6 +666,75 @@
                     <p class="product-features-badge-text">{{ badge }}</p>
                   {% endfor %}
                 </div>
+              {%- when 'pincode-availability' -%}
+                <div class="pincode-availability-checker-container">
+                  <div class="pincode-availability-left">
+                    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Location_1.png?v=1738797670">
+                    <input
+                      id="zipcode"
+                      type="number"
+                      class="pincode-checker-input"
+                      placeholder="Enter Pincode"
+                      maxlength="6"
+                    >
+                  </div>
+                  <button
+                    id="submit-btn"
+                    type="submit"
+                    class="pincode-checker-button"
+                  >
+                    Check Availability
+                  </button>
+                </div>
+                <div id="res" class="pincode-checker-result"></div>
+                <p class="expected-delivery-date">Get it delivered by: <span id="delivery-date"></span></p>
+
+                <script>
+                  document.addEventListener('DOMContentLoaded', () => {
+                    const btn = document.getElementById('submit-btn');
+                    const zipcodeInput = document.getElementById('zipcode');
+                    const res = document.getElementById('res');
+                    const deliveryDateSpan = document.getElementById('delivery-date');
+
+                    // Calculate the date 15 days from today
+                    function getDateAfter15Days() {
+                      const today = new Date();
+                      const deliveryDate = new Date(today);
+                      deliveryDate.setDate(today.getDate() + 15); // Add 15 days
+
+                      // Format the date as "DD Month, YYYY"
+                      const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                      return deliveryDate.toLocaleDateString('en-US', options);
+                    }
+
+                    // Set the delivery date in the span
+                    deliveryDateSpan.textContent = getDateAfter15Days();
+
+                    // Restrict input to numbers only
+                    zipcodeInput.addEventListener('input', (event) => {
+                      event.target.value = event.target.value.replace(/[^0-9]/g, '');
+                    });
+
+                    // Validate and check availability
+                    btn.addEventListener('click', () => {
+                      const zipcode = zipcodeInput.value.trim();
+
+                      const pincodeRegex = /^[1-9][0-9]{5}$/;
+
+                      if (pincodeRegex.test(zipcode)) {
+                        console.log('true');
+                        res.textContent = 'Available';
+                        res.className = 'pincode-checker-result available';
+                      } else {
+                        console.log('false');
+                        res.textContent = 'Invalid Pincode';
+                        res.className = 'pincode-checker-result invalid';
+                      }
+
+                      zipcodeInput.value = '';
+                    });
+                  });
+                </script>
             {%- endcase -%}
           {%- endfor -%}
           <a href="{{ product.url }}" class="link product__view-details animate-arrow">
@@ -2084,6 +2153,10 @@
     {
       "type": "product-features-badges",
       "name": "Product Features Badges"
+    },
+    {
+      "type": "pincode-availability",
+      "name": "Pincode Availability"
     }
   ],
   "settings": [

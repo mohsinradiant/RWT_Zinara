@@ -436,6 +436,8 @@
 
 .footer-block__brand-info .footer__list-social.list-social {
   justify-content: flex-start;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .footer-block__details-content .placeholder-svg {

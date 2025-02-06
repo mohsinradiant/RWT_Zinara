@@ -32,7 +32,7 @@
         {{ section.settings.heading }}
       </h2>
       <ul
-        class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
+        class="pdp-product-recommendations-ul grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
         role="list"
       >
         {% assign skip_card_product_styles = false %}
@@ -51,12 +51,150 @@
           {%- assign skip_card_product_styles = true -%}
         {% endfor %}
       </ul>
+
+      {% if recommendations.products_count > 3 %}
+        <button id="toggle-btn" class="view-more-btn">
+          View More <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_16.png?v=1738755650">
+        </button>
+      {% endif %}
     {% endif %}
   </product-recommendations>
   {% if section.settings.image_shape == 'arch' %}
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
 </div>
+
+<style>
+  .related-products {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+    margin-bottom: 50px;
+  }
+  .related-products .full-unstyled-link {
+    font-family: 'Quicksand';
+    letter-spacing: 0;
+    font-size: 1.9rem;
+    font-weight: 400;
+  }
+  .related-products .product-info-price-subtitle {
+    display: none;
+  }
+  .related-products .related-products__heading {
+    width: 100%;
+    margin-bottom: 10px !important;
+  }
+  .pdp-product-recommendations-ul {
+    margin-bottom: 0 !important;
+  }
+  .pdp-product-recommendations-ul .grid__item:nth-child(n + 4) {
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease, max-height 0.3s ease, visibility 0.3s;
+  }
+
+  .pdp-product-recommendations-ul.expanded .grid__item:nth-child(n + 4) {
+    opacity: 1;
+    visibility: visible;
+    max-height: 500px; /* Adjust based on content */
+  }
+
+  .view-more-btn {
+    display: flex;
+    padding: 10px 15px;
+    color: #712242;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    background: transparent;
+    font-family: 'Quicksand';
+    font-weight: 600;
+    letter-spacing: 0;
+    transition: all ease-in 0.3s;
+    font-size: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    line-height: 0;
+  }
+
+  .view-more-btn:hover {
+    opacity: 0.8;
+  }
+  .view-more-btn img {
+    width: 14px;
+    height: 8px;
+  }
+  .hidden-item {
+    visibility: hidden !important;
+    max-height: 0 !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+    transition: all ease-in 0.3s !important;
+  }
+
+  .visible-item {
+    visibility: visible !important;
+    max-height: unset !important;
+    opacity: 1 !important;
+    transition: all ease-in 0.3s !important;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    let maxAttempts = 60; // 6 seconds (60 attempts * 100ms)
+    let attempts = 0;
+
+    const checkElements = setInterval(() => {
+      const btn = document.getElementById('toggle-btn');
+      const ul = document.querySelector('.pdp-product-recommendations-ul');
+
+      if (btn && ul) {
+        console.log('Button and UL found'); // Debugging statement
+        clearInterval(checkElements); // Stop checking once found
+
+        let expanded = false;
+        const items = ul.querySelectorAll('.grid__item');
+
+        // Initially hide items after the third one
+        items.forEach((item, index) => {
+          if (index >= 3) {
+            item.classList.add('hidden-item');
+          }
+        });
+
+        btn.addEventListener('click', function () {
+          console.log('Button clicked!'); // Debugging statement
+          expanded = !expanded;
+
+          items.forEach((item, index) => {
+            if (index >= 3) {
+              if (expanded) {
+                item.classList.remove('hidden-item');
+                item.classList.add('visible-item');
+              } else {
+                item.classList.remove('visible-item');
+                item.classList.add('hidden-item');
+              }
+            }
+          });
+
+          btn.textContent = expanded ? 'View Less' : 'View More';
+        });
+      }
+
+      attempts++;
+      if (attempts >= maxAttempts) {
+        clearInterval(checkElements);
+        console.error('Button or UL not found after 6 seconds');
+      }
+    }, 100); // Check every 100ms
+  });
+</script>
 
 {% schema %}
 {

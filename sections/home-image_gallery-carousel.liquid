@@ -143,6 +143,55 @@
       clearInterval(autoplay);
       autoplay = setInterval(moveRight, autoplayInterval);
     }
+
+    // --- Touch Swipe Implementation ---
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    carouselContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    });
+
+    carouselContainer.addEventListener('touchmove', (e) => {
+      touchEndX = e.touches[0].clientX;
+    });
+
+    carouselContainer.addEventListener('touchend', () => {
+      const swipeDistance = touchStartX - touchEndX;
+      if (swipeDistance > 50) {
+        moveRight(); // Swipe left → move right
+      } else if (swipeDistance < -50) {
+        moveLeft(); // Swipe right → move left
+      }
+      resetAutoplay();
+    });
+
+    // Mouse Swipe (For Desktop)
+    let mouseDown = false;
+    let startX = 0;
+
+    carouselContainer.addEventListener('mousedown', (e) => {
+      mouseDown = true;
+      startX = e.clientX;
+    });
+
+    carouselContainer.addEventListener('mouseup', (e) => {
+      if (!mouseDown) return;
+      let endX = e.clientX;
+      let swipeDistance = startX - endX;
+
+      if (swipeDistance > 50) {
+        moveRight();
+      } else if (swipeDistance < -50) {
+        moveLeft();
+      }
+      mouseDown = false;
+      resetAutoplay();
+    });
+
+    carouselContainer.addEventListener('mouseleave', () => {
+      mouseDown = false;
+    });
   });
 </script>
 
@@ -171,8 +220,7 @@
   ],
   "presets": [
     {
-      "name": "Image Gallery Carousel",
-      "category": "Custom"
+      "name": "Image Gallery Carousel"
     }
   ]
 }

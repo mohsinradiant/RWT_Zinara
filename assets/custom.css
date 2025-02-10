@@ -1101,7 +1101,6 @@ body.no-scroll {
     .home-testimonials-carousel-parent {
         padding-left: 10px;
         gap: 10px;
-        overflow: auto;
         scroll-snap-type: x mandatory;
     }
 

@@ -1022,7 +1022,6 @@ body.no-scroll {
     }
 
     .images-parent-div {
-        overflow: auto;
         padding-left: 10px;
         scroll-snap-type: x mandatory;
     }

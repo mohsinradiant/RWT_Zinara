@@ -1022,7 +1022,6 @@ body.no-scroll {
     }
 
     .images-parent-div {
-        overflow: auto;
         padding-left: 10px;
         scroll-snap-type: x mandatory;
     }
@@ -1102,7 +1101,6 @@ body.no-scroll {
     .home-testimonials-carousel-parent {
         padding-left: 10px;
         gap: 10px;
-        overflow: auto;
         scroll-snap-type: x mandatory;
     }
 

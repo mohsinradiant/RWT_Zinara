@@ -125,7 +125,6 @@
     const totalTestimonials = testimonials.length;
 
     function updateCarousel() {
-      const carouselWidth = testimonialCarouselContainer.offsetWidth;
       const testimonialWidth =
         testimonials[0].offsetWidth + parseInt(window.getComputedStyle(testimonials[0]).marginRight);
 
@@ -149,20 +148,12 @@
     }
 
     function moveLeft() {
-      if (currentIndex > 0) {
-        currentIndex--;
-      } else {
-        currentIndex = totalTestimonials - 1;
-      }
+      currentIndex = currentIndex > 0 ? currentIndex - 1 : totalTestimonials - 1;
       updateCarousel();
     }
 
     function moveRight() {
-      if (currentIndex < totalTestimonials - 1) {
-        currentIndex++;
-      } else {
-        currentIndex = 0;
-      }
+      currentIndex = currentIndex < totalTestimonials - 1 ? currentIndex + 1 : 0;
       updateCarousel();
     }
 
@@ -191,6 +182,55 @@
       clearInterval(autoplay);
       autoplay = setInterval(moveRight, autoplayInterval);
     }
+
+    // --- Touch Swipe Support ---
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    testimonialCarouselContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+    });
+
+    testimonialCarouselContainer.addEventListener('touchmove', (e) => {
+      touchEndX = e.touches[0].clientX;
+    });
+
+    testimonialCarouselContainer.addEventListener('touchend', () => {
+      const swipeDistance = touchStartX - touchEndX;
+      if (swipeDistance > 50) {
+        moveRight(); // Swipe left → move right
+      } else if (swipeDistance < -50) {
+        moveLeft(); // Swipe right → move left
+      }
+      resetAutoplay();
+    });
+
+    // --- Mouse Drag Support ---
+    let isDragging = false;
+    let startX = 0;
+
+    testimonialCarouselContainer.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+    });
+
+    testimonialCarouselContainer.addEventListener('mouseup', (e) => {
+      if (!isDragging) return;
+      let endX = e.clientX;
+      let swipeDistance = startX - endX;
+
+      if (swipeDistance > 50) {
+        moveRight();
+      } else if (swipeDistance < -50) {
+        moveLeft();
+      }
+      isDragging = false;
+      resetAutoplay();
+    });
+
+    testimonialCarouselContainer.addEventListener('mouseleave', () => {
+      isDragging = false;
+    });
   });
 </script>
 

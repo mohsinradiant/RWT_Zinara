@@ -75,77 +75,74 @@
     right: 40px;
   }
 </style>
+
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const carousel = document.querySelector(".images-parent-div");
-    const images = document.querySelectorAll(".images-parent-div img");
-    const leftArrow = document.querySelector(".left-arrow");
-    const rightArrow = document.querySelector(".right-arrow");
+  document.addEventListener('DOMContentLoaded', () => {
+    const carouselContainer = document.querySelector('.image-carousel');
+    const carousel = document.querySelector('.images-parent-div');
+    const leftArrow = document.querySelector('.left-arrow');
+    const rightArrow = document.querySelector('.right-arrow');
+    const images = carousel.querySelectorAll('img');
 
     let currentIndex = 0;
-    const imageWidth = images[0].offsetWidth; // Get the width of an image
-    const totalImages = images.length;
-    const scrollAmount = imageWidth + 10; // Adjust for any spacing
-    let autoScrollInterval;
-    
-    // Function to update the 'active' class on visible images
-    function updateActiveImage() {
-      images.forEach((img) => img.classList.remove("active"));
-      
-      const carouselRect = carousel.getBoundingClientRect();
+    const transitionDuration = 500;
+    const autoplayInterval = 3000; // 3 seconds
+
+    function updateCarousel() {
+      const containerWidth = carouselContainer.offsetWidth;
+      carousel.style.transition = `transform ${transitionDuration}ms ease-in-out`;
+      carousel.style.transform = `translateX(-${(currentIndex * containerWidth) / 2}px)`;
+
+      setTimeout(setActiveImages, transitionDuration);
+    }
+
+    function setActiveImages() {
+      const containerRect = carouselContainer.getBoundingClientRect();
+
       images.forEach((img) => {
         const imgRect = img.getBoundingClientRect();
-        if (
-          imgRect.left >= carouselRect.left &&
-          imgRect.right <= carouselRect.right
-        ) {
-          img.classList.add("active");
+        if (imgRect.left >= containerRect.left && imgRect.right <= containerRect.right) {
+          img.classList.add('active');
+        } else {
+          img.classList.remove('active');
         }
       });
     }
 
-    // Function to move the carousel
-    function moveCarousel(direction) {
-      if (direction === "next") {
-        currentIndex = (currentIndex + 1) % totalImages;
-      } else {
-        currentIndex = (currentIndex - 1 + totalImages) % totalImages;
-      }
-
-      gsap.to(carousel, {
-        x: `-${currentIndex * scrollAmount}px`,
-        duration: 1,
-        ease: "power2.inOut",
-        onComplete: updateActiveImage,
-      });
+    function moveLeft() {
+      currentIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+      updateCarousel();
     }
 
-    // Auto-scroll function
-    function startAutoScroll() {
-      stopAutoScroll(); // Prevent duplicate intervals
-      autoScrollInterval = setInterval(() => moveCarousel("next"), 3000);
+    function moveRight() {
+      currentIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+      updateCarousel();
     }
 
-    // Stop auto-scroll
-    function stopAutoScroll() {
-      clearInterval(autoScrollInterval);
-    }
-
-    // Arrow button click events
-    rightArrow.addEventListener("click", function () {
-      stopAutoScroll();
-      moveCarousel("next");
-      startAutoScroll();
+    leftArrow.addEventListener('click', () => {
+      moveLeft();
+      resetAutoplay();
     });
 
-    leftArrow.addEventListener("click", function () {
-      stopAutoScroll();
-      moveCarousel("prev");
-      startAutoScroll();
+    rightArrow.addEventListener('click', () => {
+      moveRight();
+      resetAutoplay();
     });
 
-    // Start the auto-scroll
-    startAutoScroll();
+    window.addEventListener('resize', () => {
+      carousel.style.transition = 'none';
+      updateCarousel();
+    });
+
+    setActiveImages();
+
+    // Autoplay
+    let autoplay = setInterval(moveRight, autoplayInterval);
+
+    function resetAutoplay() {
+      clearInterval(autoplay);
+      autoplay = setInterval(moveRight, autoplayInterval);
+    }
   });
 </script>
 

@@ -75,6 +75,76 @@
   }
 </style>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const carouselContainer = document.querySelector('.image-carousel');
+    const carousel = document.querySelector('.images-parent-div');
+    const leftArrow = document.querySelector('.left-arrow');
+    const rightArrow = document.querySelector('.right-arrow');
+    const images = carousel.querySelectorAll('img');
+
+    let currentIndex = 0;
+    const transitionDuration = 500;
+    const autoplayInterval = 3000; // 3 seconds
+
+    function updateCarousel() {
+      const containerWidth = carouselContainer.offsetWidth;
+      carousel.style.transition = `transform ${transitionDuration}ms ease-in-out`;
+      carousel.style.transform = `translateX(-${(currentIndex * containerWidth) / 2}px)`;
+
+      setTimeout(setActiveImages, transitionDuration);
+    }
+
+    function setActiveImages() {
+      const containerRect = carouselContainer.getBoundingClientRect();
+
+      images.forEach((img) => {
+        const imgRect = img.getBoundingClientRect();
+        if (imgRect.left >= containerRect.left && imgRect.right <= containerRect.right) {
+          img.classList.add('active');
+        } else {
+          img.classList.remove('active');
+        }
+      });
+    }
+
+    function moveLeft() {
+      currentIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+      updateCarousel();
+    }
+
+    function moveRight() {
+      currentIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+      updateCarousel();
+    }
+
+    leftArrow.addEventListener('click', () => {
+      moveLeft();
+      resetAutoplay();
+    });
+
+    rightArrow.addEventListener('click', () => {
+      moveRight();
+      resetAutoplay();
+    });
+
+    window.addEventListener('resize', () => {
+      carousel.style.transition = 'none';
+      updateCarousel();
+    });
+
+    setActiveImages();
+
+    // Autoplay
+    let autoplay = setInterval(moveRight, autoplayInterval);
+
+    function resetAutoplay() {
+      clearInterval(autoplay);
+      autoplay = setInterval(moveRight, autoplayInterval);
+    }
+  });
+</script>
+
 {% schema %}
 {
   "name": "PDP Image Carousel",

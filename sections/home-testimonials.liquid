@@ -111,6 +111,89 @@
   }
 </style>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const testimonialCarouselContainer = document.querySelector('.home-testimonials-carousel');
+    const testimonialCarousel = document.querySelector('.home-testimonials-carousel-parent');
+    const leftArrow = document.querySelector('.testimonial-carousel-arrow.left-arrow');
+    const rightArrow = document.querySelector('.testimonial-carousel-arrow.right-arrow');
+    const testimonials = testimonialCarousel.querySelectorAll('.testimonial-container');
+
+    let currentIndex = 0;
+    const transitionDuration = 500;
+    const autoplayInterval = 3000; // 3 seconds
+    const totalTestimonials = testimonials.length;
+
+    function updateCarousel() {
+      const carouselWidth = testimonialCarouselContainer.offsetWidth;
+      const testimonialWidth =
+        testimonials[0].offsetWidth + parseInt(window.getComputedStyle(testimonials[0]).marginRight);
+
+      testimonialCarousel.style.transition = `transform ${transitionDuration}ms ease-in-out`;
+      testimonialCarousel.style.transform = `translateX(-${currentIndex * testimonialWidth}px)`;
+
+      setTimeout(setActiveTestimonials, transitionDuration);
+    }
+
+    function setActiveTestimonials() {
+      const containerRect = testimonialCarouselContainer.getBoundingClientRect();
+
+      testimonials.forEach((testimonial) => {
+        const testimonialRect = testimonial.getBoundingClientRect();
+        if (testimonialRect.left >= containerRect.left && testimonialRect.right <= containerRect.right) {
+          testimonial.classList.add('active');
+        } else {
+          testimonial.classList.remove('active');
+        }
+      });
+    }
+
+    function moveLeft() {
+      if (currentIndex > 0) {
+        currentIndex--;
+      } else {
+        currentIndex = totalTestimonials - 1;
+      }
+      updateCarousel();
+    }
+
+    function moveRight() {
+      if (currentIndex < totalTestimonials - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0;
+      }
+      updateCarousel();
+    }
+
+    leftArrow.addEventListener('click', () => {
+      moveLeft();
+      resetAutoplay();
+    });
+
+    rightArrow.addEventListener('click', () => {
+      moveRight();
+      resetAutoplay();
+    });
+
+    window.addEventListener('resize', () => {
+      testimonialCarousel.style.transition = 'none'; // Disable animation during resize
+      updateCarousel();
+    });
+
+    // Initial setup
+    updateCarousel();
+
+    // Autoplay
+    let autoplay = setInterval(moveRight, autoplayInterval);
+
+    function resetAutoplay() {
+      clearInterval(autoplay);
+      autoplay = setInterval(moveRight, autoplayInterval);
+    }
+  });
+</script>
+
 {% schema %}
 {
   "name": "Home Testimonials",

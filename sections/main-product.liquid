@@ -206,6 +206,7 @@
                       display: none;
                     }
                     .toggle-btn {
+                      padding: 0;
                       background: none;
                       border: none;
                       color: #612342;
@@ -244,6 +245,7 @@
                         let words = description.innerText.split(' ');
                         if (words.length > 5) {
                           truncated.innerText = words.slice(0, 5).join(' ') + '...';
+                          description.style.display = 'none'; // Ensure full text is hidden initially
                         } else {
                           truncated.innerText = description.innerText;
                           button.style.display = 'none'; // Hide button if text is already short
@@ -251,7 +253,7 @@
                       }
 
                       button.addEventListener('click', function () {
-                        if (description.style.display === 'none') {
+                        if (description.style.display === 'none' || description.style.display === '') {
                           description.style.display = 'inline';
                           truncated.style.display = 'none';
                           button.innerText = 'Read Less';

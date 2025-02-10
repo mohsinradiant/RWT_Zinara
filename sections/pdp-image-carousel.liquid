@@ -84,20 +84,20 @@
     const images = carousel.querySelectorAll('img');
 
     let currentIndex = 0;
-    const transitionDuration = 500;
     const autoplayInterval = 3000; // 3 seconds
 
     function updateCarousel() {
       const containerWidth = carouselContainer.offsetWidth;
-      carousel.style.transition = `transform ${transitionDuration}ms ease-in-out`;
-      carousel.style.transform = `translateX(-${(currentIndex * containerWidth) / 2}px)`;
-
-      setTimeout(setActiveImages, transitionDuration);
+      gsap.to(carousel, {
+        duration: 0.5,
+        ease: 'power2.out',
+        x: -((currentIndex * containerWidth) / 2),
+        onComplete: setActiveImages,
+      });
     }
 
     function setActiveImages() {
       const containerRect = carouselContainer.getBoundingClientRect();
-
       images.forEach((img) => {
         const imgRect = img.getBoundingClientRect();
         if (imgRect.left >= containerRect.left && imgRect.right <= containerRect.right) {
@@ -129,8 +129,7 @@
     });
 
     window.addEventListener('resize', () => {
-      carousel.style.transition = 'none';
-      updateCarousel();
+      gsap.set(carousel, { x: -((currentIndex * carouselContainer.offsetWidth) / 2) });
     });
 
     setActiveImages();

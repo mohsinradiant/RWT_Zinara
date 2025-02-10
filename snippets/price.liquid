@@ -21,14 +21,14 @@
     assign target = product
   endif
 
-  assign compare_at_price = target.compare_at_price | money_without_trailing_zeros
-  assign price = target.price | default: 1999 | money_without_trailing_zeros
+  assign compare_at_price = target.compare_at_price
+  assign price = target.price | default: 1999
   assign price_min = product.price_min
   assign price_max = product.price_max
   assign available = target.available | default: false
-  assign money_price = price | money_without_trailing_zeros
-  assign money_price_min = price_min | money_without_trailing_zeros
-  assign money_price_max = price_max | money_without_trailing_zeros
+  assign money_price = price | money
+  assign money_price_min = price_min | money
+  assign money_price_max = price_max | money
   if settings.currency_code_enabled
     assign money_price = price | money_with_currency
     assign money_price_min = price_min | money_with_currency
@@ -70,7 +70,7 @@
                   {% if settings.currency_code_enabled %}
                     {{ compare_at_price | money_with_currency }}
                   {% else %}
-                    {{ compare_at_price | money_without_trailing_zeros }}
+                    {{ compare_at_price | money }}
                   {% endif %}
                 </s>
               </span>
@@ -81,7 +81,6 @@
             {{-
               'products.product.volume_pricing.price_range'
               | t: minimum: money_price_min, maximum: money_price_max
-              | money_without_trailing_zeros
             -}}
           </span>
         {%- else -%}
@@ -97,9 +96,9 @@
           <span>
             <s class="price-item price-item--regular">
               {% if settings.currency_code_enabled %}
-                {{ compare_at_price | money_without_trailing_zeros }}
+                {{ compare_at_price | money_with_currency }}
               {% else %}
-                {{ compare_at_price | money_without_trailing_zeros }}
+                {{ compare_at_price | money }}
               {% endif %}
             </s>
           </span>

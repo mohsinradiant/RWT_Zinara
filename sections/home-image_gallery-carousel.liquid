@@ -75,7 +75,47 @@
     right: 40px;
   }
 </style>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const carousel = document.querySelector('.images-parent-div');
+    const images = document.querySelectorAll('.images-parent-div img');
+    const imageWidth = images[0].offsetWidth;
+    const totalImages = images.length;
+    const scrollAmount = imageWidth + 10; // Adjust if needed for spacing
+    let currentIndex = 0;
 
+    function updateActiveImage() {
+      images.forEach((img) => img.classList.remove('active'));
+      const carouselRect = carousel.getBoundingClientRect();
+
+      images.forEach((img) => {
+        const imgRect = img.getBoundingClientRect();
+        if (imgRect.left >= carouselRect.left && imgRect.right <= carouselRect.right) {
+          img.classList.add('active');
+        }
+      });
+    }
+
+    function autoScroll() {
+      gsap.to(carousel, {
+        x: `-=${scrollAmount}`,
+        duration: 1.5,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          currentIndex++;
+          if (currentIndex >= totalImages) {
+            gsap.set(carousel, { x: 0 });
+            currentIndex = 0;
+          }
+          updateActiveImage();
+          autoScroll();
+        },
+      });
+    }
+
+    autoScroll();
+  });
+</script>
 {% schema %}
 {
   "name": "Image Gallery Carousel",

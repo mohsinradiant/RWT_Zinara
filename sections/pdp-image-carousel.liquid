@@ -79,16 +79,16 @@
   document.addEventListener('DOMContentLoaded', () => {
     const carouselContainer = document.querySelector('.image-carousel');
     const carousel = document.querySelector('.images-parent-div');
+    const images = carousel.querySelectorAll('img');
     const leftArrow = document.querySelector('.left-arrow');
     const rightArrow = document.querySelector('.right-arrow');
-    const images = carousel.querySelectorAll('img');
 
     let currentIndex = 0;
     const autoplayInterval = 3000; // 3 seconds
 
     function updateCarousel() {
       const containerWidth = carouselContainer.offsetWidth;
-      gsap.to(carousel, {
+      gsap.to(images, {
         duration: 0.5,
         ease: 'power2.out',
         x: -((currentIndex * containerWidth) / 2),
@@ -129,7 +129,7 @@
     });
 
     window.addEventListener('resize', () => {
-      gsap.set(carousel, { x: -((currentIndex * carouselContainer.offsetWidth) / 2) });
+      gsap.set(images, { x: -((currentIndex * carouselContainer.offsetWidth) / 2) });
     });
 
     setActiveImages();

@@ -81,6 +81,7 @@
             {{-
               'products.product.volume_pricing.price_range'
               | t: minimum: money_price_min, maximum: money_price_max
+              | money_without_trailing_zeros
             -}}
           </span>
         {%- else -%}

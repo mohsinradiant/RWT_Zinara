@@ -76,46 +76,79 @@
   }
 </style>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const carousel = document.querySelector('.images-parent-div');
-    const images = document.querySelectorAll('.images-parent-div img');
-    const imageWidth = images[0].offsetWidth;
-    const totalImages = images.length;
-    const scrollAmount = imageWidth + 10; // Adjust if needed for spacing
+  document.addEventListener("DOMContentLoaded", function () {
+    const carousel = document.querySelector(".images-parent-div");
+    const images = document.querySelectorAll(".images-parent-div img");
+    const leftArrow = document.querySelector(".left-arrow");
+    const rightArrow = document.querySelector(".right-arrow");
+
     let currentIndex = 0;
-
+    const imageWidth = images[0].offsetWidth; // Get the width of an image
+    const totalImages = images.length;
+    const scrollAmount = imageWidth + 10; // Adjust for any spacing
+    let autoScrollInterval;
+    
+    // Function to update the 'active' class on visible images
     function updateActiveImage() {
-      images.forEach((img) => img.classList.remove('active'));
+      images.forEach((img) => img.classList.remove("active"));
+      
       const carouselRect = carousel.getBoundingClientRect();
-
       images.forEach((img) => {
         const imgRect = img.getBoundingClientRect();
-        if (imgRect.left >= carouselRect.left && imgRect.right <= carouselRect.right) {
-          img.classList.add('active');
+        if (
+          imgRect.left >= carouselRect.left &&
+          imgRect.right <= carouselRect.right
+        ) {
+          img.classList.add("active");
         }
       });
     }
 
-    function autoScroll() {
+    // Function to move the carousel
+    function moveCarousel(direction) {
+      if (direction === "next") {
+        currentIndex = (currentIndex + 1) % totalImages;
+      } else {
+        currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+      }
+
       gsap.to(carousel, {
-        x: `-=${scrollAmount}`,
-        duration: 1.5,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          currentIndex++;
-          if (currentIndex >= totalImages) {
-            gsap.set(carousel, { x: 0 });
-            currentIndex = 0;
-          }
-          updateActiveImage();
-          autoScroll();
-        },
+        x: `-${currentIndex * scrollAmount}px`,
+        duration: 1,
+        ease: "power2.inOut",
+        onComplete: updateActiveImage,
       });
     }
 
-    autoScroll();
+    // Auto-scroll function
+    function startAutoScroll() {
+      stopAutoScroll(); // Prevent duplicate intervals
+      autoScrollInterval = setInterval(() => moveCarousel("next"), 3000);
+    }
+
+    // Stop auto-scroll
+    function stopAutoScroll() {
+      clearInterval(autoScrollInterval);
+    }
+
+    // Arrow button click events
+    rightArrow.addEventListener("click", function () {
+      stopAutoScroll();
+      moveCarousel("next");
+      startAutoScroll();
+    });
+
+    leftArrow.addEventListener("click", function () {
+      stopAutoScroll();
+      moveCarousel("prev");
+      startAutoScroll();
+    });
+
+    // Start the auto-scroll
+    startAutoScroll();
   });
 </script>
+
 {% schema %}
 {
   "name": "Image Gallery Carousel",

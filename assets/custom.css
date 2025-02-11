@@ -880,7 +880,12 @@ body.no-scroll {
     .home-try-at-home-section-left p {
         font-size: 1.2rem;
         color: #000;
+        width: 100%;
         line-height: 1.5rem;
+    }
+
+    .home-try-at-home-section-right img {
+        border-radius: 35px 0 35px 0;
     }
 
     .home-try-at-home-section-left div {
@@ -1172,5 +1177,9 @@ body.no-scroll {
         justify-content: space-between;
         align-items: start;
         flex-wrap: wrap;
+    }
+
+    .product-features-badges-container {
+        gap: 13px;
     }
 }

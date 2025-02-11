@@ -88,12 +88,14 @@
   .pdp-product-recommendations-ul {
     margin-bottom: 0 !important;
   }
-  .pdp-product-recommendations-ul .grid__item:nth-child(n + 4) {
-    opacity: 0;
-    visibility: hidden;
-    max-height: 0;
-    overflow: hidden;
-    transition: opacity 0.3s ease, max-height 0.3s ease, visibility 0.3s;
+  @media (min-width: 756px) {
+    .pdp-product-recommendations-ul .grid__item:nth-child(n + 4) {
+      opacity: 0;
+      visibility: hidden;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.3s ease, max-height 0.3s ease, visibility 0.3s;
+    }
   }
 
   .pdp-product-recommendations-ul.expanded .grid__item:nth-child(n + 4) {
@@ -142,10 +144,29 @@
     opacity: 1 !important;
     transition: all ease-in 0.3s !important;
   }
+  @media (max-width: 756px) {
+    .pdp-product-recommendations-ul {
+      flex-wrap: nowrap;
+      flex-direction: row;
+      width: 100%;
+      overflow-x: auto;
+    }
+    .pdp-product-recommendations-ul li {
+      width: 50vw !important;
+    }
+    .gradient .related-products .view-more-btn {
+      display: none;
+    }
+  }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    if (window.innerWidth < 756) {
+      console.log('Screen width is less than 756px, script will not execute.');
+      return; // Stop script execution
+    }
+
     let maxAttempts = 60; // 6 seconds (60 attempts * 100ms)
     let attempts = 0;
 

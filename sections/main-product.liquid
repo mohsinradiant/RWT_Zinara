@@ -106,7 +106,11 @@
                   </a>
                 </div>
               {%- when 'price' -%}
-                <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
+                <div
+                  id="product__info-container-price-container price-{{ section.id }}"
+                  role="status"
+                  {{ block.shopify_attributes }}
+                >
                   {%- render 'price',
                     product: product,
                     use_variant: true,
@@ -222,7 +226,8 @@
                       .product__info-container .product__title {
                         order: 1;
                       }
-                      .product__info-container .product__info-container .product__description {
+
+                      .product__info-container .product__description {
                         width: fit-content;
                       }
                       .toggle-btn-desc {

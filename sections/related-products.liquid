@@ -157,6 +157,11 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    if (window.innerWidth < 756) {
+      console.log('Screen width is less than 756px, script will not execute.');
+      return; // Stop script execution
+    }
+
     let maxAttempts = 60; // 6 seconds (60 attempts * 100ms)
     let attempts = 0;
 

@@ -994,7 +994,14 @@
     </script>
   </div>
 </product-info>
-
+<div class="sticky-atc-container">
+  {%- render 'buy-buttons',
+    product: product,
+    product_form_id: product_form_id,
+    section_id: section.id,
+    show_pickup_availability: true
+  -%}
+</div>
 {% schema %}
 {
   "name": "t:sections.main-product.name",

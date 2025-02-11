@@ -1173,4 +1173,7 @@ body.no-scroll {
         align-items: start;
         flex-wrap: wrap;
     }
+    .product-features-badges-container{
+        gap: 13px;
+    }
 }

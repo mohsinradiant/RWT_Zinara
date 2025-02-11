@@ -216,9 +216,13 @@
                     }
                     @media (max-width: 756px) {
                       .product__info-container {
+                        display: flex;
+                        flex-direction: column;
                       }
-
-                      .product__info-container .product__description {
+                      .product__info-container .product__title {
+                        order: 1;
+                      }
+                      .product__info-container .product__info-container .product__description {
                         width: fit-content;
                       }
                       .toggle-btn-desc {

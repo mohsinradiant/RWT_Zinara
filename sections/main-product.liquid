@@ -84,14 +84,6 @@
           class="product__info-container{% if section.settings.enable_sticky_info %} product__column-sticky{% endif %}"
         >
           {%- assign product_form_id = 'product-form-' | append: section.id -%}
-          <div class="sticky-atc-container">
-            {%- render 'buy-buttons',
-              product: product,
-              product_form_id: product_form_id,
-              section_id: section.id,
-              show_pickup_availability: true
-            -%}
-          </div>
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when '@app' -%}

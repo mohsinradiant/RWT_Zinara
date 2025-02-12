@@ -23,7 +23,9 @@
 .customer form {
   margin-top: 4rem;
 }
-
+.customer a{
+  border: #610c27 solid 1px;
+}
 :is(.account, .order) p {
   font-weight: 500;
   font-family: Quicksand, sans-serif;

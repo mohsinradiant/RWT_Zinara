@@ -15,7 +15,8 @@
 .customer>h1,
 .customer__title {
   margin-top: 0;
-  font-family: Quicksand, sans-serif;
+  font-family: "Quicksand", serif;
+  ;
   font-weight: 400;
   letter-spacing: 0;
 }
@@ -28,7 +29,8 @@
   border: #610c27 solid 1px;
   color: #610c27;
   padding: 10px 30px;
-  font-family: 'Quicksand';
+  font-family: "Quicksand", serif;
+  ;
   text-decoration: none;
   display: flex;
   justify-content: center;
@@ -38,7 +40,8 @@
 
 :is(.account, .order) p {
   font-weight: 500;
-  font-family: Quicksand, sans-serif;
+  font-family: "Quicksand", serif;
+  ;
   letter-spacing: 0;
   line-height: 2.3rem;
 }

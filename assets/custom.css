@@ -43,8 +43,8 @@ slideshow-component .slideshow {
 
 .slider-counter__link--active.slider-counter__link--dots .dot {
     background-color: #fff !important;
-    width:28px;
-    border-radius:100px
+    width: 28px;
+    border-radius: 100px
 }
 
 .slider-counter__link--dots .dot {
@@ -750,9 +750,11 @@ body.no-scroll {
         display: flex;
         margin-top: -40px;
     }
-.facets-vertical-form facet-filters{
-    scale: .8;
-}
+
+    .facets-vertical-form facet-filters {
+        scale: .8;
+    }
+
     slideshow-component .slideshow__controls .slider-button {
         display: none;
     }

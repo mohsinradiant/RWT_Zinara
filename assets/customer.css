@@ -16,7 +16,8 @@
 .customer__title {
   margin-top: 0;
   font-family: 'Quicksand', sans-serif;
-  font-weight:400;
+  font-weight: 400;
+  letter-spacing: 0;
 }
 
 .customer form {

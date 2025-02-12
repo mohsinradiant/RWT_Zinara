@@ -749,6 +749,10 @@ body.no-scroll {
         margin-top: -40px;
     }
 
+    slideshow-component .slideshow__controls .slider-button {
+        display: none;
+    }
+
     .home-try-at-home-section-container {
         padding: 15px 0 !important;
     }

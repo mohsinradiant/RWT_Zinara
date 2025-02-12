@@ -776,6 +776,7 @@ body.no-scroll {
     .product-grid-container facet-filters-form form .facet-filters {
         padding: 0 !important;
         width: 30%;
+        scale: .8;
     }
 
     .mobile-facets__wrapper,
@@ -813,7 +814,7 @@ body.no-scroll {
     .facets-wrapper {
         width: 100%;
         position: absolute;
-        top: 460px;
+        top: 430px;
         left: 15px;
     }
 

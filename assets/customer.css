@@ -23,7 +23,9 @@
 .customer form {
   margin-top: 4rem;
 }
-
+:is(.account,.order) p{
+  font-weight: 500;
+}
 .customer button {
   margin: 4rem 0 1.5rem;
   padding: 12px 58px;

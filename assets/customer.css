@@ -23,9 +23,18 @@
 .customer form {
   margin-top: 4rem;
 }
-.customer a{
+
+.customer a {
   border: #610c27 solid 1px;
+  padding: 10px 30px;
+  font-family: 'Quicksand';
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
 }
+
 :is(.account, .order) p {
   font-weight: 500;
   font-family: Quicksand, sans-serif;

@@ -742,6 +742,9 @@ body.no-scroll {
 }
 
 @media (max-width: 756px) {
+    .home-try-at-home-section-container {
+        padding: 10px 0 !important;
+    }
     .product-grid-container facet-filters-form {
         display: flex !important;
     }

@@ -751,10 +751,6 @@ body.no-scroll {
         margin-top: -40px;
     }
 
-    .facets-vertical-form facet-filters {
-        scale: .8;
-    }
-
     slideshow-component .slideshow__controls .slider-button {
         display: none;
     }
@@ -780,6 +776,7 @@ body.no-scroll {
     .product-grid-container facet-filters-form form .facet-filters {
         padding: 0 !important;
         width: 30%;
+        scale: .8;
     }
 
     .mobile-facets__wrapper,

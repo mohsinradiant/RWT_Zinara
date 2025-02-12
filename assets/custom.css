@@ -1068,7 +1068,7 @@ body.no-scroll {
     }
 
     .image-container img {
-        border-radius: 9px;
+        border-radius: 10px !important;
     }
 
     #shopify-section-template--24203645747384__home_benefits_e9Pe77,

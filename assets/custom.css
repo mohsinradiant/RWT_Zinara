@@ -43,6 +43,8 @@ slideshow-component .slideshow {
 
 .slider-counter__link--active.slider-counter__link--dots .dot {
     background-color: #fff !important;
+    width:35px;
+    border-radius:100px
 }
 
 .slider-counter__link--dots .dot {

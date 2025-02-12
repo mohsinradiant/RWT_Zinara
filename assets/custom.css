@@ -445,6 +445,9 @@ sticky-header .header__search {
 
 .home-try-at-home-section-right {
     width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .home-try-at-home-section-right img {
@@ -745,6 +748,7 @@ body.no-scroll {
     .home-try-at-home-section-container {
         padding: 15px 0 !important;
     }
+
     .product-grid-container facet-filters-form {
         display: flex !important;
     }

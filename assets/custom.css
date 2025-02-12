@@ -157,7 +157,6 @@ slideshow-component .slideshow {
     margin: 0;
     line-height: 3rem;
     width: 80%;
-    font-weight: 600;
 }
 
 /* Dropdown styling */
@@ -888,7 +887,8 @@ body.no-scroll {
         font-size: 1.2rem;
         color: #000;
         width: 100%;
-        line-height: 1.5rem;
+    font-weight: 600;
+    line-height: 1.5rem;
     }
 
     .home-try-at-home-section-right img {

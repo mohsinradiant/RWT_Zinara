@@ -27,6 +27,7 @@
 :is(.account, .order) p {
   font-weight: 500;
   font-family: Quicksand, sans-serif;
+  letter-spacing: 0;
 }
 
 .customer button {

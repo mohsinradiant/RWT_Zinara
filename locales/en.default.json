@@ -196,7 +196,7 @@
       "apply": "Apply",
       "clear": "Clear",
       "clear_all": "Remove all",
-      "from": "From",
+      "from": "",
       "filter_and_sort": "Filter and sort",
       "filter_by_label": "Filter:",
       "filter_button": "Filter",

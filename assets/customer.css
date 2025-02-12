@@ -39,7 +39,7 @@
 }
 
 :is(.account, .order) p {
-  font-weight: 500;
+  font-weight: 600;
   font-family: "Quicksand", serif;
   ;
   letter-spacing: 0;

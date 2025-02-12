@@ -26,15 +26,18 @@
       <br>
       {{ address_parts[3] }}
     </p>
-
-    <a href="{{ routes.account_addresses_url }}">
-      {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
-    </a>
+    {% comment %}
+      <a href="{{ routes.account_addresses_url }}">
+        {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
+      </a>
+    {% endcomment %}
 
     <a href="{{ routes.account_logout_url }}">
-      <span class="svg-wrapper">
-        {{- 'icon-account.svg' | inline_asset_content -}}
-      </span>
+      {% comment %}
+        <span class="svg-wrapper">
+          {{- 'icon-account.svg' | inline_asset_content -}}
+        </span>
+      {% endcomment %}
       {{ 'customer.log_out' | t }}
     </a>
   </div>

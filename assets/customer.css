@@ -15,7 +15,7 @@
 .customer>h1,
 .customer__title {
   margin-top: 0;
-  font-family: 'Quicksand', sans-serif;
+  font-family: Quicksand, sans-serif;
   font-weight: 400;
   letter-spacing: 0;
 }
@@ -23,10 +23,12 @@
 .customer form {
   margin-top: 4rem;
 }
-:is(.account,.order) p{
+
+:is(.account, .order) p {
   font-weight: 500;
-  font-family: 'Quicksand';
+  font-family: Quicksand, sans-serif;
 }
+
 .customer button {
   margin: 4rem 0 1.5rem;
   padding: 12px 58px;

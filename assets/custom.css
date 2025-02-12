@@ -43,7 +43,7 @@ slideshow-component .slideshow {
 
 .slider-counter__link--active.slider-counter__link--dots .dot {
     background-color: #fff !important;
-    width:35px;
+    width:28px;
     border-radius:100px
 }
 
@@ -769,6 +769,7 @@ body.no-scroll {
     }
 
     .product-grid-container facet-filters-form form h1 {
+        font-weight: 500;
         margin: 0 !important;
     }
 

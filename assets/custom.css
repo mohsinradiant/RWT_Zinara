@@ -829,7 +829,6 @@ body.no-scroll {
     #FacetsWrapperDesktop details {
         background: #F4EEEB;
         padding: 10px 15px;
-        border-radius: 15px;
         z-index: 999;
         height: fit-content;
         color: #610C27;

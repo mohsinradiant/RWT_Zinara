@@ -744,6 +744,10 @@ body.no-scroll {
 }
 
 @media (max-width: 756px) {
+    slideshow-component .slideshow__controls .slider-counter {
+        display: flex
+    }
+
     .home-try-at-home-section-container {
         padding: 15px 0 !important;
     }
@@ -887,8 +891,8 @@ body.no-scroll {
         font-size: 1.2rem;
         color: #000;
         width: 100%;
-    font-weight: 600;
-    line-height: 1.5rem;
+        font-weight: 600;
+        line-height: 1.5rem;
     }
 
     .home-try-at-home-section-right img {

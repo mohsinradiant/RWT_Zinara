@@ -745,7 +745,8 @@ body.no-scroll {
 
 @media (max-width: 756px) {
     slideshow-component .slideshow__controls .slider-counter {
-        display: flex
+        display: flex;
+        margin-top: -40px;
     }
 
     .home-try-at-home-section-container {

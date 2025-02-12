@@ -26,6 +26,7 @@
 
 .customer a {
   border: #610c27 solid 1px;
+  color: #610c27;
   padding: 10px 30px;
   font-family: 'Quicksand';
   text-decoration: none;

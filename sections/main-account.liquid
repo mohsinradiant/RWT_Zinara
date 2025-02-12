@@ -17,7 +17,15 @@
 <div class="customer account section-{{ section.id }}-padding">
   <div>
     <h1 class="customer__title">{{ 'customer.account.title' | t }} Details</h1>
-    {{ customer.default_address | format_address }}
+    {% assign address_parts = customer.default_address | format_address | split: '<br>' %}
+    <p>
+      <strong>{{ address_parts[0] }}</strong><br>
+      {{ address_parts[1] -}}
+      <br>
+      {{ address_parts[2] -}}
+      <br>
+      {{ address_parts[3] }}
+    </p>
 
     <a href="{{ routes.account_addresses_url }}">
       {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})

@@ -90,8 +90,15 @@
 
     function updateCarousel() {
       const containerWidth = carouselContainer.offsetWidth;
+      let scrollAmount = (currentIndex * containerWidth) / 2;
+
+      // Add extra 13px scroll for devices with width < 756px
+      if (window.innerWidth < 756) {
+        scrollAmount += 13;
+      }
+
       carousel.style.transition = `transform ${transitionDuration}ms ease-in-out`;
-      carousel.style.transform = `translateX(-${(currentIndex * containerWidth) / 2}px)`;
+      carousel.style.transform = `translateX(-${scrollAmount}px)`;
 
       setTimeout(setActiveImages, transitionDuration);
     }

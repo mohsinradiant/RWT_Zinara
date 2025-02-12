@@ -125,8 +125,14 @@
     const totalTestimonials = testimonials.length;
 
     function updateCarousel() {
-      const testimonialWidth =
-        testimonials[0].offsetWidth + parseInt(window.getComputedStyle(testimonials[0]).marginRight);
+      const testimonialStyle = window.getComputedStyle(testimonials[0]);
+      let testimonialWidth =
+        testimonials[0].offsetWidth + parseInt(testimonialStyle.marginRight) + parseInt(testimonialStyle.marginLeft);
+
+      // Add extra 20px scroll for devices with width < 756px
+      if (window.innerWidth < 756) {
+        testimonialWidth += 13;
+      }
 
       testimonialCarousel.style.transition = `transform ${transitionDuration}ms ease-in-out`;
       testimonialCarousel.style.transform = `translateX(-${currentIndex * testimonialWidth}px)`;

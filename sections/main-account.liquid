@@ -1,5 +1,11 @@
 {{ 'customer.css' | asset_url | stylesheet_tag }}
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+  rel="stylesheet"
+>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -16,11 +22,28 @@
 
 <div class="customer account section-{{ section.id }}-padding">
   <div>
-    <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
+    <h1 class="customer__title">{{ 'customer.account.title' | t }} Details</h1>
+    {% assign address_parts = customer.default_address | format_address | split: '<br>' %}
+    <p>
+      <strong>{{ address_parts[0] }}</strong><br>
+      {{ address_parts[1] -}}
+      <br>
+      {{ address_parts[2] -}}
+      <br>
+      {{ address_parts[3] }}
+    </p>
+    {% comment %}
+      <a href="{{ routes.account_addresses_url }}">
+        {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
+      </a>
+    {% endcomment %}
+
     <a href="{{ routes.account_logout_url }}">
-      <span class="svg-wrapper">
-        {{- 'icon-account.svg' | inline_asset_content -}}
-      </span>
+      {% comment %}
+        <span class="svg-wrapper">
+          {{- 'icon-account.svg' | inline_asset_content -}}
+        </span>
+      {% endcomment %}
       {{ 'customer.log_out' | t }}
     </a>
   </div>

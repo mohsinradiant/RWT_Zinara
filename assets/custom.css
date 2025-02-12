@@ -734,7 +734,12 @@ body.no-scroll {
 .expected-delivery-date span {
     font-weight: 600;
 }
-
+.product-card-wrapper .card__content .full-unstyled-link {
+    font-size: 1.6rem;
+    font-weight: 400;
+    font-family: 'Quicksand';
+    letter-spacing: 0;
+}
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;
@@ -806,12 +811,7 @@ body.no-scroll {
         font-size: 1.4rem !important;
     }
 
-    .product-card-wrapper .card__content .full-unstyled-link {
-        font-size: 1.6rem;
-        font-weight: 400;
-        font-family: 'Quicksand';
-        letter-spacing: 0;
-    }
+
 
     .active-facets__button {
         padding: 0 !important;

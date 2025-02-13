@@ -856,6 +856,10 @@ body.no-scroll {
     font-size: 1.5rem;
 }
 
+.mobile_collection-sort {
+    display: none;
+}
+
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;
@@ -867,6 +871,10 @@ body.no-scroll {
 }
 
 @media (max-width: 756px) {
+    .mobile_collection-sort {
+        display: flex;
+    }
+
     slideshow-component .slideshow__controls .slider-counter {
         display: flex;
         margin-top: -40px;

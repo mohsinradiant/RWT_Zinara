@@ -1,7 +1,7 @@
 <div class="product-page-details-container">
   <h2 class="page-width section-heading">{{ section.settings.heading }}</h2>
   <div class="page-width product-page-details-parent">
-    <div class="product-page-details-parent-child">
+    <div class="product-page-details-parent-child product-page-details-parent-child_1">
       {% for list_1 in product.metafields.content.product_details_list_1.value %}
         <div class="product-page-details-list-container">
           <p class="product-page-details-list_heading">{{ list_1.heading }}</p>
@@ -14,7 +14,7 @@
         </div>
       {% endfor %}
     </div>
-    <div class="product-page-details-parent-child">
+    <div class="product-page-details-parent-child product-page-details-parent-child_2">
       {% for list in product.metafields.content.product_details_list.value %}
         <div class="product-page-details-list-container">
           <p class="product-page-details-list_heading">{{ list.heading }}</p>
@@ -31,6 +31,12 @@
 </div>
 
 <style>
+  .product-page-details-parent-child_1 {
+    width: 33%;
+  }
+  .product-page-details-parent-child_2 {
+    width: 67%;
+  }
   .product-page-details-container .section-heading {
     margin-top: 40px !important;
     margin-bottom: 20px !important;

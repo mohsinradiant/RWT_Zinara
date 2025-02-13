@@ -750,7 +750,7 @@ body.no-scroll {
     z-index: 9;
 }
 
-.product--thumbnail_slider .slider-buttons button {
+.product--thumbnail_slider .slider-buttons .slider-button--prev {
     display: none !important;
 }
 

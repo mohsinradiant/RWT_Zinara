@@ -1083,9 +1083,6 @@ body.no-scroll {
     sticky-header .header__search {
         display: block;
         padding: 0 20px 10px;
-    }
-
-    sticky-header .header__search {
         width: fit-content !important;
     }
 

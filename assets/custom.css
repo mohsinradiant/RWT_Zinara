@@ -755,6 +755,11 @@ body.no-scroll {
     display: none !important;
 }
 
+.product__info-container-price-container .price--on-sale .price__sale {
+    flex-direction: row-reverse;
+    display: flex;
+}
+
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;

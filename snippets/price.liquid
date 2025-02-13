@@ -77,9 +77,9 @@
               <span>
                 <s class="price-item price-item--regular variant-item__old-price">
                   {% if settings.currency_code_enabled %}
-                    {{ money_compare_at_price | replace: ',', '' }}
+                    {{ money_compare_at_price }}
                   {% else %}
-                    {{ money_compare_at_price | replace: ',', '' }}
+                    {{ money_compare_at_price }}
                   {% endif %}
                 </s>
               </span>

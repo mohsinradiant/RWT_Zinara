@@ -1080,6 +1080,10 @@ body.no-scroll {
         display: none;
     }
 
+    .header__search {
+        display: flex;
+    }
+
     header .header__search {
         display: block;
         width: fit-content !important;

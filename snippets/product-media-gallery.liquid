@@ -138,10 +138,12 @@
       </button>
 
       <div class="slider-counter slider-counter--{{ section.settings.slider_visual }}">
-        <span class="slider-counter--current">1</span>
-        <span aria-hidden="true"> / </span>
-        <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
-        <span class="slider-counter--total">{{ media_count }}</span>
+        <div style="visibility: hidden;">
+          <span class="slider-counter--current">1</span>
+          <span aria-hidden="true"> / </span>
+          <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+          <span class="slider-counter--total">{{ media_count }}</span>
+        </div>
         <div class="slideshow__control-wrapper">
           {% for i in (1..media_count) %}
             <button

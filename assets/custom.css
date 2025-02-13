@@ -75,6 +75,7 @@ slideshow-component .slideshow {
 
 .header__search {
     width: 100% !important;
+    display: none;
 }
 
 .header__search details {

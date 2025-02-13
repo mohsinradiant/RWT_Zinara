@@ -42,8 +42,11 @@ slideshow-component .slideshow {
 }
 
 .slider-counter__link--active.slider-counter__link--dots .dot {
-    background-color: #fff !important;
     width: 28px;
+}
+
+.slider-counter__link--dots .dot {
+    background-color: #fff !important;
     border-radius: 100px
 }
 
@@ -744,7 +747,7 @@ body.no-scroll {
 
 .product--thumbnail_slider .slider-buttons {
     position: absolute;
-    bottom: 0;
+    bottom: 10px;
     left: 0;
     right: 0;
     z-index: 9;

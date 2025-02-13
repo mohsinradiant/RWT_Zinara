@@ -1075,10 +1075,10 @@ body.no-scroll {
         padding: 0 !important;
     }
 
-    .header__icon--search *:not(svg):not(.svg-wrapper) {
+    .header__icon--search > span:not(:has(.svg-wrapper)) {
         display: none;
-    }
-
+      }
+      
 
     sticky-header .header__search {
         display: block;

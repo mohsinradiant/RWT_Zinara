@@ -48,8 +48,6 @@
     assign money_price = 'products.product.price.from_price_html' | t: price: money_price
   endif
 -%}
-Debug: {{ money_compare_at_price }}
-
 {%- unless target == null and placeholder == null -%}
   <div
     class="
@@ -76,7 +74,7 @@ Debug: {{ money_compare_at_price }}
                 {{- 'products.product.price.regular_price' | t -}}
               </span>
               <span>
-                <s class="price-item price-item--regular variant-item__old-price">
+                <s class="price-item price-item--regular">
                   {{ money_compare_at_price }}
                 </s>
               </span>

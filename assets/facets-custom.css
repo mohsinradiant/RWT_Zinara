@@ -2,12 +2,16 @@
     display: flex;
     gap: 4px;
     align-items: center;
+    background: #f2eeeb;
+    padding: 5px 7px;
 }
-.mobile-filter-row-item img{
+
+.mobile-filter-row-item img {
     width: 25px;
     height: auto;
 }
-.mobile-filter-row-item p{
+
+.mobile-filter-row-item p {
     color: #610C27;
     text-wrap: nowrap !important;
     font-size: 1.4rem;

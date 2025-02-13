@@ -171,8 +171,11 @@
     </div>
     <style>
       .slider-counter__link--dots.active .dot {
-        background-color: #fff !important;
         width: 28px;
+      }
+
+      .slider-counter__link--dots .dot {
+        background-color: #fff !important;
         border-radius: 100px;
       }
     </style>
@@ -191,6 +194,9 @@
         function goToSlide(index) {
           if (!slides[index]) return;
 
+          // Prevent unnecessary updates
+          if (currentIndex === index) return;
+
           slides.forEach((slide) => slide.classList.remove('is-active'));
           slides[index].classList.add('is-active');
 
@@ -199,29 +205,28 @@
 
           prevButton.disabled = index === 0;
           nextButton.disabled = index === slides.length - 1;
+
+          currentIndex = index;
         }
 
         // Handle dot clicks
         dots.forEach((dot, index) => {
           dot.addEventListener('click', function () {
-            currentIndex = index;
-            goToSlide(currentIndex);
+            goToSlide(index);
           });
         });
 
         // Handle next button
         nextButton?.addEventListener('click', function () {
           if (currentIndex < slides.length - 1) {
-            currentIndex++;
-            goToSlide(currentIndex);
+            goToSlide(currentIndex + 1);
           }
         });
 
         // Handle previous button
         prevButton?.addEventListener('click', function () {
           if (currentIndex > 0) {
-            currentIndex--;
-            goToSlide(currentIndex);
+            goToSlide(currentIndex - 1);
           }
         });
 
@@ -239,12 +244,14 @@
 
           if (diff > 50 && currentIndex < slides.length - 1) {
             // Swiped left → Go to next slide
-            currentIndex++;
-            goToSlide(currentIndex);
+            goToSlide(currentIndex + 1);
           } else if (diff < -50 && currentIndex > 0) {
             // Swiped right → Go to previous slide
-            currentIndex--;
-            goToSlide(currentIndex);
+            goToSlide(currentIndex - 1);
+          } else {
+            // If no valid swipe happened, reapply active class to dots
+            dots.forEach((dot) => dot.classList.remove('active'));
+            if (dots[currentIndex]) dots[currentIndex].classList.add('active');
           }
         });
 

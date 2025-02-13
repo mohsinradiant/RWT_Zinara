@@ -871,8 +871,12 @@ body.no-scroll {
 }
 
 @media (max-width: 756px) {
+    .facet-filters__field h2 {
+        display: none;
+    }
+
     .facet-filters__field .select {
-        width: max-content;
+        width: max-content !important;
     }
 
     .mobile_collection-sort {

@@ -169,6 +169,25 @@
         </span>
       </button>
     </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const dots = document.querySelectorAll('.slider-counter__link--dots');
+        const slides = document.querySelectorAll('.your-slide-class'); // Adjust the selector
+
+        function updateDots(index) {
+          dots.forEach((dot) => dot.classList.remove('active'));
+          dots[index].classList.add('active');
+        }
+
+        // Example function to update dot on slide change
+        slides.forEach((slide, index) => {
+          slide.addEventListener('transitionend', () => updateDots(index));
+        });
+
+        // Initial active state
+        updateDots(0);
+      });
+    </script>
   </slider-component>
   {%- if first_3d_model -%}
     <button

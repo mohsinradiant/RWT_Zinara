@@ -42,11 +42,8 @@ slideshow-component .slideshow {
 }
 
 .slider-counter__link--active.slider-counter__link--dots .dot {
-    width: 28px;
-}
-
-.slider-counter__link--dots .dot {
     background-color: #fff !important;
+    width: 28px;
     border-radius: 100px
 }
 

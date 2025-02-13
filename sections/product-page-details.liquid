@@ -1,20 +1,18 @@
 <div class="product-page-details-container">
   <h2 class="page-width section-heading">{{ section.settings.heading }}</h2>
-  {% if product.metafields.content.product_metal %}
-    <div class="page-width">
-      {% for list in product.metafields.content.product_details_list.value %}
-        <div class="product-page-details-list-container">
-          <p class="product-page-details-list_heading">{{ list.heading }}</p>
-          {% for list-item in list.product_details_item.value %}
-            <div class="product-page-details-list-parent">
-              <p class="product-page-details-list_title">{{ list-item.title }}</p>
-              <p class="product-page-details-list_content">{{ list-item.content }}</p>
-            </div>
-          {% endfor %}
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
+  <div class="page-width">
+    {% for list_1 in product.metafields.content.product_details_list_1.value %}
+      <div class="product-page-details-list-container">
+        <p class="product-page-details-list_heading">{{ list_1.heading }}</p>
+        {% for list-item_1 in list_1.product_details_item.value %}
+          <div class="product-page-details-list-parent">
+            <p class="product-page-details-list_title">{{ list-item_1.title }}</p>
+            <p class="product-page-details-list_content">{{ list-item_1.content }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
   <div class="page-width">
     {% for list in product.metafields.content.product_details_list.value %}
       <div class="product-page-details-list-container">

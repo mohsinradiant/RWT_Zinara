@@ -157,48 +157,50 @@
             </aside>
 
             <script>
-              // Select elements
-              const filterTrigger = document.getElementById('filter-trigger');
-              const sortTrigger = document.getElementById('sort-trigger');
-              const filterAside = document.getElementById('filter-aside');
-              const sortAside = document.getElementById('sort-aside');
-              const filterClose = document.getElementById('filter-close');
-              const sortClose = document.getElementById('sort-close');
+              document.addEventListener('DOMContentLoaded', () => {
+                // Select elements
+                const filterTrigger = document.getElementById('filter-trigger');
+                const sortTrigger = document.getElementById('sort-trigger');
+                const filterAside = document.getElementById('filter-aside');
+                const sortAside = document.getElementById('sort-aside');
+                const filterClose = document.getElementById('filter-close');
+                const sortClose = document.getElementById('sort-close');
 
-              // Create overlay
-              const overlay = document.createElement('div');
-              overlay.classList.add('filter-sort-overlay');
-              document.body.insertBefore(overlay, filterAside); // Ensure it's behind the aside
+                // Create overlay dynamically
+                const overlay = document.createElement('div');
+                overlay.classList.add('filter-sort-overlay');
+                document.body.appendChild(overlay);
 
-              // Open Filter Aside
-              filterTrigger.addEventListener('click', () => {
-                filterAside.classList.add('active');
-                overlay.classList.add('active');
-              });
+                // Open Filter Aside
+                filterTrigger.addEventListener('click', () => {
+                  filterAside.classList.add('active');
+                  overlay.classList.add('active');
+                });
 
-              // Open Sort Aside
-              sortTrigger.addEventListener('click', () => {
-                sortAside.classList.add('active');
-                overlay.classList.add('active');
-              });
+                // Open Sort Aside
+                sortTrigger.addEventListener('click', () => {
+                  sortAside.classList.add('active');
+                  overlay.classList.add('active');
+                });
 
-              // Close Filter Aside
-              filterClose.addEventListener('click', () => {
-                filterAside.classList.remove('active');
-                overlay.classList.remove('active');
-              });
+                // Close Filter Aside
+                filterClose.addEventListener('click', () => {
+                  filterAside.classList.remove('active');
+                  overlay.classList.remove('active');
+                });
 
-              // Close Sort Aside
-              sortClose.addEventListener('click', () => {
-                sortAside.classList.remove('active');
-                overlay.classList.remove('active');
-              });
+                // Close Sort Aside
+                sortClose.addEventListener('click', () => {
+                  sortAside.classList.remove('active');
+                  overlay.classList.remove('active');
+                });
 
-              // Close when clicking on overlay
-              overlay.addEventListener('click', () => {
-                filterAside.classList.remove('active');
-                sortAside.classList.remove('active');
-                overlay.classList.remove('active');
+                // Close when clicking on overlay
+                overlay.addEventListener('click', () => {
+                  filterAside.classList.remove('active');
+                  sortAside.classList.remove('active');
+                  overlay.classList.remove('active');
+                });
               });
             </script>
             <div class="mobile_collection-sort facet-filters sorting caption">

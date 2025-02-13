@@ -249,37 +249,12 @@
           let currentIndex = getCurrentIndex();
 
           if (diff > 50 && currentIndex < slides.length - 1) {
-            // Swiped left → Go to next slide
             goToSlide(currentIndex + 1);
           } else if (diff < -50 && currentIndex > 0) {
-            // Swiped right → Go to previous slide
             goToSlide(currentIndex - 1);
           }
         });
 
-        // 👉 **Detect Most Visible Slide Using Intersection Observer**
-        const observer = new IntersectionObserver(
-          (entries) => {
-            let mostVisibleIndex = getCurrentIndex();
-            let maxVisibility = 0;
-
-            entries.forEach((entry) => {
-              if (entry.isIntersecting && entry.intersectionRatio > maxVisibility) {
-                mostVisibleIndex = Array.from(slides).indexOf(entry.target);
-                maxVisibility = entry.intersectionRatio;
-              }
-            });
-
-            if (mostVisibleIndex !== getCurrentIndex()) {
-              goToSlide(mostVisibleIndex);
-            }
-          },
-          { threshold: 0.5 } // Adjust based on how much visibility is required
-        );
-
-        slides.forEach((slide) => observer.observe(slide));
-
-        // Initialize first slide
         goToSlide(getCurrentIndex());
       });
     </script>

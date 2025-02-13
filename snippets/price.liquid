@@ -48,9 +48,7 @@
     assign money_price = 'products.product.price.from_price_html' | t: price: money_price
   endif
 -%}
-{% comment %}
-  Debug: {{ money_compare_at_price }}
-{% endcomment %}
+Debug: {{ money_compare_at_price }}
 
 {%- unless target == null and placeholder == null -%}
   <div

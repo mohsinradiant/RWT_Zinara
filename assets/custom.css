@@ -1075,14 +1075,18 @@ body.no-scroll {
         padding: 0 !important;
     }
 
-    .header__icon--search > span:not(:has(.svg-wrapper)) {
+    .header__icon--search>span:not(:has(.svg-wrapper)) {
         display: none;
-      }
-      
+    }
+
 
     sticky-header .header__search {
         display: block;
         padding: 0 20px 10px;
+    }
+
+    sticky-header .header__search {
+        width: fit-content !important;
     }
 
     .header {

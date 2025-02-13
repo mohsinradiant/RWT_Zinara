@@ -758,6 +758,7 @@ body.no-scroll {
 .product__info-container-price-container .price--on-sale .price__sale {
     flex-direction: row-reverse;
     display: flex;
+    gap: 3px;
 }
 
 @media(max-width:1000px) {

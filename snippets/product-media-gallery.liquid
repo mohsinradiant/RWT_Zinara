@@ -138,24 +138,21 @@
       </button>
 
       <div class="slider-counter slider-counter--{{ section.settings.slider_visual }}">
-        {% if section.settings.slider_visual == 'counter' %}
-          <span class="slider-counter--current">1</span>
-          <span aria-hidden="true"> / </span>
-          <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
-          <span class="slider-counter--total">{{ media_count }}</span>
-        {% else %}
-          <div class="slideshow__control-wrapper">
-            {% for i in (1..media_count) %}
-              <button
-                class="slider-counter__link slider-counter__link--dots link"
-                aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ i }} {{ 'general.slider.of' | t }} {{ media_count }}"
-                aria-controls="Slider-{{ section.id }}"
-              >
-                <span class="dot"></span>
-              </button>
-            {% endfor %}
-          </div>
-        {% endif %}
+        <span class="slider-counter--current">1</span>
+        <span aria-hidden="true"> / </span>
+        <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+        <span class="slider-counter--total">{{ media_count }}</span>
+        <div class="slideshow__control-wrapper">
+          {% for i in (1..media_count) %}
+            <button
+              class="slider-counter__link slider-counter__link--dots link"
+              aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ i }} {{ 'general.slider.of' | t }} {{ media_count }}"
+              aria-controls="Slider-{{ section.id }}"
+            >
+              <span class="dot"></span>
+            </button>
+          {% endfor %}
+        </div>
       </div>
 
       <button

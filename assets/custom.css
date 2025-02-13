@@ -264,7 +264,7 @@ slideshow-component .slideshow {
     width: 100%;
 }
 
-sticky-header .header__search {
+header .header__search {
     display: none;
 }
 

@@ -114,10 +114,19 @@
                   {%- render 'price',
                     product: product,
                     use_variant: true,
-                    show_badges: true,
+                    show_badges: false,
                     price_class: 'price--large'
                   -%}
+                  <div class="price-breakdown-container" onclick="togglePopup()">
+                    <span>Price Breakdown</span>
+                    <img
+                      src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_20.png?v=1739480382"
+                      alt="Dropdown Icon"
+                      class="price-breakdown-icon"
+                    >
+                  </div>
                 </div>
+
                 {%- if product.quantity_price_breaks_configured? -%}
                   <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
                     <span>{{ 'products.product.volume_pricing.note' | t }}</span>
@@ -260,8 +269,11 @@
                         order: 7;
                         margin: 0;
                       }
-                      .product__info-container .expected-delivery-date {
+                      .product__info-container .pincode-checker-result {
                         order: 8;
+                      }
+                      .product__info-container .expected-delivery-date {
+                        order: 9;
                         margin-bottom: 0;
                       }
                       .shopify-section .product-page-details-container .section-heading {
@@ -290,13 +302,7 @@
                       .product__info-container product-form {
                         display: none;
                       }
-                      .product-page-details-container .page-width {
-                        gap: 13px !important;
-                        overflow-x: auto;
-                      }
-                      .product-page-details-list-container {
-                        min-width: 310px;
-                      }
+
                       .section_heading_with_button .section-heading {
                         font-size: 2rem !important;
                         font-weight: 600 !important;
@@ -373,7 +379,7 @@
                     document.addEventListener('DOMContentLoaded', function () {
                       const description = document.querySelector('.full-text');
                       const truncated = document.querySelector('.truncated-text');
-                      const button = document.querySelector('.toggle-btn');
+                      const button = document.querySelector('.toggle-btn-desc');
 
                       if (window.innerWidth < 756 && description) {
                         let words = description.innerText.split(' ');
@@ -1001,6 +1007,23 @@
     </script>
   </div>
 </product-info>
+<div class="price-breakdown-overlay" id="overlay" onclick="togglePopup()"></div>
+<div class="price-breakdown-popup" id="popup">
+  <ul class="price-breakdown-list">
+    <li><span>Gold Price</span> <span>₹5526.6</span></li>
+    <li><span>Diamond Price</span> <span>₹2500</span></li>
+    <li><span>Making Cost</span> <span>₹5490</span></li>
+    <li><span>Tax</span> <span>₹405.5</span></li>
+    <li class="price-breakdown-total"><span>Total Cost</span> <span>₹13,516.60</span></li>
+  </ul>
+  <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
+</div>
+<script>
+  function togglePopup() {
+    document.querySelector('.price-breakdown-popup').classList.toggle('active');
+    document.getElementById('overlay').classList.toggle('active');
+  }
+</script>
 <div class="sticky-atc-container">
   {%- render 'buy-buttons',
     product: product,

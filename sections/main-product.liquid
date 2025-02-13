@@ -125,12 +125,6 @@
                       class="price-breakdown-icon"
                     >
                   </div>
-                  <script>
-                    function togglePopup() {
-                      document.getElementById('popup').classList.toggle('active');
-                      document.getElementById('overlay').classList.toggle('active');
-                    }
-                  </script>
                 </div>
 
                 {%- if product.quantity_price_breaks_configured? -%}
@@ -1024,6 +1018,12 @@
   </ul>
   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
 </div>
+<script>
+  function togglePopup() {
+    document.getElementById('popup').classList.toggle('active');
+    document.getElementById('overlay').classList.toggle('active');
+  }
+</script>
 <div class="sticky-atc-container">
   {%- render 'buy-buttons',
     product: product,

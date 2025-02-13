@@ -875,12 +875,18 @@ body.no-scroll {
         display: none;
     }
 
+    #FacetsWrapperDesktop {
+        z-index: 999;
+    }
+
     .facet-filters__field .select {
         width: max-content !important;
     }
-    .facet-filters{
+
+    .facet-filters {
         padding-left: 0 !important;
     }
+
     .mobile_collection-sort {
         display: flex !important;
     }

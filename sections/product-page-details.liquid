@@ -2,7 +2,7 @@
   <h2 class="page-width section-heading">{{ section.settings.heading }}</h2>
   {% if product.metafields.content.product_metal %}
     <div class="page-width">
-      {% for list in product.metafields.content.product_details_list_1.value %}
+      {% for list in product.metafields.content.product_details_list.value %}
         <div class="product-page-details-list-container">
           <p class="product-page-details-list_heading">{{ list.heading }}</p>
           {% for list-item in list.product_details_item.value %}

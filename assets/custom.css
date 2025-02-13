@@ -878,7 +878,9 @@ body.no-scroll {
     .facet-filters__field .select {
         width: max-content !important;
     }
-
+    .facet-filters{
+        padding-left: 0 !important;
+    }
     .mobile_collection-sort {
         display: flex !important;
     }

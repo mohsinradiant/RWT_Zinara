@@ -124,14 +124,81 @@
             {% endcomment %}
             <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
             {% comment %} Filters for both horizontal and vertical filter {% endcomment %}
-            <div class="mobile-filter-row-item">
-              <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Filter.png?v=1739489350">
+            <div
+              class="mobile-filter-row-item mobile-filter-row-item-filter"
+              id="filter-trigger"
+            >
+              <img
+                src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Filter.png?v=1739489350"
+                alt="Filter"
+              >
               <p>Filter</p>
             </div>
-            <div class="mobile-filter-row-item">
-              <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Sorting_Arrows_1.png?v=1739489349">
+            <div
+              class="mobile-filter-row-item mobile-filter-row-item-sort"
+              id="sort-trigger"
+            >
+              <img
+                src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Sorting_Arrows_1.png?v=1739489349"
+                alt="Sort"
+              >
               <p>Sort</p>
             </div>
+            <aside class="filter-aside-container" id="filter-aside">
+              <button class="filter-aside-close-btn" id="filter-close">×</button>
+              <h2 class="filter-aside-heading">Filters</h2>
+              <!-- Add filter content here -->
+            </aside>
+
+            <aside class="sort-aside-container" id="sort-aside">
+              <button class="sort-aside-close-btn" id="sort-close">×</button>
+              <h2 class="sort-aside-heading">Sort By</h2>
+              <!-- Add sort content here -->
+            </aside>
+
+            <script>
+              // Select elements
+              const filterTrigger = document.getElementById('filter-trigger');
+              const sortTrigger = document.getElementById('sort-trigger');
+              const filterAside = document.getElementById('filter-aside');
+              const sortAside = document.getElementById('sort-aside');
+              const filterClose = document.getElementById('filter-close');
+              const sortClose = document.getElementById('sort-close');
+              const overlay = document.createElement('div');
+              overlay.classList.add('filter-sort-overlay');
+              document.body.appendChild(overlay);
+
+              // Open Filter Aside
+              filterTrigger.addEventListener('click', () => {
+                filterAside.classList.add('active');
+                overlay.classList.add('active');
+              });
+
+              // Open Sort Aside
+              sortTrigger.addEventListener('click', () => {
+                sortAside.classList.add('active');
+                overlay.classList.add('active');
+              });
+
+              // Close Filter Aside
+              filterClose.addEventListener('click', () => {
+                filterAside.classList.remove('active');
+                overlay.classList.remove('active');
+              });
+
+              // Close Sort Aside
+              sortClose.addEventListener('click', () => {
+                sortAside.classList.remove('active');
+                overlay.classList.remove('active');
+              });
+
+              // Close when clicking on overlay
+              overlay.addEventListener('click', () => {
+                filterAside.classList.remove('active');
+                sortAside.classList.remove('active');
+                overlay.classList.remove('active');
+              });
+            </script>
             <div class="mobile_collection-sort facet-filters sorting caption">
               <div class="facet-filters__field">
                 <h2 class="facet-filters__label caption-large text-body">

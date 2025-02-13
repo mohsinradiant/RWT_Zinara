@@ -819,7 +819,11 @@ body.no-scroll {
 .price-breakdown-close-btn {
     margin-top: 10px;
     cursor: pointer;
-    color: red;
+    color: #610C27;
+    font-family: 'Quicksand';
+    font-weight: 600;
+    letter-spacing: 0;
+    font-size: 1.5rem;
 }
 
 @media(max-width:1000px) {

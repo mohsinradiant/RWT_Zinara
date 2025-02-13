@@ -27,7 +27,7 @@
   assign price_max = product.price_max
   assign available = target.available | default: false
 
-  assign money_compare_at_price = compare_at_price | divided_by: 100 | floor
+  assign money_compare_at_price = compare_at_price | divided_by: 100 | round
   assign money_price = price | divided_by: 100 | floor
   assign money_price_min = price_min | divided_by: 100 | floor
   assign money_price_max = price_max | divided_by: 100 | floor
@@ -48,6 +48,9 @@
     assign money_price = 'products.product.price.from_price_html' | t: price: money_price
   endif
 -%}
+{% comment %}
+  Debug: {{ money_compare_at_price }}
+{% endcomment %}
 
 {%- unless target == null and placeholder == null -%}
   <div

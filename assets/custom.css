@@ -1075,7 +1075,7 @@ body.no-scroll {
         padding: 0 !important;
     }
 
-    header .header__icon--search summary span:last-child {
+    header .header__icon--search summary:last-child {
         display: none;
     }
 

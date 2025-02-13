@@ -164,9 +164,11 @@
               const sortAside = document.getElementById('sort-aside');
               const filterClose = document.getElementById('filter-close');
               const sortClose = document.getElementById('sort-close');
+
+              // Create overlay
               const overlay = document.createElement('div');
               overlay.classList.add('filter-sort-overlay');
-              document.body.appendChild(overlay);
+              document.body.insertBefore(overlay, filterAside); // Ensure it's behind the aside
 
               // Open Filter Aside
               filterTrigger.addEventListener('click', () => {

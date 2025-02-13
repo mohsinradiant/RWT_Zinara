@@ -27,15 +27,18 @@
   assign price_max = product.price_max
   assign available = target.available | default: false
 
+  assign money_compare_at_price = compare_at_price | divided_by: 100 | floor
   assign money_price = price | divided_by: 100 | floor
   assign money_price_min = price_min | divided_by: 100 | floor
   assign money_price_max = price_max | divided_by: 100 | floor
 
   if settings.currency_code_enabled
+    assign money_compare_at_price = cart.currency.symbol | append: money_compare_at_price
     assign money_price = cart.currency.symbol | append: money_price
     assign money_price_min = cart.currency.symbol | append: money_price_min
     assign money_price_max = cart.currency.symbol | append: money_price_max
   else
+    assign money_compare_at_price = '₹' | append: money_compare_at_price
     assign money_price = '₹' | append: money_price
     assign money_price_min = '₹' | append: money_price_min
     assign money_price_max = '₹' | append: money_price_max

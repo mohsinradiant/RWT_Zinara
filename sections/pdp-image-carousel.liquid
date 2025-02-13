@@ -88,9 +88,18 @@
     const autoplayInterval = 3000; // 3 seconds
 
     function updateCarousel() {
-      const containerWidth = carouselContainer.offsetWidth;
+      const imageStyle = window.getComputedStyle(images[0]);
+      let imageWidth = images[0].offsetWidth + parseInt(imageStyle.marginRight) + parseInt(imageStyle.marginLeft);
+
+      let scrollAmount = currentIndex * imageWidth;
+
+      // Add extra 13px for screens smaller than 756px
+      if (window.innerWidth < 756) {
+        scrollAmount += 13;
+      }
+
       carousel.style.transition = `transform ${transitionDuration}ms ease-in-out`;
-      carousel.style.transform = `translateX(-${(currentIndex * containerWidth) / 2}px)`;
+      carousel.style.transform = `translateX(-${scrollAmount}px)`;
 
       setTimeout(setActiveImages, transitionDuration);
     }

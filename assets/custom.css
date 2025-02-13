@@ -1071,10 +1071,6 @@ body.no-scroll {
         display: none;
     }
 
-    header .header__search {
-        display: none !important;
-    }
-
     sticky-header .header__search {
         display: block;
         padding: 0 20px 10px;

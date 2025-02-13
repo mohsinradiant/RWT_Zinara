@@ -166,40 +166,30 @@
                 const filterClose = document.getElementById('filter-close');
                 const sortClose = document.getElementById('sort-close');
 
-                // Create overlay dynamically
-                const overlay = document.createElement('div');
-                overlay.classList.add('filter-sort-overlay');
-                document.body.appendChild(overlay);
-
                 // Open Filter Aside
                 filterTrigger.addEventListener('click', () => {
                   filterAside.classList.add('active');
-                  overlay.classList.add('active');
                 });
 
                 // Open Sort Aside
                 sortTrigger.addEventListener('click', () => {
                   sortAside.classList.add('active');
-                  overlay.classList.add('active');
                 });
 
                 // Close Filter Aside
                 filterClose.addEventListener('click', () => {
                   filterAside.classList.remove('active');
-                  overlay.classList.remove('active');
                 });
 
                 // Close Sort Aside
                 sortClose.addEventListener('click', () => {
                   sortAside.classList.remove('active');
-                  overlay.classList.remove('active');
                 });
 
                 // Close when clicking on overlay
                 overlay.addEventListener('click', () => {
                   filterAside.classList.remove('active');
                   sortAside.classList.remove('active');
-                  overlay.classList.remove('active');
                 });
               });
             </script>

@@ -185,23 +185,24 @@
         const dots = document.querySelectorAll('.slider-counter__link--dots');
         const prevButton = document.querySelector('.slider-button--prev');
         const nextButton = document.querySelector('.slider-button--next');
-        const sliderContainer = document.querySelector('#Slider-Gallery-template--24203645845688__main'); // Adjust selector if needed
+        const sliderContainer = document.querySelector('#Slider-Gallery-template--24203645845688__main');
 
         let currentIndex = 0;
         let startX = 0;
         let endX = 0;
 
+        function updateActiveDot(index) {
+          dots.forEach((dot) => dot.classList.remove('active'));
+          if (dots[index]) dots[index].classList.add('active');
+        }
+
         function goToSlide(index) {
           if (!slides[index]) return;
-
-          // Prevent unnecessary updates
-          if (currentIndex === index) return;
 
           slides.forEach((slide) => slide.classList.remove('is-active'));
           slides[index].classList.add('is-active');
 
-          dots.forEach((dot) => dot.classList.remove('active'));
-          if (dots[index]) dots[index].classList.add('active');
+          updateActiveDot(index);
 
           prevButton.disabled = index === 0;
           nextButton.disabled = index === slides.length - 1;
@@ -248,12 +249,30 @@
           } else if (diff < -50 && currentIndex > 0) {
             // Swiped right → Go to previous slide
             goToSlide(currentIndex - 1);
-          } else {
-            // If no valid swipe happened, reapply active class to dots
-            dots.forEach((dot) => dot.classList.remove('active'));
-            if (dots[currentIndex]) dots[currentIndex].classList.add('active');
           }
         });
+
+        // 👉 **Detect Most Visible Slide Using Intersection Observer**
+        const observer = new IntersectionObserver(
+          (entries) => {
+            let mostVisibleIndex = currentIndex;
+            let maxVisibility = 0;
+
+            entries.forEach((entry, index) => {
+              if (entry.isIntersecting && entry.intersectionRatio > maxVisibility) {
+                mostVisibleIndex = Array.from(slides).indexOf(entry.target);
+                maxVisibility = entry.intersectionRatio;
+              }
+            });
+
+            if (mostVisibleIndex !== currentIndex) {
+              goToSlide(mostVisibleIndex);
+            }
+          },
+          { threshold: 0.5 } // Adjust based on how much visibility is required
+        );
+
+        slides.forEach((slide) => observer.observe(slide));
 
         // Initialize first slide
         goToSlide(currentIndex);

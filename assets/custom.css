@@ -760,23 +760,27 @@ body.no-scroll {
     display: flex;
     gap: 10px;
 }
-.product__info-container-price-container{
-    display: flex
-    ;
-        justify-content: space-between;
-        align-items: center;
+
+.product__info-container-price-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .price-breakdown-container {
     display: flex;
     align-items: center;
     cursor: pointer;
+    font-size: 1.3rem;
+    color: #610C27;
+    font-weight: 500;
+    font-family: 'Quicksand';
 }
 
 .price-breakdown-icon {
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
+    width: 12px;
+    height: auto;
+    margin-left: 6px;
 }
 
 .price-breakdown-popup {

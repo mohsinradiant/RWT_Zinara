@@ -1,5 +1,5 @@
 <svg fill="none" class="icon icon-search" viewBox="0 0 18 19" xmlns="http://www.w3.org/2000/svg">
-    <path fill="currentColor" fill-rule="evenodd"
-        d="M10.5 11A6 6 0 1 1 2 3.5a6 6 0 0 1 8.5 8.5l5.3 5.3a.8.8 0 1 1-1.1 1.1zM3.5 9A5 5 0 1 0 9 3.5 5 5 0 0 0 3.5 9z"
-        clip-rule="evenodd" stroke="currentColor" stroke-width="1.5"/>
+    <path fill="currentColor"
+        d="M8 14.5A6.5 6.5 0 1 1 14.5 8 6.5 6.5 0 0 1 8 14.5Zm0-2A4.5 4.5 0 1 0 8 4a4.5 4.5 0 0 0 0 9ZM13.5 14l3.5 3.5"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

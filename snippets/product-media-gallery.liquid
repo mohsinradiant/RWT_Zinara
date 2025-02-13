@@ -179,20 +179,45 @@
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const dots = document.querySelectorAll('.slider-counter__link--dots');
-        const slides = document.querySelectorAll('.your-slide-class'); // Adjust the selector
+        const slides = document.querySelectorAll('.your-slide-class'); // Adjust with actual slide class
+        const prevButton = document.querySelector('.slider-button--prev');
+        const nextButton = document.querySelector('.slider-button--next');
+
+        let currentIndex = 0; // Track active slide
 
         function updateDots(index) {
           dots.forEach((dot) => dot.classList.remove('active'));
           dots[index].classList.add('active');
         }
 
-        // Example function to update dot on slide change
-        slides.forEach((slide, index) => {
-          slide.addEventListener('transitionend', () => updateDots(index));
+        function goToSlide(index) {
+          slides.forEach((slide) => slide.classList.remove('active-slide')); // Optional: If slides have an active class
+          slides[index].classList.add('active-slide');
+          updateDots(index);
+        }
+
+        // Handle dot clicks
+        dots.forEach((dot, index) => {
+          dot.addEventListener('click', function () {
+            currentIndex = index;
+            goToSlide(currentIndex);
+          });
+        });
+
+        // Handle next button
+        nextButton.addEventListener('click', function () {
+          currentIndex = (currentIndex + 1) % dots.length;
+          goToSlide(currentIndex);
+        });
+
+        // Handle previous button
+        prevButton?.addEventListener('click', function () {
+          currentIndex = (currentIndex - 1 + dots.length) % dots.length;
+          goToSlide(currentIndex);
         });
 
         // Initial active state
-        updateDots(0);
+        updateDots(currentIndex);
       });
     </script>
   </slider-component>

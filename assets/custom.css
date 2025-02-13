@@ -1085,7 +1085,9 @@ body.no-scroll {
         padding: 0 20px 10px;
         width: fit-content !important;
     }
-
+    sticky-header .header__icon--search{
+        border: none !important;
+    }
     .header {
         justify-content: space-between;
         padding-top: 20px;

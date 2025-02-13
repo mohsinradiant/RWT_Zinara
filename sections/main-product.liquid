@@ -118,6 +118,29 @@
                     price_class: 'price--large'
                   -%}
                 </div>
+                <div class="price-breakdown-container" onclick="togglePopup()">
+                  <span>Price Breakdown</span>
+                  <img src="dropdown-icon.png" alt="Dropdown Icon" class="price-breakdown-icon">
+                </div>
+
+                <div class="price-breakdown-overlay" id="overlay" onclick="togglePopup()"></div>
+
+                <div class="price-breakdown-popup" id="popup">
+                  <h3>Price Breakdown</h3>
+                  <ul>
+                    <li>Base Price: $100</li>
+                    <li>Tax: $10</li>
+                    <li>Shipping: $5</li>
+                    <li>Total: $115</li>
+                  </ul>
+                  <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
+                </div>
+                <script>
+                  function togglePopup() {
+                    document.getElementById('popup').classList.toggle('active');
+                    document.getElementById('overlay').classList.toggle('active');
+                  }
+                </script>
                 {%- if product.quantity_price_breaks_configured? -%}
                   <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
                     <span>{{ 'products.product.volume_pricing.note' | t }}</span>

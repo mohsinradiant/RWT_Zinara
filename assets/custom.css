@@ -876,7 +876,7 @@ body.no-scroll {
     }
 
     #FacetsWrapperDesktop {
-        z-index: 2;
+        z-index: 999;
     }
 
     .facet-filters__field .select {

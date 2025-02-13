@@ -1071,8 +1071,12 @@ body.no-scroll {
         display: none;
     }
 
-    header .header__icon--search{
+    header .header__icon--search {
         padding: 0 !important;
+    }
+
+    header .header__icon--search summary.header__icon span:last-child {
+        display: none;
     }
 
     sticky-header .header__search {

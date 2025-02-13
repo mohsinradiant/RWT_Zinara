@@ -760,6 +760,12 @@ body.no-scroll {
     display: flex;
     gap: 10px;
 }
+.product__info-container-price-container{
+    display: flex
+    ;
+        justify-content: space-between;
+        align-items: center;
+}
 
 .price-breakdown-container {
     display: flex;

@@ -481,7 +481,7 @@ product-info .product__title h1 {
 product-info .price__container span {
     font-family: 'Quicksand';
     font-weight: 600;
-    font-size: 3rem;
+    font-size: 2.6rem;
     letter-spacing: 0;
 }
 
@@ -758,7 +758,7 @@ body.no-scroll {
 .product__info-container-price-container .price--on-sale .price__sale {
     flex-direction: row-reverse;
     display: flex;
-    gap: 3px;
+    gap: 10px;
 }
 
 @media(max-width:1000px) {

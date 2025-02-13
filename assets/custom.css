@@ -872,7 +872,7 @@ body.no-scroll {
 
 @media (max-width: 756px) {
     .mobile_collection-sort {
-        display: flex;
+        display: flex !important;
     }
 
     slideshow-component .slideshow__controls .slider-counter {

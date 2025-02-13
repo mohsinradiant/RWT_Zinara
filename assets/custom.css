@@ -743,7 +743,15 @@ body.no-scroll {
 }
 
 .product--thumbnail_slider .slider-buttons {
-    margin-top: -50px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+}
+
+.product--thumbnail_slider .slider-buttons button {
+    display: none !important;
 }
 
 @media(max-width:1000px) {

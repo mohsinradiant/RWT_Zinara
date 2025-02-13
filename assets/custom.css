@@ -871,6 +871,10 @@ body.no-scroll {
 }
 
 @media (max-width: 756px) {
+    .facet-filters__field .select {
+        width: max-content;
+    }
+
     .mobile_collection-sort {
         display: flex !important;
     }

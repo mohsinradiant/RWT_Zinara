@@ -332,7 +332,7 @@ header .header__search {
     width: max-content;
     flex-wrap: wrap;
     align-items: baseline !important;
-    z-index: 99;
+    z-index: 1;
 }
 
 #FacetsWrapperDesktop {
@@ -941,6 +941,7 @@ body.no-scroll {
 
     .facets-vertical .active-facets span {
         text-wrap: nowrap;
+        background-color: #610C270D !important;
     }
 
     .product-grid-container .collection {
@@ -972,6 +973,10 @@ body.no-scroll {
         margin: 0 !important;
     }
 
+    #FacetsWrapperDesktop>details:first-of-type {
+        display: none;
+    }
+
     #FacetsWrapperDesktop details {
         background: #F4EEEB;
         padding: 10px 15px;
@@ -996,7 +1001,13 @@ body.no-scroll {
     .facets-vertical .facets-wrapper facet-filters-form {
         display: flex !important;
         overflow-x: auto;
+        scrollbar-width: none;
     }
+
+    .facets-vertical .facets-wrapper facet-filters-form::-webkit-scrollbar {
+        display: none;
+    }
+
 
     .facets-vertical .facets-wrapper facet-filters-form #FacetsWrapperDesktop {
         display: flex !important;
@@ -1006,6 +1017,10 @@ body.no-scroll {
     .facets-vertical .facets-wrapper facet-filters-form #FacetsWrapperDesktop span {
         color: #610C27;
         text-wrap: nowrap !important;
+        font-size: 1.4rem;
+        letter-spacing: 0;
+        font-family: 'Quicksand';
+        font-weight: 700;
     }
 
     .collection-hero__image-container {
@@ -1120,8 +1135,8 @@ body.no-scroll {
 
     .header {
         justify-content: space-between;
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 
     .header__icons {

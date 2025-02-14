@@ -84,12 +84,16 @@
 
 /* Headings */
 .sort-aside-heading {
-    font-size: 1.25rem;
+    font-family: 'Playfair Display';
+    font-size: 2.5rem;
+    font-weight: 500;
 }
 
 .filter-aside-heading {
-    font-size: 1.25rem;
     margin: 90px 0 0;
+    font-family: 'Playfair Display';
+    font-size: 2.5rem;
+    font-weight: 500;
 }
 
 /* Overlay */

@@ -996,7 +996,13 @@ body.no-scroll {
     .facets-vertical .facets-wrapper facet-filters-form {
         display: flex !important;
         overflow-x: auto;
+        scrollbar-width: none;
     }
+
+    .facets-vertical .facets-wrapper facet-filters-form::-webkit-scrollbar {
+        display: none;
+    }
+
 
     .facets-vertical .facets-wrapper facet-filters-form #FacetsWrapperDesktop {
         display: flex !important;

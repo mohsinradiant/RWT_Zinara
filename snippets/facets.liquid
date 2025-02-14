@@ -144,8 +144,11 @@
               >
               <p>Sort</p>
             </div>
-            <div class="filter-container">
-              <aside class="filter-labels" id="filter-labels">
+            <aside class="filter-aside-container" id="filter-aside">
+              <button class="filter-aside-close-btn" id="filter-close">×</button>
+
+              <!-- Left Section -->
+              <div class="filter-labels" id="filter-labels">
                 <h2 class="filter-aside-heading">Filters</h2>
                 <ul class="filter-label-list">
                   {%- for filter in results.filters -%}
@@ -161,8 +164,10 @@
                     </li>
                   {%- endfor -%}
                 </ul>
-              </aside>
-              <aside class="filter-content" id="filter-content">
+              </div>
+
+              <!-- Right Section -->
+              <div class="filter-content" id="filter-content">
                 {%- for filter in results.filters -%}
                   <div
                     class="filter-panel"
@@ -207,8 +212,8 @@
                     {% endcase %}
                   </div>
                 {%- endfor -%}
-              </aside>
-            </div>
+              </div>
+            </aside>
 
             <aside class="sort-aside-container" id="sort-aside">
               <button class="sort-aside-close-btn" id="sort-close">×</button>

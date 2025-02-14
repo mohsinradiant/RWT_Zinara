@@ -151,6 +151,7 @@
     flex: 3;
     background-color: #f2eeeb;
     width: 47%;
+    margin: 90px 0 0;
     overflow-y: auto;
 }
 

@@ -73,13 +73,13 @@
 .filter-aside-close-btn {
     background: none;
     border: none;
-    font-size: 3.5rem;
+    font-size: 4rem;
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
     z-index: 2100;
-    margin: 90px 0 0;
+    margin: 70px 0 0;
     color: #610C27;
 }
 
@@ -91,7 +91,7 @@
 }
 
 .filter-aside-heading {
-    margin: 90px 0 0;
+    margin: 70px 0 18px;
     font-family: 'Playfair Display';
     font-size: 2.5rem;
     font-weight: 500;

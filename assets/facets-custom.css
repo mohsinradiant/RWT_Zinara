@@ -121,7 +121,7 @@
     flex: 1;
     width: 45%;
     background-color: #f8f8f8;
-    padding: 1rem;
+    padding: 1rem 0 0;
     overflow-y: auto;
 }
 
@@ -152,6 +152,7 @@
     background-color: #f2eeeb;
     width: 47%;
     margin: 132px 0 0;
+    overflow-y: auto;
     padding: 12px 33px 0 15px;
 }
 

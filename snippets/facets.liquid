@@ -214,7 +214,38 @@
                 {%- endfor -%}
               </div>
             </aside>
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                const filterButtons = document.querySelectorAll('.filter-label-button');
+                const filterPanels = document.querySelectorAll('.filter-panel');
+                const closeButton = document.getElementById('filter-close');
+                const asideContainer = document.getElementById('filter-aside');
 
+                filterButtons.forEach((button) => {
+                  button.addEventListener('click', () => {
+                    const filterId = button.dataset.filterId;
+
+                    // Update buttons
+                    filterButtons.forEach((btn) => btn.setAttribute('aria-selected', 'false'));
+                    button.setAttribute('aria-selected', 'true');
+
+                    // Update panels
+                    filterPanels.forEach((panel) => {
+                      panel.setAttribute('aria-hidden', 'true');
+                      panel.style.display = 'none';
+                    });
+                    const activePanel = document.getElementById(`filter-panel-${filterId}`);
+                    activePanel.setAttribute('aria-hidden', 'false');
+                    activePanel.style.display = 'block';
+                  });
+                });
+
+                // Close button functionality
+                closeButton.addEventListener('click', () => {
+                  asideContainer.style.display = 'none';
+                });
+              });
+            </script>
             <aside class="sort-aside-container" id="sort-aside">
               <button class="sort-aside-close-btn" id="sort-close">×</button>
               <h2 class="sort-aside-heading">Sort By</h2>

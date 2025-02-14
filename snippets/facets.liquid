@@ -157,7 +157,11 @@
                         class="filter-label-button"
                         data-filter-id="{{ forloop.index }}"
                         role="tab"
-                        aria-selected="{{ forloop.index == 1 }}"
+                        {% if forloop.index == 1 %}
+                          aria-selected="true"
+                        {% else %}
+                          aria-selected="false"
+                        {% endif %}
                       >
                         {{ filter.label | escape }}
                       </button>
@@ -173,7 +177,11 @@
                     class="filter-panel"
                     id="filter-panel-{{ forloop.index }}"
                     role="tabpanel"
-                    aria-hidden="{{ forloop.index != 1 }}"
+                    {% if forloop.index == 1 %}
+                      aria-hidden="false"
+                    {% else %}
+                      aria-hidden="true"
+                    {% endif %}
                   >
                     {% case filter.type %}
                       {% when 'boolean', 'list' %}
@@ -214,6 +222,7 @@
                 {%- endfor -%}
               </div>
             </aside>
+
             <script>
               document.addEventListener('DOMContentLoaded', function () {
                 const filterButtons = document.querySelectorAll('.filter-label-button');

@@ -230,99 +230,102 @@
                         </fieldset>
                       {% when 'price_range' %}
                         <span>{{ filter.label | escape }}</span>
-                        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.js">
-                          <link
-                            href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.css"
-                            rel="stylesheet"
-                          >
-                          <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                              const initializePriceSlider = () => {
-                                const slider = document.getElementById('price-slider');
-                                if (!slider || slider.noUiSlider) return; // Exit if slider is already initialized or not found
+                        <script
+                          defer
+                          src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.js"
+                        ></script>
+                        <link
+                          href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.css"
+                          rel="stylesheet"
+                        >
+                        <script>
+                          document.addEventListener('DOMContentLoaded', function () {
+                            const initializePriceSlider = () => {
+                              const slider = document.getElementById('price-slider');
+                              if (!slider || slider.noUiSlider) return; // Exit if slider is already initialized or not found
 
-                                const minInput = document.getElementById('slider-min');
-                                const maxInput = document.getElementById('slider-max');
+                              const minInput = document.getElementById('slider-min');
+                              const maxInput = document.getElementById('slider-max');
 
-                                const maxPrice = Number(slider.getAttribute('data-max-price')) || 100000;
+                              const maxPrice = Number(slider.getAttribute('data-max-price')) || 100000;
 
-                                const urlParams = new URLSearchParams(window.location.search);
-                                const appliedMinPrice = urlParams.get('filter.v.price.gte') || 0;
-                                const appliedMaxPrice = urlParams.get('filter.v.price.lte') || maxPrice;
+                              const urlParams = new URLSearchParams(window.location.search);
+                              const appliedMinPrice = urlParams.get('filter.v.price.gte') || 0;
+                              const appliedMaxPrice = urlParams.get('filter.v.price.lte') || maxPrice;
 
-                                noUiSlider.create(slider, {
-                                  start: [Number(appliedMinPrice), Number(appliedMaxPrice)],
-                                  connect: true,
-                                  range: {
-                                    min: 0,
-                                    max: maxPrice,
+                              noUiSlider.create(slider, {
+                                start: [Number(appliedMinPrice), Number(appliedMaxPrice)],
+                                connect: true,
+                                range: {
+                                  min: 0,
+                                  max: maxPrice,
+                                },
+                                format: {
+                                  to: function (value) {
+                                    return Math.round(value).toLocaleString('en-IN');
                                   },
-                                  format: {
-                                    to: function (value) {
-                                      return Math.round(value).toLocaleString('en-IN');
-                                    },
-                                    from: function (value) {
-                                      return Number(value.replace(/,/g, ''));
-                                    },
+                                  from: function (value) {
+                                    return Number(value.replace(/,/g, ''));
                                   },
-                                });
+                                },
+                              });
 
-                                slider.noUiSlider.on('update', function (values) {
-                                  minInput.textContent = values[0];
-                                  maxInput.textContent = values[1];
-                                });
+                              slider.noUiSlider.on('update', function (values) {
+                                minInput.textContent = values[0];
+                                maxInput.textContent = values[1];
+                              });
 
-                                slider.noUiSlider.on('change', function (values) {
-                                  const minPrice = values[0].replace(/,/g, '');
-                                  const maxPrice = values[1].replace(/,/g, '');
-                                  const newUrl = new URL(window.location.href);
-                                  newUrl.searchParams.set('filter.v.price.gte', minPrice);
-                                  newUrl.searchParams.set('filter.v.price.lte', maxPrice);
-                                  window.location.href = newUrl.href;
-                                });
+                              slider.noUiSlider.on('change', function (values) {
+                                const minPrice = values[0].replace(/,/g, '');
+                                const maxPrice = values[1].replace(/,/g, '');
+                                const newUrl = new URL(window.location.href);
+                                newUrl.searchParams.set('filter.v.price.gte', minPrice);
+                                newUrl.searchParams.set('filter.v.price.lte', maxPrice);
+                                window.location.href = newUrl.href;
+                              });
 
-                                // Set the background color for the connected range
-                                const connect = slider.querySelector('.noUi-connect');
-                                if (connect) {
-                                  connect.style.backgroundColor = '#610c27';
-                                }
-                              };
+                              // Set the background color for the connected range
+                              const connect = slider.querySelector('.noUi-connect');
+                              if (connect) {
+                                connect.style.backgroundColor = '#610c27';
+                              }
+                            };
 
-                              // Initialize slider on page load
+                            // Initialize slider on page load
+                            initializePriceSlider();
+
+                            // Reinitialize slider on DOM changes (e.g., after AJAX updates)
+                            const observer = new MutationObserver(() => {
                               initializePriceSlider();
-
-                              // Reinitialize slider on DOM changes (e.g., after AJAX updates)
-                              const observer = new MutationObserver(() => {
-                                initializePriceSlider();
-                              });
-
-                              observer.observe(document.getElementById('price-slider-container'), {
-                                childList: true,
-                                subtree: true,
-                              });
                             });
-                          </script>
-                          <div id="price-slider-container">
-                            <div
-                              id="price-slider"
-                              data-max-price="{{ collection.products | map: 'price' | sort | last | divided_by: 100 | default: 200000 }}"
-                            ></div>
-                            <div class="price-slider-values">
-                              <span>₹<span id="slider-min">0</span> </span>
-                              <span
-                                >₹<span id="slider-max">
-                                  {{-
-                                    collection.products
-                                    | map: 'price'
-                                    | sort
-                                    | last
-                                    | divided_by: 100
-                                    | default: 200000
-                                  -}}
-                                </span>
+
+                            observer.observe(document.getElementById('price-slider-container'), {
+                              childList: true,
+                              subtree: true,
+                            });
+                          });
+                        </script>
+                        <div id="price-slider-container">
+                          <div
+                            id="price-slider"
+                            data-max-price="{{ collection.products | map: 'price' | sort | last | divided_by: 100 | default: 200000 }}"
+                          ></div>
+                          <div class="price-slider-values">
+                            <span>₹<span id="slider-min">0</span> </span>
+                            <span
+                              >₹<span id="slider-max">
+                                {{-
+                                  collection.products
+                                  | map: 'price'
+                                  | sort
+                                  | last
+                                  | divided_by: 100
+                                  | default: 200000
+                                -}}
                               </span>
-                            </div>
+                            </span>
                           </div>
+                        </div>
                     {% endcase %}
                   </div>
                 {%- endfor -%}
@@ -491,11 +494,6 @@
                     id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
                     class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
                     data-index="{{ forloop.index }}"
-                    {% comment %}
-                      {% if filter_type == 'vertical' and forloop.index == 1 %}
-                        open
-                      {% endif %}
-                    {% endcomment %}
                   >
                     <summary
                       class="facets__summary caption-large focus-offset"
@@ -664,11 +662,6 @@
                     id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
                     class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
                     data-index="{{ forloop.index }}"
-                    {% comment %}
-                      {% if filter_type == 'vertical' and forloop.index == 1 %}
-                        open
-                      {% endif %}
-                    {% endcomment %}
                   >
                     <summary class="facets__summary caption-large focus-offset">
                       <div>
@@ -680,37 +673,18 @@
                       id="Facet-{{ forloop.index }}-{{ section.id }}"
                       class="{% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %} facets__summary "
                     >
-                      {% comment %}
-                        <div class="{% if filter_type == 'horizontal' %}facets__header{% else %}facets__header-vertical{% endif %}">
-                                                            {%- assign max_price_amount = filter.range_max | money | strip_html | escape -%}
-                                                            <span class="facets__selected">
-                                                              {{- 'products.facets.max_price' | t: price: max_price_amount -}}
-                                                            </span>
-                                                            {%- if filter_type != 'vertical' -%}
-                                                              <facet-remove>
-                                                                <a href="{{ filter.url_to_remove }}" class="facets__reset link underlined-link">
-                                                                  {{ 'products.facets.reset' | t }}
-                                                                </a>
-                                                              </facet-remove>
-                                                            {%- endif -%}
-                                                          </div>
-                                                          <price-range class="facets__price">
-                                                            {% render 'price-facet'
-                                                              , filter: filter
-                                                              , id_prefix: 'Filter-'
-                                                              , filter_type: filter_type %}
-                        </price-range>
-                      {% endcomment %}
-                      <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.js"></script>
+                      <script
+                        defer
+                        src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.js"
+                      ></script>
                       <link
                         href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.css"
                         rel="stylesheet"
                       >
-
                       <script>
                         document.addEventListener('DOMContentLoaded', function () {
                           const initializePriceSlider = () => {
-                            const slider = document.getElementById('price-slider');
+                            const slider = document.getElementById('price-slider-2');
                             if (!slider || slider.noUiSlider) return; // Exit if slider is already initialized or not found
 
                             const minInput = document.getElementById('slider-min');
@@ -768,16 +742,15 @@
                             initializePriceSlider();
                           });
 
-                          observer.observe(document.getElementById('price-slider-container'), {
+                          observer.observe(document.getElementById('price-slider-container-2'), {
                             childList: true,
                             subtree: true,
                           });
                         });
                       </script>
-
-                      <div id="price-slider-container">
+                      <div id="price-slider-container-2">
                         <div
-                          id="price-slider"
+                          id="price-slider-2"
                           data-max-price="{{ collection.products | map: 'price' | sort | last }}"
                         ></div>
                         <div class="price-slider-values">

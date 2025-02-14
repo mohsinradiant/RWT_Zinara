@@ -3,7 +3,8 @@
     gap: 4px;
     align-items: center;
     background: #f2eeeb;
-    padding: 5px 7px;
+    padding: 8px 11px;
+    height: fit-content;
 }
 
 .mobile-filter-row-item img {

@@ -168,6 +168,12 @@
     display: none;
 }
 
+.filter-panel fieldset {
+    padding: 0;
+    margin: 10px 0 0;
+    border: 0;
+}
+
 .filter-panel[aria-hidden="false"] {
     display: block;
 }

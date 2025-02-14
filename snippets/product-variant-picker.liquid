@@ -55,62 +55,44 @@
       {%- else -%}
         <div class="product-form__input product-form__input--dropdown">
           <div class="select">
+            <select
+              id="Option-{{ section.id }}-{{ forloop.index0 }}"
+              class="select__select custom-select"
+              name="options[{{ option.name | escape }}]"
+              form="{{ product_form_id }}"
+            >
+              {% for value in option.values %}
+                <option value="{{ value | escape }}">{{ value }}</option>
+              {% endfor %}
+            </select>
+            <span class="svg-wrapper">
+              <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_16.png?v=1738755650">
+            </span>
+
             {% if option.name == 'Ring Size' %}
-              <div class="custom-dropdown">
-                <button type="button" class="dropdown-toggle">Select Ring Size</button>
-                <ul class="dropdown-options">
-                  {% for value in option.values %}
-                    <li
-                      data-value="{{ value | escape }}"
-                      class="dropdown-option"
-                    >
-                      {{ value }}
-                    </li>
-                  {% endfor %}
-                </ul>
-                <input
-                  type="hidden"
-                  name="options[{{ option.name | escape }}]"
-                  form="{{ product_form_id }}"
-                  class="selected-option"
-                >
-              </div>
-            {% else %}
-              <select
-                id="Option-{{ section.id }}-{{ forloop.index0 }}"
-                class="select__select"
-                name="options[{{ option.name | escape }}]"
-                form="{{ product_form_id }}"
-              >
-                {% render 'product-variant-options',
-                  product: product,
-                  option: option,
-                  block: block,
-                  picker_type: picker_type
-                %}
-              </select>
-              <span class="svg-wrapper">
-                <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_16.png?v=1738755650">
-              </span>
+              <ul class="custom-dropdown-options">
+                {% for value in option.values %}
+                  <li data-value="{{ value | escape }}" class="dropdown-option">
+                    {{ value }}
+                  </li>
+                {% endfor %}
+              </ul>
             {% endif %}
           </div>
         </div>
 
         <style>
-          .custom-dropdown {
+          .custom-select {
             position: relative;
-            display: inline-block;
-            width: 100%;
-          }
-          .dropdown-toggle {
             width: 100%;
             padding: 10px;
             background: white;
             border: 1px solid #ccc;
             cursor: pointer;
-            text-align: left;
+            appearance: none; /* Disable native dropdown */
           }
-          .dropdown-options {
+
+          .custom-dropdown-options {
             list-style: none;
             padding: 0;
             margin: 0;
@@ -121,40 +103,41 @@
             border: 1px solid #ccc;
             z-index: 10;
           }
+
           .dropdown-option {
             padding: 10px;
             cursor: pointer;
           }
+
           .dropdown-option:hover {
             background: #f0f0f0;
           }
-          .custom-dropdown.active .dropdown-options {
+
+          .custom-dropdown-options.active {
             display: block;
           }
         </style>
 
         <script>
           document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.custom-dropdown').forEach(function (dropdown) {
-              const button = dropdown.querySelector('.dropdown-toggle');
-              const optionsList = dropdown.querySelector('.dropdown-options');
-              const input = dropdown.querySelector('.selected-option');
+            document.querySelectorAll('.custom-select').forEach(function (select) {
+              const dropdown = select.closest('.select').querySelector('.custom-dropdown-options');
 
-              button.addEventListener('click', function () {
+              select.addEventListener('click', function (event) {
+                event.preventDefault();
                 dropdown.classList.toggle('active');
               });
 
-              optionsList.querySelectorAll('.dropdown-option').forEach(function (option) {
+              dropdown.querySelectorAll('.dropdown-option').forEach(function (option) {
                 option.addEventListener('click', function () {
                   const selectedValue = option.getAttribute('data-value');
-                  button.textContent = selectedValue;
-                  input.value = selectedValue;
+                  select.value = selectedValue; // Update the select
                   dropdown.classList.remove('active');
                 });
               });
 
               document.addEventListener('click', function (event) {
-                if (!dropdown.contains(event.target)) {
+                if (!select.contains(event.target) && !dropdown.contains(event.target)) {
                   dropdown.classList.remove('active');
                 }
               });

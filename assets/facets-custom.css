@@ -31,7 +31,7 @@
     top: 0;
     bottom: 0;
     padding: 0 15px;
-    transform: translateX(-105%);
+    transform: translateX(-104%);
 }
 
 .sort-aside-container {
@@ -52,7 +52,6 @@
 
 .filter-aside-container.active {
     transform: translateX(-4%);
-    transform: translateY(0);
 }
 
 /* Close Buttons */

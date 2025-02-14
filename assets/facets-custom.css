@@ -179,10 +179,18 @@
     list-style: none;
     padding: 0;
     margin-bottom: 0;
+    gap: 15px;
 }
 
 .sort-aside-item {
     text-decoration: none;
+    font-size: 1.9rem;
+    font-family: 'Quicksand';
+    font-weight: 500;
+}
+
+.sort-aside-item.active {
+    color: #610C27;
 }
 
 @media(max-width:756px) {

@@ -408,7 +408,9 @@
                 });
 
                 // Close button functionality
-                closeButton.addEventListener('click', () => {
+                closeButton.addEventListener('click', (event) => {
+                  // Prevent page refresh
+                  event.preventDefault();
                   asideContainer.style.display = 'none';
                 });
               });

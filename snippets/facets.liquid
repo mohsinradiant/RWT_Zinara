@@ -305,13 +305,20 @@
                           <div id="price-slider-container">
                             <div
                               id="price-slider"
-                              data-max-price="{{ collection.products | map: 'price' | sort | last | default: 200000 }}"
+                              data-max-price="{{ collection.products | map: 'price' | sort | last | divided_by: 100 | default: 200000 }}"
                             ></div>
                             <div class="price-slider-values">
                               <span>₹<span id="slider-min">0</span> </span>
                               <span
                                 >₹<span id="slider-max">
-                                  {{- collection.products | map: 'price' | sort | last | default: 200000 -}}
+                                  {{-
+                                    collection.products
+                                    | map: 'price'
+                                    | sort
+                                    | last
+                                    | divided_by: 100
+                                    | default: 200000
+                                  -}}
                                 </span>
                               </span>
                             </div>

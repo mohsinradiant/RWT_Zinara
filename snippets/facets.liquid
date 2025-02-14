@@ -417,30 +417,40 @@
             <aside class="sort-aside-container" id="sort-aside">
               <button class="sort-aside-close-btn" id="sort-close">×</button>
               <h2 class="sort-aside-heading">Sort By</h2>
-              <div class="select">
+              <ul class="sort-aside-list">
                 {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
-                <select
-                  name="sort_by"
-                  class="facet-filters__sort select__select caption-large"
-                  id="SortBy"
-                  aria-describedby="a11y-refresh-page-message"
-                >
-                  {%- for option in results.sort_options -%}
-                    <option
-                      value="{{ option.value | escape }}"
-                      {% if option.value == sort_by %}
-                        selected="selected"
-                      {% endif %}
-                    >
-                      {{ option.name | escape }}
-                    </option>
-                  {%- endfor -%}
-                </select>
-                <span class="svg-wrapper">
-                  {{- 'icon-caret.svg' | inline_asset_content -}}
-                </span>
-              </div>
+                {%- for option in results.sort_options -%}
+                  <li
+                    class="sort-aside-item {% if option.value == sort_by %}active{% endif %}"
+                    data-sort-value="{{ option.value | escape }}"
+                  >
+                    {{ option.name | escape }}
+                  </li>
+                {%- endfor -%}
+              </ul>
             </aside>
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                const sortItems = document.querySelectorAll('.sort-aside-item');
+
+                sortItems.forEach((item) => {
+                  item.addEventListener('click', function () {
+                    // Remove 'active' class from all items
+                    sortItems.forEach((i) => i.classList.remove('active'));
+                    // Add 'active' class to the clicked item
+                    this.classList.add('active');
+
+                    // Get the sort value from the clicked item
+                    const sortValue = this.getAttribute('data-sort-value');
+
+                    // Update the product list (make an AJAX call or update the URL)
+                    const currentUrl = new URL(window.location.href);
+                    currentUrl.searchParams.set('sort_by', sortValue);
+                    window.location.href = currentUrl.toString();
+                  });
+                });
+              });
+            </script>
 
             <script>
               document.addEventListener('DOMContentLoaded', () => {

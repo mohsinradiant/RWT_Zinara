@@ -46,6 +46,7 @@
     height: auto;
     transition: all ease-in .3s;
     padding: 20px;
+    z-index: 2;
 }
 
 .sort-aside-container.active {

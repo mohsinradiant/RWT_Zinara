@@ -307,6 +307,7 @@
                               id="price-slider"
                               data-max-price="{{ collection.products | map: 'price' | sort | last }}"
                             ></div>
+                            <p class="mohsin">{{ collection.products | map: 'price' | sort | last }}</p>
                             <div class="price-slider-values">
                               <span>₹<span id="slider-min">0</span> </span>
                               <span

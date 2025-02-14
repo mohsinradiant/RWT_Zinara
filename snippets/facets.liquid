@@ -240,66 +240,69 @@
                         >
                         <script>
                           document.addEventListener('DOMContentLoaded', function () {
-                            const initializePriceSlider = () => {
-                              const slider = document.getElementById('price-slider');
-                              if (!slider || slider.noUiSlider) return; // Exit if slider is already initialized or not found
+                            const initializePriceSliders = () => {
+                              const sliders = document.querySelectorAll('.price-slider-parent'); // Use class to target multiple sliders
 
-                              const minInput = document.getElementById('slider-min');
-                              const maxInput = document.getElementById('slider-max');
+                              sliders.forEach((slider) => {
+                                if (slider.noUiSlider) return; // Exit if slider is already initialized
 
-                              const maxPrice = Number(slider.getAttribute('data-max-price')) || 100000;
+                                const minInput = slider.closest('.price-slider-container').querySelector('.slider-min');
+                                const maxInput = slider.closest('.price-slider-container').querySelector('.slider-max');
 
-                              const urlParams = new URLSearchParams(window.location.search);
-                              const appliedMinPrice = urlParams.get('filter.v.price.gte') || 0;
-                              const appliedMaxPrice = urlParams.get('filter.v.price.lte') || maxPrice;
+                                const maxPrice = Number(slider.getAttribute('data-max-price')) || 100000;
 
-                              noUiSlider.create(slider, {
-                                start: [Number(appliedMinPrice), Number(appliedMaxPrice)],
-                                connect: true,
-                                range: {
-                                  min: 0,
-                                  max: maxPrice,
-                                },
-                                format: {
-                                  to: function (value) {
-                                    return Math.round(value).toLocaleString('en-IN');
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const appliedMinPrice = urlParams.get('filter.v.price.gte') || 0;
+                                const appliedMaxPrice = urlParams.get('filter.v.price.lte') || maxPrice;
+
+                                noUiSlider.create(slider, {
+                                  start: [Number(appliedMinPrice), Number(appliedMaxPrice)],
+                                  connect: true,
+                                  range: {
+                                    min: 0,
+                                    max: maxPrice,
                                   },
-                                  from: function (value) {
-                                    return Number(value.replace(/,/g, ''));
+                                  format: {
+                                    to: function (value) {
+                                      return Math.round(value).toLocaleString('en-IN');
+                                    },
+                                    from: function (value) {
+                                      return Number(value.replace(/,/g, ''));
+                                    },
                                   },
-                                },
-                              });
+                                });
 
-                              slider.noUiSlider.on('update', function (values) {
-                                minInput.textContent = values[0];
-                                maxInput.textContent = values[1];
-                              });
+                                slider.noUiSlider.on('update', function (values) {
+                                  if (minInput) minInput.textContent = values[0];
+                                  if (maxInput) maxInput.textContent = values[1];
+                                });
 
-                              slider.noUiSlider.on('change', function (values) {
-                                const minPrice = values[0].replace(/,/g, '');
-                                const maxPrice = values[1].replace(/,/g, '');
-                                const newUrl = new URL(window.location.href);
-                                newUrl.searchParams.set('filter.v.price.gte', minPrice);
-                                newUrl.searchParams.set('filter.v.price.lte', maxPrice);
-                                window.location.href = newUrl.href;
-                              });
+                                slider.noUiSlider.on('change', function (values) {
+                                  const minPrice = values[0].replace(/,/g, '');
+                                  const maxPrice = values[1].replace(/,/g, '');
+                                  const newUrl = new URL(window.location.href);
+                                  newUrl.searchParams.set('filter.v.price.gte', minPrice);
+                                  newUrl.searchParams.set('filter.v.price.lte', maxPrice);
+                                  window.location.href = newUrl.href;
+                                });
 
-                              // Set the background color for the connected range
-                              const connect = slider.querySelector('.noUi-connect');
-                              if (connect) {
-                                connect.style.backgroundColor = '#610c27';
-                              }
+                                // Set the background color for the connected range
+                                const connect = slider.querySelector('.noUi-connect');
+                                if (connect) {
+                                  connect.style.backgroundColor = '#610c27';
+                                }
+                              });
                             };
 
-                            // Initialize slider on page load
-                            initializePriceSlider();
+                            // Initialize sliders on page load
+                            initializePriceSliders();
 
-                            // Reinitialize slider on DOM changes (e.g., after AJAX updates)
+                            // Reinitialize sliders on DOM changes (e.g., after AJAX updates)
                             const observer = new MutationObserver(() => {
-                              initializePriceSlider();
+                              initializePriceSliders();
                             });
 
-                            observer.observe(document.getElementById('price-slider-container'), {
+                            observer.observe(document.body, {
                               childList: true,
                               subtree: true,
                             });
@@ -308,6 +311,7 @@
                         <div id="price-slider-container">
                           <div
                             id="price-slider"
+                            class="price-slider-parent"
                             data-max-price="{{ collection.products | map: 'price' | sort | last | divided_by: 100 | default: 200000 }}"
                           ></div>
                           <div class="price-slider-values">
@@ -676,6 +680,7 @@
                       <div id="price-slider-container">
                         <div
                           id="price-slider"
+                          class="price-slider-parent"
                           data-max-price="{{ collection.products | map: 'price' | sort | last }}"
                         ></div>
                         <div class="price-slider-values">

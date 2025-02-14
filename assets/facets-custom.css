@@ -160,6 +160,10 @@
     padding: 12px 33px 0 15px;
 }
 
+.filter-content fieldset svg {
+    display: none;
+}
+
 .filter-panel {
     display: none;
 }

@@ -54,25 +54,46 @@
         </fieldset>
       {%- else -%}
         <div class="product-form__input product-form__input--dropdown">
+          {% comment %}
+            <label class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
+              {{ option.name }}
+            </label>
+          {% endcomment %}
           <div class="select">
+            {% comment %}
+              {%- if picker_type == 'swatch_dropdown' -%}
+                <span
+                  data-selected-value
+                  class="dropdown-swatch"
+                >
+                  {% render 'swatch', swatch: option.selected_value.swatch, shape: block.settings.swatch_shape %}
+                </span>
+              {%- endif -%}
+            {% endcomment %}
             <select
               id="Option-{{ section.id }}-{{ forloop.index0 }}"
-              class="select__select custom-select"
+              class="select__select"
               name="options[{{ option.name | escape }}]"
               form="{{ product_form_id }}"
             >
-              {% for value in option.values %}
-                <option value="{{ value | escape }}">{{ value }}</option>
-              {% endfor %}
+              {% render 'product-variant-options',
+                product: product,
+                option: option,
+                block: block,
+                picker_type: picker_type
+              %}
             </select>
             <span class="svg-wrapper">
+              {% comment %} {{- 'icon-caret.svg' | inline_asset_content -}} {% endcomment %}
               <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_16.png?v=1738755650">
             </span>
-
             {% if option.name == 'Ring Size' %}
               <ul class="custom-dropdown-options">
                 {% for value in option.values %}
-                  <li data-value="{{ value | escape }}" class="dropdown-option">
+                  <li
+                    data-value="{{ value | escape }}"
+                    class="dropdown-option {% if value.selected %}selected{% endif %}"
+                  >
                     {{ value }}
                   </li>
                 {% endfor %}
@@ -80,72 +101,97 @@
             {% endif %}
           </div>
         </div>
-
-        <style>
-          .custom-select {
-            position: relative;
-            width: 100%;
-            padding: 10px;
-            background: white;
-            border: 1px solid #ccc;
-            cursor: pointer;
-            appearance: none; /* Disable native dropdown */
-          }
-
-          .custom-dropdown-options {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            position: absolute;
-            width: 100%;
-            display: none;
-            background: white;
-            border: 1px solid #ccc;
-            z-index: 10;
-          }
-
-          .dropdown-option {
-            padding: 10px;
-            cursor: pointer;
-          }
-
-          .dropdown-option:hover {
-            background: #f0f0f0;
-          }
-
-          .custom-dropdown-options.active {
-            display: block;
-          }
-        </style>
-
-        <script>
-          document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.custom-select').forEach(function (select) {
-              const dropdown = select.closest('.select').querySelector('.custom-dropdown-options');
-
-              select.addEventListener('click', function (event) {
-                event.preventDefault();
-                dropdown.classList.toggle('active');
-              });
-
-              dropdown.querySelectorAll('.dropdown-option').forEach(function (option) {
-                option.addEventListener('click', function () {
-                  const selectedValue = option.getAttribute('data-value');
-                  select.value = selectedValue; // Update the select
-                  dropdown.classList.remove('active');
-                });
-              });
-
-              document.addEventListener('click', function (event) {
-                if (!select.contains(event.target) && !dropdown.contains(event.target)) {
-                  dropdown.classList.remove('active');
-                }
-              });
-            });
-          });
-        </script>
       {%- endif -%}
     {%- endfor -%}
+    <style>
+      /* Hide the default dropdown arrow */
+      .select {
+        position: relative;
+        width: 100%;
+      }
+
+      .custom-select {
+        position: relative;
+        width: 100%;
+        padding: 10px;
+        background: white;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        appearance: none;
+        pointer-events: none;
+      }
+
+      /* Custom dropdown */
+      .custom-dropdown-options {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: none;
+        background: white;
+        border: 1px solid #ccc;
+        z-index: 10;
+        left: 10%;
+        right: 0%;
+        position: fixed;
+      }
+
+      .dropdown-option {
+        padding: 10px;
+        cursor: pointer;
+      }
+
+      .dropdown-option:hover {
+        background: #f0f0f0;
+      }
+
+      .custom-dropdown-options.active {
+        display: block;
+      }
+
+      .selected {
+        font-weight: bold;
+        color: #be1e28; /* Your theme's accent color */
+      }
+    </style>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.select').forEach(function (selectWrapper) {
+          const select = selectWrapper.querySelector('.select__select');
+          const dropdown = selectWrapper.querySelector('.custom-dropdown-options');
+          const options = dropdown.querySelectorAll('.dropdown-option');
+
+          // Prevent native dropdown
+          select.addEventListener('mousedown', function (e) {
+            e.preventDefault(); // Prevents default dropdown
+            dropdown.classList.toggle('active');
+          });
+
+          // Select an option
+          options.forEach(function (option) {
+            option.addEventListener('click', function () {
+              const selectedValue = option.getAttribute('data-value');
+              select.value = selectedValue; // Update select value
+              dropdown.classList.remove('active');
+
+              // Update selected state
+              options.forEach((opt) => opt.classList.remove('selected'));
+              option.classList.add('selected');
+
+              // Dispatch a change event for Shopify
+              select.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+          });
+
+          // Close dropdown when clicking outside
+          document.addEventListener('click', function (e) {
+            if (!selectWrapper.contains(e.target)) {
+              dropdown.classList.remove('active');
+            }
+          });
+        });
+      });
+    </script>
 
     <script type="application/json" data-selected-variant>
       {{ product.selected_or_first_available_variant | json }}

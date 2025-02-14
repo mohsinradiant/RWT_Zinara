@@ -148,7 +148,7 @@
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.custom-select').forEach(function (select) {
-          const dropdown = select.closest('.select').querySelector('.custom-dropdown-options');
+          const dropdown = select.closest('.select__select').querySelector('.custom-dropdown-options');
 
           select.addEventListener('click', function (event) {
             event.preventDefault();

@@ -149,6 +149,7 @@
 .filter-content {
     height: 100%;
     flex: 3;
+    background-color: #f2eeeb;
     width: 47%;
     overflow-y: auto;
 }

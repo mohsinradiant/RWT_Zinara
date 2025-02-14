@@ -332,7 +332,7 @@ header .header__search {
     width: max-content;
     flex-wrap: wrap;
     align-items: baseline !important;
-    z-index: 99;
+    z-index: 2;
 }
 
 #FacetsWrapperDesktop {

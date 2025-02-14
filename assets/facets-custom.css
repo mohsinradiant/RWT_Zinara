@@ -1,5 +1,5 @@
 .mobile-filter-row-item {
-    display: flex;
+    display: none;
     gap: 4px;
     align-items: center;
     background: #f2eeeb;
@@ -110,4 +110,10 @@
 
 .filter-sort-overlay.active {
     display: block;
+}
+
+@media(max-width:756px) {
+    .mobile-filter-row-item {
+        display: flex;
+    }
 }

@@ -66,64 +66,7 @@
                 {{ 'products.facets.filter_by_label' | t }}
               </h2>
             {%- endif -%}
-            {% comment %} Pills are right below the title for filter type vertical {% endcomment %}
-            {% comment %}
-              {%- if filter_type == 'vertical' -%}
-                <div class="active-facets active-facets-desktop">
-
-                    <div class="active-facets-vertical-filter">
-                                              {%- unless results.filters == empty -%}
-                                                <h2
-                                                  class="facets__heading facets__heading--vertical caption-large text-body"
-                                                  id="verticalTitle"
-                                                  tabindex="-1">
-                                                  {{ 'products.facets.filter_by_label' | t }}
-                                                </h2>
-                                              {%- endunless -%}
-                                              <facet-remove class="active-facets__button-wrapper">
-                                                <a href="{{ results_url }}" class="active-facets__button-remove underlined-link">
-                                                  <span>{{ 'products.facets.clear_all' | t }}</span>
-                                                </a>
-                                              </facet-remove>
-                    </div>
-
-                  {%- for filter in results.filters -%}
-                    {%- for value in filter.active_values -%}
-                      <facet-remove>
-                        <a href="{{ value.url_to_remove }}" class="active-facets__button active-facets__button--light">
-                          <span class="active-facets__button-inner button button--tertiary">
-                            {{ filter.label | escape }}: {{ value.label | escape }}
-                            <span class="svg-wrapper">
-                              {{- 'icon-close-small.svg' | inline_asset_content -}}
-                            </span>
-                            <span class="visually-hidden">{{ 'products.facets.clear_filter' | t }}</span>
-                          </span>
-                        </a>
-                      </facet-remove>
-                    {%- endfor -%}
-                    {% if filter.type == 'price_range' %}
-                      {% assign min = filter.min_value.value %}
-                      {% assign max = filter.max_value.value %}
-                      {%- if min != null or max != null -%}
-                        <facet-remove>
-                          <a href="{{ filter.url_to_remove }}" class="active-facets__button active-facets__button--light">
-                            <span class="active-facets__button-inner button button--tertiary">
-                              {{ min | default: 0 | money }} - {{ max | default: filter.range_max | money }}
-                              <span class="svg-wrapper">
-                                {{- 'icon-close-small.svg' | inline_asset_content -}}
-                              </span>
-                              <span class="visually-hidden">{{ 'products.facets.clear_filter' | t }}</span>
-                            </span>
-                          </a>
-                        </facet-remove>
-                      {%- endif -%}
-                    {% endif %}
-                  {%- endfor -%}
-                </div>
-              {%- endif -%}
-            {% endcomment %}
             <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
-            {% comment %} Filters for both horizontal and vertical filter {% endcomment %}
             <div
               class="mobile-filter-row-item mobile-filter-row-item-filter"
               id="filter-trigger"
@@ -376,7 +319,6 @@
                 {%- endfor -%}
               </div>
             </aside>
-
             <script>
               document.addEventListener('DOMContentLoaded', function () {
                 const filterButtons = document.querySelectorAll('.filter-label-button');
@@ -413,7 +355,6 @@
                 });
               });
             </script>
-
             <aside class="sort-aside-container" id="sort-aside">
               <button class="sort-aside-close-btn" id="sort-close">×</button>
               <h2 class="sort-aside-heading">Sort By</h2>
@@ -451,7 +392,6 @@
                 });
               });
             </script>
-
             <script>
               document.addEventListener('DOMContentLoaded', () => {
                 // Select elements
@@ -489,35 +429,59 @@
                 });
               });
             </script>
+            //
             <div class="mobile_collection-sort facet-filters sorting caption">
+              //
               <div class="facet-filters__field">
+                //
                 <h2 class="facet-filters__label caption-large text-body">
-                  <label for="SortBy">{{ 'products.facets.sort_by_label' | t }}</label>
+                  // <label for="SortBy">{{ 'products.facets.sort_by_label' | t }}</label> //
                 </h2>
+                //
                 <div class="select">
+                  //
                   {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
+                  //
                   <select
+                    //
                     name="sort_by"
+                    //
                     class="facet-filters__sort select__select caption-large"
+                    //
                     id="SortBy"
+                    //
                     aria-describedby="a11y-refresh-page-message"
+                    //
                   >
+                    //
                     {%- for option in results.sort_options -%}
+                      //
                       <option
+                        //
                         value="{{ option.value | escape }}"
+                        //
                         {% if option.value == sort_by %}
-                          selected="selected"
+                          // selected="selected" //
                         {% endif %}
+                        //
                       >
-                        {{ option.name | escape }}
+                        // {{ option.name | escape }} //
                       </option>
+                      //
                     {%- endfor -%}
+                    //
                   </select>
+                  //
                   <span class="svg-wrapper">
+                    //
                     {{- 'icon-caret.svg' | inline_asset_content -}}
+                    //
                   </span>
+                  //
                 </div>
+                //
               </div>
+              //
             </div>
             {%- for filter in results.filters -%}
               {% liquid

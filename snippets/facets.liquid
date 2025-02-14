@@ -385,7 +385,10 @@
                 const asideContainer = document.getElementById('filter-aside');
 
                 filterButtons.forEach((button) => {
-                  button.addEventListener('click', () => {
+                  button.addEventListener('click', (event) => {
+                    // Prevent page refresh
+                    event.preventDefault();
+
                     const filterId = button.dataset.filterId;
 
                     // Update buttons
@@ -397,6 +400,7 @@
                       panel.setAttribute('aria-hidden', 'true');
                       panel.style.display = 'none';
                     });
+
                     const activePanel = document.getElementById(`filter-panel-${filterId}`);
                     activePanel.setAttribute('aria-hidden', 'false');
                     activePanel.style.display = 'block';

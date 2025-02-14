@@ -137,8 +137,12 @@
     text-align: left;
     background: none;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0;
     cursor: pointer;
+    font-size: 1.65rem;
+    letter-spacing: 0;
+    font-weight: 400;
+    font-family: 'Quicksand';
 }
 
 .filter-label-button[aria-selected="true"] {

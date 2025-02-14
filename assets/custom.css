@@ -941,6 +941,7 @@ body.no-scroll {
 
     .facets-vertical .active-facets span {
         text-wrap: nowrap;
+        background-color: #610C270D !important;
     }
 
     .product-grid-container .collection {
@@ -1016,6 +1017,7 @@ body.no-scroll {
     .facets-vertical .facets-wrapper facet-filters-form #FacetsWrapperDesktop span {
         color: #610C27;
         text-wrap: nowrap !important;
+        font-size: 1.4rem;
         letter-spacing: 0;
         font-family: 'Quicksand';
         font-weight: 700;

@@ -178,6 +178,7 @@
     align-items: start;
     list-style: none;
     padding: 0;
+    margin-top: 3.2rem;
     margin-bottom: 0;
     gap: 15px;
 }

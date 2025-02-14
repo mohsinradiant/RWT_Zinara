@@ -171,7 +171,11 @@
 .filter-panel[aria-hidden="false"] {
     display: block;
 }
-
+.sort-aside-list{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
 @media(max-width:756px) {
     .mobile-filter-row-item {
         display: flex;

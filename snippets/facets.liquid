@@ -482,6 +482,25 @@
                   {%- endfor -%}
                 </div>
               </section>
+              <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                  const filterButtons = document.querySelectorAll('.filter-label-button');
+                  const filterContents = document.querySelectorAll('.filter-options-content');
+
+                  filterButtons.forEach((button) => {
+                    button.addEventListener('click', () => {
+                      // Remove active state from all buttons and content
+                      filterButtons.forEach((btn) => btn.setAttribute('aria-expanded', 'false'));
+                      filterContents.forEach((content) => content.classList.remove('active'));
+
+                      // Set active state on the clicked button and corresponding content
+                      button.setAttribute('aria-expanded', 'true');
+                      const targetId = button.getAttribute('data-target');
+                      document.getElementById(targetId).classList.add('active');
+                    });
+                  });
+                });
+              </script>
             </aside>
 
             <aside class="sort-aside-container" id="sort-aside">

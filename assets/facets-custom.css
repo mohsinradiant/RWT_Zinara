@@ -128,7 +128,7 @@
 
 .filter-labels {
     flex: 1;
-    max-width: 200px;
+    width: 45%;
     background-color: #f8f8f8;
     padding: 1rem;
     overflow-y: auto;
@@ -157,7 +157,7 @@
 
 .filter-content {
     flex: 3;
-    padding: 1rem;
+    width: 47%;
     overflow-y: auto;
 }
 

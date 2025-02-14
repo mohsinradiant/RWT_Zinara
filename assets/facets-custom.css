@@ -79,13 +79,13 @@
     right: 10px;
     cursor: pointer;
     z-index: 2100;
-    margin: 20px 0;
+    margin: 90px 0 0;
 }
 
 /* Headings */
 .sort-aside-heading {
     font-size: 1.25rem;
-    margin: 20px 0;
+    margin: 90px 0 0;
 }
 
 .filter-aside-heading {

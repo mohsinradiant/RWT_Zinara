@@ -146,115 +146,212 @@
             </div>
             <aside class="filter-aside-container" id="filter-aside">
               <button class="filter-aside-close-btn" id="filter-close">×</button>
+              <h2 class="filter-aside-heading">Filters</h2>
+              {%- for filter in results.filters -%}
+                {% liquid
+                  assign total_active_values = total_active_values | plus: filter.active_values.size
+                  assign presentation = filter.presentation | default: default_presentation
 
-              <!-- Left Section -->
-              <div class="filter-labels" id="filter-labels">
-                <h2 class="filter-aside-heading">Filters</h2>
-                <ul class="filter-label-list">
-                  {%- for filter in results.filters -%}
-                    <li>
-                      <button
-                        class="filter-label-button"
-                        data-filter-id="{{ forloop.index }}"
-                        role="tab"
-                        {% if forloop.index == 1 %}
-                          aria-selected="true"
-                        {% else %}
-                          aria-selected="false"
-                        {% endif %}
+                  if presentation == 'image'
+                    assign show_more_number = 12
+                    assign visual_layout_class = 'facets-layout facets-layout-grid facets-layout-grid--' | append: presentation
+                  else
+                    assign show_more_number = 10
+                    assign visual_layout_class = 'facets-layout facets-layout-list facets-layout-list--' | append: presentation
+                  endif
+                %}
+                {% case filter.type %}
+                  {% when 'boolean', 'list' %}
+                    <span class="facets__summary-label">
+                      {{- filter.label | escape }}
+                    </span>
+                    <fieldset class="facets-wrap parent-wrap {% if filter_type == 'vertical' %} facets-wrap-vertical{% endif %}">
+                      <legend class="visually-hidden">{{ filter.label | escape }}</legend>
+                      {%- liquid
+                        assign sorted_values = filter.values
+                        if filter.operator == 'AND'
+                          assign active_filter_values = filter.values | where: 'active', true
+                          assign inactive_filter_values = filter.values | where: 'active', false
+                          assign sorted_values = active_filter_values | concat: inactive_filter_values
+                        endif
+                      -%}
+                      <ul
+                        class="{{ visual_layout_class }}{% if filter_type == 'vertical' %} facets__list--vertical{% else %} facets__list{% endif %} list-unstyled"
+                        role="list"
                       >
-                        {{ filter.label | escape }}
-                      </button>
-                    </li>
-                  {%- endfor -%}
-                </ul>
-              </div>
+                        {%- for value in sorted_values -%}
+                          {% liquid
+                            assign input_id = 'Filter-' | append: filter.param_name | escape | append: '-' | append: forloop.index
+                            assign is_disabled = false
+                            if value.count == 0 and value.active == false
+                              assign is_disabled = true
+                            endif
+                          %}
+                          {%- capture label_class -%}
+                                facets__label facet-checkbox{% if is_disabled %} disabled{% endif %}{% if value.active %} active{% endif %}
+                                {%- endcapture -%}
+                          {%- capture text_value -%}
+                                  <span class="facet-checkbox__text" aria-hidden="true">
+                                    <span class="facet-checkbox__text-label">{{- value.label | escape }}</span> ({{- value.count -}})
+                                  </span>
+                                  <span class="visually-hidden">
+                                    {{- value.label | escape }} (
+                                    {%- if value.count == 1 -%}
+                                      {{- 'products.facets.product_count_simple.one' | t: count: value.count -}}
+                                    {%- else -%}
+                                      {{- 'products.facets.product_count_simple.other' | t: count: value.count -}}
+                                    {%- endif -%}
+                                    )
+                                  </span>
+                                {%- endcapture -%}
+                          <li class="list-menu__item facets__item{% if forloop.index > show_more_number and filter_type == 'vertical' %} show-more-item hidden{% endif %}">
+                            {%- if presentation == 'swatch' -%}
+                              <div class="{{ label_class }}">
+                                <div class="swatch-input-wrapper">
+                                  {% render 'swatch-input',
+                                    id: input_id,
+                                    type: 'checkbox',
+                                    name: value.param_name,
+                                    value: value.value,
+                                    product_form_id: 'FacetFiltersForm',
+                                    swatch: value.swatch,
+                                    checked: value.active,
+                                    disabled: is_disabled
+                                  %}
+                                </div>
 
-              <!-- Right Section -->
-              <div class="filter-content" id="filter-content">
-                {%- for filter in results.filters -%}
-                  <div
-                    class="filter-panel"
-                    id="filter-panel-{{ forloop.index }}"
-                    role="tabpanel"
-                    {% if forloop.index == 1 %}
-                      aria-hidden="false"
-                    {% else %}
-                      aria-hidden="true"
-                    {% endif %}
-                  >
-                    {% case filter.type %}
-                      {% when 'boolean', 'list' %}
-                        <fieldset>
-                          <legend class="visually-hidden">{{ filter.label | escape }}</legend>
-                          <ul class="facets-wrap">
-                            {%- for value in filter.values -%}
-                              <li>
-                                <label class="facet-checkbox">
-                                  <input
-                                    type="checkbox"
-                                    name="{{ value.param_name }}"
-                                    value="{{ value.value }}"
-                                    {% if value.active %}
-                                      checked
-                                    {% endif %}
-                                  >
-                                  {{ value.label | escape }} ({{ value.count }})
-                                </label>
-                              </li>
-                            {%- endfor -%}
-                          </ul>
-                        </fieldset>
-                      {% when 'price_range' %}
-                        <div id="price-slider-container-{{ forloop.index }}">
-                          <div id="price-slider-{{ forloop.index }}"></div>
-                          <div class="price-slider-values">
-                            <span>₹<span id="slider-min">0</span></span>
-                            <span
-                              >₹<span id="slider-max">
-                                {{- collection.products | map: 'price' | sort | last -}}
-                              </span></span
-                            >
-                          </div>
+                                {{ text_value }}
+                              </div>
+                            {%- else -%}
+                              <label for="{{ input_id }}" class="{{ label_class }}">
+                                <input
+                                  type="checkbox"
+                                  name="{{ value.param_name }}"
+                                  value="{{ value.value }}"
+                                  id="{{ input_id }}"
+                                  {% if value.active %}
+                                    checked
+                                  {% endif %}
+                                  {% if is_disabled %}
+                                    disabled
+                                  {% endif %}
+                                >
+
+                                {%- if presentation == 'image' -%}
+                                  <div class="facets__image-wrapper">
+                                    {%- if value.image -%}
+                                      {{
+                                        value.image
+                                        | image_url: width: 300
+                                        | image_tag: class: 'facets__image', alt: value.alt
+                                      }}
+                                    {%- endif -%}
+                                  </div>
+                                {%- else -%}
+                                  {{- 'square.svg' | inline_asset_content -}}
+
+                                  <div class="svg-wrapper">
+                                    {{- 'icon-checkmark.svg' | inline_asset_content -}}
+                                  </div>
+                                {%- endif -%}
+
+                                {{ text_value }}
+                              </label>
+                            {%- endif -%}
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    </fieldset>
+                  {% when 'price_range' %}
+                    <span>{{ filter.label | escape }}</span>
+                    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.js">
+                      <link
+                        href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.css"
+                        rel="stylesheet"
+                      >
+                      <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                          const initializePriceSlider = () => {
+                            const slider = document.getElementById('price-slider');
+                            if (!slider || slider.noUiSlider) return; // Exit if slider is already initialized or not found
+
+                            const minInput = document.getElementById('slider-min');
+                            const maxInput = document.getElementById('slider-max');
+
+                            const maxPrice = Number(slider.getAttribute('data-max-price')) || 100000;
+
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const appliedMinPrice = urlParams.get('filter.v.price.gte') || 0;
+                            const appliedMaxPrice = urlParams.get('filter.v.price.lte') || maxPrice;
+
+                            noUiSlider.create(slider, {
+                              start: [Number(appliedMinPrice), Number(appliedMaxPrice)],
+                              connect: true,
+                              range: {
+                                min: 0,
+                                max: maxPrice,
+                              },
+                              format: {
+                                to: function (value) {
+                                  return Math.round(value).toLocaleString('en-IN');
+                                },
+                                from: function (value) {
+                                  return Number(value.replace(/,/g, ''));
+                                },
+                              },
+                            });
+
+                            slider.noUiSlider.on('update', function (values) {
+                              minInput.textContent = values[0];
+                              maxInput.textContent = values[1];
+                            });
+
+                            slider.noUiSlider.on('change', function (values) {
+                              const minPrice = values[0].replace(/,/g, '');
+                              const maxPrice = values[1].replace(/,/g, '');
+                              const newUrl = new URL(window.location.href);
+                              newUrl.searchParams.set('filter.v.price.gte', minPrice);
+                              newUrl.searchParams.set('filter.v.price.lte', maxPrice);
+                              window.location.href = newUrl.href;
+                            });
+
+                            // Set the background color for the connected range
+                            const connect = slider.querySelector('.noUi-connect');
+                            if (connect) {
+                              connect.style.backgroundColor = '#610c27';
+                            }
+                          };
+
+                          // Initialize slider on page load
+                          initializePriceSlider();
+
+                          // Reinitialize slider on DOM changes (e.g., after AJAX updates)
+                          const observer = new MutationObserver(() => {
+                            initializePriceSlider();
+                          });
+
+                          observer.observe(document.getElementById('price-slider-container'), {
+                            childList: true,
+                            subtree: true,
+                          });
+                        });
+                      </script>
+                      <div id="price-slider-container">
+                        <div
+                          id="price-slider"
+                          data-max-price="{{ collection.products | map: 'price' | sort | last }}"
+                        ></div>
+                        <div class="price-slider-values">
+                          <span>₹<span id="slider-min">0</span> </span>
+                          <span
+                            >₹<span id="slider-max">{{ collection.products | map: 'price' | sort | last }}</span>
+                          </span>
                         </div>
-                    {% endcase %}
-                  </div>
-                {%- endfor -%}
-              </div>
+                      </div>
+                {% endcase %}
+              {%- endfor -%}
             </aside>
 
-            <script>
-              document.addEventListener('DOMContentLoaded', function () {
-                const filterButtons = document.querySelectorAll('.filter-label-button');
-                const filterPanels = document.querySelectorAll('.filter-panel');
-                const closeButton = document.getElementById('filter-close');
-                const asideContainer = document.getElementById('filter-aside');
-
-                filterButtons.forEach((button) => {
-                  button.addEventListener('click', () => {
-                    const filterId = button.dataset.filterId;
-
-                    // Update buttons
-                    filterButtons.forEach((btn) => btn.setAttribute('aria-selected', 'false'));
-                    button.setAttribute('aria-selected', 'true');
-
-                    // Update panels
-                    filterPanels.forEach((panel) => {
-                      panel.setAttribute('aria-hidden', 'true');
-                      panel.style.display = 'none';
-                    });
-                    const activePanel = document.getElementById(`filter-panel-${filterId}`);
-                    activePanel.setAttribute('aria-hidden', 'false');
-                    activePanel.style.display = 'block';
-                  });
-                });
-
-                // Close button functionality
-                closeButton.addEventListener('click', () => {
-                  asideContainer.style.display = 'none';
-                });
-              });
-            </script>
             <aside class="sort-aside-container" id="sort-aside">
               <button class="sort-aside-close-btn" id="sort-close">×</button>
               <h2 class="sort-aside-heading">Sort By</h2>

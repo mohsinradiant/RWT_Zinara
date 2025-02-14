@@ -972,6 +972,10 @@ body.no-scroll {
         margin: 0 !important;
     }
 
+    #FacetsWrapperDesktop>details:first-of-type {
+        display: none;
+    }
+
     #FacetsWrapperDesktop details {
         background: #F4EEEB;
         padding: 10px 15px;

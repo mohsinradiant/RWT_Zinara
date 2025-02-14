@@ -17,6 +17,8 @@
     text-wrap: nowrap !important;
     font-size: 1.4rem;
     margin: 0;
+    font-family: 'Quicksand';
+    font-weight: 500;
 }
 
 /* Filter and Sort Asides */

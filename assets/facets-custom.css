@@ -58,7 +58,6 @@
 }
 
 /* Close Buttons */
-.filter-aside-close-btn,
 .sort-aside-close-btn {
     background: none;
     border: none;
@@ -71,11 +70,27 @@
     /* Higher than the aside */
 }
 
+.filter-aside-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    z-index: 2100;
+    margin: 20px 0;
+}
+
 /* Headings */
-.filter-aside-heading,
 .sort-aside-heading {
     font-size: 1.25rem;
     margin: 20px 0;
+}
+
+.filter-aside-heading {
+    font-size: 1.25rem;
+    margin: 90px 0 0;
 }
 
 /* Overlay */

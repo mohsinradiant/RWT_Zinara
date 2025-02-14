@@ -75,6 +75,7 @@ slideshow-component .slideshow {
 
 .header__search {
     width: 100% !important;
+    display: none;
 }
 
 .header__search details {
@@ -264,7 +265,7 @@ slideshow-component .slideshow {
     width: 100%;
 }
 
-sticky-header .header__search {
+header .header__search {
     display: none;
 }
 
@@ -855,6 +856,10 @@ body.no-scroll {
     font-size: 1.5rem;
 }
 
+.mobile_collection-sort {
+    display: none !important;
+}
+
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;
@@ -866,6 +871,26 @@ body.no-scroll {
 }
 
 @media (max-width: 756px) {
+    .facet-filters__field h2 {
+        display: none;
+    }
+
+    #FacetsWrapperDesktop {
+        z-index: 2;
+    }
+
+    .facet-filters__field .select {
+        width: max-content !important;
+    }
+
+    .facet-filters {
+        padding-left: 0 !important;
+    }
+
+    .mobile_collection-sort {
+        display: flex !important;
+    }
+
     slideshow-component .slideshow__controls .slider-counter {
         display: flex;
         margin-top: -40px;
@@ -919,7 +944,7 @@ body.no-scroll {
     }
 
     .product-grid-container .collection {
-        margin-top: 115px;
+        margin-top: 55px;
     }
 
     .active-facets__button-inner {
@@ -935,8 +960,8 @@ body.no-scroll {
     .facets-wrapper {
         width: 100%;
         position: absolute;
-        top: 430px;
-        left: 15px;
+        top: 365px;
+        left: 1.5rem;
     }
 
     .page-width--full-width {
@@ -1071,13 +1096,26 @@ body.no-scroll {
         display: none;
     }
 
-    header .header__search {
-        display: none !important;
+    header .header__icon--search {
+        padding: 0 !important;
     }
 
-    sticky-header .header__search {
+    header .header__icon--search>span:not(:has(.svg-wrapper)) {
+        display: none;
+    }
+
+    .header__search {
+        display: flex;
+    }
+
+    header .header__search {
         display: block;
-        padding: 0 20px 10px;
+        width: fit-content !important;
+    }
+
+    header .header__icon--search {
+        border: none !important;
+        margin: 0 !important;
     }
 
     .header {

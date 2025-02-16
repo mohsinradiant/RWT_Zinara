@@ -54,6 +54,8 @@
   <img
     class="product-share-image"
     src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_21.png?v=1739734480"
+    alt="Share"
+    style="cursor: pointer;"
   >
   <div id="GalleryStatus-{{ section.id }}" class="visually-hidden" role="status"></div>
   <slider-component id="GalleryViewer-{{ section.id }}" class="slider-mobile-gutter">
@@ -172,6 +174,24 @@
         </span>
       </button>
     </div>
+    <script>
+      document.querySelector('.product-share-image').addEventListener('click', async () => {
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: document.title, // Page title
+              text: 'Check this out!', // Custom share text
+              url: window.location.href, // Current page URL
+            });
+            console.log('Content shared successfully');
+          } catch (error) {
+            console.error('Error sharing:', error);
+          }
+        } else {
+          alert('Your device does not support the Web Share API.');
+        }
+      });
+    </script>
     <style>
       .product-share-image {
         position: absolute;

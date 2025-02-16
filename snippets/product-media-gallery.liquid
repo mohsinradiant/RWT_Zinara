@@ -219,6 +219,41 @@
         observer.observe(document.body, { childList: true, subtree: true });
       }
     </script>
+    <script>
+      function replaceWishlistSVG() {
+        const wishlistIcon = document.querySelector('.wishlist-engine .wishlist-icon');
+
+        if (wishlistIcon) {
+          // Create a new <img> element
+          const newImg = document.createElement('img');
+          newImg.src = 'https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_22.png?v=1739734481';
+          newImg.alt = 'Wishlist';
+          newImg.style.width = '100%'; // Ensure it matches SVG's styling
+          newImg.style.height = 'auto';
+
+          // Replace SVG with the new image
+          wishlistIcon.innerHTML = ''; // Clear the current content
+          wishlistIcon.appendChild(newImg);
+
+          console.log('Wishlist SVG replaced with image!');
+          return true;
+        }
+        return false;
+      }
+
+      // Try replacing immediately
+      if (!replaceWishlistSVG()) {
+        // Use MutationObserver to wait for the element if it's not yet in the DOM
+        const observer = new MutationObserver(() => {
+          if (replaceWishlistSVG()) {
+            observer.disconnect(); // Stop observing once replaced
+          }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
+    </script>
+
     <style>
       .product-overlay-share_wishlist {
         position: absolute;

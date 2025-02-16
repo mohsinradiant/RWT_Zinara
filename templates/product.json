@@ -9,6 +9,21 @@
  */
 {
   "sections": {
+    "1739737281572cdfe9": {
+      "type": "apps",
+      "blocks": {
+        "se_wishlist_engine_product_page_9QTqFg": {
+          "type": "shopify://apps/se-wishlist-engine/blocks/Product-Page/8f7c0857-8e71-463d-a168-8e133094753b",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "se_wishlist_engine_product_page_9QTqFg"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -315,6 +330,7 @@
   },
   "order": [
     "main",
+    "1739737281572cdfe9",
     "product_page_details_8y4AjM",
     "home_benefits_BJVbVJ",
     "pdp_image_carousel_76BdGX",

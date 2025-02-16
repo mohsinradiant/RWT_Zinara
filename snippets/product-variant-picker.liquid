@@ -54,11 +54,6 @@
         </fieldset>
       {%- else -%}
         <div class="product-form__input product-form__input--dropdown">
-          {% comment %}
-            <label class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
-              {{ option.name }}
-            </label>
-          {% endcomment %}
           <select
             id="Option-{{ section.id }}-{{ forloop.index0 }}"
             class="select__select"
@@ -66,13 +61,18 @@
             form="{{ product_form_id }}"
           >
             {% for value in option.values %}
-              {% assign variant = product.variants | where: 'option1', value | first %}
-              {% if variant.inventory_quantity > 0 %}
-                <option value="{{ value | escape }}">
-                  {{ value }} - {{ variant.inventory_quantity }} left in stock
-                </option>
+              {% assign variant = product.variants | where: 'option' | first %}
+
+              {% if variant %}
+                {% if variant.inventory_management and variant.inventory_quantity > 0 %}
+                  <option value="{{ value | escape }}">
+                    {{ value }} - {{ variant.inventory_quantity }} left in stock
+                  </option>
+                {% else %}
+                  <option value="{{ value | escape }}">{{ value }} - Made to Order</option>
+                {% endif %}
               {% else %}
-                <option value="{{ value | escape }}">{{ value }} - Made to Order</option>
+                <option value="{{ value | escape }}" disabled>{{ value }} - Out of Stock</option>
               {% endif %}
             {% endfor %}
           </select>

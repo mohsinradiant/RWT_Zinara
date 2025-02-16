@@ -67,17 +67,12 @@
           >
             {% for value in option.values %}
               {% assign variant = product.variants | where: 'option1', value | first %}
-
-              {% if variant and variant.available %}
-                {% if variant.inventory_quantity > 0 %}
-                  <option value="{{ value | escape }}">
-                    {{ value }} - {{ variant.inventory_quantity }} left in stock
-                  </option>
-                {% else %}
-                  <option value="{{ value | escape }}">{{ value }} - Made to Order</option>
-                {% endif %}
+              {% if variant.inventory_quantity > 0 %}
+                <option value="{{ value | escape }}">
+                  {{ value }} - {{ variant.inventory_quantity }} left in stock
+                </option>
               {% else %}
-                <option value="{{ value | escape }}" disabled>{{ value }} - Out of Stock</option>
+                <option value="{{ value | escape }}">{{ value }} - Made to Order</option>
               {% endif %}
             {% endfor %}
           </select>

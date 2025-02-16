@@ -9,21 +9,6 @@
  */
 {
   "sections": {
-    "1739737281572cdfe9": {
-      "type": "apps",
-      "blocks": {
-        "se_wishlist_engine_product_page_9QTqFg": {
-          "type": "shopify://apps/se-wishlist-engine/blocks/Product-Page/8f7c0857-8e71-463d-a168-8e133094753b",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "se_wishlist_engine_product_page_9QTqFg"
-      ],
-      "settings": {
-        "include_margins": true
-      }
-    },
     "main": {
       "type": "main-product",
       "blocks": {
@@ -73,6 +58,10 @@
             "show_dynamic_checkout": false,
             "show_gift_card_recipient": true
           }
+        },
+        "se_wishlist_engine_product_page_fTBTnd": {
+          "type": "shopify://apps/se-wishlist-engine/blocks/Product-Page/8f7c0857-8e71-463d-a168-8e133094753b",
+          "settings": {}
         }
       },
       "block_order": [
@@ -84,7 +73,8 @@
         "inventory_indicator_QcmNEB",
         "inventory_iiPf7W",
         "description",
-        "buy_buttons"
+        "buy_buttons",
+        "se_wishlist_engine_product_page_fTBTnd"
       ],
       "settings": {
         "enable_sticky_info": true,
@@ -330,7 +320,6 @@
   },
   "order": [
     "main",
-    "1739737281572cdfe9",
     "product_page_details_8y4AjM",
     "home_benefits_BJVbVJ",
     "pdp_image_carousel_76BdGX",

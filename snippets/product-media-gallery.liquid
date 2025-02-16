@@ -51,12 +51,14 @@
   aria-label="{{ 'products.product.media.gallery_viewer' | t }}"
   data-desktop-layout="{{ section.settings.gallery_layout }}"
 >
-  <img
-    class="product-share-image"
-    src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_21.png?v=1739734480"
-    alt="Share"
-    style="cursor: pointer;"
-  >
+  <div class="product-overlay-share_wishlist">
+    <img
+      class="product-share-image"
+      src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_21.png?v=1739734480"
+      alt="Share"
+      style="cursor: pointer;"
+    >
+  </div>
   <div id="GalleryStatus-{{ section.id }}" class="visually-hidden" role="status"></div>
   <slider-component id="GalleryViewer-{{ section.id }}" class="slider-mobile-gutter">
     <a class="skip-to-content-link button visually-hidden quick-add-hidden" href="#ProductInfo-{{ section.id }}">
@@ -192,13 +194,63 @@
         }
       });
     </script>
+    <script>
+      function moveWishlist() {
+        const wishlistEngine = document.querySelector('.wishlist-engine');
+        const shareContainer = document.querySelector('.product-overlay-share_wishlist');
+        const shareImage = shareContainer ? shareContainer.querySelector('img') : null;
+
+        if (wishlistEngine && shareContainer && shareImage) {
+          // Insert wishlist-engine before the existing image
+          shareContainer.insertBefore(wishlistEngine, shareImage);
+          console.log('Wishlist moved before the image successfully!');
+          return true; // Indicate success
+        }
+        return false; // Not found yet
+      }
+
+      // Try moving immediately if already present
+      if (!moveWishlist()) {
+        // Use MutationObserver to detect changes in DOM
+        const observer = new MutationObserver(() => {
+          if (moveWishlist()) {
+            observer.disconnect(); // Stop observing once found and moved
+          }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
+    </script>
+
     <style>
-      .product-share-image {
+      .wishlist-engine-button {
+        padding: 0 !important;
+      }
+      .wishlist-engine {
+        width: 90% !important;
+        height: auto !important;
+      }
+      .wishlist-engine-button,
+      .wishlist-engine-button span,
+      .wishlist-engine-button svg {
+        width: 100% !important;
+        height: auto !important;
+      }
+      .product-overlay-share_wishlist {
         position: absolute;
-        top: 25px;
-        right: 25px;
+        top: 14px;
+        right: 20px;
         z-index: 3;
-        width: 25px;
+        width: 19px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+        justify-content: center;
+      }
+      .product-share-image {
+        width: 100%;
         height: auto;
       }
       .slider-counter__link--dots.active .dot {

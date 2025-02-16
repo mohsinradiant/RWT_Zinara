@@ -198,10 +198,12 @@
       function moveWishlist() {
         const wishlistEngine = document.querySelector('.wishlist-engine');
         const shareContainer = document.querySelector('.product-overlay-share_wishlist');
+        const shareImage = shareContainer ? shareContainer.querySelector('img') : null;
 
-        if (wishlistEngine && shareContainer) {
-          shareContainer.appendChild(wishlistEngine);
-          console.log('Wishlist moved successfully!');
+        if (wishlistEngine && shareContainer && shareImage) {
+          // Insert wishlist-engine before the existing image
+          shareContainer.insertBefore(wishlistEngine, shareImage);
+          console.log('Wishlist moved before the image successfully!');
           return true; // Indicate success
         }
         return false; // Not found yet

@@ -70,7 +70,9 @@
               assign quantity_rule_soldout = true
             endif
           -%}
-          <a class="try-at-home-button" href="/account">Try at Home</a>
+          <a class="try-at-home-button" href="/account?product_id={{ product.selected_or_first_available_variant.id }}"
+            >Try at Home</a
+          >
           <button
             id="ProductSubmitButton-{{ section_id }}"
             type="submit"

@@ -148,6 +148,14 @@
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": false,
         "settings": {}
+      },
+      "14198427981142892921": {
+        "type": "shopify://apps/se-wishlist-engine/blocks/app-embed/8f7c0857-8e71-463d-a168-8e133094753b",
+        "disabled": false,
+        "settings": {
+          "wishlist_unfill_icon": "",
+          "wishlist_fill_icon": ""
+        }
       }
     },
     "color_schemes": {

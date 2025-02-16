@@ -472,6 +472,10 @@ header .header__search {
     color: white;
 }
 
+product-info media-gallery {
+    position: relative;
+}
+
 product-info .product__title h1 {
     font-family: 'Quicksand';
     font-weight: 400;

@@ -194,6 +194,31 @@
         }
       });
     </script>
+    <script>
+      function moveWishlist() {
+        const wishlistEngine = document.querySelector('.wishlist-engine');
+        const shareContainer = document.querySelector('.product-overlay-share_wishlist');
+
+        if (wishlistEngine && shareContainer) {
+          shareContainer.appendChild(wishlistEngine);
+          console.log('Wishlist moved successfully!');
+          return true; // Indicate success
+        }
+        return false; // Not found yet
+      }
+
+      // Try moving immediately if already present
+      if (!moveWishlist()) {
+        // Use MutationObserver to detect changes in DOM
+        const observer = new MutationObserver(() => {
+          if (moveWishlist()) {
+            observer.disconnect(); // Stop observing once found and moved
+          }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
+    </script>
     <style>
       .product-overlay-share_wishlist {
         position: absolute;

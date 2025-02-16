@@ -61,7 +61,7 @@
             form="{{ product_form_id }}"
           >
             {% for value in option.values %}
-              {% assign variant = product.variants | where: 'option' | first %}
+              {% assign variant = product.variants | where: 'option' | includes: value | first %}
 
               {% if variant %}
                 {% if variant.inventory_management and variant.inventory_quantity > 0 %}
@@ -77,6 +77,20 @@
             {% endfor %}
           </select>
         </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            const variantSelects = document.querySelectorAll('.select__select');
+
+            variantSelects.forEach((select) => {
+              select.addEventListener('change', function () {
+                const form = this.closest('form');
+                if (form) {
+                  form.dispatchEvent(new Event('submit', { bubbles: true }));
+                }
+              });
+            });
+          });
+        </script>
       {%- endif -%}
     {%- endfor -%}
     <script type="application/json" data-selected-variant>
@@ -86,7 +100,6 @@
   <div class="sizing-guide">
     <button id="openPopup">Sizing Guide</button>
   </div>
-
   <div class="popup" id="popup">
     <button class="close-btn" id="closePopup">&times;</button>
     <img

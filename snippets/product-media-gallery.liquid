@@ -204,24 +204,36 @@
           shareContainer.appendChild(wishlistEngine);
           console.log('Wishlist moved successfully!');
 
-          // Replace SVG with image inside wishlist-engine
-          const wishlistIcon = wishlistEngine.querySelector('.wishlist-icon');
-          if (wishlistIcon) {
+          // Wait a bit to ensure the SVG is present before replacing it
+          setTimeout(() => {
+            replaceWishlistSVG(wishlistEngine);
+          }, 100); // Small delay to ensure DOM update
+
+          return true; // Indicate success
+        }
+        return false; // Not found yet
+      }
+
+      function replaceWishlistSVG(wishlistEngine) {
+        const wishlistIcon = wishlistEngine.querySelector('.wishlist-icon');
+
+        if (wishlistIcon) {
+          const existingSVG = wishlistIcon.querySelector('svg');
+          if (existingSVG) {
+            // Create a new <img> element
             const newImg = document.createElement('img');
             newImg.src = 'https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_22.png?v=1739734481';
             newImg.alt = 'Wishlist';
             newImg.style.width = '100%';
             newImg.style.height = 'auto';
 
-            wishlistIcon.innerHTML = ''; // Clear existing SVG
+            // Replace the existing SVG
+            wishlistIcon.innerHTML = ''; // Clear existing content
             wishlistIcon.appendChild(newImg);
 
             console.log('Wishlist SVG replaced with image!');
           }
-
-          return true; // Indicate success
         }
-        return false; // Not found yet
       }
 
       // Try immediately if elements are already present

@@ -2088,10 +2088,10 @@ input[type='checkbox'] {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: .8rem;
+  font-size: .75rem;
   bottom: 9px;
   right: 0px;
-  padding-top: 3px;
+  padding-top: 2px;
   line-height: calc(1 + 0.1 / var(--font-body-scale));
 }
 

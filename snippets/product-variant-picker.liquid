@@ -60,16 +60,6 @@
             </label>
           {% endcomment %}
           <div class="select">
-            {% comment %}
-              {%- if picker_type == 'swatch_dropdown' -%}
-                <span
-                  data-selected-value
-                  class="dropdown-swatch"
-                >
-                  {% render 'swatch', swatch: option.selected_value.swatch, shape: block.settings.swatch_shape %}
-                </span>
-              {%- endif -%}
-            {% endcomment %}
             <select
               id="Option-{{ section.id }}-{{ forloop.index0 }}"
               class="select__select"
@@ -161,9 +151,9 @@
           const dropdown = selectWrapper.querySelector('.custom-dropdown-options');
           const options = dropdown.querySelectorAll('.dropdown-option');
 
-          // Prevent native dropdown
-          select.addEventListener('mousedown', function (e) {
-            e.preventDefault(); // Prevents default dropdown
+          // Prevent default dropdown and show custom dropdown
+          selectWrapper.addEventListener('click', function (e) {
+            e.preventDefault();
             dropdown.classList.toggle('active');
           });
 
@@ -171,7 +161,7 @@
           options.forEach(function (option) {
             option.addEventListener('click', function () {
               const selectedValue = option.getAttribute('data-value');
-              select.value = selectedValue; // Update select value
+              select.value = selectedValue;
               dropdown.classList.remove('active');
 
               // Update selected state

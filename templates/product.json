@@ -35,6 +35,10 @@
             "swatch_shape": "circle"
           }
         },
+        "inventory_indicator_QcmNEB": {
+          "type": "inventory-indicator",
+          "settings": {}
+        },
         "inventory_iiPf7W": {
           "type": "inventory",
           "disabled": true,
@@ -62,6 +66,7 @@
         "product_features_badges_8LbYCC",
         "pincode_availability_VEqKEh",
         "variant_picker",
+        "inventory_indicator_QcmNEB",
         "inventory_iiPf7W",
         "description",
         "buy_buttons"

@@ -110,7 +110,7 @@
       <select class="time-dropdown">
         <option value="" disabled selected>Select a time</option>
         {% for hour in (10..19) %}
-          <option value="{{ hour }}:00">{{ hour | modulo: 12 }}:00</option>
+          <option value="{{ hour }}:00">{{ hour | modulo: 24 }}:00</option>
         {% endfor %}
       </select>
       <button id="book-slot-button">Book Slot</button>

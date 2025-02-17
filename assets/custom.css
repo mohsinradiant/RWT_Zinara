@@ -573,14 +573,14 @@ product-info variant-selects img {
     gap: 2%;
 }
 
-.product-form__buttons a,
+.try-at-home-button,
 .product-form__buttons button {
     width: 48%;
     margin: 0;
     padding: 10px 0;
 }
 
-.product-form__buttons a {
+.try-at-home-button {
     text-align: center;
     text-decoration: none;
     color: #712242;

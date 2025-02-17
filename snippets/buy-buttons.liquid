@@ -73,105 +73,6 @@
 
           <!-- Try at Home Button -->
           <button type="button" class="try-at-home-button">Try at Home</button>
-
-          <div class="try-at-home-calendar" style="display: none;">
-            <h3>Select a Date and Time</h3>
-            <div class="calendar-dates"></div>
-            <select class="time-dropdown">
-              <option value="" disabled selected>Select a time</option>
-              {% for hour in (10..19) %}
-                <option value="{{ hour }}:00">{{ hour | modulo: 12 }}:00 {{ 'AM' | t }}</option>
-              {% endfor %}
-            </select>
-            <button id="book-slot-button">Book Slot</button>
-          </div>
-
-          <script>
-            document.addEventListener('DOMContentLoaded', () => {
-              const tryAtHomeButton = document.querySelector('.try-at-home-button');
-              const calendarContainer = document.querySelector('.calendar-dates');
-              const timeDropdown = document.querySelector('.time-dropdown');
-              const bookButton = document.getElementById('book-slot-button');
-              const calendarForm = document.querySelector('.try-at-home-calendar');
-              const productId = '{{ product.id }}';
-
-              // Toggle form visibility
-              tryAtHomeButton.addEventListener('click', () => {
-                calendarForm.style.display = 'block';
-                tryAtHomeButton.style.display = 'none';
-              });
-
-              // Generate dates for the current month
-              const today = new Date();
-              const year = today.getFullYear();
-              const month = today.getMonth(); // 0-indexed
-              const firstDay = new Date(year, month, 1).getDay(); // Day of the week
-              const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-              // Render calendar
-              for (let i = 0; i < firstDay; i++) {
-                calendarContainer.innerHTML += `<div class="calendar-cell empty"></div>`;
-              }
-              for (let day = 1; day <= daysInMonth; day++) {
-                calendarContainer.innerHTML += `<div class="calendar-cell" data-date="${year}-${month + 1}-${day}">
-              ${day} - ${new Date(year, month, day).toLocaleString('en-US', { weekday: 'short' })}
-            </div>`;
-              }
-
-              // Highlight selected date and enable booking
-              let selectedDate = null;
-              calendarContainer.addEventListener('click', (e) => {
-                if (e.target.classList.contains('calendar-cell') && !e.target.classList.contains('empty')) {
-                  document
-                    .querySelectorAll('.calendar-cell.selected')
-                    .forEach((cell) => cell.classList.remove('selected'));
-                  e.target.classList.add('selected');
-                  selectedDate = e.target.dataset.date;
-                }
-              });
-
-              // Handle booking
-              bookButton.addEventListener('click', () => {
-                const selectedTime = timeDropdown.value;
-                if (!selectedDate || !selectedTime) {
-                  alert('Please select both a date and time.');
-                  return;
-                }
-
-                // Fetch booked slots to check availability
-                fetch('/products/{{ product.handle }}.json')
-                  .then((response) => response.json())
-                  .then((data) => {
-                    const bookedSlots = data.product.metafields.custom.booked_slots || [];
-                    const slot = `${selectedDate} ${selectedTime}`;
-
-                    // Check if the slot is already booked
-                    if (bookedSlots.includes(slot)) {
-                      alert('This slot is already booked. Please select a different one.');
-                      return;
-                    }
-
-                    // Book the slot
-                    fetch('/cart/add.js', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        id: productId,
-                        properties: {
-                          'Try at Home Date': selectedDate,
-                          'Try at Home Time': selectedTime,
-                        },
-                      }),
-                    })
-                      .then((response) => response.json())
-                      .then((data) => {
-                        alert(`Booked slot: ${selectedDate} at ${selectedTime}`);
-                        location.reload();
-                      });
-                  });
-              });
-            });
-          </script>
           <!-- Add to Cart Button -->
           <button
             id="ProductSubmitButton-{{ section_id }}"
@@ -203,6 +104,101 @@
         </div>
       {%- endform -%}
     </product-form>
+    <div class="try-at-home-calendar" style="display: none;">
+      <h3>Select a Date and Time</h3>
+      <div class="calendar-dates"></div>
+      <select class="time-dropdown">
+        <option value="" disabled selected>Select a time</option>
+        {% for hour in (10..19) %}
+          <option value="{{ hour }}:00">{{ hour | modulo: 12 }}:00 {{ 'AM' | t }}</option>
+        {% endfor %}
+      </select>
+      <button id="book-slot-button">Book Slot</button>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const tryAtHomeButton = document.querySelector('.try-at-home-button');
+        const calendarContainer = document.querySelector('.calendar-dates');
+        const timeDropdown = document.querySelector('.time-dropdown');
+        const bookButton = document.getElementById('book-slot-button');
+        const calendarForm = document.querySelector('.try-at-home-calendar');
+        const productId = '{{ product.id }}';
+
+        // Toggle form visibility
+        tryAtHomeButton.addEventListener('click', () => {
+          calendarForm.style.display = 'block';
+          tryAtHomeButton.style.display = 'none';
+        });
+
+        // Generate dates for the current month
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth(); // 0-indexed
+        const firstDay = new Date(year, month, 1).getDay(); // Day of the week
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        // Render calendar
+        for (let i = 0; i < firstDay; i++) {
+          calendarContainer.innerHTML += `<div class="calendar-cell empty"></div>`;
+        }
+        for (let day = 1; day <= daysInMonth; day++) {
+          calendarContainer.innerHTML += `<div class="calendar-cell" data-date="${year}-${month + 1}-${day}">
+        ${day} - ${new Date(year, month, day).toLocaleString('en-US', { weekday: 'short' })}
+      </div>`;
+        }
+
+        // Highlight selected date and enable booking
+        let selectedDate = null;
+        calendarContainer.addEventListener('click', (e) => {
+          if (e.target.classList.contains('calendar-cell') && !e.target.classList.contains('empty')) {
+            document.querySelectorAll('.calendar-cell.selected').forEach((cell) => cell.classList.remove('selected'));
+            e.target.classList.add('selected');
+            selectedDate = e.target.dataset.date;
+          }
+        });
+
+        // Handle booking
+        bookButton.addEventListener('click', () => {
+          const selectedTime = timeDropdown.value;
+          if (!selectedDate || !selectedTime) {
+            alert('Please select both a date and time.');
+            return;
+          }
+
+          // Fetch booked slots to check availability
+          fetch('/products/{{ product.handle }}.json')
+            .then((response) => response.json())
+            .then((data) => {
+              const bookedSlots = data.product.metafields.custom.booked_slots || [];
+              const slot = `${selectedDate} ${selectedTime}`;
+
+              // Check if the slot is already booked
+              if (bookedSlots.includes(slot)) {
+                alert('This slot is already booked. Please select a different one.');
+                return;
+              }
+
+              // Book the slot
+              fetch('/cart/add.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  id: productId,
+                  properties: {
+                    'Try at Home Date': selectedDate,
+                    'Try at Home Time': selectedTime,
+                  },
+                }),
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  alert(`Booked slot: ${selectedDate} at ${selectedTime}`);
+                  location.reload();
+                });
+            });
+        });
+      });
+    </script>
   {%- else -%}
     <div class="product-form">
       <div class="product-form__buttons form">

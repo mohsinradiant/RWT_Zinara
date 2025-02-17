@@ -584,7 +584,10 @@ product-info variant-selects img {
     text-align: center;
     text-decoration: none;
     color: #712242;
+    background: transparent;
     border: solid 1px #712242;
+    justify-content: center;
+    align-items: center;
 }
 
 .product-form__buttons button {

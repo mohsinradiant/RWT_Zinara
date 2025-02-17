@@ -89,17 +89,17 @@
           <script>
             document.addEventListener('DOMContentLoaded', () => {
               const tryAtHomeButton = document.querySelector('.try-at-home-button');
-              const tryAtHomeCalendar = document.querySelector('.try-at-home-calendar');
-
-              // Event listener to toggle calendar visibility
-              tryAtHomeButton.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent default behavior
-                tryAtHomeCalendar.style.display = tryAtHomeCalendar.style.display === 'none' ? 'block' : 'none';
-              });
-
               const calendarContainer = document.querySelector('.calendar-dates');
               const timeDropdown = document.querySelector('.time-dropdown');
               const bookButton = document.getElementById('book-slot-button');
+              const calendarForm = document.querySelector('.try-at-home-calendar');
+              const productId = '{{ product.id }}';
+
+              // Toggle form visibility
+              tryAtHomeButton.addEventListener('click', () => {
+                calendarForm.style.display = 'block';
+                tryAtHomeButton.style.display = 'none';
+              });
 
               // Generate dates for the current month
               const today = new Date();
@@ -114,8 +114,8 @@
               }
               for (let day = 1; day <= daysInMonth; day++) {
                 calendarContainer.innerHTML += `<div class="calendar-cell" data-date="${year}-${month + 1}-${day}">
-      ${day} - ${new Date(year, month, day).toLocaleString('en-US', { weekday: 'short' })}
-    </div>`;
+              ${day} - ${new Date(year, month, day).toLocaleString('en-US', { weekday: 'short' })}
+            </div>`;
               }
 
               // Highlight selected date and enable booking
@@ -138,39 +138,38 @@
                   return;
                 }
 
-                const productId = '{{ product.id }}';
-                fetch('/cart/add.js', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    id: productId,
-                    properties: {
-                      'Try at Home Date': selectedDate,
-                      'Try at Home Time': selectedTime,
-                    },
-                  }),
-                })
+                // Fetch booked slots to check availability
+                fetch('/products/{{ product.handle }}.json')
                   .then((response) => response.json())
                   .then((data) => {
-                    alert(`Booked slot: ${selectedDate} at ${selectedTime}`);
-                    location.reload();
+                    const bookedSlots = data.product.metafields.custom.booked_slots || [];
+                    const slot = `${selectedDate} ${selectedTime}`;
+
+                    // Check if the slot is already booked
+                    if (bookedSlots.includes(slot)) {
+                      alert('This slot is already booked. Please select a different one.');
+                      return;
+                    }
+
+                    // Book the slot
+                    fetch('/cart/add.js', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        id: productId,
+                        properties: {
+                          'Try at Home Date': selectedDate,
+                          'Try at Home Time': selectedTime,
+                        },
+                      }),
+                    })
+                      .then((response) => response.json())
+                      .then((data) => {
+                        alert(`Booked slot: ${selectedDate} at ${selectedTime}`);
+                        location.reload();
+                      });
                   });
               });
-
-              // Disable booked slots
-              fetch('/products/{{ product.handle }}.json')
-                .then((response) => response.json())
-                .then((data) => {
-                  const bookedSlots = data.product.metafields.custom.booked_slots || [];
-                  bookedSlots.forEach((slot) => {
-                    document
-                      .querySelectorAll(`.calendar-cell[data-date="${slot.date}"]`)
-                      .forEach((cell) => cell.classList.add('booked'));
-                    document
-                      .querySelector(`.time-dropdown option[value="${slot.time}"]`)
-                      ?.setAttribute('disabled', 'true');
-                  });
-                });
             });
           </script>
           <!-- Add to Cart Button -->

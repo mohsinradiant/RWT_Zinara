@@ -72,9 +72,13 @@
           -%}
 
           <!-- Try at Home Button -->
-          <button type="button" class="try-at-home-button">Try at Home</button>
+          <a
+            class="try-at-home-button"
+            data-action="toggle-calendar"
+          >
+            Try at Home
+          </a>
 
-          <!-- Booking Form (Hidden Initially) -->
           <div class="try-at-home-calendar" style="display: none;">
             <h3>Select a Date and Time</h3>
             <div class="calendar-dates"></div>
@@ -90,17 +94,17 @@
           <script>
             document.addEventListener('DOMContentLoaded', () => {
               const tryAtHomeButton = document.querySelector('.try-at-home-button');
+              const tryAtHomeCalendar = document.querySelector('.try-at-home-calendar');
+
+              // Event listener to toggle calendar visibility
+              tryAtHomeButton.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default behavior
+                tryAtHomeCalendar.style.display = tryAtHomeCalendar.style.display === 'none' ? 'block' : 'none';
+              });
+
               const calendarContainer = document.querySelector('.calendar-dates');
               const timeDropdown = document.querySelector('.time-dropdown');
               const bookButton = document.getElementById('book-slot-button');
-              const calendarForm = document.querySelector('.try-at-home-calendar');
-              const productId = '{{ product.id }}';
-
-              // Toggle form visibility
-              tryAtHomeButton.addEventListener('click', () => {
-                calendarForm.style.display = 'block';
-                tryAtHomeButton.style.display = 'none';
-              });
 
               // Generate dates for the current month
               const today = new Date();
@@ -115,8 +119,8 @@
               }
               for (let day = 1; day <= daysInMonth; day++) {
                 calendarContainer.innerHTML += `<div class="calendar-cell" data-date="${year}-${month + 1}-${day}">
-                ${day} - ${new Date(year, month, day).toLocaleString('en-US', { weekday: 'short' })}
-              </div>`;
+      ${day} - ${new Date(year, month, day).toLocaleString('en-US', { weekday: 'short' })}
+    </div>`;
               }
 
               // Highlight selected date and enable booking
@@ -139,44 +143,72 @@
                   return;
                 }
 
-                // Fetch booked slots to check availability
-                fetch('/products/{{ product.handle }}.json')
+                const productId = '{{ product.id }}';
+                fetch('/cart/add.js', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    id: productId,
+                    properties: {
+                      'Try at Home Date': selectedDate,
+                      'Try at Home Time': selectedTime,
+                    },
+                  }),
+                })
                   .then((response) => response.json())
                   .then((data) => {
-                    const bookedSlots = data.product.metafields.custom.booked_slots || [];
-                    const slot = `${selectedDate} ${selectedTime}`;
-
-                    // Check if the slot is already booked
-                    if (bookedSlots.includes(slot)) {
-                      alert('This slot is already booked. Please select a different one.');
-                      return;
-                    }
-
-                    // Book the slot
-                    fetch('/cart/add.js', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        id: productId,
-                        properties: {
-                          'Try at Home Date': selectedDate,
-                          'Try at Home Time': selectedTime,
-                        },
-                      }),
-                    })
-                      .then((response) => response.json())
-                      .then((data) => {
-                        alert(`Booked slot: ${selectedDate} at ${selectedTime}`);
-                        location.reload();
-                      });
+                    alert(`Booked slot: ${selectedDate} at ${selectedTime}`);
+                    location.reload();
                   });
               });
+
+              // Disable booked slots
+              fetch('/products/{{ product.handle }}.json')
+                .then((response) => response.json())
+                .then((data) => {
+                  const bookedSlots = data.product.metafields.custom.booked_slots || [];
+                  bookedSlots.forEach((slot) => {
+                    document
+                      .querySelectorAll(`.calendar-cell[data-date="${slot.date}"]`)
+                      .forEach((cell) => cell.classList.add('booked'));
+                    document
+                      .querySelector(`.time-dropdown option[value="${slot.time}"]`)
+                      ?.setAttribute('disabled', 'true');
+                  });
+                });
             });
           </script>
+          <!-- Add to Cart Button -->
+          <button
+            id="ProductSubmitButton-{{ section_id }}"
+            type="submit"
+            name="add"
+            class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+            {% if product.selected_or_first_available_variant.available == false
+              or quantity_rule_soldout
+              or product.selected_or_first_available_variant == null
+            %}
+              disabled
+            {% endif %}
+          >
+            <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Shopping_Cart.png?v=1738756998">
+            <span>
+              {%- if product.selected_or_first_available_variant == null -%}
+                {{ 'products.product.unavailable' | t }}
+              {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- else -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- endif -%}
+            </span>
+            {%- render 'loading-spinner' -%}
+          </button>
+          {%- if show_dynamic_checkout -%}
+            {{ form | payment_button }}
+          {%- endif -%}
         </div>
       {%- endform -%}
     </product-form>
-
   {%- else -%}
     <div class="product-form">
       <div class="product-form__buttons form">

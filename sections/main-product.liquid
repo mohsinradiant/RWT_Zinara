@@ -1041,7 +1041,7 @@
       </li>
     {% endfor %}
     <li class="price-breakdown-total">
-      <span>Total Cost</span> <span>{{ product.variants.selected.price }}</span>
+      <span>Total Cost</span> <span>{{ product.variants.first.price }}</span>
     </li>
   </ul>
   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>

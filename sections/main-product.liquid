@@ -1036,7 +1036,7 @@
 <div class="price-breakdown-popup" id="popup">
   <ul class="price-breakdown-list">
     debug:
-    {{ current_variant.metafields.content.price_breakdown }}
+    {{ product.variants.first.metafields.content.price_breakdown }}
     {% for item in product.variants.metafields.content.price_breakdown %}
       <li>
         <span>{{ item.value.title }}</span> <span>₹5526.6</span>

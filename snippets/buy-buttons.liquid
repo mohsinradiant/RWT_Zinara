@@ -105,14 +105,22 @@
       {%- endform -%}
     </product-form>
     <div class="try-at-home-calendar" style="display: none;">
-      <h3>Select a Date and Time</h3>
+      <h3>Select a Date</h3>
       <div class="calendar-dates"></div>
+
+      <h3>Select a Time</h3>
       <select class="time-dropdown">
-        <option value="" disabled selected>Select a time</option>
-        {% for hour in (10..19) %}
-          <option value="{{ hour }}:00">{{ hour | modulo: 24 }}:00</option>
-        {% endfor %}
+        <option value="">-- Select Time --</option>
+        <option value="10:00 AM">10:00 AM</option>
+        <option value="12:00 PM">12:00 PM</option>
+        <option value="2:00 PM">2:00 PM</option>
+        <option value="4:00 PM">4:00 PM</option>
       </select>
+
+      <h3>Enter Your Details</h3>
+      <input type="text" id="address" placeholder="Enter your address" required>
+      <input type="number" id="pincode" placeholder="Enter your pincode" required>
+
       <button id="book-slot-button">Book Slot</button>
     </div>
     <script>
@@ -122,83 +130,119 @@
         const timeDropdown = document.querySelector('.time-dropdown');
         const bookButton = document.getElementById('book-slot-button');
         const calendarForm = document.querySelector('.try-at-home-calendar');
-        const productId = '{{ product.id }}';
+        const addressInput = document.getElementById('address');
+        const pincodeInput = document.getElementById('pincode');
 
-        // Toggle form visibility
+        const productId = '{{ product.id }}';
+        const customerId = '{{ customer.id }}';
+
+        // Show form on button click
         tryAtHomeButton.addEventListener('click', () => {
           calendarForm.style.display = 'block';
           tryAtHomeButton.style.display = 'none';
         });
 
-        // Generate dates for the current month
+        // Generate calendar dates
         const today = new Date();
         const year = today.getFullYear();
-        const month = today.getMonth(); // 0-indexed
-        const firstDay = new Date(year, month, 1).getDay(); // Day of the week
+        const month = today.getMonth();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-        // Render calendar
-        for (let i = 0; i < firstDay; i++) {
-          calendarContainer.innerHTML += `<div class="calendar-cell empty"></div>`;
-        }
         for (let day = 1; day <= daysInMonth; day++) {
           calendarContainer.innerHTML += `<div class="calendar-cell" data-date="${year}-${month + 1}-${day}">
-        ${day} - ${new Date(year, month, day).toLocaleString('en-US', { weekday: 'short' })}
-      </div>`;
+            ${day} - ${new Date(year, month, day).toLocaleString('en-US', { weekday: 'short' })}
+          </div>`;
         }
 
-        // Highlight selected date and enable booking
+        // Handle date selection
         let selectedDate = null;
         calendarContainer.addEventListener('click', (e) => {
-          if (e.target.classList.contains('calendar-cell') && !e.target.classList.contains('empty')) {
+          if (e.target.classList.contains('calendar-cell')) {
             document.querySelectorAll('.calendar-cell.selected').forEach((cell) => cell.classList.remove('selected'));
             e.target.classList.add('selected');
             selectedDate = e.target.dataset.date;
           }
         });
 
+        // Fetch customer metafield data
+        async function getCustomerMetafield() {
+          const response = await fetch('/metaobjects/content.try_at_home_slots.json', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          return data.metafields?.value || [];
+        }
+
+        // Save customer metafield data
+        async function saveCustomerMetafield(slot) {
+          const response = await fetch('/metaobjects/content.try_at_home_slots.json', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              metafield: {
+                namespace: 'content',
+                key: 'try_at_home_slots',
+                type: 'list.metaobject',
+                value: slot,
+              },
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          return await response.json();
+        }
+
         // Handle booking
-        bookButton.addEventListener('click', () => {
+        bookButton.addEventListener('click', async () => {
           const selectedTime = timeDropdown.value;
-          if (!selectedDate || !selectedTime) {
-            alert('Please select both a date and time.');
+          const address = addressInput.value.trim();
+          const pincode = pincodeInput.value.trim();
+
+          if (!selectedDate || !selectedTime || !address || !pincode) {
+            alert('Please fill in all details.');
             return;
           }
 
-          // Fetch booked slots to check availability
-          fetch('/products/{{ product.handle }}.json')
-            .then((response) => response.json())
-            .then((data) => {
-              const bookedSlots = data.product.metafields.custom.booked_slots || [];
-              const slot = `${selectedDate} ${selectedTime}`;
+          const existingSlots = await getCustomerMetafield();
+          const slot = {
+            slot_date_and_time: `${selectedDate} ${selectedTime}`,
+            product_variant: productId,
+            customer: customerId,
+            slot_status: 'Booked',
+            address: address,
+            pincode: pincode,
+          };
 
-              // Check if the slot is already booked
-              if (bookedSlots.includes(slot)) {
-                alert('This slot is already booked. Please select a different one.');
-                return;
-              }
+          // Check if the slot is already booked
+          if (existingSlots.some((s) => s.slot_date_and_time === slot.slot_date_and_time)) {
+            alert('This slot is already booked. Please select a different one.');
+            return;
+          }
 
-              // Book the slot
-              fetch('/cart/add.js', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  id: productId,
-                  properties: {
-                    'Try at Home Date': selectedDate,
-                    'Try at Home Time': selectedTime,
-                  },
-                }),
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  alert(`Booked slot: ${selectedDate} at ${selectedTime}`);
-                  location.reload();
-                });
-            });
+          // Append new slot to the metafield and update
+          existingSlots.push(slot);
+
+          try {
+            await saveCustomerMetafield(existingSlots); // Save updated slots
+            alert(`Successfully booked slot: ${slot.slot_date_and_time}`);
+            location.reload(); // Reload the page to reflect changes
+          } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while booking the slot. Please try again later.');
+          }
         });
       });
     </script>
+
   {%- else -%}
     <div class="product-form">
       <div class="product-form__buttons form">

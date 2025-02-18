@@ -1037,13 +1037,7 @@
   <input type="hidden" id="variant-id" value="{{ request.query.variant }}">
   <p>Debug: {{ request.query.variant }}</p>
 
-  <ul class="price-breakdown-list" id="price-breakdown-list">
-    {% assign selected_variant_id = request.query.variant %}
-    {% assign selected_variant = product.variants | where: 'id', selected_variant_id | first %}
-    {% if selected_variant == null %}
-      {% assign selected_variant = product.variants.first %}
-    {% endif %}
-
+  <ul class="price-breakdown-list">
     {% if selected_variant.metafields.content.price_breakdown %}
       {% for item in selected_variant.metafields.content.price_breakdown.value %}
         <li>

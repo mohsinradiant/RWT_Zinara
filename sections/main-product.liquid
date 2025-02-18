@@ -1041,7 +1041,7 @@
       </li>
     {% endfor %}
     <li class="price-breakdown-total">
-      <span>Total Cost</span> <span>₹{{ product.variants.first.selling_price | divided_by: 100.00 }}</span>
+      <span>Total Cost</span> <span>₹{{ product.variants.first.price | divided_by: 100 }}</span>
     </li>
   </ul>
   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>

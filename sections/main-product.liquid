@@ -1035,12 +1035,14 @@
 <div class="price-breakdown-overlay" id="overlay" onclick="togglePopup()"></div>
 <div class="price-breakdown-popup" id="popup">
   <ul class="price-breakdown-list">
-    {% for item in product.variants.first.metafields.content.price_breakdown.value %}
+    {% for item in product.variants.selected.metafields.content.price_breakdown.value %}
       <li>
         <span>{{ item.title }}</span> <span>₹{{ item.description }}</span>
       </li>
     {% endfor %}
-    <li class="price-breakdown-total"><span>Total Cost</span> <span>₹13,516.60</span></li>
+    <li class="price-breakdown-total">
+      <span>Total Cost</span> <span>{{ product.variants.selected.price }}</span>
+    </li>
   </ul>
   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
 </div>

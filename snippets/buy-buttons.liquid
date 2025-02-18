@@ -132,28 +132,28 @@
         const calendarForm = document.querySelector('.try-at-home-calendar');
         const addressInput = document.getElementById('address');
         const pincodeInput = document.getElementById('pincode');
-
+    
         const productId = '{{ product.id }}';
         const customerId = '{{ customer.id }}';
-
+    
         // Show form on button click
         tryAtHomeButton.addEventListener('click', () => {
           calendarForm.style.display = 'block';
           tryAtHomeButton.style.display = 'none';
         });
-
+    
         // Generate calendar dates
         const today = new Date();
         const year = today.getFullYear();
         const month = today.getMonth();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
-
+    
         for (let day = 1; day <= daysInMonth; day++) {
           calendarContainer.innerHTML += `<div class="calendar-cell" data-date="${year}-${month + 1}-${day}">
             ${day} - ${new Date(year, month, day).toLocaleString('en-US', { weekday: 'short' })}
           </div>`;
         }
-
+    
         // Handle date selection
         let selectedDate = null;
         calendarContainer.addEventListener('click', (e) => {
@@ -163,22 +163,22 @@
             selectedDate = e.target.dataset.date;
           }
         });
-
+    
         // Fetch customer metafield data
         async function getCustomerMetafield() {
           const response = await fetch('/metaobjects/content.try_at_home_slots.json', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
           });
-
+    
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
-
+    
           const data = await response.json();
           return data.metafields?.value || [];
         }
-
+    
         // Save customer metafield data
         async function saveCustomerMetafield(slot) {
           const response = await fetch('/metaobjects/content.try_at_home_slots.json', {
@@ -186,32 +186,32 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               metafield: {
-                namespace: 'content',
-                key: 'try_at_home_slots',
-                type: 'list.metaobject',
-                value: slot,
-              },
+                namespace: "content",
+                key: "try_at_home_slots",
+                type: "list.metaobject",
+                value: slot
+              }
             }),
           });
-
+    
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
-
+    
           return await response.json();
         }
-
+    
         // Handle booking
         bookButton.addEventListener('click', async () => {
           const selectedTime = timeDropdown.value;
           const address = addressInput.value.trim();
           const pincode = pincodeInput.value.trim();
-
+    
           if (!selectedDate || !selectedTime || !address || !pincode) {
             alert('Please fill in all details.');
             return;
           }
-
+    
           const existingSlots = await getCustomerMetafield();
           const slot = {
             slot_date_and_time: `${selectedDate} ${selectedTime}`,
@@ -221,20 +221,20 @@
             address: address,
             pincode: pincode,
           };
-
+    
           // Check if the slot is already booked
           if (existingSlots.some((s) => s.slot_date_and_time === slot.slot_date_and_time)) {
             alert('This slot is already booked. Please select a different one.');
             return;
           }
-
+    
           // Append new slot to the metafield and update
           existingSlots.push(slot);
-
+    
           try {
-            await saveCustomerMetafield(existingSlots); // Save updated slots
+            await saveCustomerMetafield(existingSlots);  // Save updated slots
             alert(`Successfully booked slot: ${slot.slot_date_and_time}`);
-            location.reload(); // Reload the page to reflect changes
+            location.reload();  // Reload the page to reflect changes
           } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while booking the slot. Please try again later.');
@@ -242,7 +242,7 @@
         });
       });
     </script>
-
+    
   {%- else -%}
     <div class="product-form">
       <div class="product-form__buttons form">

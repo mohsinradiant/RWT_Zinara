@@ -1037,7 +1037,7 @@
   <ul class="price-breakdown-list">
     {% for item in product.variants.first.metafields.content.price_breakdown.value %}
       <li>
-        <span>{{ item.value.title }}</span> <span>₹5526.6</span>
+        <span>{{ item.value.title }}</span> <span>{{ item.value.description }}</span>
       </li>
     {% endfor %}
     <li class="price-breakdown-total"><span>Total Cost</span> <span>₹13,516.60</span></li>

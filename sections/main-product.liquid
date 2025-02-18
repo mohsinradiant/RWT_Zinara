@@ -1034,70 +1034,16 @@
 </product-info>
 <div class="price-breakdown-overlay" id="overlay" onclick="togglePopup()"></div>
 <div class="price-breakdown-popup" id="popup">
-  <input type="hidden" id="variant-id" value="{{ request.query.variant }}">
-  <p>Debug: {{ request.query.variant }}</p>
-
   <ul class="price-breakdown-list">
-    {% if selected_variant.metafields.content.price_breakdown %}
-      {% for item in selected_variant.metafields.content.price_breakdown.value %}
-        <li>
-          <span>{{ item.title }}</span> <span>₹{{ item.description }}</span>
-        </li>
-      {% endfor %}
-      <li class="price-breakdown-total">
-        <span>Total Cost</span>
-        <span>₹{{ selected_variant.metafields.content.price_breakdown_total }}</span>
+    {% for item in product.variants.first.metafields.content.price_breakdown.value %}
+      <li>
+        <span>{{ item.title }}</span> <span>₹{{ item.description }}</span>
       </li>
-    {% else %}
-      <li>No price breakdown available for this variant.</li>
-    {% endif %}
+    {% endfor %}
+    <li class="price-breakdown-total"><span>Total Cost</span> <span>₹13,516.60</span></li>
   </ul>
-
   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
 </div>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const params = new URLSearchParams(window.location.search);
-    const variantId = params.get('variant');
-
-    // If no variant ID is found, default to the first variant
-    if (!variantId) return;
-
-    // Fetch updated data using the variant ID
-    fetch(`/products/{{ product.handle }}.js`)
-      .then((response) => response.json())
-      .then((product) => {
-        const selectedVariant = product.variants.find((variant) => variant.id == variantId);
-
-        if (selectedVariant) {
-          const priceBreakdownList = document.getElementById('price-breakdown-list');
-          priceBreakdownList.innerHTML = ''; // Clear current list
-
-          if (selectedVariant.metafields?.content?.price_breakdown) {
-            const breakdown = selectedVariant.metafields.content.price_breakdown;
-
-            // Populate the list dynamically
-            breakdown.value.forEach((item) => {
-              const listItem = document.createElement('li');
-              listItem.innerHTML = `<span>${item.title}</span> <span>₹${item.description}</span>`;
-              priceBreakdownList.appendChild(listItem);
-            });
-
-            // Add total cost if available
-            if (selectedVariant.metafields.content.price_breakdown_total) {
-              const totalItem = document.createElement('li');
-              totalItem.classList.add('price-breakdown-total');
-              totalItem.innerHTML = `<span>Total Cost</span> <span>₹${selectedVariant.metafields.content.price_breakdown_total}</span>`;
-              priceBreakdownList.appendChild(totalItem);
-            }
-          } else {
-            // No price breakdown available
-            priceBreakdownList.innerHTML = '<li>No price breakdown available for this variant.</li>';
-          }
-        }
-      });
-  });
-</script>
 <script>
   function togglePopup() {
     document.querySelector('.price-breakdown-popup').classList.toggle('active');

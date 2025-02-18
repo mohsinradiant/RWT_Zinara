@@ -1040,7 +1040,7 @@
     {% assign selected_variant = product.variants.first %}
   {% endif %}
 
-  <ul class="price-breakdown-list">
+  <ul class="price-breakdown-list" id="price-breakdown-list">
     {% if selected_variant.metafields.content.price_breakdown %}
       {% for item in selected_variant.metafields.content.price_breakdown.value %}
         <li>
@@ -1055,6 +1055,44 @@
       <li>No price breakdown available for this variant.</li>
     {% endif %}
   </ul>
+
+  <script>
+    // Get the product object
+    var product = {{ product | json }};
+    var selectedVariantId = new URLSearchParams(window.location.search).get('variant');
+
+    if (!selectedVariantId) {
+      selectedVariantId = product.variants[0].id; // Fallback to the first variant if no variant is selected
+    }
+
+    // Find the selected variant
+    var selectedVariant = product.variants.find(function(variant) {
+      return variant.id.toString() === selectedVariantId;
+    });
+
+    // Now use the selectedVariant object to update the page content
+    if (selectedVariant) {
+      // Update the displayed price (if you have an element with id 'variant-price')
+      document.getElementById('variant-price').textContent = selectedVariant.price / 100; // Assuming price is in cents
+      // Update the displayed image (if you have an element with id 'variant-image')
+      document.getElementById('variant-image').src = selectedVariant.featured_image.src;
+
+      // Update metafields dynamically (price breakdown)
+      var priceBreakdownList = document.getElementById('price-breakdown-list');
+      if (selectedVariant.metafields && selectedVariant.metafields.content.price_breakdown) {
+        priceBreakdownList.innerHTML = ''; // Clear the current list
+        selectedVariant.metafields.content.price_breakdown.value.forEach(function(item) {
+          var li = document.createElement('li');
+          li.innerHTML = '<span>' + item.title + '</span> <span>₹' + item.description + '</span>';
+          priceBreakdownList.appendChild(li);
+        });
+
+        // Update the total cost (if you have an element for this)
+        var totalCost = selectedVariant.price / 100; // Assuming price is in cents
+        priceBreakdownList.innerHTML += '<li class="price-breakdown-total"><span>Total Cost</span><span>₹' + totalCost + '</span></li>';
+      }
+    }
+  </script>
 
   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
 </div>

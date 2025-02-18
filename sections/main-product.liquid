@@ -1034,16 +1034,28 @@
 </product-info>
 <div class="price-breakdown-overlay" id="overlay" onclick="togglePopup()"></div>
 <div class="price-breakdown-popup" id="popup">
+  {% assign selected_variant_id = request.query.variant %}
+  {% assign selected_variant = product.variants | where: 'id', selected_variant_id | first %}
+  {% if selected_variant == null %}
+    {% assign selected_variant = product.variants.first %}
+  {% endif %}
+
   <ul class="price-breakdown-list">
-    {% for item in product.variants.first.metafields.content.price_breakdown.value %}
-      <li>
-        <span>{{ item.title }}</span> <span>₹{{ item.description }}</span>
+    {% if selected_variant.metafields.content.price_breakdown %}
+      {% for item in selected_variant.metafields.content.price_breakdown.value %}
+        <li>
+          <span>{{ item.title }}</span> <span>₹{{ item.description }}</span>
+        </li>
+      {% endfor %}
+      <li class="price-breakdown-total">
+        <span>Total Cost</span>
+        <span>₹{{ selected_variant.price | divided_by: 100 }}</span>
       </li>
-    {% endfor %}
-    <li class="price-breakdown-total">
-      <span>Total Cost</span> <span>₹{{ product.variants.first.price | divided_by: 100 }}</span>
-    </li>
+    {% else %}
+      <li>No price breakdown available for this variant.</li>
+    {% endif %}
   </ul>
+
   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
 </div>
 <script>

@@ -1035,7 +1035,7 @@
 <div class="price-breakdown-overlay" id="overlay" onclick="togglePopup()"></div>
 <div class="price-breakdown-popup" id="popup">
   <ul class="price-breakdown-list">
-    {% for item in product.variants.selected.metafields.content.price_breakdown.value %}
+    {% for item in product.variants.first.metafields.content.price_breakdown.value %}
       <li>
         <span>{{ item.title }}</span> <span>₹{{ item.description }}</span>
       </li>

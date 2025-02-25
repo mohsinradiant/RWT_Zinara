@@ -28,7 +28,7 @@
   assign available = target.available | default: false
 
   assign money_compare_at_price = compare_at_price | divided_by: 100 | floor
-  assign money_price = price | money_without_currency | remove: '.00'
+  assign money_price = price | divided_by: 100 | floor | money_without_currency
   assign money_price_min = price_min | divided_by: 100 | floor
   assign money_price_max = price_max | divided_by: 100 | floor
 

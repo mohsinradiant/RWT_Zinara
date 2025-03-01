@@ -1332,7 +1332,15 @@
     }
   });
 </script>
+<script>
+  document.getElementById('tryAtHomeButton').addEventListener('click', (event) => {
+    // Prevent the event from bubbling up to other elements
+    event.stopPropagation();
 
+    // Open the popup
+    document.getElementById('tryAtHomePopup').classList.remove('hidden');
+  });
+</script>
 <script>
   // Function to move #tryAtHomeButton into .product-form__buttons
   function moveTryAtHomeButton() {

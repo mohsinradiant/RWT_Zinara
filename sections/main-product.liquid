@@ -1110,6 +1110,127 @@
     show_pickup_availability: true
   -%}
 </div>
+
+<!-- Try at Home Button -->
+<button id="tryAtHomeButton" class="try-at-home-button">Try at Home</button>
+
+<div id="tryAtHomePopup" class="try-at-home-popup hidden">
+  <div class="popup-content">
+    <button id="closePopup" class="close-btn">X</button>
+    <h2>Try at Home</h2>
+    <label for="timeslot">Select a Timeslot:</label>
+    <input type="date" id="timeslot" class="calendar-input">
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" class="input-field" placeholder="Enter your name">
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" class="input-field" placeholder="Enter your email">
+
+    <label for="phone">Phone:</label>
+    <input type="tel" id="phone" class="input-field" placeholder="Enter your phone number">
+
+    <label for="address">Address:</label>
+    <textarea id="address" class="textarea-field" placeholder="Enter your address"></textarea>
+
+    <button id="submitTryAtHome" class="submit-btn">Submit</button>
+  </div>
+</div>
+<style>
+  .hidden {
+    display: none;
+  }
+
+  .try-at-home-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .popup-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 16px;
+  }
+
+  .input-field,
+  .calendar-input,
+  .textarea-field {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .submit-btn {
+    background: #007aff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+</style>
+<script>
+  // Open Popup
+  document.getElementById('tryAtHomeButton').addEventListener('click', () => {
+    document.getElementById('tryAtHomePopup').classList.remove('hidden');
+  });
+
+  // Close Popup
+  document.getElementById('closePopup').addEventListener('click', () => {
+    document.getElementById('tryAtHomePopup').classList.add('hidden');
+  });
+
+  // Submit Form
+  document.getElementById('submitTryAtHome').addEventListener('click', () => {
+    const timeslot = document.getElementById('timeslot').value;
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+
+    if (!timeslot || !name || !email || !phone || !address) {
+      alert('Please fill in all fields!');
+      return;
+    }
+
+    const tryAtHomeData = {
+      timeslot,
+      name,
+      email,
+      phone,
+      address,
+    };
+
+    console.log('Submitting Try at Home Request:', tryAtHomeData);
+    alert('Slot submitted successfully!');
+    document.getElementById('tryAtHomePopup').classList.add('hidden');
+
+    // TODO: Send `tryAtHomeData` to your server via AJAX
+  });
+</script>
+
 {% schema %}
 {
   "name": "t:sections.main-product.name",

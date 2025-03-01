@@ -1168,16 +1168,15 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
-  // Initialize Flatpickr for Date and Time Slot Selection
+  // Initialize Flatpickr
   flatpickr('#timeslot', {
-    enableTime: true, // Enable time picker
-    dateFormat: 'Y-m-d H:i', // Format the date and time
-    minDate: 'today', // Disable past dates
-    maxDate: new Date().fp_incr(30), // Limit selection to 30 days from today
-    time_24hr: true, // Use 24-hour format
-    minuteIncrement: 30, // Allow selection in 30-minute intervals
-    defaultHour: 10, // Default hour for the time picker
-    defaultMinute: 0, // Default minute for the time picker
+    enableTime: true,
+    dateFormat: 'Y-m-d\\TH:i:00\\Z', // ISO 8601 format
+    time_24hr: true, // 24-hour format
+    minDate: 'today', // Disallow past dates
+    defaultHour: 10, // Default start time
+    defaultMinute: 0, // Default minute
+    minuteIncrement: 30, // 30-minute intervals
   });
 </script>
 <style>
@@ -1316,7 +1315,7 @@
     // Prepare data for submission
     const tryAtHomeData = {
       customer: customerId, // Assign the logged-in customer's ID
-      timeslot,
+      timeslot: new Date(timeslot).toISOString(), // Ensure UTC ISO 8601
       name,
       email,
       phone,

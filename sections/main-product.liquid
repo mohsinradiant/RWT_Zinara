@@ -1161,7 +1161,7 @@
         >
       </div>
     </div>
-    <button id="submitTryAtHome" class="submit-btn">Submit</button>
+    <a id="submitTryAtHome" class="submit-btn">Submit</a>
   </div>
 </div>
 
@@ -1330,7 +1330,24 @@
     });
   }
 </script>
+<script>
+  // Function to move #tryAtHomeButton into .product-form__buttons
+  function moveTryAtHomeButton() {
+    // Look for the button and the target container
+    const tryAtHomeButton = document.querySelector('#tryAtHomeButton');
+    const productFormButtons = document.querySelector('.product-form__buttons');
 
+    // If both elements exist, move the button and stop the interval
+    if (tryAtHomeButton && productFormButtons) {
+      productFormButtons.insertAdjacentElement('afterbegin', tryAtHomeButton);
+      console.log('#tryAtHomeButton successfully moved into .product-form__buttons');
+      clearInterval(checkElementsInterval); // Stop the interval
+    }
+  }
+
+  // Continuously check for the elements in the DOM
+  const checkElementsInterval = setInterval(moveTryAtHomeButton, 100);
+</script>
 {% schema %}
 {
   "name": "t:sections.main-product.name",

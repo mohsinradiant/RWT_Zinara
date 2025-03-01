@@ -1119,8 +1119,8 @@
     <h2 class="section-heading">Try at Home</h2>
     <div class="tryAtHomePopup-input_container_parent">
       <div class="tryAtHomePopup-input_container">
-        <label for="datetime-picker">Select a Date and Time Slot:</label>
-        <input type="text" id="datetime-picker" class="flatpickr-input">
+        <label for="timeslot">Select Time Slot:</label>
+        <input type="text" id="timeslot" class="calendar-input" placeholder="Select Time Slot">
       </div>
       <div class="tryAtHomePopup-input_container">
         <label for="name">Name:</label>
@@ -1166,21 +1166,20 @@
 </div>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 <script>
-  // Initialize Flatpickr
-  flatpickr('#datetime-picker', {
-    enableTime: true, // Enable time selection
-    dateFormat: 'Y-m-d H:i', // Custom date and time format
+  // Initialize Flatpickr for Date and Time Slot Selection
+  flatpickr('#timeslot', {
+    enableTime: true, // Enable time picker
+    dateFormat: 'Y-m-d H:i', // Format the date and time
     minDate: 'today', // Disable past dates
+    maxDate: new Date().fp_incr(30), // Limit selection to 30 days from today
     time_24hr: true, // Use 24-hour format
-    minuteIncrement: 30, // 30-minute intervals
-    defaultHour: 10, // Default start hour
-    defaultMinute: 0, // Default start minute
-    minTime: '10:00', // Start time
-    maxTime: '18:00', // End time
+    minuteIncrement: 30, // Allow selection in 30-minute intervals
+    defaultHour: 10, // Default hour for the time picker
+    defaultMinute: 0, // Default minute for the time picker
   });
 </script>
-
 <style>
   #tryAtHomePopup .section-heading {
     text-align: center !important;

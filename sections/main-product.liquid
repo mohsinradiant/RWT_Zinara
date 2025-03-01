@@ -1118,20 +1118,29 @@
   <div class="popup-content">
     <button id="closePopup" class="close-btn">X</button>
     <h2>Try at Home</h2>
-    <label for="timeslot">Select a Timeslot:</label>
-    <input type="date" id="timeslot" class="calendar-input">
+    <div class="tryAtHomePopup-input_container">
+      <label for="timeslot">Select a Timeslot:</label>
+      <input type="date" id="timeslot" class="calendar-input">
+    </div>
+    <div class="tryAtHomePopup-input_container">
+      <label for="name">Name:</label>
+      <input type="text" id="name" class="input-field" placeholder="Enter your name">
+    </div>
 
-    <label for="name">Name:</label>
-    <input type="text" id="name" class="input-field" placeholder="Enter your name">
+    <div class="tryAtHomePopup-input_container">
+      <label for="email">Email:</label>
+      <input type="email" id="email" class="input-field" placeholder="Enter your email">
+    </div>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" class="input-field" placeholder="Enter your email">
+    <div class="tryAtHomePopup-input_container">
+      <label for="phone">Phone:</label>
+      <input type="tel" id="phone" class="input-field" placeholder="Enter your phone number">
+    </div>
 
-    <label for="phone">Phone:</label>
-    <input type="tel" id="phone" class="input-field" placeholder="Enter your phone number">
-
-    <label for="address">Address:</label>
-    <textarea id="address" class="textarea-field" placeholder="Enter your address"></textarea>
+    <div class="tryAtHomePopup-input_container">
+      <label for="address">Address:</label>
+      <textarea id="address" class="textarea-field" placeholder="Enter your address"></textarea>
+    </div>
 
     <button id="submitTryAtHome" class="submit-btn">Submit</button>
   </div>
@@ -1151,15 +1160,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 3;
   }
 
   .popup-content {
     background: #fff;
     padding: 20px;
     border-radius: 8px;
-    width: 90%;
+    width: 100%;
     max-width: 400px;
     text-align: center;
+    height: 80%;
+    overflow-y: auto;
   }
 
   .close-btn {
@@ -1189,6 +1201,9 @@
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
+  }
+  .tryAtHomePopup-input_container {
+    display: flex;
   }
 </style>
 <script>

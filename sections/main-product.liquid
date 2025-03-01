@@ -1260,18 +1260,7 @@
   }
 </style>
 <script>
-  document.getElementById('tryAtHomeButton').addEventListener('click', () => {
-    // Open the popup
-    document.getElementById('tryAtHomePopup').classList.remove('hidden');
-  });
-
-  // Close Popup
-  document.getElementById('closePopup-tah').addEventListener('click', () => {
-    document.getElementById('tryAtHomePopup').classList.add('hidden');
-  });
-
-  // Submit Form
-  document.getElementById('submitTryAtHome').addEventListener('click', () => {
+  document.getElementById('submitTryAtHome').addEventListener('click', async () => {
     const timeslot = document.getElementById('timeslot').value;
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
@@ -1280,12 +1269,27 @@
     const pincode = document.getElementById('pincode').value;
     const productVariant = document.getElementById('productVariant').value;
 
+    // Capture the logged-in customer's ID (if available)
+    const customerId = "{{ customer.id | default: '' }}"; // Liquid assigns the logged-in customer's ID
+
+    // Check if the customer is logged in
+    if (!customerId) {
+      alert('You must be logged in to book a slot.');
+      return;
+    }
+
+    // Validate required fields
     if (!timeslot || !name || !email || !phone || !address || !pincode || !productVariant) {
       alert('Please fill in all fields!');
       return;
     }
 
+    // Set default slot status
+    const slotStatus = 'Slot Booked';
+
+    // Prepare data for submission
     const tryAtHomeData = {
+      customer_id: customerId, // Assign the logged-in customer's ID
       timeslot,
       name,
       email,
@@ -1293,42 +1297,40 @@
       address,
       pincode,
       product_variant: productVariant,
+      slot_status: slotStatus, // Default status
     };
 
-    console.log('Submitting Try at Home Request:', tryAtHomeData);
-    alert('Slot submitted successfully!');
-    document.getElementById('tryAtHomePopup').classList.add('hidden');
-
-    // TODO: Send `tryAtHomeData` to your server via AJAX
-  });
-
-  // Fetch Metafields (From Server-Side Endpoint)
-  async function fetchCustomerMetafield() {
     try {
-      const response = await fetch('/server-api/fetch-metafields'); // Server endpoint
+      // Send AJAX request
+      const response = await fetch('/api/try-at-home', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(tryAtHomeData),
+      });
+
       if (response.ok) {
-        const metafieldData = await response.json();
-        populateProductVariantOptions(metafieldData);
+        const responseData = await response.json();
+        console.log('Success:', responseData);
+
+        // Show success message
+        alert('Your Try at Home request has been successfully submitted!');
+
+        // Hide popup
+        document.getElementById('tryAtHomePopup').classList.add('hidden');
+
+        // Optional: Reset the form
+        document.getElementById('tryAtHomePopup').reset();
       } else {
-        console.error('Failed to fetch metafield data');
+        const errorData = await response.json();
+        alert(`Submission failed: ${errorData.message || 'Unknown error'}`);
       }
     } catch (error) {
-      console.error('Error fetching metafield data:', error);
+      console.error('Error submitting Try at Home request:', error);
+      alert('An error occurred while submitting your request. Please try again.');
     }
-  }
-
-  // Populate Product Variant Options
-  function populateProductVariantOptions(metafieldData) {
-    const productVariantSelect = document.getElementById('productVariant');
-    productVariantSelect.innerHTML = ''; // Clear existing options
-
-    metafieldData.forEach((entry) => {
-      const option = document.createElement('option');
-      option.value = entry.try_at_home_slot.product_variant;
-      option.textContent = entry.try_at_home_slot.product_variant;
-      productVariantSelect.appendChild(option);
-    });
-  }
+  });
 </script>
 
 <script>

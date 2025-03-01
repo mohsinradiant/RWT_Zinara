@@ -1113,7 +1113,6 @@
 
 <!-- Try at Home Button -->
 <button id="tryAtHomeButton" class="try-at-home-button">Try at Home</button>
-
 <div id="tryAtHomePopup" class="try-at-home-popup hidden">
   <div class="popup-content">
     <button id="closePopup" class="close-btn">X</button>
@@ -1141,6 +1140,16 @@
       <div class="tryAtHomePopup-input_container">
         <label for="address">Address:</label>
         <textarea id="address" class="textarea-field" placeholder="Enter your address"></textarea>
+      </div>
+
+      <div class="tryAtHomePopup-input_container">
+        <label for="pincode">Pincode:</label>
+        <input type="text" id="pincode" class="input-field" placeholder="Enter your pincode">
+      </div>
+
+      <div class="tryAtHomePopup-input_container">
+        <label for="productVariant">Product Variant:</label>
+        <select id="productVariant" class="input-field"></select>
       </div>
     </div>
     <button id="submitTryAtHome" class="submit-btn">Submit</button>
@@ -1240,14 +1249,30 @@
   });
 
   // Submit Form
+  // Open Popup
+  document.getElementById('tryAtHomeButton').addEventListener('click', async () => {
+    // Fetch metafield data for customer
+    const metafieldData = await fetchCustomerMetafield();
+    populateProductVariantOptions(metafieldData);
+    document.getElementById('tryAtHomePopup').classList.remove('hidden');
+  });
+
+  // Close Popup
+  document.getElementById('closePopup').addEventListener('click', () => {
+    document.getElementById('tryAtHomePopup').classList.add('hidden');
+  });
+
+  // Submit Form
   document.getElementById('submitTryAtHome').addEventListener('click', () => {
     const timeslot = document.getElementById('timeslot').value;
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const phone = document.getElementById('phone').value;
     const address = document.getElementById('address').value;
+    const pincode = document.getElementById('pincode').value;
+    const productVariant = document.getElementById('productVariant').value;
 
-    if (!timeslot || !name || !email || !phone || !address) {
+    if (!timeslot || !name || !email || !phone || !address || !pincode || !productVariant) {
       alert('Please fill in all fields!');
       return;
     }
@@ -1258,6 +1283,8 @@
       email,
       phone,
       address,
+      pincode,
+      product_variant: productVariant,
     };
 
     console.log('Submitting Try at Home Request:', tryAtHomeData);
@@ -1266,6 +1293,31 @@
 
     // TODO: Send `tryAtHomeData` to your server via AJAX
   });
+
+  // Fetch Customer Metafield
+  async function fetchCustomerMetafield() {
+    // Replace with actual API endpoint and customer token
+    const customerToken = 'YOUR_CUSTOMER_TOKEN_HERE'; // Add authentication if required
+    const response = await fetch(`/api/customer/metafields?token=${customerToken}`);
+    if (response.ok) {
+      return response.json();
+    }
+    console.error('Failed to fetch metafield data');
+    return [];
+  }
+
+  // Populate Product Variant Options
+  function populateProductVariantOptions(metafieldData) {
+    const productVariantSelect = document.getElementById('productVariant');
+    productVariantSelect.innerHTML = ''; // Clear existing options
+
+    metafieldData.forEach((entry) => {
+      const option = document.createElement('option');
+      option.value = entry.try_at_home_slot.product_variant;
+      option.textContent = entry.try_at_home_slot.product_variant; // Adjust display format if needed
+      productVariantSelect.appendChild(option);
+    });
+  }
 </script>
 
 {% schema %}

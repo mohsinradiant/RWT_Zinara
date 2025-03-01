@@ -1301,6 +1301,34 @@
 
     // TODO: Send `tryAtHomeData` to your server via AJAX
   });
+
+  // Fetch Metafields (From Server-Side Endpoint)
+  async function fetchCustomerMetafield() {
+    try {
+      const response = await fetch('/server-api/fetch-metafields'); // Server endpoint
+      if (response.ok) {
+        const metafieldData = await response.json();
+        populateProductVariantOptions(metafieldData);
+      } else {
+        console.error('Failed to fetch metafield data');
+      }
+    } catch (error) {
+      console.error('Error fetching metafield data:', error);
+    }
+  }
+
+  // Populate Product Variant Options
+  function populateProductVariantOptions(metafieldData) {
+    const productVariantSelect = document.getElementById('productVariant');
+    productVariantSelect.innerHTML = ''; // Clear existing options
+
+    metafieldData.forEach((entry) => {
+      const option = document.createElement('option');
+      option.value = entry.try_at_home_slot.product_variant;
+      option.textContent = entry.try_at_home_slot.product_variant;
+      productVariantSelect.appendChild(option);
+    });
+  }
 </script>
 
 <script>

@@ -1260,6 +1260,17 @@
   }
 </style>
 <script>
+  document.getElementById('tryAtHomeButton').addEventListener('click', () => {
+    // Open the popup
+    document.getElementById('tryAtHomePopup').classList.remove('hidden');
+  });
+
+  // Close Popup
+  document.getElementById('closePopup-tah').addEventListener('click', () => {
+    document.getElementById('tryAtHomePopup').classList.add('hidden');
+  });
+
+  // Submit Form
   document.getElementById('submitTryAtHome').addEventListener('click', async () => {
     const timeslot = document.getElementById('timeslot').value;
     const name = document.getElementById('name').value;
@@ -1333,18 +1344,7 @@
   });
 </script>
 <script>
-  document.getElementById('tryAtHomeButton').addEventListener('click', (event) => {
-    // Prevent the event from bubbling up to other elements
-    event.stopPropagation();
-
-    // Open the popup
-    document.getElementById('tryAtHomePopup').classList.remove('hidden');
-  });
-</script>
-<script>
-  // Function to move #tryAtHomeButton into .product-form__buttons
   function moveTryAtHomeButton() {
-    // Look for the button and the target container
     const tryAtHomeButton = document.querySelector('#tryAtHomeButton');
     const productFormButtons = document.querySelector('.product-form__buttons');
 

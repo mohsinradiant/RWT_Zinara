@@ -1293,7 +1293,7 @@
     const phone = document.getElementById('phone').value;
     const address = document.getElementById('address').value;
     const pincode = document.getElementById('pincode').value;
-    const productVariant = document.getElementById('productVariant').value;
+    const productVariant = document.getElementById('selectedProductVariant').value;
 
     // Capture the logged-in customer's ID (if available)
     const customerId = "{{ customer.id | default: '' }}"; // Liquid assigns the logged-in customer's ID
@@ -1315,7 +1315,7 @@
 
     // Prepare data for submission
     const tryAtHomeData = {
-      customer_id: customerId, // Assign the logged-in customer's ID
+      customer: customerId, // Assign the logged-in customer's ID
       timeslot,
       name,
       email,

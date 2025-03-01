@@ -1119,8 +1119,8 @@
     <h2 class="section-heading">Try at Home</h2>
     <div class="tryAtHomePopup-input_container_parent">
       <div class="tryAtHomePopup-input_container">
-        <label for="timeslot">Select a Timeslot:</label>
-        <input type="date" id="timeslot" class="calendar-input">
+        <label for="timeslot">Select Time Slot:</label>
+        <input type="text" id="timeslot" class="calendar-input" placeholder="Select Time Slot">
       </div>
       <div class="tryAtHomePopup-input_container">
         <label for="name">Name:</label>
@@ -1164,7 +1164,22 @@
     <a id="submitTryAtHome" class="submit-btn">Submit</a>
   </div>
 </div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+<script>
+  // Initialize Flatpickr for Date and Time Slot Selection
+  flatpickr('#timeslot', {
+    enableTime: true, // Enable time picker
+    dateFormat: 'Y-m-d H:i', // Format the date and time
+    minDate: 'today', // Disable past dates
+    maxDate: new Date().fp_incr(30), // Limit selection to 30 days from today
+    time_24hr: true, // Use 24-hour format
+    minuteIncrement: 30, // Allow selection in 30-minute intervals
+    defaultHour: 10, // Default hour for the time picker
+    defaultMinute: 0, // Default minute for the time picker
+  });
+</script>
 <style>
   #tryAtHomePopup .section-heading {
     text-align: center !important;

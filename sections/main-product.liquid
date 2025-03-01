@@ -1164,24 +1164,23 @@
     <a id="submitTryAtHome" class="submit-btn">Submit</a>
   </div>
 </div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
 <script>
-  // Initialize Flatpickr for Date and Time Slot Selection
-  flatpickr('#timeslot', {
-    enableTime: true, // Enable time picker
-    dateFormat: 'Y-m-d H:i', // Format the date and time
+  // Initialize Flatpickr
+  flatpickr('#datetime-picker', {
+    enableTime: true, // Enable time selection
+    dateFormat: 'Y-m-d H:i', // Custom date and time format
     minDate: 'today', // Disable past dates
-    maxDate: new Date().fp_incr(30), // Limit selection to 30 days from today
     time_24hr: true, // Use 24-hour format
-    minuteIncrement: 30, // Allow selection in 30-minute intervals
-    defaultHour: 10, // Default hour for the time picker
-    defaultMinute: 0, // Default minute for the time picker
+    minuteIncrement: 30, // 30-minute intervals
+    defaultHour: 10, // Default start hour
+    defaultMinute: 0, // Default start minute
+    minTime: '10:00', // Start time
+    maxTime: '18:00', // End time
   });
 </script>
+
 <style>
   #tryAtHomePopup .section-heading {
     text-align: center !important;

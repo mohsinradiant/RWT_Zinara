@@ -1147,14 +1147,24 @@
         <input type="text" id="pincode" class="input-field" placeholder="Enter your pincode">
       </div>
 
+      <!-- Product Variant -->
+      <input type="hidden" id="selectedProductVariant" value="{{ product.selected_or_first_available_variant.id }}">
       <div class="tryAtHomePopup-input_container">
         <label for="productVariant">Product Variant:</label>
-        <select id="productVariant" class="input-field"></select>
+        <input
+          type="text"
+          id="productVariant"
+          class="input-field"
+          readonly
+          value="{{ product.selected_or_first_available_variant.title }}"
+          placeholder="Selected Product Variant"
+        >
       </div>
     </div>
     <button id="submitTryAtHome" class="submit-btn">Submit</button>
   </div>
 </div>
+
 <style>
   .hidden {
     display: none;
@@ -1238,22 +1248,14 @@
   }
 </style>
 <script>
-  // Open Popup
   document.getElementById('tryAtHomeButton').addEventListener('click', () => {
-    document.getElementById('tryAtHomePopup').classList.remove('hidden');
-  });
+    const selectedProductVariant = document.getElementById('selectedProductVariant').value;
+    const productVariantField = document.getElementById('productVariant');
 
-  // Close Popup
-  document.getElementById('closePopup').addEventListener('click', () => {
-    document.getElementById('tryAtHomePopup').classList.add('hidden');
-  });
+    // Assign the selected variant to the input field
+    productVariantField.value = selectedProductVariant;
 
-  // Submit Form
-  // Open Popup
-  document.getElementById('tryAtHomeButton').addEventListener('click', async () => {
-    // Fetch metafield data for customer
-    const metafieldData = await fetchCustomerMetafield();
-    populateProductVariantOptions(metafieldData);
+    // Open the popup
     document.getElementById('tryAtHomePopup').classList.remove('hidden');
   });
 
@@ -1297,13 +1299,18 @@
   // Fetch Customer Metafield
   async function fetchCustomerMetafield() {
     // Replace with actual API endpoint and customer token
-    const customerToken = 'YOUR_CUSTOMER_TOKEN_HERE'; // Add authentication if required
-    const response = await fetch(`/api/customer/metafields?token=${customerToken}`);
-    if (response.ok) {
-      return response.json();
+    const customerToken = 'YOUR_CUSTOMER_TOKEN_HERE';
+    try {
+      const response = await fetch(`/api/customer/metafields?token=${customerToken}`);
+      if (response.ok) {
+        return await response.json();
+      } else {
+        console.error('Failed to fetch metafield data');
+        return [];
+      }
+    } catch (error) {
+      console.error('Error fetching metafield data:', error);
     }
-    console.error('Failed to fetch metafield data');
-    return [];
   }
 
   // Populate Product Variant Options
@@ -1314,7 +1321,7 @@
     metafieldData.forEach((entry) => {
       const option = document.createElement('option');
       option.value = entry.try_at_home_slot.product_variant;
-      option.textContent = entry.try_at_home_slot.product_variant; // Adjust display format if needed
+      option.textContent = entry.try_at_home_slot.product_variant;
       productVariantSelect.appendChild(option);
     });
   }

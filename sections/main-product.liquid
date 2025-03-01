@@ -1115,7 +1115,7 @@
 <button id="tryAtHomeButton" class="try-at-home-button">Try at Home</button>
 <div id="tryAtHomePopup" class="try-at-home-popup hidden">
   <div class="popup-content">
-    <button id="closePopup" class="close-btn">X</button>
+    <button id="closePopup-tah" class="close-btn">X</button>
     <h2 class="section-heading">Try at Home</h2>
     <div class="tryAtHomePopup-input_container_parent">
       <div class="tryAtHomePopup-input_container">
@@ -1161,7 +1161,7 @@
         >
       </div>
     </div>
-    <button id="submitTryAtHome" class="submit-btn">Submit</button>
+    <a id="submitTryAtHome" class="submit-btn">Submit</a>
   </div>
 </div>
 
@@ -1253,18 +1253,12 @@
 </style>
 <script>
   document.getElementById('tryAtHomeButton').addEventListener('click', () => {
-    const selectedProductVariant = document.getElementById('selectedProductVariant').value;
-    const productVariantField = document.getElementById('productVariant');
-
-    // Assign the selected variant to the input field
-    productVariantField.value = productVariantField.value;
-
     // Open the popup
     document.getElementById('tryAtHomePopup').classList.remove('hidden');
   });
 
   // Close Popup
-  document.getElementById('closePopup').addEventListener('click', () => {
+  document.getElementById('closePopup-tah').addEventListener('click', () => {
     document.getElementById('tryAtHomePopup').classList.add('hidden');
   });
 
@@ -1300,17 +1294,15 @@
     // TODO: Send `tryAtHomeData` to your server via AJAX
   });
 
-  // Fetch Customer Metafield
+  // Fetch Metafields (From Server-Side Endpoint)
   async function fetchCustomerMetafield() {
-    // Replace with actual API endpoint and customer token
-    const customerToken = 'YOUR_CUSTOMER_TOKEN_HERE';
     try {
-      const response = await fetch(`/api/customer/metafields?token=${customerToken}`);
+      const response = await fetch('/server-api/fetch-metafields'); // Server endpoint
       if (response.ok) {
-        return await response.json();
+        const metafieldData = await response.json();
+        populateProductVariantOptions(metafieldData);
       } else {
         console.error('Failed to fetch metafield data');
-        return [];
       }
     } catch (error) {
       console.error('Error fetching metafield data:', error);
@@ -1330,6 +1322,7 @@
     });
   }
 </script>
+
 <script>
   // Function to move #tryAtHomeButton into .product-form__buttons
   function moveTryAtHomeButton() {

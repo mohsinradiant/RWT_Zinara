@@ -1110,6 +1110,272 @@
     show_pickup_availability: true
   -%}
 </div>
+
+<!-- Try at Home Button -->
+<button id="tryAtHomeButton" class="try-at-home-button">Try at Home</button>
+<div id="tryAtHomePopup" class="try-at-home-popup hidden">
+  <div class="popup-content-tah">
+    <button id="closePopup-tah" class="close-btn">X</button>
+    <h2 class="section-heading">Try at Home</h2>
+    <div class="tryAtHomePopup-input_container_parent">
+      <div class="tryAtHomePopup-input_container">
+        <label for="timeslot">Select Time Slot:</label>
+        <input type="text" id="timeslot" class="calendar-input" placeholder="Select Time Slot">
+      </div>
+      <div class="tryAtHomePopup-input_container">
+        <label for="name">Name:</label>
+        <input type="text" id="name" class="input-field" placeholder="Enter your name">
+      </div>
+
+      <div class="tryAtHomePopup-input_container">
+        <label for="email">Email:</label>
+        <input type="email" id="email" class="input-field" placeholder="Enter your email">
+      </div>
+
+      <div class="tryAtHomePopup-input_container">
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" class="input-field" placeholder="Enter your phone number">
+      </div>
+
+      <div class="tryAtHomePopup-input_container">
+        <label for="address">Address:</label>
+        <textarea id="address" class="textarea-field" placeholder="Enter your address"></textarea>
+      </div>
+
+      <div class="tryAtHomePopup-input_container">
+        <label for="pincode">Pincode:</label>
+        <input type="text" id="pincode" class="input-field" placeholder="Enter your pincode">
+      </div>
+
+      <!-- Product Variant -->
+      <input type="hidden" id="selectedProductVariant" value="{{ product.selected_or_first_available_variant.id }}">
+      <div class="tryAtHomePopup-input_container">
+        <label for="productVariant">Product Variant:</label>
+        <input
+          type="text"
+          id="productVariant"
+          class="input-field"
+          readonly
+          value="{{ product.selected_or_first_available_variant.title }}"
+          placeholder="Selected Product Variant"
+        >
+      </div>
+    </div>
+    <a id="submitTryAtHome" class="submit-btn">Submit</a>
+  </div>
+</div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+  // Initialize Flatpickr
+  flatpickr('#timeslot', {
+    enableTime: true,
+    dateFormat: 'Y-m-d\\TH:i:00\\Z', // ISO 8601 format
+    time_24hr: true, // 24-hour format
+    minDate: 'today', // Disallow past dates
+    defaultHour: 10, // Default start time
+    defaultMinute: 0, // Default minute
+    minuteIncrement: 30, // 30-minute intervals
+  });
+</script>
+<style>
+  #tryAtHomePopup .section-heading {
+    text-align: center !important;
+  }
+  .hidden {
+    display: none;
+  }
+  .tryAtHomePopup-input_container_parent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    row-gap: 1.3rem;
+  }
+  .try-at-home-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9;
+  }
+
+  .popup-content-tah {
+    position: relative;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    height: fit-content;
+    overflow-y: auto;
+    max-height: 80%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    font-weight: 600;
+    font-family: cursive;
+  }
+
+  .input-field,
+  .calendar-input,
+  .textarea-field {
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .submit-btn {
+    background: #612342;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1.3rem;
+    width: 100%;
+  }
+  .tryAtHomePopup-input_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 0;
+    width: 49%;
+  }
+  .tryAtHomePopup-input_container label {
+    font-family: 'Quicksand';
+    font-weight: 400;
+    font-size: 1.3rem;
+    letter-spacing: 0;
+    margin-bottom: 2px;
+    line-height: 1.3rem;
+  }
+  @media (max-width: 600px) {
+    .popup-content-tah {
+      max-width: 85%;
+    }
+  }
+</style>
+<script>
+  document.getElementById('tryAtHomeButton').addEventListener('click', () => {
+    // Open the popup
+    document.getElementById('tryAtHomePopup').classList.remove('hidden');
+  });
+
+  // Close Popup
+  document.getElementById('closePopup-tah').addEventListener('click', () => {
+    document.getElementById('tryAtHomePopup').classList.add('hidden');
+  });
+
+  // Submit Form
+  document.getElementById('submitTryAtHome').addEventListener('click', async () => {
+    const timeslot = document.getElementById('timeslot').value;
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+    const pincode = document.getElementById('pincode').value;
+    const productVariant = document.getElementById('selectedProductVariant').value;
+
+    // Capture the logged-in customer's ID (if available)
+    const customerId = "{{ customer.id | default: '' }}"; // Liquid assigns the logged-in customer's ID
+
+    // Check if the customer is logged in
+    if (!customerId) {
+      alert('You must be logged in to book a slot.');
+      return;
+    }
+
+    // Validate required fields
+    if (!timeslot || !name || !email || !phone || !address || !pincode || !productVariant) {
+      alert('Please fill in all fields!');
+      return;
+    }
+
+    // Set default slot status
+    const slotStatus = 'Slot Booked';
+
+    // Prepare data for submission
+    const tryAtHomeData = {
+      customer: customerId, // Assign the logged-in customer's ID
+      timeslot: new Date(timeslot).toISOString(), // Ensure UTC ISO 8601
+      name,
+      email,
+      phone,
+      address,
+      pincode,
+      product_variant: productVariant,
+      slot_status: slotStatus, // Default status
+    };
+    console.log('Final data being posted:', tryAtHomeData);
+
+    try {
+      // Send AJAX request
+      const response = await fetch('/api/try-at-home', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(tryAtHomeData),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('Success:', responseData);
+
+        // Show success message
+        alert('Your Try at Home request has been successfully submitted!');
+
+        // Hide popup
+        document.getElementById('tryAtHomePopup').classList.add('hidden');
+
+        // Optional: Reset the form
+        document.getElementById('tryAtHomePopup').reset();
+      } else {
+        const errorData = await response.json();
+        alert(`Submission failed: ${errorData.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error submitting Try at Home request:', error);
+      alert('An error occurred while submitting your request. Please try again.');
+    }
+  });
+</script>
+<script>
+  function moveTryAtHomeButton() {
+    const tryAtHomeButton = document.querySelector('#tryAtHomeButton');
+    const productFormButtons = document.querySelector('.product-form__buttons');
+
+    // If both elements exist, move the button and stop the interval
+    if (tryAtHomeButton && productFormButtons) {
+      productFormButtons.insertAdjacentElement('afterbegin', tryAtHomeButton);
+      console.log('#tryAtHomeButton successfully moved into .product-form__buttons');
+      clearInterval(checkElementsInterval); // Stop the interval
+    }
+  }
+
+  // Continuously check for the elements in the DOM
+  const checkElementsInterval = setInterval(moveTryAtHomeButton, 100);
+</script>
 {% schema %}
 {
   "name": "t:sections.main-product.name",

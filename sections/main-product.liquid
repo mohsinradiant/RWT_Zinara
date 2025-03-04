@@ -1386,28 +1386,29 @@
 
       const jsonResponse = JSON.parse(rawResponse);
       if (response.ok && jsonResponse.success) {
-        // Get the popup container
-        const popupContainer = document.getElementById('ajax_tah_succ_submit_popup_container');
+    // Get the popup container
+    const popupContainer = document.getElementById('ajax_tah_succ_submit_popup_container');
 
-        // Show the popup
-        popupContainer.classList.remove('hidden');
+    // Show the popup
+    popupContainer.classList.remove('hidden');
 
-        // Redirect to account page on "See Booked Trials" button click
-        document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
-          window.location.href = '/account'; // Replace '/account' with your account page URL
-        });
+    // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
+    document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
+        window.location.href = '/account#account_page_tah_trials'; // Replace '/account' with your actual account page URL
+    });
 
-        // Close popup on "Close" button click
-        document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
-          popupContainer.classList.add('hidden');
-        });
+    // Close popup on "Close" button click
+    document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
+        popupContainer.classList.add('hidden');
+    });
 
-        // Hide and reset the Try At Home popup form
-        document.getElementById('tryAtHomePopup').classList.add('hidden');
-        document.getElementById('tryAtHomePopup').reset();
-      } else {
-        alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
-      }
+    // Hide and reset the Try At Home popup form
+    document.getElementById('tryAtHomePopup').classList.add('hidden');
+    document.getElementById('tryAtHomePopup').reset();
+} else {
+    alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
+}
+
     } catch (error) {
       console.error('Error during submission:', error);
     }

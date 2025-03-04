@@ -70,7 +70,9 @@
               assign quantity_rule_soldout = true
             endif
           -%}
-
+          {% if template == 'products' %}
+            <button id="tryAtHomeButton" class="try-at-home-button">Try at Home</button>
+          {% endif %}
           <!-- Add to Cart Button -->
           <button
             id="ProductSubmitButton-{{ section_id }}"

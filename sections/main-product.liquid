@@ -1154,6 +1154,7 @@
       {% for slot in shop.metaobjects.try_at_home_slot.values %}
         {% assign unavailable_slots = unavailable_slots | append: slot.slot_date_and_time | append: ',' %}
       {% endfor %}
+      {{ unavailable_slots | json }}
       <div class="tryAtHomePopup-input_container">
         <label for="date">Select Date:</label>
         <div class="date-container"></div>

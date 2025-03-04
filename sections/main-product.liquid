@@ -1299,6 +1299,21 @@
       const email = "{{ customer.email | default: '' }}";
       const phone = "{{ customer.phone | default: '' }}";
 
+      // Log all field values for debugging
+      console.log('Fields:', {
+        timeslot,
+        house,
+        locality,
+        city,
+        state,
+        pincode,
+        productVariant,
+        customerId,
+        name,
+        email,
+        phone,
+      });
+
       // Check if the customer is logged in
       if (!customerId) {
         alert('You must be logged in to book a slot.');

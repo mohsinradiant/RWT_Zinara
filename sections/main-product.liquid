@@ -1214,8 +1214,20 @@
           timeslotContainer.addEventListener('click', function (event) {
             if (event.target.classList.contains('timeslot-btn')) {
               // Remove the 'selected' class from all timeslot buttons
-              const allButtons = timeslotContainer.querySelectorAll('.timeslot-btn');
-              allButtons.forEach(button => button.classList.remove('selected'));
+              const allTimeslotButtons = timeslotContainer.querySelectorAll('.timeslot-btn');
+              allTimeslotButtons.forEach(button => button.classList.remove('selected'));
+      
+              // Add the 'selected' class to the clicked button
+              event.target.classList.add('selected');
+            }
+          });
+      
+          // Add click event listener to date buttons
+          dateContainer.addEventListener('click', function (event) {
+            if (event.target.classList.contains('date-btn')) {
+              // Remove the 'selected' class from all date buttons
+              const allDateButtons = dateContainer.querySelectorAll('.date-btn');
+              allDateButtons.forEach(button => button.classList.remove('selected'));
       
               // Add the 'selected' class to the clicked button
               event.target.classList.add('selected');

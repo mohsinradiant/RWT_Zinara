@@ -1154,7 +1154,6 @@
       {% for slot in shop.metaobjects.try_at_home_slot.values %}
         {% assign unavailable_slots = unavailable_slots | append: slot.slot_date_and_time | append: ',' %}
       {% endfor %}
-      {{ unavailable_slots | json }}
       <div class="tryAtHomePopup-input_container">
         <label for="date">Select Date:</label>
         <div class="date-container"></div>
@@ -1191,8 +1190,9 @@
     
     // Clean and parse unavailable slots
     const cleanedUnavailableSlots = unavailableSlots
-      .map(slot => new Date(slot.trim())) // Parse the datetime strings into Date objects
-      .map(date => {
+      .filter(slot => slot.trim() !== '') // Remove any empty strings
+      .map(slot => {
+        const date = new Date(slot.trim()); // Parse the datetime strings into Date objects
         const hours = String(date.getUTCHours()).padStart(2, '0'); // Get UTC hours
         const minutes = String(date.getUTCMinutes()).padStart(2, '0'); // Get UTC minutes
         return `${hours}:${minutes}`; // Return HH:MM format

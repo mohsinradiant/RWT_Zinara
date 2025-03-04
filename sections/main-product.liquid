@@ -1153,63 +1153,75 @@
       <script>
         const unavailableSlots = {{ unavailable_slots | split: ',' | json }};
         document.addEventListener('DOMContentLoaded', function () {
-        const dateContainer = document.querySelector('.date-container');
-        const timeslotContainer = document.querySelector('.timeslot-container');
+          const dateContainer = document.querySelector('.date-container');
+          const timeslotContainer = document.querySelector('.timeslot-container');
           
-        // Clean and parse unavailable slots
-  const cleanedUnavailableSlots = unavailableSlots
-    .map(slot => new Date(slot.trim())) // Parse the datetime strings into Date objects
-    .map(date => {
-      const hours = String(date.getUTCHours()).padStart(2, '0'); // Get UTC hours
-      const minutes = String(date.getUTCMinutes()).padStart(2, '0'); // Get UTC minutes
-      return `${hours}:${minutes}`; // Return HH:MM format
-    });
-
-  // Debugging: Log cleaned unavailable times
-  console.log('Cleaned Unavailable Times:', cleanedUnavailableSlots);
-
-  // Generate Dates
-  const today = new Date();
-  for (let i = 0; i < 7; i++) {
-    const futureDate = new Date();
-    futureDate.setDate(today.getDate() + i);
-    const options = { day: '2-digit', month: 'short', weekday: 'long' };
-    const formattedDate = futureDate.toISOString().split('T')[0];
-    const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
-          
-          const buttonHTML = `
-            <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
-        ${displayDate[0]}<br>
-        <span>${displayDate[1]}</span>
-            </button>
-          `;
-          dateContainer.innerHTML += buttonHTML;
-        }
-          
-        // Generate Timeslots
-        let startTime = 10; // Start at 10:00 AM
-        let startMinutes = 0;
-          
-        for (let i = 0; i < 18; i++) {
-          const endMinutes = startMinutes + 30;
-          const endTime = startTime + Math.floor(endMinutes / 60);
-          const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
-          const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
-          const timeslot = `${displayStart} - ${displayEnd}`;
-          
-          // Debugging: Log each generated timeslot and the comparison
-          console.log('Checking Timeslot:', displayStart, 'Unavailable:', cleanedUnavailableSlots.includes(displayStart));
-          
-          if (!cleanedUnavailableSlots.includes(displayStart)) {
-            // Render only if slot is available
-            const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
-            timeslotContainer.innerHTML += buttonHTML;
+          // Clean and parse unavailable slots
+          const cleanedUnavailableSlots = unavailableSlots
+            .map(slot => new Date(slot.trim())) // Parse the datetime strings into Date objects
+            .map(date => {
+              const hours = String(date.getUTCHours()).padStart(2, '0'); // Get UTC hours
+              const minutes = String(date.getUTCMinutes()).padStart(2, '0'); // Get UTC minutes
+              return `${hours}:${minutes}`; // Return HH:MM format
+            });
+      
+          // Debugging: Log cleaned unavailable times
+          console.log('Cleaned Unavailable Times:', cleanedUnavailableSlots);
+      
+          // Generate Dates
+          const today = new Date();
+          for (let i = 0; i < 7; i++) {
+            const futureDate = new Date();
+            futureDate.setDate(today.getDate() + i);
+            const options = { day: '2-digit', month: 'short', weekday: 'long' };
+            const formattedDate = futureDate.toISOString().split('T')[0];
+            const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
+      
+            const buttonHTML = `
+              <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
+                ${displayDate[0]}<br>
+                <span>${displayDate[1]}</span>
+              </button>
+            `;
+            dateContainer.innerHTML += buttonHTML;
           }
           
-          startTime += Math.floor((startMinutes + 30) / 60);
-          startMinutes = (startMinutes + 30) % 60;
-        }
-      });
+          // Generate Timeslots
+          let startTime = 10; // Start at 10:00 AM
+          let startMinutes = 0;
+      
+          for (let i = 0; i < 18; i++) {
+            const endMinutes = startMinutes + 30;
+            const endTime = startTime + Math.floor(endMinutes / 60);
+            const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+            const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+            const timeslot = `${displayStart} - ${displayEnd}`;
+            
+            // Debugging: Log each generated timeslot and the comparison
+            console.log('Checking Timeslot:', displayStart, 'Unavailable:', cleanedUnavailableSlots.includes(displayStart));
+            
+            if (!cleanedUnavailableSlots.includes(displayStart)) {
+              // Render only if slot is available
+              const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
+              timeslotContainer.innerHTML += buttonHTML;
+            }
+            
+            startTime += Math.floor((startMinutes + 30) / 60);
+            startMinutes = (startMinutes + 30) % 60;
+          }
+      
+          // Add click event listener to timeslot buttons
+          timeslotContainer.addEventListener('click', function (event) {
+            if (event.target.classList.contains('timeslot-btn')) {
+              // Remove the 'selected' class from all timeslot buttons
+              const allButtons = timeslotContainer.querySelectorAll('.timeslot-btn');
+              allButtons.forEach(button => button.classList.remove('selected'));
+      
+              // Add the 'selected' class to the clicked button
+              event.target.classList.add('selected');
+            }
+          });
+        });
       </script>
 
       <!-- Product Variant -->

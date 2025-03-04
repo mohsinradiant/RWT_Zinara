@@ -1142,6 +1142,12 @@
             <input type="number" id="phone" class="input-field" placeholder="Phone">
           </div>
         {% endunless %}
+        {% unless customer.email %}
+          <h2>Email</h2>
+          <div style="width:100%" class="input-group">
+            <input type="email" id="email" class="input-field" placeholder="Email">
+          </div>
+        {% endunless %}
       </div>
       {% assign unavailable_slots = '' %}
 
@@ -1300,10 +1306,15 @@
       // Get product variant
       const productVariant = document.getElementById('selectedProductVariant').value;
 
+      // Get phone and email values (if inputs are visible)
+      const phoneInput = document.getElementById('phone');
+      const emailInput = document.getElementById('email');
+      const phone = phoneInput ? phoneInput.value.trim() : "{{ customer.phone | default: '' }}";
+      const email = emailInput ? emailInput.value.trim() : "{{ customer.email | default: '' }}";
+
       // Capture logged-in customer data using Liquid
       const customerId = "{{ customer.id | default: '' }}";
       const name = "{{ customer.first_name | default: '' }} {{ customer.last_name | default: '' }}".trim();
-      let phone = "{{ customer.phone | default: '' }}";
 
       // Check if the customer is logged in
       if (!customerId) {
@@ -1311,32 +1322,22 @@
         return;
       }
 
-      // If phone is not available, get it from the input field
-      if (!phone) {
-        const phoneInput = document.getElementById('phone').value.trim();
-        if (!phoneInput) {
-          alert('Please provide a phone number.');
-          return;
-        }
-        phone = phoneInput;
-      }
-
       // Validate required fields
-      // if (
-      //   !timeslot ||
-      //   !name ||
-      //   !email ||
-      //   !phone ||
-      //   !house ||
-      //   !locality ||
-      //   !city ||
-      //   !state ||
-      //   !pincode ||
-      //   !productVariant
-      // ) {
-      //   alert('Please fill in all fields!');
-      //   return;
-      // }
+      if (
+        !timeslot ||
+        !name ||
+        !email ||
+        !phone ||
+        !house ||
+        !locality ||
+        !city ||
+        !state ||
+        !pincode ||
+        !productVariant
+      ) {
+        alert('Please fill in all fields!');
+        return;
+      }
 
       // Prepare data for submission
       const slotStatus = 'Slot Booked'; // Default status

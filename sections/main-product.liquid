@@ -1153,51 +1153,55 @@
       <script>
         const unavailableSlots = {{ unavailable_slots | split: ',' | json }};
         document.addEventListener('DOMContentLoaded', function () {
-          const dateContainer = document.querySelector('.date-container');
-          const timeslotContainer = document.querySelector('.timeslot-container');
+  const dateContainer = document.querySelector('.date-container');
+  const timeslotContainer = document.querySelector('.timeslot-container');
 
-          // Use unavailable slots from Liquid
-          console.log('Unavailable Slots:', unavailableSlots);
+  // Clean up unavailableSlots array
+  const cleanedUnavailableSlots = unavailableSlots.map(slot => slot.trim()).filter(slot => slot !== '');
 
-          // Generate Dates
-          const today = new Date();
-          for (let i = 0; i < 7; i++) {
-            const futureDate = new Date();
-            futureDate.setDate(today.getDate() + i);
-            const options = { day: '2-digit', month: 'short', weekday: 'long' };
-            const formattedDate = futureDate.toISOString().split('T')[0];
-            const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
+  // Debugging: Log cleaned unavailable slots
+  console.log('Cleaned Unavailable Slots:', cleanedUnavailableSlots);
 
-            const buttonHTML = `
-          <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
-            ${displayDate[0]}<br>
-            <span>${displayDate[1]}</span>
-          </button>
-        `;
-            dateContainer.innerHTML += buttonHTML;
-          }
+  // Generate Dates
+  const today = new Date();
+  for (let i = 0; i < 7; i++) {
+    const futureDate = new Date();
+    futureDate.setDate(today.getDate() + i);
+    const options = { day: '2-digit', month: 'short', weekday: 'long' };
+    const formattedDate = futureDate.toISOString().split('T')[0];
+    const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
 
-          // Generate Timeslots
-          let startTime = 10; // Start at 10:00 AM
-          let startMinutes = 0;
+    const buttonHTML = `
+      <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
+        ${displayDate[0]}<br>
+        <span>${displayDate[1]}</span>
+      </button>
+    `;
+    dateContainer.innerHTML += buttonHTML;
+  }
 
-          for (let i = 0; i < 18; i++) {
-            const endMinutes = startMinutes + 30;
-            const endTime = startTime + Math.floor(endMinutes / 60);
-            const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
-            const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
-            const timeslot = `${displayStart} - ${displayEnd}`;
+  // Generate Timeslots
+  let startTime = 10; // Start at 10:00 AM
+  let startMinutes = 0;
 
-            if (!unavailableSlots.includes(timeslot)) {
-              // Render only if slot is available
-              const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
-              timeslotContainer.innerHTML += buttonHTML;
-            }
+  for (let i = 0; i < 18; i++) {
+    const endMinutes = startMinutes + 30;
+    const endTime = startTime + Math.floor(endMinutes / 60);
+    const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+    const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+    const timeslot = `${displayStart} - ${displayEnd}`;
 
-            startTime += Math.floor((startMinutes + 30) / 60);
-            startMinutes = (startMinutes + 30) % 60;
-          }
-        });
+    // Check if slot is unavailable
+    if (!cleanedUnavailableSlots.includes(timeslot)) {
+      // Render only if slot is available
+      const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
+      timeslotContainer.innerHTML += buttonHTML;
+    }
+
+    startTime += Math.floor((startMinutes + 30) / 60);
+    startMinutes = (startMinutes + 30) % 60;
+  }
+});
       </script>
 
       <!-- Product Variant -->

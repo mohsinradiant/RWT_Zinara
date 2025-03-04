@@ -1212,8 +1212,8 @@ for (let i = 0; i < 7; i++) {
 
   const buttonHTML = `
     <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
-      ${displayDate[1]}<span><br>
-      ${displayDate[0]}</span>
+      ${displayDate[1]}<br>
+      <span>${displayDate[0]}</span>
     </button>
   `;
   dateContainer.innerHTML += buttonHTML;

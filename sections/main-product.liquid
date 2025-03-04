@@ -1329,7 +1329,6 @@
     console.log('Final data being posted:', tryAtHomeData);
 
     try {
-      // Send AJAX request
       const response = await fetch('https://www.learningtlms.in/Zever4u/shopify_customer.php', {
         method: 'POST',
         headers: {
@@ -1338,21 +1337,23 @@
         body: JSON.stringify(tryAtHomeData),
       });
 
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log('Success:', responseData);
+      const rawResponse = await response.text(); // Capture raw response as text
+      console.log('Raw Response:', rawResponse);
 
-        // Show success message
-        alert('Your Try at Home request has been successfully submitted!');
+      try {
+        const jsonResponse = JSON.parse(rawResponse); // Parse JSON
+        console.log('Parsed Response:', jsonResponse);
 
-        // Hide popup
-        document.getElementById('tryAtHomePopup').classList.add('hidden');
-
-        // Optional: Reset the form
-        document.getElementById('tryAtHomePopup').reset();
-      } else {
-        const errorData = await response.json();
-        alert(`Submission failed: ${errorData.message || 'Unknown error'}`);
+        if (response.ok && jsonResponse.success) {
+          alert('Your Try at Home request has been successfully submitted!');
+          document.getElementById('tryAtHomePopup').classList.add('hidden');
+          document.getElementById('tryAtHomePopup').reset();
+        } else {
+          alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
+        }
+      } catch (jsonError) {
+        console.error('JSON Parsing Error:', jsonError);
+        alert('Invalid response format from the server. Please try again later.');
       }
     } catch (error) {
       console.error('Error submitting Try at Home request:', error);

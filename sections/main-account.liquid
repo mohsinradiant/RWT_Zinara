@@ -162,14 +162,35 @@
 
       <h2 id="account_page_tah_trials">Trials Booked</h2>
       <div class="account_page_tah_trials_container">
-        {% for trial in customer.metafields.content.try_at_home_slots.value %}
-          <div class="account_page_tah_trials_div">
-            {{ trial.product_variant.image }}
-            <img src="{{ trial.product_variant }}" alt="Variant Image">
-          </div>
-        {% endfor %}
+        <div id="tah-trials">
+          {% for trial in customer.metafields.content.try_at_home_slots.value %}
+            <div class="account_page_tah_trials_div" data-variant-id="{{ trial.product_variant }}">
+              <img src="" alt="Variant Image" class="variant-image">
+            </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
+    <script>
+      document.querySelectorAll('.account_page_tah_trials_div').forEach(async (div) => {
+        const variantGid = div.dataset.variantId;
+        const variantId = variantGid.split('/').pop(); // Extract the numeric ID
+
+        try {
+          const response = await fetch(`/products/${variantId}.json`);
+          const data = await response.json();
+
+          if (data && data.product && data.product.variants.length) {
+            const variant = data.product.variants.find((v) => v.id == variantId);
+            if (variant && variant.featured_image) {
+              div.querySelector('.variant-image').src = variant.featured_image.src;
+            }
+          }
+        } catch (error) {
+          console.error('Failed to fetch variant details:', error);
+        }
+      });
+    </script>
 
     {% comment %}
       <div>

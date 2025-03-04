@@ -1386,29 +1386,28 @@
 
       const jsonResponse = JSON.parse(rawResponse);
       if (response.ok && jsonResponse.success) {
-    // Get the popup container
-    const popupContainer = document.getElementById('ajax_tah_succ_submit_popup_container');
+        // Get the popup container
+        const popupContainer = document.getElementById('ajax_tah_succ_submit_popup_container');
 
-    // Show the popup
-    popupContainer.classList.remove('hidden');
+        // Show the popup
+        popupContainer.classList.remove('hidden');
 
-    // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
-    document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
-        window.location.href = '/account#account_page_tah_trials'; // Replace '/account' with your actual account page URL
-    });
+        // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
+        document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
+          window.location.href = '/account#account_page_tah_trials'; // Replace '/account' with your actual account page URL
+        });
 
-    // Close popup on "Close" button click
-    document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
-        popupContainer.classList.add('hidden');
-    });
+        // Close popup on "Close" button click
+        document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
+          popupContainer.classList.add('hidden');
+        });
 
-    // Hide and reset the Try At Home popup form
-    document.getElementById('tryAtHomePopup').classList.add('hidden');
-    document.getElementById('tryAtHomePopup').reset();
-} else {
-    alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
-}
-
+        // Hide and reset the Try At Home popup form
+        document.getElementById('tryAtHomePopup').classList.add('hidden');
+        document.getElementById('tryAtHomePopup').reset();
+      } else {
+        alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
+      }
     } catch (error) {
       console.error('Error during submission:', error);
     }
@@ -1486,16 +1485,19 @@
 
   .ajax_tah_succ_submit_popup {
     background: white;
-    border-radius: 10px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
     position: relative;
+    width: 100%;
+    max-width: 340px;
   }
 
   .ajax_tah_succ_submit_popup p {
-    font-size: 16px;
-    margin-bottom: 20px;
+    font-size: 1.6rem;
+    font-family: 'Quicksand';
+    color: #000;
+    margin: 0 0 15px;
   }
 
   .button-group {
@@ -1513,19 +1515,19 @@
   }
 
   #ajax_tah_succ_submit_see_trials {
-    background-color: #007bff;
+    background-color: #712242;
     color: white;
   }
 
   #ajax_tah_succ_submit_see_trials:hover {
-    background-color: #0056b3;
+    background-color: #71224250;
   }
 
   #ajax_tah_succ_submit_popup_close_bottom {
     background-color: transparent;
     color: #000;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid #712242;
   }
 
   #ajax_tah_succ_submit_popup_close_bottom:hover {

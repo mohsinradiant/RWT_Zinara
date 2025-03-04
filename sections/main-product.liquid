@@ -1153,10 +1153,10 @@
       <script>
         const unavailableSlots = {{ unavailable_slots | split: ',' | json }};
         document.addEventListener('DOMContentLoaded', function () {
-  const dateContainer = document.querySelector('.date-container');
-  const timeslotContainer = document.querySelector('.timeslot-container');
-
-  // Clean and parse unavailable slots
+        const dateContainer = document.querySelector('.date-container');
+        const timeslotContainer = document.querySelector('.timeslot-container');
+          
+        // Clean and parse unavailable slots
   const cleanedUnavailableSlots = unavailableSlots
     .map(slot => new Date(slot.trim())) // Parse the datetime strings into Date objects
     .map(date => {
@@ -1176,40 +1176,40 @@
     const options = { day: '2-digit', month: 'short', weekday: 'long' };
     const formattedDate = futureDate.toISOString().split('T')[0];
     const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
-
-    const buttonHTML = `
-      <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
+          
+          const buttonHTML = `
+            <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
         ${displayDate[0]}<br>
         <span>${displayDate[1]}</span>
-      </button>
-    `;
-    dateContainer.innerHTML += buttonHTML;
-  }
-
-  // Generate Timeslots
-  let startTime = 10; // Start at 10:00 AM
-  let startMinutes = 0;
-
-  for (let i = 0; i < 18; i++) {
-    const endMinutes = startMinutes + 30;
-    const endTime = startTime + Math.floor(endMinutes / 60);
-    const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
-    const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
-    const timeslot = `${displayStart} - ${displayEnd}`;
-
-    // Debugging: Log each generated timeslot and the comparison
-    console.log('Checking Timeslot:', displayStart, 'Unavailable:', cleanedUnavailableSlots.includes(displayStart));
-
-    if (!cleanedUnavailableSlots.includes(displayStart)) {
-      // Render only if slot is available
-      const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
-      timeslotContainer.innerHTML += buttonHTML;
-    }
-
-    startTime += Math.floor((startMinutes + 30) / 60);
-    startMinutes = (startMinutes + 30) % 60;
-  }
-});
+            </button>
+          `;
+          dateContainer.innerHTML += buttonHTML;
+        }
+          
+        // Generate Timeslots
+        let startTime = 10; // Start at 10:00 AM
+        let startMinutes = 0;
+          
+        for (let i = 0; i < 18; i++) {
+          const endMinutes = startMinutes + 30;
+          const endTime = startTime + Math.floor(endMinutes / 60);
+          const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+          const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+          const timeslot = `${displayStart} - ${displayEnd}`;
+          
+          // Debugging: Log each generated timeslot and the comparison
+          console.log('Checking Timeslot:', displayStart, 'Unavailable:', cleanedUnavailableSlots.includes(displayStart));
+          
+          if (!cleanedUnavailableSlots.includes(displayStart)) {
+            // Render only if slot is available
+            const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
+            timeslotContainer.innerHTML += buttonHTML;
+          }
+          
+          startTime += Math.floor((startMinutes + 30) / 60);
+          startMinutes = (startMinutes + 30) % 60;
+        }
+      });
       </script>
 
       <!-- Product Variant -->

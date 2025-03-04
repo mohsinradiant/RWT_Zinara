@@ -588,6 +588,7 @@ product-info variant-selects img {
     border: solid 1px #712242;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .product-form__buttons button {

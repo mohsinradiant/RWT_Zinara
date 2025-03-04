@@ -1292,7 +1292,13 @@
       }
 
       const activeDate = activeDateBtn.getAttribute('data-date'); // Format: YYYY-MM-DD
-      const activeTime = activeTimeBtn.getAttribute('data-time'); // Format: HH:mm
+      let activeTime = activeTimeBtn.getAttribute('data-time'); // Format: HH:mm
+
+      // If data-time is not defined, fallback to extracting time from the button text
+      if (!activeTime) {
+        const timeText = activeTimeBtn.textContent.trim(); // e.g., "18:00 - 18:30"
+        activeTime = timeText.split('-')[0].trim(); // Extract "18:00"
+      }
 
       // Combine date and time into a single Date object
       const combinedDateTime = `${activeDate}T${activeTime}:00`;

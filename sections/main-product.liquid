@@ -1144,9 +1144,9 @@
         <label for="date">Select Date:</label>
         <div class="date-container">
           {% for day_offset in (0..6) %}
-            {% assign date = 'now' | date: '%Y-%m-%d' | date: 'now' | plus: day_offset | date: '%Y-%m-%d' %}
-            {% assign display_date = 'now' | date: '%d %b' | date: 'now' | plus: day_offset | date: '%d %b' %}
-            {% assign day_name = 'now' | date: '%A' | date: 'now' | plus: day_offset | date: '%A' %}
+            {% assign date = today | date_add: day_offset | date: '%Y-%m-%d' %}
+            {% assign display_date = today | date_add: day_offset | date: '%d %b' %}
+            {% assign day_name = today | date_add: day_offset | date: '%A' %}
 
             <button class="date-btn {% if forloop.first %}selected{% endif %}" data-date="{{ date }}">
               {{ display_date -}}
@@ -1160,17 +1160,20 @@
         <div class="timeslot-container">
           {% assign start_hour = 10 %}
           {% assign end_hour = 18 %}
-
           {% for hour in (start_hour..end_hour) %}
-            <!-- Loop for 30-minute intervals -->
             {% assign minute_intervals = '0,30' | split: ',' %}
             {% for minute in minute_intervals %}
               {% assign start_time = hour | append: ':' | append: minute %}
-              {% assign end_time = hour | append: ':' | append: minute | plus: 30 %}
+              {% assign end_minute = minute | plus: 30 %}
+              {% assign end_hour = hour %}
+              {% if end_minute == 60 %}
+                {% assign end_minute = 0 %}
+                {% assign end_hour = hour | plus: 1 %}
+              {% endif %}
+              {% assign end_time = end_hour | append: ':' | append: end_minute | append: '0' %}
               {% assign time_slot = start_time | append: ' - ' | append: end_time %}
 
               {% assign is_booked = false %}
-
               {% for booked_slot in booked_slots %}
                 {% if booked_slot.slot_date_and_time contains date
                   and booked_slot.slot_date_and_time contains time_slot

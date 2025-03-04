@@ -1129,8 +1129,8 @@
           <input type="text" id="locality" class="input-field" placeholder="Locality/Area/Landmark">
         </div>
         <div class="input-group row">
-          <input style="width:49%" type="text" id="city" class="input-field half-width" placeholder="City">
-          <input style="width:49%" type="text" id="state" class="input-field half-width" placeholder="State">
+          <input style="width: calc(50% - 5px);" type="text" id="city" class="input-field" placeholder="City">
+          <input style="width: calc(50% - 5px);" type="text" id="state" class="input-field" placeholder="State">
         </div>
         <div style="width:100%" class="input-group">
           <input type="text" id="pincode" class="input-field" placeholder="Pincode">
@@ -1193,6 +1193,13 @@
 </div>
 
 <style>
+  .input-field:focus {
+    outline: none;
+    border-color: #6e2d4f;
+  }
+  .input-field::placeholder {
+    color: #b29da9;
+  }
   .tryAtHomePopup-input_container h2 {
     font-family: 'Playfair Display';
     font-size: 2rem;

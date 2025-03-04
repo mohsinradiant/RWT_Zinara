@@ -1121,9 +1121,42 @@
     </div>
     <div class="tryAtHomePopup-input_container_parent">
       <div class="tryAtHomePopup-input_container">
-        <label for="timeslot">Select Time Slot:</label>
-        <input type="text" id="timeslot" class="calendar-input" placeholder="Select Time Slot">
+        <label for="date">Select Date:</label>
+        <div class="date-container">
+          <button class="date-btn selected">
+            18 Feb<br>
+            <span>Saturday</span>
+          </button>
+          <button class="date-btn">
+            19 Feb<br>
+            <span>Sunday</span>
+          </button>
+          <button class="date-btn">
+            19 Feb<br>
+            <span>Sunday</span>
+          </button>
+          <button class="date-btn">
+            19 Feb<br>
+            <span>Sunday</span>
+          </button>
+          <button class="date-btn">
+            19 Feb<br>
+            <span>Sunday</span>
+          </button>
+          <button class="date-btn">
+            19 Feb<br>
+            <span>Sunday</span>
+          </button>
+        </div>
+
+        <label for="timeslot">Select Timeslot:</label>
+        <div class="timeslot-container">
+          <button class="timeslot-btn selected">10am - 1pm</button>
+          <button class="timeslot-btn">1pm - 4pm</button>
+          <button class="timeslot-btn">4pm - 7pm</button>
+        </div>
       </div>
+
       <div class="tryAtHomePopup-input_container">
         <label for="name">Name:</label>
         <input type="text" id="name" class="input-field" placeholder="Enter your name">
@@ -1182,6 +1215,54 @@
   });
 </script>
 <style>
+  .tryAtHomePopup-input_container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  .date-container,
+  .timeslot-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .date-btn,
+  .timeslot-btn {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .date-btn span {
+    display: block;
+    font-size: 12px;
+    color: #666;
+  }
+
+  .date-btn.selected,
+  .timeslot-btn.selected {
+    background-color: #6e2d4f;
+    color: white;
+  }
+
+  .date-btn:hover,
+  .timeslot-btn:hover {
+    background-color: #d3c0c8;
+  }
+
   .hidden {
     display: none;
   }
@@ -1270,7 +1351,7 @@
   .section-heading-tah-popup-container {
     display: flex;
     align-items: center;
-    margin-bottom:20px;
+    margin-bottom: 20px;
   }
   .section-heading-tah-popup {
     font-family: 'Quicksand';

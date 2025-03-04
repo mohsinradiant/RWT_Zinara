@@ -162,9 +162,9 @@
 
       <h2 id="account_page_tah_trials">Trials Booked</h2>
       <div class="account_page_tah_trials_container">
-        {% for trial in customer.metafields.content.try_at_home_slots %}
+        {% for trial in customer.metafields.content.try_at_home_slots.value %}
           <div class="account_page_tah_trials_div">
-            <img src="{{ trial.value.product_variant.image.src | image_url }}">
+            <img src="{{ trial.product_variant.image.src | image_url }}">
           </div>
         {% endfor %}
       </div>

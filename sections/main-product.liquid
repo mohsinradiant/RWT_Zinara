@@ -1156,11 +1156,17 @@
   const dateContainer = document.querySelector('.date-container');
   const timeslotContainer = document.querySelector('.timeslot-container');
 
-  // Clean up unavailableSlots array
-  const cleanedUnavailableSlots = unavailableSlots.map(slot => slot.trim()).filter(slot => slot !== '');
+  // Clean and parse unavailable slots
+  const cleanedUnavailableSlots = unavailableSlots
+    .map(slot => new Date(slot.trim())) // Parse the datetime strings into Date objects
+    .map(date => {
+      const hours = String(date.getUTCHours()).padStart(2, '0'); // Get UTC hours
+      const minutes = String(date.getUTCMinutes()).padStart(2, '0'); // Get UTC minutes
+      return `${hours}:${minutes}`; // Return HH:MM format
+    });
 
-  // Debugging: Log cleaned unavailable slots
-  console.log('Cleaned Unavailable Slots:', cleanedUnavailableSlots);
+  // Debugging: Log cleaned unavailable times
+  console.log('Cleaned Unavailable Times:', cleanedUnavailableSlots);
 
   // Generate Dates
   const today = new Date();
@@ -1191,8 +1197,10 @@
     const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
     const timeslot = `${displayStart} - ${displayEnd}`;
 
-    // Check if slot is unavailable
-    if (!cleanedUnavailableSlots.includes(timeslot)) {
+    // Debugging: Log each generated timeslot and the comparison
+    console.log('Checking Timeslot:', displayStart, 'Unavailable:', cleanedUnavailableSlots.includes(displayStart));
+
+    if (!cleanedUnavailableSlots.includes(displayStart)) {
       // Render only if slot is available
       const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
       timeslotContainer.innerHTML += buttonHTML;

@@ -1135,6 +1135,13 @@
         <div style="width:100%" class="input-group">
           <input type="text" id="pincode" class="input-field" placeholder="Pincode">
         </div>
+
+        {% unless customer.phone %}
+          <h2>Phone</h2>
+          <div style="width:100%" class="input-group">
+            <input type="number" id="phone" class="input-field" placeholder="Phone">
+          </div>
+        {% endunless %}
       </div>
       {% assign unavailable_slots = '' %}
 
@@ -1296,23 +1303,7 @@
       // Capture logged-in customer data using Liquid
       const customerId = "{{ customer.id | default: '' }}";
       const name = "{{ customer.first_name | default: '' }} {{ customer.last_name | default: '' }}".trim();
-      const email = "{{ customer.email | default: '' }}";
-      const phone = "{{ customer.phone | default: '' }}";
-
-      // Log all field values for debugging
-      console.log('Fields:', {
-        timeslot,
-        house,
-        locality,
-        city,
-        state,
-        pincode,
-        productVariant,
-        customerId,
-        name,
-        email,
-        phone,
-      });
+      let phone = "{{ customer.phone | default: '' }}";
 
       // Check if the customer is logged in
       if (!customerId) {
@@ -1320,22 +1311,32 @@
         return;
       }
 
+      // If phone is not available, get it from the input field
+      if (!phone) {
+        const phoneInput = document.getElementById('phone').value.trim();
+        if (!phoneInput) {
+          alert('Please provide a phone number.');
+          return;
+        }
+        phone = phoneInput;
+      }
+
       // Validate required fields
-      // if (
-      //   !timeslot ||
-      //   !name ||
-      //   !email ||
-      //   !phone ||
-      //   !house ||
-      //   !locality ||
-      //   !city ||
-      //   !state ||
-      //   !pincode ||
-      //   !productVariant
-      // ) {
-      //   alert('Please fill in all fields!');
-      //   return;
-      // }
+      if (
+        !timeslot ||
+        !name ||
+        !email ||
+        !phone ||
+        !house ||
+        !locality ||
+        !city ||
+        !state ||
+        !pincode ||
+        !productVariant
+      ) {
+        alert('Please fill in all fields!');
+        return;
+      }
 
       // Prepare data for submission
       const slotStatus = 'Slot Booked'; // Default status

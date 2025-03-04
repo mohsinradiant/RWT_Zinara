@@ -163,9 +163,26 @@
       <h2 id="account_page_tah_trials">Trials Booked</h2>
       <div class="account_page_tah_trials_container">
         {% for trial in customer.metafields.content.try_at_home_slots.value %}
-          <div class="account_page_tah_trials_div">
-            <img src="{{ trial.product_variant.featured_image | img_url: 'medium' }}" alt="Variant Image">
-          </div>
+          {% assign variant_gid = trial.product_variant %}
+          {% assign variant_id = variant_gid | split: '/' | last %}
+          {% assign product_handle = '' %}
+
+          {% for product in all_products %}
+            {% if product.variants contains variant_id %}
+              {% assign product_handle = product.handle %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+
+          {% if product_handle != '' %}
+            {% assign product = all_products[product_handle] %}
+            {% assign variant = product.variants | where: 'id', variant_id | first %}
+            <div class="account_page_tah_trials_div">
+              <img src="{{ variant.image.src | img_url: 'medium' }}" alt="Variant Image">
+            </div>
+          {% else %}
+            <p>Variant not found for {{ variant_gid }}</p>
+          {% endif %}
         {% endfor %}
       </div>
     </div>

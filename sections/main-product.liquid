@@ -1103,7 +1103,7 @@
   }
 </script>
 <div class="sticky-atc-container">
-    <button id="tryAtHomeButton" class="try-at-home-button">Try at Home</button>
+  <button id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</button>
   {%- render 'buy-buttons',
     product: product,
     product_form_id: product_form_id,
@@ -1458,8 +1458,8 @@
     const tryAtHomeButton = document.querySelector('#tryAtHomeButton');
     const productFormButtons = document.querySelector('.product-form__buttons');
 
-    // If both elements exist, move the button and stop the interval
-    if (tryAtHomeButton && productFormButtons) {
+    // Check viewport width and elements before moving the button
+    if (window.innerWidth > 756 && tryAtHomeButton && productFormButtons) {
       productFormButtons.insertAdjacentElement('afterbegin', tryAtHomeButton);
       console.log('#tryAtHomeButton successfully moved into .product-form__buttons');
       clearInterval(checkElementsInterval); // Stop the interval
@@ -1468,6 +1468,13 @@
 
   // Continuously check for the elements in the DOM
   const checkElementsInterval = setInterval(moveTryAtHomeButton, 100);
+
+  // Optional: Add a listener to handle resizing dynamically
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 756) {
+      moveTryAtHomeButton();
+    }
+  });
 </script>
 
 <style>

@@ -1137,40 +1137,53 @@
         </div>
       </div>
 
+      {% assign today = 'now' | date: '%Y-%m-%d' %}
+      {% assign booked_slots = metaobjects.try_at_home_slot %}
+
       <div class="tryAtHomePopup-input_container">
         <label for="date">Select Date:</label>
         <div class="date-container">
-          <button class="date-btn selected">
-            18 Feb<br>
-            <span>Saturday</span>
-          </button>
-          <button class="date-btn">
-            19 Feb<br>
-            <span>Sunday</span>
-          </button>
-          <button class="date-btn">
-            19 Feb<br>
-            <span>Sunday</span>
-          </button>
-          <button class="date-btn">
-            19 Feb<br>
-            <span>Sunday</span>
-          </button>
-          <button class="date-btn">
-            19 Feb<br>
-            <span>Sunday</span>
-          </button>
-          <button class="date-btn">
-            19 Feb<br>
-            <span>Sunday</span>
-          </button>
+          {% for day_offset in (0..6) %}
+            {% assign date = 'now' | date: '%Y-%m-%d' | date: 'now' | plus: day_offset | date: '%Y-%m-%d' %}
+            {% assign display_date = 'now' | date: '%d %b' | date: 'now' | plus: day_offset | date: '%d %b' %}
+            {% assign day_name = 'now' | date: '%A' | date: 'now' | plus: day_offset | date: '%A' %}
+
+            <button class="date-btn {% if forloop.first %}selected{% endif %}" data-date="{{ date }}">
+              {{ display_date -}}
+              <br>
+              <span>{{ day_name }}</span>
+            </button>
+          {% endfor %}
         </div>
 
         <label for="timeslot">Select Timeslot:</label>
         <div class="timeslot-container">
-          <button class="timeslot-btn selected">10am - 1pm</button>
-          <button class="timeslot-btn">1pm - 4pm</button>
-          <button class="timeslot-btn">4pm - 7pm</button>
+          {% assign start_hour = 10 %}
+          {% assign end_hour = 18 %}
+
+          {% for hour in (start_hour..end_hour) %}
+            <!-- Loop for 30-minute intervals -->
+            {% assign minute_intervals = '0,30' | split: ',' %}
+            {% for minute in minute_intervals %}
+              {% assign start_time = hour | append: ':' | append: minute %}
+              {% assign end_time = hour | append: ':' | append: minute | plus: 30 %}
+              {% assign time_slot = start_time | append: ' - ' | append: end_time %}
+
+              {% assign is_booked = false %}
+
+              {% for booked_slot in booked_slots %}
+                {% if booked_slot.slot_date_and_time contains date
+                  and booked_slot.slot_date_and_time contains time_slot
+                %}
+                  {% assign is_booked = true %}
+                {% endif %}
+              {% endfor %}
+
+              {% unless is_booked %}
+                <button class="timeslot-btn">{{ time_slot }}</button>
+              {% endunless %}
+            {% endfor %}
+          {% endfor %}
         </div>
       </div>
 

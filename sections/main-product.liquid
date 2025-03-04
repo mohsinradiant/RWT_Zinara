@@ -1136,7 +1136,11 @@
           <input type="text" id="pincode" class="input-field" placeholder="Pincode">
         </div>
       </div>
+      {% assign unavailable_slots = '' %}
 
+      {% for slot in shop.metaobjects.try_at_home_slot.values %}
+        {% assign unavailable_slots = unavailable_slots | append: slot.slot_date_and_time | append: ',' %}
+      {% endfor %}
       <div class="tryAtHomePopup-input_container">
         <label for="date">Select Date:</label>
         <div class="date-container"></div>
@@ -1146,43 +1150,49 @@
         <div class="timeslot-container"></div>
         <!-- Empty container for timeslots -->
       </div>
-
       <script>
-        // JavaScript to generate dates dynamically
+        const unavailableSlots = {{ unavailable_slots | split: ',' | json }};
         document.addEventListener('DOMContentLoaded', function () {
           const dateContainer = document.querySelector('.date-container');
+          const timeslotContainer = document.querySelector('.timeslot-container');
+
+          // Use unavailable slots from Liquid
+          console.log('Unavailable Slots:', unavailableSlots);
+
+          // Generate Dates
           const today = new Date();
           for (let i = 0; i < 7; i++) {
-            // Loop for 7 days
             const futureDate = new Date();
-            futureDate.setDate(today.getDate() + i); // Increment days
-            const options = { day: '2-digit', month: 'short', weekday: 'long' }; // Format
-            const formattedDate = futureDate.toISOString().split('T')[0]; // YYYY-MM-DD
-            const displayDate = futureDate.toLocaleDateString('en-US', options).split(','); // ["04 Mar", "Tuesday"]
+            futureDate.setDate(today.getDate() + i);
+            const options = { day: '2-digit', month: 'short', weekday: 'long' };
+            const formattedDate = futureDate.toISOString().split('T')[0];
+            const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
 
             const buttonHTML = `
-              <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
-                ${displayDate[0]}<br>
-                <span>${displayDate[1]}</span>
-              </button>
-            `;
+          <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
+            ${displayDate[0]}<br>
+            <span>${displayDate[1]}</span>
+          </button>
+        `;
             dateContainer.innerHTML += buttonHTML;
           }
 
-          // JavaScript to generate timeslots dynamically
-          const timeslotContainer = document.querySelector('.timeslot-container');
+          // Generate Timeslots
           let startTime = 10; // Start at 10:00 AM
           let startMinutes = 0;
 
           for (let i = 0; i < 18; i++) {
-            // Generate 18 slots (10:00 AM to 6:30 PM)
             const endMinutes = startMinutes + 30;
             const endTime = startTime + Math.floor(endMinutes / 60);
             const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
             const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+            const timeslot = `${displayStart} - ${displayEnd}`;
 
-            const buttonHTML = `<button class="timeslot-btn">${displayStart} - ${displayEnd}</button>`;
-            timeslotContainer.innerHTML += buttonHTML;
+            if (!unavailableSlots.includes(timeslot)) {
+              // Render only if slot is available
+              const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
+              timeslotContainer.innerHTML += buttonHTML;
+            }
 
             startTime += Math.floor((startMinutes + 30) / 60);
             startMinutes = (startMinutes + 30) % 60;

@@ -1445,6 +1445,16 @@ for (let i = 0; i < 7; i++) {
 </script>
 
 <style>
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield; /* For Firefox */
+  }
+
   .input-field:focus {
     outline: none;
     border-color: #610c270d;

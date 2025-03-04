@@ -1403,16 +1403,27 @@
 
   // Submit Form
   document.getElementById('submitTryAtHome').addEventListener('click', async () => {
-    const timeslot = document.getElementById('timeslot').value;
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-    const address = document.getElementById('address').value;
-    const pincode = document.getElementById('pincode').value;
+    // Get the active date and time
+    const activeDate = document.querySelector('.date-btn.selected').getAttribute('data-date');
+    const activeTime = document.querySelector('.timeslot-btn.selected').textContent.split(' - ')[0]; // Use start time
+    const timeslot = new Date(`${activeDate}T${activeTime}:00.000Z`).toISOString(); // Combine and format
+
+    // Get address components and combine them
+    const house = document.getElementById('house').value.trim();
+    const locality = document.getElementById('locality').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const state = document.getElementById('state').value.trim();
+    const pincode = document.getElementById('pincode').value.trim();
+    const address = `${house}, ${locality}, ${city}, ${state}`.replace(/,\s*$/, ''); // Remove trailing comma
+
+    // Get product variant
     const productVariant = document.getElementById('selectedProductVariant').value;
 
-    // Capture the logged-in customer's ID (if available)
-    const customerId = "{{ customer.id | default: '' }}"; // Liquid assigns the logged-in customer's ID
+    // Capture logged-in customer data using Liquid
+    const customerId = "{{ customer.id | default: '' }}";
+    const name = "{{ customer.first_name | default: '' }} {{ customer.last_name | default: '' }}".trim();
+    const email = "{{ customer.email | default: '' }}";
+    const phone = "{{ customer.phone | default: '' }}";
 
     // Check if the customer is logged in
     if (!customerId) {
@@ -1421,26 +1432,36 @@
     }
 
     // Validate required fields
-    if (!timeslot || !name || !email || !phone || !address || !pincode || !productVariant) {
+    if (
+      !timeslot ||
+      !name ||
+      !email ||
+      !phone ||
+      !house ||
+      !locality ||
+      !city ||
+      !state ||
+      !pincode ||
+      !productVariant
+    ) {
       alert('Please fill in all fields!');
       return;
     }
 
-    // Set default slot status
-    const slotStatus = 'Slot Booked';
-
     // Prepare data for submission
+    const slotStatus = 'Slot Booked'; // Default status
     const tryAtHomeData = {
-      customer: customerId, // Assign the logged-in customer's ID
-      timeslot: new Date(timeslot).toISOString(), // Ensure UTC ISO 8601
+      customer: customerId,
+      timeslot,
       name,
       email,
       phone,
       address,
       pincode,
       product_variant: productVariant,
-      slot_status: slotStatus, // Default status
+      slot_status: slotStatus,
     };
+
     console.log('Final data being posted:', tryAtHomeData);
 
     try {
@@ -1452,11 +1473,11 @@
         body: JSON.stringify(tryAtHomeData),
       });
 
-      const rawResponse = await response.text(); // Capture raw response as text
+      const rawResponse = await response.text();
       console.log('Raw Response:', rawResponse);
 
       try {
-        const jsonResponse = JSON.parse(rawResponse); // Parse JSON
+        const jsonResponse = JSON.parse(rawResponse);
         console.log('Parsed Response:', jsonResponse);
 
         if (response.ok && jsonResponse.success) {
@@ -1475,6 +1496,7 @@
     }
   });
 </script>
+
 <script>
   function moveTryAtHomeButton() {
     const tryAtHomeButton = document.querySelector('#tryAtHomeButton');

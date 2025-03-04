@@ -1115,8 +1115,10 @@
 <button id="tryAtHomeButton" class="try-at-home-button">Try at Home</button>
 <div id="tryAtHomePopup" class="try-at-home-popup hidden">
   <div class="popup-content-tah">
-    <button id="closePopup-tah" class="close-btn">X</button>
-    <h2 class="section-heading">Try at Home</h2>
+    <div class="section-heading-tah-popup-container">
+      <button id="closePopup-tah" class="close-btn">X</button>
+      <h2 class="section-heading-tah-popup">Try at Home</h2>
+    </div>
     <div class="tryAtHomePopup-input_container_parent">
       <div class="tryAtHomePopup-input_container">
         <label for="timeslot">Select Time Slot:</label>
@@ -1268,6 +1270,14 @@
     letter-spacing: 0;
     margin-bottom: 2px;
     line-height: 1.3rem;
+  }
+  .section-heading-tah-popup-container {
+    display: flex;
+  }
+  .section-heading-tah-popup {
+    font-family: 'Quicksand';
+    font-size: 2.2rem;
+    font-weight: 600;
   }
   @media (max-width: 600px) {
     .popup-content-tah {

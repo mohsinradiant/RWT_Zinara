@@ -1137,58 +1137,58 @@
         </div>
       </div>
 
-      {% assign today = 'now' | date: '%Y-%m-%d' %}
-      {% assign booked_slots = metaobjects.try_at_home_slot %}
-
       <div class="tryAtHomePopup-input_container">
         <label for="date">Select Date:</label>
-        <div class="date-container">
-          {% for day_offset in (0..6) %}
-            {% assign date = today | date_add: day_offset | date: '%Y-%m-%d' %}
-            {% assign display_date = today | date_add: day_offset | date: '%d %b' %}
-            {% assign day_name = today | date_add: day_offset | date: '%A' %}
-
-            <button class="date-btn {% if forloop.first %}selected{% endif %}" data-date="{{ date }}">
-              {{ display_date -}}
-              <br>
-              <span>{{ day_name }}</span>
-            </button>
-          {% endfor %}
-        </div>
+        <div class="date-container"></div>
+        <!-- Empty container for dates -->
 
         <label for="timeslot">Select Timeslot:</label>
-        <div class="timeslot-container">
-          {% assign start_hour = 10 %}
-          {% assign end_hour = 18 %}
-          {% for hour in (start_hour..end_hour) %}
-            {% assign minute_intervals = '0,30' | split: ',' %}
-            {% for minute in minute_intervals %}
-              {% assign start_time = hour | append: ':' | append: minute %}
-              {% assign end_minute = minute | plus: 30 %}
-              {% assign end_hour = hour %}
-              {% if end_minute == 60 %}
-                {% assign end_minute = 0 %}
-                {% assign end_hour = hour | plus: 1 %}
-              {% endif %}
-              {% assign end_time = end_hour | append: ':' | append: end_minute | append: '0' %}
-              {% assign time_slot = start_time | append: ' - ' | append: end_time %}
-
-              {% assign is_booked = false %}
-              {% for booked_slot in booked_slots %}
-                {% if booked_slot.slot_date_and_time contains date
-                  and booked_slot.slot_date_and_time contains time_slot
-                %}
-                  {% assign is_booked = true %}
-                {% endif %}
-              {% endfor %}
-
-              {% unless is_booked %}
-                <button class="timeslot-btn">{{ time_slot }}</button>
-              {% endunless %}
-            {% endfor %}
-          {% endfor %}
-        </div>
+        <div class="timeslot-container"></div>
+        <!-- Empty container for timeslots -->
       </div>
+
+      <script>
+        // JavaScript to generate dates dynamically
+        document.addEventListener('DOMContentLoaded', function () {
+          const dateContainer = document.querySelector('.date-container');
+          const today = new Date();
+          for (let i = 0; i < 7; i++) {
+            // Loop for 7 days
+            const futureDate = new Date();
+            futureDate.setDate(today.getDate() + i); // Increment days
+            const options = { day: '2-digit', month: 'short', weekday: 'long' }; // Format
+            const formattedDate = futureDate.toISOString().split('T')[0]; // YYYY-MM-DD
+            const displayDate = futureDate.toLocaleDateString('en-US', options).split(','); // ["04 Mar", "Tuesday"]
+
+            const buttonHTML = `
+              <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
+                ${displayDate[0]}<br>
+                <span>${displayDate[1]}</span>
+              </button>
+            `;
+            dateContainer.innerHTML += buttonHTML;
+          }
+
+          // JavaScript to generate timeslots dynamically
+          const timeslotContainer = document.querySelector('.timeslot-container');
+          let startTime = 10; // Start at 10:00 AM
+          let startMinutes = 0;
+
+          for (let i = 0; i < 18; i++) {
+            // Generate 18 slots (10:00 AM to 6:30 PM)
+            const endMinutes = startMinutes + 30;
+            const endTime = startTime + Math.floor(endMinutes / 60);
+            const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+            const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+
+            const buttonHTML = `<button class="timeslot-btn">${displayStart} - ${displayEnd}</button>`;
+            timeslotContainer.innerHTML += buttonHTML;
+
+            startTime += Math.floor((startMinutes + 30) / 60);
+            startMinutes = (startMinutes + 30) % 60;
+          }
+        });
+      </script>
 
       <!-- Product Variant -->
       <input type="hidden" id="selectedProductVariant" value="{{ product.selected_or_first_available_variant.id }}">

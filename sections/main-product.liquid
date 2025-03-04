@@ -1201,23 +1201,24 @@
     // Debugging: Log cleaned unavailable times
     console.log('Cleaned Unavailable Times:', cleanedUnavailableSlots);
 
-    // Generate Dates
-    const today = new Date();
-    for (let i = 0; i < 7; i++) {
-      const futureDate = new Date();
-      futureDate.setDate(today.getDate() + i);
-      const options = { day: '2-digit', month: 'short', weekday: 'long' };
-      const formattedDate = futureDate.toISOString().split('T')[0];
-      const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
+// Generate Dates
+const today = new Date();
+for (let i = 0; i < 7; i++) {
+  const futureDate = new Date();
+  futureDate.setDate(today.getDate() + i);
+  const options = { day: '2-digit', month: 'short', weekday: 'long' };
+  const formattedDate = futureDate.toISOString().split('T')[0];
+  const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
 
-      const buttonHTML = `
-        <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
-          ${displayDate[0]}<br>
-          <span>${displayDate[1]}</span>
-        </button>
-      `;
-      dateContainer.innerHTML += buttonHTML;
-    }
+  const buttonHTML = `
+    <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
+      <span>${displayDate[0]}</span><br>
+      ${displayDate[1]}
+    </button>
+  `;
+  dateContainer.innerHTML += buttonHTML;
+}
+
     
     // Generate Timeslots
     let startTime = 10; // Start at 10:00 AM

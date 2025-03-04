@@ -165,24 +165,22 @@
         {% for trial in customer.metafields.content.try_at_home_slots.value %}
           {% assign variant_gid = trial.product_variant %}
           {% assign variant_id = variant_gid | split: '/' | last %}
-          {% assign product_handle = '' %}
 
+          {% assign variant_found = false %}
           {% for product in all_products %}
-            {% if product.variants contains variant_id %}
-              {% assign product_handle = product.handle %}
-              {% break %}
-            {% endif %}
+            {% for variant in product.variants %}
+              {% if variant.id == variant_id %}
+                {% assign variant_found = true %}
+                <div class="account_page_tah_trials_div">
+                  <img src="{{ variant.image | img_url: 'medium' }}" alt="Variant Image">
+                </div>
+              {% endif %}
+            {% endfor %}
           {% endfor %}
 
-          {% if product_handle != '' %}
-            {% assign product = all_products[product_handle] %}
-            {% assign variant = product.variants | where: 'id', variant_id | first %}
-            <div class="account_page_tah_trials_div">
-              <img src="{{ variant.image.src | img_url: 'medium' }}" alt="Variant Image">
-            </div>
-          {% else %}
-            <p>Variant not found for {{ variant_gid }}</p>
-          {% endif %}
+          {% unless variant_found %}
+            <p>Variant not found or unpublished.</p>
+          {% endunless %}
         {% endfor %}
       </div>
     </div>

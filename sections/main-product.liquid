@@ -1282,7 +1282,7 @@
   // Submit Form
   document.getElementById('submitTryAtHome').addEventListener('click', async () => {
     try {
-      // Get the active date and time
+      // Get selected date and time
       const activeDateBtn = document.querySelector('.date-btn.selected');
       const activeTimeBtn = document.querySelector('.timeslot-btn.selected');
 
@@ -1291,38 +1291,34 @@
         return;
       }
 
-      const activeDate = activeDateBtn.getAttribute('data-date');
-      const activeTime = activeTimeBtn.textContent.split(' - ')[0]; // Use start time
-      const timeslot = new Date(`${activeDate}T${activeTime}:00.000Z`).toISOString(); // Combine and format
+      const activeDate = activeDateBtn.getAttribute('data-date'); // Format: YYYY-MM-DD
+      const activeTime = activeTimeBtn.getAttribute('data-time'); // Format: HH:mm
 
-      // Get address components and combine them
+      // Combine date and time into a single UTC ISO string
+      const timeslotLocal = new Date(`${activeDate}T${activeTime}:00`); // Local time
+      const timeslotUTC = new Date(timeslotLocal.getTime() - timeslotLocal.getTimezoneOffset() * 60000); // Convert to UTC
+      const timeslot = timeslotUTC.toISOString();
+
+      // Other data fields
       const house = document.getElementById('house').value.trim();
       const locality = document.getElementById('locality').value.trim();
       const city = document.getElementById('city').value.trim();
       const state = document.getElementById('state').value.trim();
       const pincode = document.getElementById('pincode').value.trim();
-      const address = `${house}, ${locality}, ${city}, ${state}`.replace(/,\s*$/, ''); // Remove trailing comma
-
-      // Get product variant
+      const address = `${house}, ${locality}, ${city}, ${state}`.replace(/,\s*$/, '');
       const productVariant = document.getElementById('selectedProductVariant').value;
-
-      // Get phone and email values (if inputs are visible)
       const phoneInput = document.getElementById('phone');
       const emailInput = document.getElementById('email');
       const phone = phoneInput ? phoneInput.value.trim() : "{{ customer.phone | default: '' }}";
       const email = emailInput ? emailInput.value.trim() : "{{ customer.email | default: '' }}";
-
-      // Capture logged-in customer data using Liquid
       const customerId = "{{ customer.id | default: '' }}";
       const name = "{{ customer.first_name | default: '' }} {{ customer.last_name | default: '' }}".trim();
 
-      // Check if the customer is logged in
       if (!customerId) {
         alert('You must be logged in to book a slot.');
         return;
       }
 
-      // Validate required fields
       if (
         !timeslot ||
         !name ||
@@ -1339,8 +1335,6 @@
         return;
       }
 
-      // Prepare data for submission
-      const slotStatus = 'Slot Booked'; // Default status
       const tryAtHomeData = {
         customer: customerId,
         timeslot,
@@ -1350,42 +1344,51 @@
         address,
         pincode,
         product_variant: productVariant,
-        slot_status: slotStatus,
+        slot_status: 'Slot Booked',
       };
 
       console.log('Final data being posted:', tryAtHomeData);
 
-      // Submit data
       const response = await fetch('https://www.learningtlms.in/Zever4u/shopify_customer.php', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(tryAtHomeData),
       });
 
       const rawResponse = await response.text();
       console.log('Raw Response:', rawResponse);
 
-      try {
-        const jsonResponse = JSON.parse(rawResponse);
-        console.log('Parsed Response:', jsonResponse);
-
-        if (response.ok && jsonResponse.success) {
-          alert('Your Try at Home request has been successfully submitted!');
-          document.getElementById('tryAtHomePopup').classList.add('hidden');
-          document.getElementById('tryAtHomePopup').reset();
-        } else {
-          alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
-        }
-      } catch (jsonError) {
-        console.error('JSON Parsing Error:', jsonError);
+      const jsonResponse = JSON.parse(rawResponse);
+      if (response.ok && jsonResponse.success) {
+        alert('Your Try at Home request has been successfully submitted!');
+        document.getElementById('tryAtHomePopup').classList.add('hidden');
+        document.getElementById('tryAtHomePopup').reset();
+      } else {
+        alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error during submission:', error);
       alert('An error occurred while submitting your request. Please try again.');
     }
   });
+
+  // Handling Unavailable Timeslots
+  (async () => {
+    try {
+      const response = await fetch('https://www.learningtlms.in/Zever4u/unavailable_timeslots.php');
+      const unavailableSlotsUTC = await response.json(); // Assume server returns ISO strings in UTC
+
+      const unavailableSlotsLocal = unavailableSlotsUTC.map((slot) => {
+        const date = new Date(slot);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format in local time
+      });
+
+      console.log('Unavailable Timeslots (Local):', unavailableSlotsLocal);
+      // Update the UI as needed to display unavailable times
+    } catch (error) {
+      console.error('Error fetching unavailable timeslots:', error);
+    }
+  })();
 </script>
 
 <script>

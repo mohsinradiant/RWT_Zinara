@@ -1295,7 +1295,15 @@
       const activeTime = activeTimeBtn.getAttribute('data-time'); // Format: HH:mm
 
       // Combine date and time into a single Date object
-      const timeslotLocal = new Date(`${activeDate}T${activeTime}:00`); // Local time
+      const combinedDateTime = `${activeDate}T${activeTime}:00`;
+      const timeslotLocal = new Date(combinedDateTime);
+
+      if (isNaN(timeslotLocal.getTime())) {
+        console.error('Invalid date or time:', { activeDate, activeTime, combinedDateTime });
+        alert('Invalid date or time. Please select valid options.');
+        return;
+      }
+
       const ISTOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
       const timeslotIST = new Date(timeslotLocal.getTime() + ISTOffset); // Adjust to IST
       const timeslot = timeslotIST.toISOString(); // Convert to ISO format

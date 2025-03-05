@@ -1116,16 +1116,19 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Define your desired redirect URL
-    const redirectUrl = '/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}';
+    const tryAtHomeButton = document.getElementById('tryAtHomeButton');
 
-    // Get the current URL
-    const currentUrl = window.location.href;
+    if (tryAtHomeButton) {
+      // Replace 'productId' with the variable or data source that holds the product ID
+      const productHandle = '{{ product.handle }}'; // Use Liquid to get the product ID
 
-    // Check if the user is redirected to /account/ after login
-    if (currentUrl.includes('/account/')) {
-      // Redirect immediately to the desired redirect URL
-      window.location.href = redirectUrl;
+      tryAtHomeButton.addEventListener('click', function () {
+        // Construct the URL with the product ID as a query parameter
+        const redirectUrl = `/pages/try-at-home?view=try-at-home&product_handle=${productHandle}`;
+
+        // Redirect the user
+        window.location.href = redirectUrl;
+      });
     }
   });
 </script>

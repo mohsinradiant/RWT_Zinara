@@ -40,7 +40,7 @@
               return response.json();
             })
             .then((product) => {
-              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 20) + '...' : product.title;
+              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 40) + '...' : product.title;
 
               selectedProductsContainer.innerHTML = `
           <div class="product-card" data-id="${product.id}">
@@ -78,7 +78,7 @@
             data.products.forEach((product) => {
               const featuredImage = product.images[0]?.src || ''; // Access the `src` property of the first image
               const price = product.variants[0]?.price || 0; // Get the price of the first variant or set to 0 if undefined
-              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 20) + '...' : product.title;
+              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 30) + '...' : product.title;
 
               const productCard = document.createElement('div');
               productCard.classList.add('product-card');
@@ -104,7 +104,7 @@
                 // Check if the product is already selected
                 if (!selectedProductIds.includes(product.id)) {
                   const truncatedSelectedTitle =
-                    product.title.length > 20 ? product.title.slice(0, 20) + '...' : product.title;
+                    product.title.length > 20 ? product.title.slice(0, 30) + '...' : product.title;
 
                   // Add the product to the selected products container
                   selectedProductsContainer.innerHTML += `

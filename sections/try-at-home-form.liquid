@@ -19,7 +19,7 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        const selectedProductIds = []; // Array to store selected product IDs
+        window.selectedProductIds = []; // Declare in the global scope
         const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
 
         // Function to get query parameter value
@@ -358,7 +358,8 @@
       const pincode = document.getElementById('pincode').value.trim();
       const address = `${house}, ${locality}, ${city}, ${state}`.replace(/,\s*$/, '');
       //   const productVariant = document.getElementById('selectedProductVariant').value;
-      const productVariant = window.selectedProductIds || [];
+      const productVariant =
+        window.selectedProductIds && window.selectedProductIds.length > 0 ? window.selectedProductIds : null;
       const phoneInput = document.getElementById('phone');
       const emailInput = document.getElementById('email');
       const phone = phoneInput ? phoneInput.value.trim() : "{{ customer.phone | default: '' }}";

@@ -167,8 +167,9 @@
             {% assign product_id_array = trial.product | json %}
             {% assign product_gid = product_id_array | first %}
             {% assign product_handle = product_gid | split: '/' | last %}
+            {{ product_handle }}
             {% assign product = all_products[product_handle] %}
-
+            {{ product }}
             {% if product %}
               <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
             {% else %}

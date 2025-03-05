@@ -100,7 +100,7 @@
 
               // Add functionality to "Add Item" button
               // Array to store selected products
-              window.selectedProducts = [];
+              const selectedProducts = [];
 
               // Add event listener to all add buttons
               document.querySelectorAll('.add-item-button').forEach((addButton) => {
@@ -115,18 +115,18 @@
                   const productPrice = productCard.querySelector('.product-card__price').textContent.trim();
 
                   // Check if the product is already in the selectedProducts array
-                  const isProductAdded = window.selectedProducts.some((product) => product.id === productId);
+                  const isProductAdded = selectedProducts.some((product) => product.id === productId);
 
                   if (!isProductAdded) {
                     // Add the product to the selectedProducts array
-                    window.selectedProducts.push({
+                    selectedProducts.push({
                       id: productId,
                       image: productImage,
                       title: productTitle,
                       price: productPrice,
                     });
 
-                    console.log('Selected Products:', window.selectedProducts);
+                    console.log('Selected Products:', selectedProducts);
 
                     // Update button text and style
                     addButton.textContent = 'Added';
@@ -445,39 +445,38 @@
         const content2 = document.querySelector('.content-2-tah');
         content2.style.display = 'none';
 
-        // Populate the product cards using selectedProducts
-        const productCards = window.selectedProducts
-          .map((product) => {
+        // Populate the content based on the submitted form data
+        const productCards = (tryAtHomeData.product_ids || [])
+          .map((productId) => {
             return `
-        <div class="product-card">
-          <img src="${product.image}" alt="${product.title}" />
-          <div class="product-details">
-            <h4>${product.title}</h4>
-            <p>${product.price}</p>
-          </div>
-        </div>
-      `;
+              <div class="product-card">
+                <img src="{{ product.featured_image }}" alt="Product Image" />
+                <div class="product-details">
+                  <h4>{{ product.title }}</h4>
+                  <p>₹${Math.floor(product.price / 100)}</p>
+                </div>
+              </div>
+              `;
           })
           .join('');
 
-        // Update the content3 container with the product cards and other details
         content3.innerHTML = `
-        <div class="trial-booked-header">
-          <h3>Trial Booked</h3>
-          <span>✓</span>
-        </div>
-        <div class="product-cards">
-          ${productCards}
-        </div>
-        <div class="address-details">
-          <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
-          <p><strong>Date Picked:</strong> ${new Date(tryAtHomeData.timeslot).toLocaleString()}</p>
-          <p><strong>OTP:</strong> 123456</p>
-        </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-        <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
-        <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
-        `;
+              <div class="trial-booked-header">
+                <h3>Trial Booked</h3>
+                <span>✓</span>
+              </div>
+              <div class="product-cards">
+                ${productCards}
+              </div>
+              <div class="address-details">
+                <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
+                <p><strong>Date Picked:</strong> ${new Date(tryAtHomeData.timeslot).toLocaleString()}</p>
+                <p><strong>OTP:</strong> 123456</p>
+              </div>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+              <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
+              <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
+              `;
 
         // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
         document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
@@ -598,27 +597,6 @@
     width: 32%;
     justify-content: center;
     align-items: center;
-    gap: 5px;
-    text-align: left;
-  }
-  .product-cards .product-card img {
-    width: 35%;
-    height: auto;
-    border-radius: 15px 0 15px 0;
-  }
-  .product-cards .product-card h4 {
-    margin: 0;
-    font-family: 'Quicksand';
-    font-weight: 400;
-    font-size: 1.4rem;
-  }
-  .product-cards .product-card p {
-    margin: 0;
-  }
-  .product-cards .product-card .product-details {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
   }
   .content-2-tah {
     flex-direction: column;

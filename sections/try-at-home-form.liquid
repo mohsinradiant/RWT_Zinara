@@ -134,71 +134,69 @@
     </script>
   </div>
 
-  {% comment %}
-    <div class="content-2-tah">
-      <div class="tryAtHomePopup-input_container_parent">
-        <div class="tryAtHomePopup-input_container">
-          <h2>Add Address</h2>
-          <div style="width:100%" class="input-group">
-            <input type="text" id="house" class="input-field" placeholder="House/Apartment">
-          </div>
-          <div style="width:100%" class="input-group">
-            <input type="text" id="locality" class="input-field" placeholder="Locality/Area/Landmark">
-          </div>
-          <div style="width:100%" class="input-group row">
-            <input style="width: calc(50% - 5px);" type="text" id="city" class="input-field" placeholder="City">
-            <input style="width: calc(50% - 5px);" type="text" id="state" class="input-field" placeholder="State">
-          </div>
-          <div style="width:100%" class="input-group">
-            <input type="text" id="pincode" class="input-field" placeholder="Pincode">
-          </div>
-
-          {% unless customer.phone %}
-            <h2>Phone</h2>
-            <div style="width:100%" class="input-group">
-              <input type="number" id="phone" class="input-field" placeholder="Phone">
-            </div>
-          {% endunless %}
-          {% unless customer.email %}
-            <h2>Email</h2>
-            <div style="width:100%" class="input-group">
-              <input type="email" id="email" class="input-field" placeholder="Email">
-            </div>
-          {% endunless %}
+  <div class="content-2-tah">
+    <div class="tryAtHomePopup-input_container_parent">
+      <div class="tryAtHomePopup-input_container">
+        <h2>Add Address</h2>
+        <div style="width:100%" class="input-group">
+          <input type="text" id="house" class="input-field" placeholder="House/Apartment">
         </div>
-        {% assign unavailable_slots = '' %}
-
-        {% for slot in shop.metaobjects.try_at_home_slot.values %}
-          {% assign unavailable_slots = unavailable_slots | append: slot.slot_date_and_time | append: ',' %}
-        {% endfor %}
-        <div class="tryAtHomePopup-input_container">
-          <label for="date">Select Date:</label>
-          <div class="date-container"></div>
-          <!-- Empty container for dates -->
-
-          <label for="timeslot">Select Timeslot:</label>
-          <div class="timeslot-container"></div>
-          <!-- Empty container for timeslots -->
+        <div style="width:100%" class="input-group">
+          <input type="text" id="locality" class="input-field" placeholder="Locality/Area/Landmark">
+        </div>
+        <div style="width:100%" class="input-group row">
+          <input style="width: calc(50% - 5px);" type="text" id="city" class="input-field" placeholder="City">
+          <input style="width: calc(50% - 5px);" type="text" id="state" class="input-field" placeholder="State">
+        </div>
+        <div style="width:100%" class="input-group">
+          <input type="text" id="pincode" class="input-field" placeholder="Pincode">
         </div>
 
-        <!-- Product Variant -->
-        <input type="hidden" id="selectedProductVariant" value="{{ product.selected_or_first_available_variant.id }}">
-        <div style="display:none;" class="tryAtHomePopup-input_container">
-          <label for="productVariant">Product Variant:</label>
-          <input
-            type="text"
-            id="productVariant"
-            class="input-field"
-            readonly
-            value="{{ product.selected_or_first_available_variant.title }}"
-            placeholder="Selected Product Variant"
-          >
-        </div>
+        {% unless customer.phone %}
+          <h2>Phone</h2>
+          <div style="width:100%" class="input-group">
+            <input type="number" id="phone" class="input-field" placeholder="Phone">
+          </div>
+        {% endunless %}
+        {% unless customer.email %}
+          <h2>Email</h2>
+          <div style="width:100%" class="input-group">
+            <input type="email" id="email" class="input-field" placeholder="Email">
+          </div>
+        {% endunless %}
       </div>
-      <a id="bookTrialTah" class="submit-btn">Book Trial at Home</a>
+      {% assign unavailable_slots = '' %}
+
+      {% for slot in shop.metaobjects.try_at_home_slot.values %}
+        {% assign unavailable_slots = unavailable_slots | append: slot.slot_date_and_time | append: ',' %}
+      {% endfor %}
+      <div class="tryAtHomePopup-input_container">
+        <label for="date">Select Date:</label>
+        <div class="date-container"></div>
+        <!-- Empty container for dates -->
+
+        <label for="timeslot">Select Timeslot:</label>
+        <div class="timeslot-container"></div>
+        <!-- Empty container for timeslots -->
+      </div>
+
+      <!-- Product Variant -->
+      <input type="hidden" id="selectedProductVariant" value="{{ product.selected_or_first_available_variant.id }}">
+      <div style="display:none;" class="tryAtHomePopup-input_container">
+        <label for="productVariant">Product Variant:</label>
+        <input
+          type="text"
+          id="productVariant"
+          class="input-field"
+          readonly
+          value="{{ product.selected_or_first_available_variant.title }}"
+          placeholder="Selected Product Variant"
+        >
+      </div>
     </div>
-    <div class="content-3-tah"></div>
-  {% endcomment %}
+    <a id="bookTrialTah" class="submit-btn">Book Trial at Home</a>
+  </div>
+  <div class="content-3-tah"></div>
 </div>
 <div id="ajax_tah_succ_submit_popup_container" class="hidden">
   <div class="ajax_tah_succ_submit_popup">
@@ -209,6 +207,26 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const selectTimeSlotButton = document.getElementById('select-time-slot-content-1');
+    const content1 = document.querySelector('.content-1-tah');
+    const content2 = document.querySelector('.content-2-tah');
+
+    // Hide content-2-tah by default
+    content2.style.display = 'none';
+
+    // Add click event listener to the button
+    selectTimeSlotButton.addEventListener('click', function () {
+      // Hide content-1-tah
+      content1.style.display = 'none';
+
+      // Show content-2-tah
+      content2.style.display = 'block';
+    });
+  });
+</script>
 
 <script>
   const unavailableSlots = {{ unavailable_slots | split: ',' | json }};

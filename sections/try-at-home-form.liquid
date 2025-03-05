@@ -486,35 +486,38 @@
         const productCards = window.selectedProducts
           .map((product) => {
             return `
-        <div class="product-card">
-          <img src="${product.image}" alt="${product.title}" />
-          <div class="product-details">
-            <h4>${product.title}</h4>
-            <p>${product.price}</p>
-          </div>
-        </div>
-      `;
+             <div class="product-card">
+               <img src="${product.image}" alt="${product.title}" />
+               <div class="product-details">
+                 <h4>${product.title}</h4>
+                 <p>${product.price}</p>
+               </div>
+             </div>
+           `;
           })
           .join('');
 
         // Update the content3 container with the product cards and other details
+        const date = new Date(tryAtHomeData.timeslot);
+        const formattedDate = date.toLocaleDateString(); // e.g., "3/5/2025"
+        const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // e.g., "10:30 PM"
+
         content3.innerHTML = `
-        <div class="trial-booked-header">
-        <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1741202752">
-          <h3>Trial Booked</h3>
-        </div>
-        <div class="product-cards">
-          ${productCards}
-        </div>
-        <div class="address-details">
-          <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
-          <p><strong>Date Picked:</strong> ${new Date(tryAtHomeData.timeslot).toLocaleString()}</p>
-          <p><strong>OTP:</strong> 123456</p>
-        </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-        <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
-        <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
-        `;
+              <div class="trial-booked-header">
+                <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1741202752">
+                <h3>Trial Booked</h3>
+              </div>
+              <div class="product-cards">
+                ${productCards}
+              </div>
+              <div class="address-details">
+                <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
+                <p><strong>Booked Time Slot:</strong> ${formattedDate} | ${formattedTime}</p>
+              </div>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis.</p>
+            //   <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
+            //   <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
+            `;
 
         // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
         document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
@@ -593,6 +596,22 @@
 </script>
 
 <style>
+  .address-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    width: 100%;
+  }
+  .address-details p {
+    margin: 0;
+    font-family: 'Quicksand';
+    font-size: 1.8rem;
+    font-weight: 500;
+  }
+  .address-details p strong {
+    font-weight: 400;
+  }
   .content-3-tah {
     display: flex;
     flex-direction: column;
@@ -600,6 +619,7 @@
     align-items: start;
     width: 100%;
     background: #f4eeeb;
+    color: #000;
     padding: 15px;
     border-radius: 20px 0 20px 0;
   }
@@ -632,14 +652,14 @@
   }
   .product-cards .product-card {
     display: flex;
-    width: 32%;
-    justify-content: center;
+    width: 50%;
+    justify-content: start;
     align-items: center;
-    gap: 5px;
+    gap: 15px;
     text-align: left;
   }
   .product-cards .product-card img {
-    width: 35%;
+    width: 25%;
     height: auto;
     border-radius: 15px 0 15px 0;
   }
@@ -651,6 +671,9 @@
   }
   .product-cards .product-card p {
     margin: 0;
+    font-family: 'Quicksand';
+    font-size: 2rem;
+    font-weight: 500;
   }
   .product-cards .product-card .product-details {
     display: flex;

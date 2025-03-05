@@ -3,7 +3,23 @@
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>
     <div class="selected-products-container">
-      {% render 'card-product' %}
+      {% assign product_data = productData | json_parse %}
+
+      {% if product_data %}
+        {% render 'card-product',
+          card_product: product_data,
+          media_aspect_ratio: section.settings.image_ratio,
+          image_shape: section.settings.image_shape,
+          show_secondary_image: section.settings.show_secondary_image,
+          show_vendor: section.settings.show_vendor,
+          show_rating: section.settings.show_rating,
+          skip_styles: skip_card_product_styles,
+          section_id: section.id,
+          quick_add: section.settings.quick_add
+        %}
+      {% else %}
+        <p>No product found.</p>
+      {% endif %}
     </div>
   </div>
   <div class="content-2-tah">
@@ -334,21 +350,26 @@
       return params.get(param);
     }
 
-    // Extract the product_id parameter
+    // Extract `product_id` from the URL
     const productId = getQueryParam('product_id');
 
     if (productId) {
-      // Send the product ID to the server or dynamically update the page
+      // Create a hidden input to pass product data to Liquid
       fetch(`/products/${productId}.json`)
         .then((response) => response.json())
         .then((data) => {
-          // Use the fetched product data
-          const productCardContainer = document.getElementById('productCardContainer');
-          productCardContainer.innerHTML = `
-            {% render 'card-product', product: ${JSON.stringify(data.product)} %}
-          `;
+          // Use the fetched product data to populate the Liquid template
+          const productDataInput = document.createElement('input');
+          productDataInput.type = 'hidden';
+          productDataInput.id = 'productData';
+          productDataInput.value = JSON.stringify(data.product);
+
+          // Append input to the body for Liquid access
+          document.body.appendChild(productDataInput);
+
+          // Trigger rendering process (if needed, add your custom logic here)
         })
-        .catch((error) => console.error('Error fetching product:', error));
+        .catch((error) => console.error('Error fetching product data:', error));
     } else {
       console.error('No product_id found in the URL');
     }

@@ -5,15 +5,29 @@
     <div class="selected-products-container">
       {% assign product_id = request.query.product_id %}
 
-      <p>Debugging Info:</p>
-      <ul>
-        <li>Product ID: {{ product_id }}</li>
-        {% if product_id %}
-          <li>Product ID found in URL.</li>
+      {% if product_id %}
+        {% assign product = all_products[product_id] %}
+        {% if product %}
+          <div class="product-card">
+            <img
+              src="{{ product.featured_image | img_url: '600x600' }}"
+              alt="{{ product.title }}"
+              class="product-card__image"
+            >
+            <h2 class="product-card__title">{{ product.title }}</h2>
+            <p class="product-card__price">
+              {{ product.price_min | money }}
+              {% if product.price_min != product.price_max %}
+                - {{ product.price_max | money }}
+              {% endif %}
+            </p>
+          </div>
         {% else %}
-          <li>No Product ID found in URL.</li>
+          <p>No product found for the given ID.</p>
         {% endif %}
-      </ul>
+      {% else %}
+        <p>No product ID provided in the URL.</p>
+      {% endif %}
     </div>
   </div>
   <div class="content-2-tah">

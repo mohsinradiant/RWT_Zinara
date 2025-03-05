@@ -21,7 +21,7 @@
 {%- endstyle -%}
 
 <div class="customer account section-{{ section.id }}-padding">
-  <div>
+  <div class="page-width">
     <h1 class="customer__title">{{ 'customer.account.title' | t }} Details</h1>
     {% assign address_parts = customer.default_address | format_address | split: '<br>' %}
     <p>

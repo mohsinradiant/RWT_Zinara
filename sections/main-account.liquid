@@ -165,11 +165,13 @@
         <div class="account_page_tah_trials_div">
           {% for product in trial.product.value %}
             {% assign product = product %}
-            <img src="{{ product.featured_image | image_url }}">
-            <div class="product_content">
-              <h4>{{ product.title }}</h4>
-              <p>₹{{ product.price | divided_by: 100 }}</p>
-              <p>Booked Slot: {{ trial.slot_date_and_time | date: '%-d/%-m/%y | %H:%M' }}</p>
+            <div class="account_page_tah_trials_div_product">
+              <img src="{{ product.featured_image | image_url }}">
+              <div class="product_content">
+                <h4>{{ product.title }}</h4>
+                <p>₹{{ product.price | divided_by: 100 }}</p>
+                <p>Booked Slot: {{ trial.slot_date_and_time | date: '%-d/%-m/%y | %H:%M' }}</p>
+              </div>
             </div>
           {% endfor %}
         </div>
@@ -189,7 +191,7 @@
         padding: 0 !important;
       }
       .account_page_tah_trials_div {
-        width: 49.5%;
+        width: 100%;
         display: flex;
         background-color: #f4eeeb;
         border-radius: 15px 0 15px 0;

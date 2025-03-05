@@ -164,21 +164,26 @@
       <div class="account_page_tah_trials_container">
         {% for trial in customer.metafields.content.try_at_home_slots.value %}
           <div class="account_page_tah_trials_div">
-            {% assign product_gid = trial.product | remove: '[' | remove: ']' | remove: '"' %}
+            {% comment %} Display the raw product data for debugging {% endcomment %}
             <p>Raw Product Data: {{ trial.product }}</p>
+
+            {% comment %} Extract the Product ID from the GID {% endcomment %}
+            {% assign product_gid = trial.product | remove: '[' | remove: ']' | remove: '"' %}
             <p>Extracted GID: {{ product_gid }}</p>
 
-            {% assign product_handle = product_gid | split: '/' | last %}
-            <p>Product Handle: {{ product_handle }}</p>
+            {% comment %} Extract Product ID from GID {% endcomment %}
+            {% assign product_id = product_gid | split: '/' | last %}
+            <p>Product ID: {{ product_id }}</p>
 
-            {% assign product = all_products[product_handle] %}
-            {% if product %}
-              <p>Product Found: Yes</p>
-              <p>Product Title: {{ product.title }}</p>
-              <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
-            {% else %}
-              <p>Product not found or data unavailable for handle: {{ product_handle }}</p>
-            {% endif %}
+            {% comment %} If Product ID is valid, display placeholder data {% endcomment %}
+            <p>
+              Product Found: {% if product_id %} Yes {% else %} No {% endif %}
+            </p>
+            <p>Product Title: [Unable to fetch directly]</p>
+            <img
+              src="//cdn.shopify.com/s/files/1/0000/0000/0000/products/placeholder-image.jpg"
+              alt="Product Placeholder"
+            >
           </div>
         {% endfor %}
       </div>

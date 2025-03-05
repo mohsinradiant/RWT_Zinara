@@ -363,7 +363,6 @@
       const state = document.getElementById('state').value.trim();
       const pincode = document.getElementById('pincode').value.trim();
       const address = `${house}, ${locality}, ${city}, ${state}`.replace(/,\s*$/, '');
-      //   const productVariant = document.getElementById('selectedProductVariant').value;
       const productVariant =
         window.selectedProductIds && window.selectedProductIds.length > 0 ? window.selectedProductIds : null;
       const phoneInput = document.getElementById('phone');
@@ -374,7 +373,21 @@
       const name = "{{ customer.first_name | default: '' }} {{ customer.last_name | default: '' }}".trim();
 
       if (!customerId) {
-        alert('You must be logged in to book a slot.');
+        // Save form data to sessionStorage and redirect to login page
+        const formData = {
+          timeslot,
+          house,
+          locality,
+          city,
+          state,
+          pincode,
+          address,
+          productVariant,
+          phone,
+          email,
+        };
+        sessionStorage.setItem('tryAtHomeFormData', JSON.stringify(formData));
+        window.location.href = '/account/login'; // Redirect to login page
         return;
       }
 
@@ -419,10 +432,8 @@
 
       const jsonResponse = JSON.parse(rawResponse);
       if (response.ok && jsonResponse.success) {
-        // Get the popup container
+        // Show the success popup
         const popupContainer = document.getElementById('ajax_tah_succ_submit_popup_container');
-
-        // Show the popup
         popupContainer.classList.remove('hidden');
 
         // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
@@ -439,6 +450,26 @@
       }
     } catch (error) {
       console.error('Error during submission:', error);
+    }
+  });
+
+  // Restore form data after login
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedFormData = JSON.parse(sessionStorage.getItem('tryAtHomeFormData'));
+    if (savedFormData) {
+      // Restore form fields
+      document.getElementById('house').value = savedFormData.house || '';
+      document.getElementById('locality').value = savedFormData.locality || '';
+      document.getElementById('city').value = savedFormData.city || '';
+      document.getElementById('state').value = savedFormData.state || '';
+      document.getElementById('pincode').value = savedFormData.pincode || '';
+      document.getElementById('phone').value = savedFormData.phone || '';
+      document.getElementById('email').value = savedFormData.email || '';
+      // Handle selected product IDs or other fields if necessary
+      console.log('Restored form data:', savedFormData);
+
+      // Clear sessionStorage
+      sessionStorage.removeItem('tryAtHomeFormData');
     }
   });
 

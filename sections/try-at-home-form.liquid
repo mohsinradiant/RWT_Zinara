@@ -305,41 +305,31 @@
     console.log('Adjusted Unavailable Slots Map:', unavailableSlotsMap);
 
    // Generate Dates
-  const dateContainer = document.querySelector('.date-container');
-
-  // Get today's date and set time to midnight for consistency
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Reset to midnight
-
-  // Generate Dates for the next 7 days
-  dateContainer.innerHTML = ''; // Clear any existing content
-
-  for (let i = 0; i < 7; i++) {
-    const futureDate = new Date(today); // Clone today's date
-    futureDate.setDate(today.getDate() + i); // Add days
-
-    // Format the date as YYYY-MM-DD
-    const formattedDate = futureDate.toISOString().split('T')[0];
-
-    // Format for display: Month, Day, and Weekday
-    const options = { day: '2-digit', month: 'short', weekday: 'long' };
-    const [weekday, monthDay] = futureDate
-      .toLocaleDateString('en-US', options)
-      .split(',');
-
-    // Split the month and day
-    const [month, day] = monthDay.trim().split(' ');
-
-    // Add button HTML to the container
-    const buttonHTML = `
-      <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
-        ${month} ${String(day).padStart(2, '0')}<br>
-        <span>${weekday}</span>
-      </button>
-    `;
-    dateContainer.innerHTML += buttonHTML;
-  }
-
+    const today = new Date();
+    for (let i = 0; i < 7; i++) {
+      const futureDate = new Date(today); // Clone today's date
+      futureDate.setDate(today.getDate() + i); // Increment by i days
+      
+      // Format the `data-date` directly from `futureDate`
+      const formattedDate = futureDate.toISOString().split('T')[0];
+      
+      // Adjust the displayed date by subtracting 1 day
+      const displayDate = new Date(futureDate);
+      displayDate.setDate(displayDate.getDate() - 1);
+      
+      // Extract day, month, and weekday for display
+      const day = displayDate.getDate();
+      const month = displayDate.toLocaleString('en-US', { month: 'short' });
+      const weekday = displayDate.toLocaleString('en-US', { weekday: 'long' });
+      
+      const buttonHTML = `
+        <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
+          ${month} ${String(day).padStart(2, '0')}<br>
+          <span>${weekday}</span>
+        </button>
+      `;
+      dateContainer.innerHTML += buttonHTML;
+    }
 
     // Function to update timeslots based on selected date
     function updateTimeslots(selectedDate) {

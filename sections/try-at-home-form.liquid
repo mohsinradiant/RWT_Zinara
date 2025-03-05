@@ -3,9 +3,13 @@
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>
     <div class="selected-products-container">
+      <p id="loadingMessage">Loading product...</p>
+      <div id="productCardContainer" style="display: none;">
+        <!-- Product details will be inserted here -->
+      </div>
       <script>
         document.addEventListener('DOMContentLoaded', function () {
-          // Get query parameter value for `product_handle`
+          // Function to get query parameter value
           function getQueryParam(param) {
             const params = new URLSearchParams(window.location.search);
             return params.get(param);
@@ -14,51 +18,42 @@
           const productHandle = getQueryParam('product_handle');
 
           if (productHandle) {
-            // Create a hidden input to pass `product_handle` to Liquid
-            const hiddenInput = document.createElement('input');
-            hiddenInput.type = 'hidden';
-            hiddenInput.id = 'productHandle';
-            hiddenInput.value = productHandle;
-
-            document.body.appendChild(hiddenInput);
+            // Fetch product details using product handle
+            fetch(`/products/${productHandle}.js`)
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error('Product not found');
+                }
+                return response.json();
+              })
+              .then((product) => {
+                // Build product card
+                const productCardContainer = document.getElementById('productCardContainer');
+                productCardContainer.innerHTML = `
+                    <div class="product-card">
+                      <img
+                        src="${product.featured_image}"
+                        alt="${product.title}"
+                        class="product-card__image"
+                      >
+                      <h2 class="product-card__title">${product.title}</h2>
+                      <p class="product-card__price">
+                        $${(product.price / 100).toFixed(2)}
+                      </p>
+                    </div>
+                  `;
+                document.getElementById('loadingMessage').style.display = 'none';
+                productCardContainer.style.display = 'block';
+              })
+              .catch((error) => {
+                console.error(error);
+                document.getElementById('loadingMessage').textContent = 'Product not found or invalid handle provided.';
+              });
+          } else {
+            document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
           }
         });
       </script>
-<p>Product Handle (JavaScript): <script>document.write(document.getElementById('productHandle')?.value || 'None');</script></p>
-
-      {% comment %}
-        Fetch the value of `product_handle` passed via JavaScript
-      {% endcomment %}
-      {% capture product_handle %}
-          <script>
-            document.write(document.getElementById('productHandle')?.value || '');
-          </script>
-        {% endcapture %}
-
-      {% if product_handle %}
-        {% assign product = all_products[product_handle] %}
-
-        {% if product %}
-          <div class="product-card">
-            <img
-              src="{{ product.featured_image | img_url: '600x600' }}"
-              alt="{{ product.title }}"
-              class="product-card__image"
-            >
-            <h2 class="product-card__title">{{ product.title }}</h2>
-            <p class="product-card__price">
-              {{ product.price_min | money }}
-              {% if product.price_min != product.price_max %}
-                - {{ product.price_max | money }}
-              {% endif %}
-            </p>
-          </div>
-        {% else %}
-          <p>No product found for the given handle.</p>
-        {% endif %}
-      {% else %}
-        <p>No product handle provided in the URL.</p>
-      {% endif %}
     </div>
   </div>
   <div class="content-2-tah">

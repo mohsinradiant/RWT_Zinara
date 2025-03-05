@@ -128,18 +128,6 @@
 
                     console.log('Selected Products:', window.selectedProducts);
 
-                    // Render the product in the selectedProductsContainer
-                    const selectedProductsContainer = document.getElementById('selected-products-container');
-                    selectedProductsContainer.innerHTML += `
-        <div class="product-card" data-id="${productId}">
-          <img src="${productImage}" alt="${productTitle}" class="product-card__image" />
-          <div class="product-card-content">
-            <h4 class="product-card__title">${productTitle}</h4>
-            <p class="product-card__price">${productPrice}</p>
-          </div>
-        </div>
-      `;
-
                     // Update button text and style
                     addButton.textContent = 'Added';
                     addButton.style.opacity = '0.7';
@@ -468,28 +456,28 @@
             <p>${product.price}</p>
           </div>
         </div>
-         `;
+      `;
           })
           .join('');
 
         // Update the content3 container with the product cards and other details
         content3.innerHTML = `
-           <div class="trial-booked-header">
-           <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1741202752">
-             <h3>Trial Booked</h3>
-           </div>
-           <div class="product-cards">
-             ${productCards}
-           </div>
-           <div class="address-details">
-             <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
-             <p><strong>Date Picked:</strong> ${new Date(tryAtHomeData.timeslot).toLocaleString()}</p>
-             <p><strong>OTP:</strong> 123456</p>
-           </div>
-           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-           <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
-           <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
-           `;
+        <div class="trial-booked-header">
+          <h3>Trial Booked</h3>
+          <span>✓</span>
+        </div>
+        <div class="product-cards">
+          ${productCards}
+        </div>
+        <div class="address-details">
+          <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
+          <p><strong>Date Picked:</strong> ${new Date(tryAtHomeData.timeslot).toLocaleString()}</p>
+          <p><strong>OTP:</strong> 123456</p>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
+        <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
+        `;
 
         // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
         document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
@@ -608,9 +596,9 @@
   .product-cards .product-card {
     display: flex;
     width: 32%;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
     text-align: left;
   }
   .product-cards .product-card img {
@@ -626,9 +614,6 @@
   }
   .product-cards .product-card p {
     margin: 0;
-    font-family: 'Quicksand';
-    font-weight: 500;
-    font-size: 1.8rem;
   }
   .product-cards .product-card .product-details {
     display: flex;

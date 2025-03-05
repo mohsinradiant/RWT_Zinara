@@ -40,21 +40,23 @@
               return response.json();
             })
             .then((product) => {
+              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 20) + '...' : product.title;
+
               selectedProductsContainer.innerHTML = `
-              <div class="product-card" data-id="${product.id}">
-                <img
-                  src="${product.featured_image}"
-                  alt="${product.title}"
-                  class="product-card__image"
-                >
-                <div class="product-card-content">
-                  <h2 class="product-card__title">${product.title}</h2>
-                  <p class="product-card__price">
-                    ₹${Math.floor(product.price / 100)}
-                  </p>
-                </div>
-              </div>
-            `;
+          <div class="product-card" data-id="${product.id}">
+            <img
+              src="${product.featured_image}"
+              alt="${product.title}"
+              class="product-card__image"
+            >
+            <div class="product-card-content">
+              <h2 class="product-card__title">${truncatedTitle}</h2>
+              <p class="product-card__price">
+                ₹${Math.floor(product.price / 100)}
+              </p>
+            </div>
+          </div>
+        `;
               document.getElementById('loadingMessage').style.display = 'none';
               selectedProductsContainer.style.display = 'flex';
               selectedProductIds.push(product.id);
@@ -76,6 +78,7 @@
             data.products.forEach((product) => {
               const featuredImage = product.images[0]?.src || ''; // Access the `src` property of the first image
               const price = product.variants[0]?.price || 0; // Get the price of the first variant or set to 0 if undefined
+              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 20) + '...' : product.title;
 
               const productCard = document.createElement('div');
               productCard.classList.add('product-card');
@@ -87,7 +90,7 @@
             class="product-card__image"
           >
           <div class="product-card-content">
-            <h2 class="product-card__title">${product.title}</h2>
+            <h2 class="product-card__title">${truncatedTitle}</h2>
             <p class="product-card__price">
               ₹${Math.floor(price)}
             </p>
@@ -100,6 +103,9 @@
               addButton.addEventListener('click', function () {
                 // Check if the product is already selected
                 if (!selectedProductIds.includes(product.id)) {
+                  const truncatedSelectedTitle =
+                    product.title.length > 20 ? product.title.slice(0, 20) + '...' : product.title;
+
                   // Add the product to the selected products container
                   selectedProductsContainer.innerHTML += `
               <div class="product-card" data-id="${product.id}">
@@ -109,7 +115,7 @@
                   class="product-card__image"
                 >
                 <div class="product-card-content">
-                  <h2 class="product-card__title">${product.title}</h2>
+                  <h2 class="product-card__title">${truncatedSelectedTitle}</h2>
                   <p class="product-card__price">
                     ₹${Math.floor(price)}
                   </p>
@@ -554,7 +560,7 @@
   .collection-products-container .product-card h2 {
     font-family: 'Quicksand';
     font-weight: 400;
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
   .selected-products-container .product-card p {
     font-size: 2.3rem;

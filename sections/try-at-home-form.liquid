@@ -73,7 +73,7 @@
             const collectionProductsContainer = document.getElementById('collectionProducts');
 
             data.products.forEach((product) => {
-              const featuredImage = product.images[0] || ''; // Get the first image or set to empty string if undefined
+              const featuredImage = product.images[0]?.src || ''; // Access the `src` property of the first image
               const price = product.variants[0]?.price || 0; // Get the price of the first variant or set to 0 if undefined
 
               const productCard = document.createElement('div');

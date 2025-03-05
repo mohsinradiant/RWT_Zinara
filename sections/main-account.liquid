@@ -188,7 +188,18 @@
         {% endfor %}
       </div>
     </div>
-
+    <script>
+      const productIds = ['9217202880696']; // Extracted product IDs
+      productIds.forEach((id) => {
+        fetch(`/products.json?ids=${id}`)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data); // Log product data
+            // Use the product data to update the DOM
+          })
+          .catch((error) => console.error('Error fetching product:', error));
+      });
+    </script>
     {% comment %}
       <div>
         <h2>{{ 'customer.account.details' | t }}</h2>

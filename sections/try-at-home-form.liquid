@@ -463,8 +463,8 @@
         // Update the content3 container with the product cards and other details
         content3.innerHTML = `
         <div class="trial-booked-header">
+        <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1741202752">
           <h3>Trial Booked</h3>
-          <span>✓</span>
         </div>
         <div class="product-cards">
           ${productCards}
@@ -596,8 +596,32 @@
   .product-cards .product-card {
     display: flex;
     width: 32%;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
+    gap: 10px;
+    text-align: left;
+  }
+  .product-cards .product-card img {
+    width: 35%;
+    height: auto;
+    border-radius: 15px 0 15px 0;
+  }
+  .product-cards .product-card h4 {
+    margin: 0;
+    font-family: 'Quicksand';
+    font-weight: 400;
+    font-size: 1.4rem;
+  }
+  .product-cards .product-card p {
+    margin: 0;
+    font-family: 'Quicksand';
+    font-weight: 500;
+    font-size: 1.8rem;
+  }
+  .product-cards .product-card .product-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   .content-2-tah {
     flex-direction: column;

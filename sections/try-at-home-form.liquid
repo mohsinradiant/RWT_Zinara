@@ -283,34 +283,57 @@
     const dateContainer = document.querySelector('.date-container');
     const timeslotContainer = document.querySelector('.timeslot-container');
 
+    // Function to add 5 hours and 30 minutes to a time string
+    function addTimeOffset(timeString, offsetHours, offsetMinutes) {
+      const [hours, minutes] = timeString.split(':').map(Number);
+      const date = new Date();
+      date.setHours(hours + offsetHours);
+      date.setMinutes(minutes + offsetMinutes);
+      return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+    }
+
     // Parse unavailable slots into a structured format (e.g., { 'YYYY-MM-DD': ['HH:mm', ...] })
     const unavailableSlotsMap = unavailableSlots.reduce((acc, slot) => {
       const [date, time] = slot.trim().split('T');
+      const adjustedTime = addTimeOffset(time.split(':').slice(0, 2).join(':'), 5, 30); // Add offset
       if (!acc[date]) acc[date] = [];
-      acc[date].push(time.split(':').slice(0, 2).join(':')); // Only keep HH:mm
+      acc[date].push(adjustedTime); // Push the adjusted time
       return acc;
     }, {});
 
     // Debugging: Log unavailable slots map
-    console.log('Unavailable Slots Map:', unavailableSlotsMap);
+    console.log('Adjusted Unavailable Slots Map:', unavailableSlotsMap);
 
-    // Generate Dates
-    const today = new Date();
-    for (let i = 0; i < 7; i++) {
-      const futureDate = new Date();
-      futureDate.setDate(today.getDate() + i);
-      const options = { day: '2-digit', month: 'short', weekday: 'long' };
-      const formattedDate = futureDate.toISOString().split('T')[0];
-      const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
+  // Generate Dates
+const today = new Date();
+for (let i = 0; i < 7; i++) {
+  const futureDate = new Date(today); // Clone today's date
+  futureDate.setDate(today.getDate() + i); // Increment by i days
+  
+  // Add 5 hours and 30 minutes
+  futureDate.setHours(futureDate.getHours() + 5);
+  futureDate.setMinutes(futureDate.getMinutes() + 30);
 
-      const buttonHTML = `
-        <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
-          ${displayDate[1]}<br>
-          <span>${displayDate[0]}</span>
-        </button>
-      `;
-      dateContainer.innerHTML += buttonHTML;
-    }
+  // Format the `data-date` manually using local time
+  const year = futureDate.getFullYear();
+  const month = String(futureDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  const day = String(futureDate.getDate()).padStart(2, '0');
+  const formattedDate = `${year}-${month}-${day}`;
+  
+  // Extract day, month, and weekday for display
+  const displayDay = futureDate.getDate();
+  const displayMonth = futureDate.toLocaleString('en-US', { month: 'short' });
+  const displayWeekday = futureDate.toLocaleString('en-US', { weekday: 'long' });
+  
+  const buttonHTML = `
+    <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
+      ${displayMonth} ${String(displayDay).padStart(2, '0')}<br>
+      <span>${displayWeekday}</span>
+    </button>
+  `;
+  dateContainer.innerHTML += buttonHTML;
+}
+
 
     // Function to update timeslots based on selected date
     function updateTimeslots(selectedDate) {
@@ -567,42 +590,42 @@
   });
 
   // Handling Unavailable Timeslots
-  (async () => {
-    try {
-      const response = await fetch('https://www.learningtlms.in/Zever4u/unavailable_timeslots.php');
-      const unavailableSlotsUTC = await response.json(); // Assume server returns ISO strings in UTC
+  //   (async () => {
+  //     try {
+  //       const response = await fetch('https://www.learningtlms.in/Zever4u/unavailable_timeslots.php');
+  //       const unavailableSlotsUTC = await response.json(); // Assume server returns ISO strings in UTC
 
-      const ISTOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
-      const unavailableSlotsIST = unavailableSlotsUTC.map((slot) => {
-        const date = new Date(slot);
-        const ISTDate = new Date(date.getTime() + ISTOffset); // Adjust to IST
-        return ISTDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format in IST
-      });
+  //       const ISTOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
+  //       const unavailableSlotsIST = unavailableSlotsUTC.map((slot) => {
+  //         const date = new Date(slot);
+  //         const ISTDate = new Date(date.getTime() + ISTOffset); // Adjust to IST
+  //         return ISTDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format in IST
+  //       });
 
-      console.log('Unavailable Timeslots (IST):', unavailableSlotsIST);
-      // Update the UI as needed to display unavailable times
-    } catch (error) {
-      console.error('Error fetching unavailable timeslots:', error);
-    }
-  })();
+  //       console.log('Unavailable Timeslots (IST):', unavailableSlotsIST);
+  //       // Update the UI as needed to display unavailable times
+  //     } catch (error) {
+  //       console.error('Error fetching unavailable timeslots:', error);
+  //     }
+  //   })();
 
   // Handling Unavailable Timeslots
-  (async () => {
-    try {
-      const response = await fetch('https://www.learningtlms.in/Zever4u/unavailable_timeslots.php');
-      const unavailableSlotsUTC = await response.json(); // Assume server returns ISO strings in UTC
+  //   (async () => {
+  //     try {
+  //       const response = await fetch('https://www.learningtlms.in/Zever4u/unavailable_timeslots.php');
+  //       const unavailableSlotsUTC = await response.json(); // Assume server returns ISO strings in UTC
 
-      const unavailableSlotsLocal = unavailableSlotsUTC.map((slot) => {
-        const date = new Date(slot);
-        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format in local time
-      });
+  //       const unavailableSlotsLocal = unavailableSlotsUTC.map((slot) => {
+  //         const date = new Date(slot);
+  //         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format in local time
+  //       });
 
-      console.log('Unavailable Timeslots (Local):', unavailableSlotsLocal);
-      // Update the UI as needed to display unavailable times
-    } catch (error) {
-      console.error('Error fetching unavailable timeslots:', error);
-    }
-  })();
+  //       console.log('Unavailable Timeslots (Local):', unavailableSlotsLocal);
+  //       // Update the UI as needed to display unavailable times
+  //     } catch (error) {
+  //       console.error('Error fetching unavailable timeslots:', error);
+  //     }
+  //   })();
 </script>
 
 <style>
@@ -1024,7 +1047,7 @@
     color: #fff;
     border: none;
     padding: 10px 20px;
-    cursor: pointer;
+    cursor: pointer !important;
     margin-top: 1.3rem;
     width: fit-content;
   }

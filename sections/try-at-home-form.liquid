@@ -358,7 +358,8 @@
       const state = document.getElementById('state').value.trim();
       const pincode = document.getElementById('pincode').value.trim();
       const address = `${house}, ${locality}, ${city}, ${state}`.replace(/,\s*$/, '');
-      const productVariant = document.getElementById('selectedProductVariant').value;
+      //   const productVariant = document.getElementById('selectedProductVariant').value;
+      const productVariant = window.selectedProductIds || [];
       const phoneInput = document.getElementById('phone');
       const emailInput = document.getElementById('email');
       const phone = phoneInput ? phoneInput.value.trim() : "{{ customer.phone | default: '' }}";
@@ -371,7 +372,18 @@
         return;
       }
 
-      if (!timeslot || !name || !email || !phone || !house || !locality || !city || !state || !pincode) {
+      if (
+        !timeslot ||
+        !name ||
+        !email ||
+        !phone ||
+        !house ||
+        !locality ||
+        !city ||
+        !state ||
+        !pincode ||
+        !productVariant
+      ) {
         alert('Please fill in all fields!');
         return;
       }

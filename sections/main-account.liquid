@@ -162,19 +162,19 @@
     <h2 id="account_page_tah_trials">Trials Booked</h2>
     <div class="account_page_tah_trials_container">
       {% for trial in customer.metafields.content.try_at_home_slots.value %}
-        <div class="account_page_tah_trials_div">
-          {% for product in trial.product.value %}
-            {% assign product = product %}
-            <div class="account_page_tah_trials_div_product">
-              <img src="{{ product.featured_image | image_url }}">
-              <div class="product_content">
-                <h4>{{ product.title }}</h4>
-                <p>₹{{ product.price | divided_by: 100 }}</p>
-                <p>Booked Slot: {{ trial.slot_date_and_time | date: '%-d/%-m/%y | %H:%M' }}</p>
-              </div>
+        {% comment %} <div class="account_page_tah_trials_div"> {% endcomment %}
+        {% for product in trial.product.value %}
+          {% assign product = product %}
+          <div class="account_page_tah_trials_div_product">
+            <img src="{{ product.featured_image | image_url }}">
+            <div class="product_content">
+              <h4>{{ product.title }}</h4>
+              <p>₹{{ product.price | divided_by: 100 }}</p>
+              <p>Booked Slot: {{ trial.slot_date_and_time | date: '%-d/%-m/%y | %H:%M' }}</p>
             </div>
-          {% endfor %}
-        </div>
+          </div>
+        {% endfor %}
+        {% comment %} </div> {% endcomment %}
       {% endfor %}
     </div>
     <style>
@@ -189,6 +189,7 @@
         justify-content: space-between;
         align-items: start;
         padding: 0 !important;
+        gap: 15px;
       }
       .account_page_tah_trials_div {
         width: 100%;
@@ -206,7 +207,7 @@
       #account_page_tah_trials {
         margin-top: 3rem;
       }
-      .account_page_tah_trials_div img {
+      .account_page_tah_trials_div_product img {
         width: 25%;
         border-radius: 15px 0 15px 0;
       }

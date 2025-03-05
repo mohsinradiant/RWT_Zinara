@@ -515,19 +515,19 @@
                 <p><strong>Booked Time Slot:</strong> ${formattedDate} | ${formattedTime}</p>
               </div>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis.</p>
-            //   <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
-            //   <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
             `;
+        // <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
+        //   <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
 
         // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
-        document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
-          window.location.href = '/account#account_page_tah_trials'; // Replace '/account' with your actual account page URL
-        });
+        // document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
+        //   window.location.href = '/account#account_page_tah_trials'; // Replace '/account' with your actual account page URL
+        // });
 
         // Close popup on "Close" button click
-        document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
-          content3.classList.add('hidden');
-        });
+        // document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
+        //   content3.classList.add('hidden');
+        // });
       } else {
         alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
       }

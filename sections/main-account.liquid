@@ -165,7 +165,7 @@
         {% for trial in customer.metafields.content.try_at_home_slots.value %}
           <div class="account_page_tah_trials_div">
             {{ trial.product }}
-            <img src="{{ trial.product_variant }}" alt="Variant Image">
+            <img src="{{ trial.product.featured_image }}" alt="Variant Image">
           </div>
         {% endfor %}
       </div>

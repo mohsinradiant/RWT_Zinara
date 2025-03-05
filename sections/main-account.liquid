@@ -164,42 +164,21 @@
       <div class="account_page_tah_trials_container">
         {% for trial in customer.metafields.content.try_at_home_slots.value %}
           <div class="account_page_tah_trials_div">
-            {% comment %} Display the raw product data for debugging {% endcomment %}
-            <p>Raw Product Data: {{ trial.product }}</p>
+            {% for product in trial.products %}
+              {% assign product_id = product | split: '/' | last %}
+              {% assign product_data = all_products[product_id] %}
 
-            {% comment %} Extract the Product ID from the GID {% endcomment %}
-            {% assign product_gid = trial.product | remove: '[' | remove: ']' | remove: '"' %}
-            <p>Extracted GID: {{ product_gid }}</p>
-
-            {% comment %} Extract Product ID from GID {% endcomment %}
-            {% assign product_id = product_gid | split: '/' | last %}
-            <p>Product ID: {{ product_id }}</p>
-
-            {% comment %} If Product ID is valid, display placeholder data {% endcomment %}
-            <p>
-              Product Found: {% if product_id %} Yes {% else %} No {% endif %}
-            </p>
-            <p>Product Title: [Unable to fetch directly]</p>
-            <img
-              src="//cdn.shopify.com/s/files/1/0000/0000/0000/products/placeholder-image.jpg"
-              alt="Product Placeholder"
-            >
+              {% if product_data %}
+                <img src="{{ product_data.featured_image | img_url: 'medium' }}" alt="{{ product_data.title }}">
+              {% else %}
+                <p>Product not found for ID: {{ product_id }}</p>
+              {% endif %}
+            {% endfor %}
           </div>
         {% endfor %}
       </div>
     </div>
-    <script>
-      const productIds = ['9217202880696']; // Extracted product IDs
-      productIds.forEach((id) => {
-        fetch(`/products.json?ids=${id}`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data); // Log product data
-            // Use the product data to update the DOM
-          })
-          .catch((error) => console.error('Error fetching product:', error));
-      });
-    </script>
+
     {% comment %}
       <div>
         <h2>{{ 'customer.account.details' | t }}</h2>

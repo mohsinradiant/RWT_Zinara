@@ -304,7 +304,7 @@
     // Debugging: Log unavailable slots map
     console.log('Adjusted Unavailable Slots Map:', unavailableSlotsMap);
 
-   // Generate Dates
+// Generate Dates
 const today = new Date();
 for (let i = 0; i < 7; i++) {
   const futureDate = new Date(today); // Clone today's date
@@ -313,14 +313,10 @@ for (let i = 0; i < 7; i++) {
   // Format the `data-date` directly from `futureDate`
   const formattedDate = futureDate.toISOString().split('T')[0];
 
-  // Adjust the displayed date by subtracting 1 day
-  const displayDate = new Date(futureDate);
-  displayDate.setDate(displayDate.getDate() - 1);
-
-  // Extract day, month, and weekday for display
-  const day = displayDate.getDate();
-  const month = displayDate.toLocaleString('en-US', { month: 'short' });
-  const weekday = displayDate.toLocaleString('en-US', { weekday: 'long' });
+  // Extract day, month, and weekday from `futureDate`
+  const day = futureDate.getDate();
+  const month = futureDate.toLocaleString('en-US', { month: 'short' });
+  const weekday = futureDate.toLocaleString('en-US', { weekday: 'long' });
 
   const buttonHTML = `
     <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
@@ -330,6 +326,7 @@ for (let i = 0; i < 7; i++) {
   `;
   dateContainer.innerHTML += buttonHTML;
 }
+
 
     // Function to update timeslots based on selected date
     function updateTimeslots(selectedDate) {

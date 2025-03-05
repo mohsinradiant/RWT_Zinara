@@ -305,22 +305,25 @@
     console.log('Adjusted Unavailable Slots Map:', unavailableSlotsMap);
 
     // Generate Dates
-    const today = new Date();
-    for (let i = 0; i < 7; i++) {
-      const futureDate = new Date();
-      futureDate.setDate(today.getDate() + i);
-      const options = { day: '2-digit', month: 'short', weekday: 'long' };
-      const formattedDate = futureDate.toISOString().split('T')[0];
-      const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
+   // Generate Dates
+const today = new Date();
+for (let i = 0; i < 7; i++) {
+  const futureDate = new Date();
+  futureDate.setDate(today.getDate() + i); 
 
-      const buttonHTML = `
-        <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
-          ${displayDate[1]}<br>
-          <span>${displayDate[0]}</span>
-        </button>
-      `;
-      dateContainer.innerHTML += buttonHTML;
-    }
+  const options = { day: '2-digit', month: 'short', weekday: 'long' };
+  const formattedDate = futureDate.toISOString().split('T')[0];
+  const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
+
+  const buttonHTML = `
+    <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
+      ${displayDate[1].trim()}<br>
+      <span>${displayDate[0].trim()}</span>
+    </button>
+  `;
+  dateContainer.innerHTML += buttonHTML;
+}
+
 
     // Function to update timeslots based on selected date
     function updateTimeslots(selectedDate) {

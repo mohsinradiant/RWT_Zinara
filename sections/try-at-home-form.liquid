@@ -41,6 +41,17 @@
             })
             .then((product) => {
               const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 40) + '...' : product.title;
+              const formattedProduct = {
+                id: product.id.toString(),
+                image: product.featured_image,
+                title: truncatedTitle,
+                price: `₹${Math.floor(product.price / 100)}`,
+              };
+              // Add product to `window.selectedProducts` array
+              window.selectedProducts.push(formattedProduct);
+
+              // Log the updated array for debugging
+              console.log('Selected Products:', window.selectedProducts);
 
               selectedProductsContainer.innerHTML = `
           <div class="product-card" data-id="${product.id}">

@@ -43,7 +43,7 @@
               const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 40) + '...' : product.title;
               const formattedProduct = {
                 id: product.id.toString(),
-                image: product.featured_image,
+                image: 'https:' + product.featured_image,
                 title: truncatedTitle,
                 price: `₹${Math.floor(product.price / 100)}`,
               };

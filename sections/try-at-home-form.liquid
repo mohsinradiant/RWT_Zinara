@@ -2,47 +2,48 @@
   <div class="content-1-tah">
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>
+    {% assign product_id = request.query.product_id %}
+    {% if product_id %}
+      {% assign product = all_products[product_id] %}
+      {% if product %}
+        <script>
+          window.productData = {{ product | json }};
+        </script>
+      {% else %}
+        <script>
+          window.productData = null;
+        </script>
+      {% endif %}
+    {% else %}
+      <script>
+        window.productData = null;
+      </script>
+    {% endif %}
+
     <div class="selected-products-container" id="selectedProductsContainer">
       <p>Loading product...</p>
     </div>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        // Function to get URL parameters
-        function getQueryParam(param) {
-          const params = new URLSearchParams(window.location.search);
-          return params.get(param);
-        }
+        const container = document.getElementById('selectedProductsContainer');
 
-        // Extract `product_id` from the URL
-        const productId = getQueryParam('product_id');
+        if (window.productData) {
+          const product = window.productData;
 
-        if (productId) {
-          // Fetch product data using Shopify's JSON endpoint
-          fetch(`/products/${productId}.json`)
-            .then((response) => response.json())
-            .then((data) => {
-              // Populate the product card
-              const product = data.product;
-              const container = document.getElementById('selectedProductsContainer');
-              container.innerHTML = `
-            <div class="product-card">
-              <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
-              <h2 class="product-card__title">${product.title}</h2>
-              <p class="product-card__vendor">${product.vendor}</p>
-              <p class="product-card__price">${(product.variants[0].price / 100).toFixed(2)} ${
-                Shopify.currency.active
-              }</p>
-              <a href="${product.url}" class="product-card__link">View Product</a>
-            </div>
-          `;
-            })
-            .catch((error) => {
-              console.error('Error fetching product data:', error);
-              document.getElementById('selectedProductsContainer').innerHTML = `<p>Unable to load product details.</p>`;
-            });
+          // Render the product card
+          container.innerHTML = `
+              <div class="product-card">
+                <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
+                <h2 class="product-card__title">${product.title}</h2>
+                <p class="product-card__vendor">${product.vendor}</p>
+                <p class="product-card__price">${(product.variants[0].price / 100).toFixed(2)} ${
+            Shopify.currency.active
+          }</p>
+                <a href="/products/${product.handle}" class="product-card__link">View Product</a>
+              </div>
+            `;
         } else {
-          console.error('No product_id found in the URL');
-          document.getElementById('selectedProductsContainer').innerHTML = `<p>No product selected.</p>`;
+          container.innerHTML = `<p>No product found or invalid product ID.</p>`;
         }
       });
     </script>

@@ -444,38 +444,38 @@
         const productCards = (tryAtHomeData.product_ids || [])
           .map((productId) => {
             // Replace this with your logic to fetch product details, if necessary
-            return 
-           <div class="product-card">
-        <img src="/path-to-product-image/${productId}.jpg" alt="Product Image" />
-        <div class="product-details">
-          <h4>Product Name for ID ${productId}</h4>
-          <p>Price: ₹23,456</p>
-          <p>IJ - SI | 13 (57.8mm) | Rose Gold | D</p>
-        </div>
-           </div>
-         ;
-               })
-               .join('');
+            return `
+              <div class="product-card">
+                <img src="/path-to-product-image/${productId}.jpg" alt="Product Image" />
+                <div class="product-details">
+                  <h4>Product Name for ID ${productId}</h4>
+                  <p>Price: ₹23,456</p>
+                  <p>IJ - SI | 13 (57.8mm) | Rose Gold | D</p>
+                </div>
+              </div>
+              `;
+          })
+          .join('');
 
-             content3.innerHTML = 
-         <div class="trial-booked-header">
-           <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1741202752">
-           <h3>Trial Booked</h3>
-         </div>
-         <div class="product-cards">
-           ${productCards}
-         </div>
-         <div class="address-details">
-           <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
-           <p><strong>Date Picked:</strong> ${new Date(tryAtHomeData.timeslot).toLocaleString()}</p>
-           <p><strong>OTP:</strong> 123456</p>
-         </div>
-         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-         <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
-         <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
-             ;
+        content3.innerHTML = `
+              <div class="trial-booked-header">
+                <h3>Trial Booked</h3>
+                <span>✓</span>
+              </div>
+              <div class="product-cards">
+                ${productCards}
+              </div>
+              <div class="address-details">
+                <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
+                <p><strong>Date Picked:</strong> ${new Date(tryAtHomeData.timeslot).toLocaleString()}</p>
+                <p><strong>OTP:</strong> 123456</p>
+              </div>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+              <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
+              <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
+              `;
 
-        // Redirect to account page .account_page_tah_trials section on "See Booked Trials" button click
+        // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
         document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
           window.location.href = '/account#account_page_tah_trials'; // Replace '/account' with your actual account page URL
         });
@@ -485,7 +485,7 @@
           content3.classList.add('hidden');
         });
       } else {
-        alert(Submission failed: ${jsonResponse.message || 'Unknown error'});
+        alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error during submission:', error);

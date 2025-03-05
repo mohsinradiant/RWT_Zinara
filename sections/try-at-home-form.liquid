@@ -3,9 +3,21 @@
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>
     <div class="selected-products-container">
-      {% assign product_handle = request.query.product_handle %}
+      {% assign product_handle = '' %}
 
-      {% if product_handle %}
+      {% if request %}
+        {% assign query_string = request.query %}
+
+        {% assign query_params = query_string | split: '&' %}
+        {% for param in query_params %}
+          {% assign pair = param | split: '=' %}
+          {% if pair[0] == 'product_handle' %}
+            {% assign product_handle = pair[1] %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      {% if product_handle != '' %}
         {% assign product = all_products[product_handle] %}
 
         {% if product %}

@@ -282,62 +282,83 @@
   document.addEventListener('DOMContentLoaded', function () {
     const dateContainer = document.querySelector('.date-container');
     const timeslotContainer = document.querySelector('.timeslot-container');
-    
-    // Clean and parse unavailable slots
-    const cleanedUnavailableSlots = unavailableSlots
-      .filter(slot => slot.trim() !== '') // Remove any empty strings
-      .map(slot => {
-        const date = new Date(slot.trim()); // Parse the datetime strings into Date objects
-        const hours = String(date.getUTCHours()).padStart(2, '0'); // Get UTC hours
-        const minutes = String(date.getUTCMinutes()).padStart(2, '0'); // Get UTC minutes
-        return `${hours}:${minutes}`; // Return HH:MM format
-      });
 
-    // Debugging: Log cleaned unavailable times
-    console.log('Cleaned Unavailable Times:', cleanedUnavailableSlots);
+    // Parse unavailable slots into a structured format (e.g., { 'YYYY-MM-DD': ['HH:mm', ...] })
+    const unavailableSlotsMap = unavailableSlots.reduce((acc, slot) => {
+      const [date, time] = slot.trim().split('T');
+      if (!acc[date]) acc[date] = [];
+      acc[date].push(time.split(':').slice(0, 2).join(':')); // Only keep HH:mm
+      return acc;
+    }, {});
 
-  // Generate Dates
-  const today = new Date();
-  for (let i = 0; i < 7; i++) {
-  const futureDate = new Date();
-  futureDate.setDate(today.getDate() + i);
-  const options = { day: '2-digit', month: 'short', weekday: 'long' };
-  const formattedDate = futureDate.toISOString().split('T')[0];
-  const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
+    // Debugging: Log unavailable slots map
+    console.log('Unavailable Slots Map:', unavailableSlotsMap);
 
-  const buttonHTML = `
-    <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
-      ${displayDate[1]}<br>
-      <span>${displayDate[0]}</span>
-    </button>
-  `;
-  dateContainer.innerHTML += buttonHTML;
-  }
+    // Generate Dates
+    const today = new Date();
+    for (let i = 0; i < 7; i++) {
+      const futureDate = new Date();
+      futureDate.setDate(today.getDate() + i);
+      const options = { day: '2-digit', month: 'short', weekday: 'long' };
+      const formattedDate = futureDate.toISOString().split('T')[0];
+      const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
 
-    
-    // Generate Timeslots
-    let startTime = 10; // Start at 10:00 AM
-    let startMinutes = 0;
-
-    for (let i = 0; i < 18; i++) {
-      const endMinutes = startMinutes + 30;
-      const endTime = startTime + Math.floor(endMinutes / 60);
-      const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
-      const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
-      const timeslot = `${displayStart} - ${displayEnd}`;
-      
-      // Debugging: Log each generated timeslot and the comparison
-      console.log('Checking Timeslot:', displayStart, 'Unavailable:', cleanedUnavailableSlots.includes(displayStart));
-      
-      if (!cleanedUnavailableSlots.includes(displayStart)) {
-        // Render only if slot is available
-        const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
-        timeslotContainer.innerHTML += buttonHTML;
-      }
-      
-      startTime += Math.floor((startMinutes + 30) / 60);
-      startMinutes = (startMinutes + 30) % 60;
+      const buttonHTML = `
+        <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
+          ${displayDate[1]}<br>
+          <span>${displayDate[0]}</span>
+        </button>
+      `;
+      dateContainer.innerHTML += buttonHTML;
     }
+
+    // Function to update timeslots based on selected date
+    function updateTimeslots(selectedDate) {
+      timeslotContainer.innerHTML = ''; // Clear existing timeslots
+      let startTime = 10; // Start at 10:00 AM
+      let startMinutes = 0;
+
+      for (let i = 0; i < 18; i++) {
+        const endMinutes = startMinutes + 30;
+        const endTime = startTime + Math.floor(endMinutes / 60);
+        const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+        const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+        const timeslot = `${displayStart} - ${displayEnd}`;
+
+        // Check if timeslot is unavailable for the selected date
+        const isUnavailable =
+          unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
+
+        if (!isUnavailable) {
+          // Render only if the slot is available
+          const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
+          timeslotContainer.innerHTML += buttonHTML;
+        }
+
+        startTime += Math.floor((startMinutes + 30) / 60);
+        startMinutes = (startMinutes + 30) % 60;
+      }
+    }
+
+    // Initially update timeslots for the first selected date
+    const initialSelectedDate = dateContainer.querySelector('.date-btn.selected').dataset.date;
+    updateTimeslots(initialSelectedDate);
+
+    // Add click event listener to date buttons
+    dateContainer.addEventListener('click', function (event) {
+      if (event.target.classList.contains('date-btn')) {
+        // Remove the 'selected' class from all date buttons
+        const allDateButtons = dateContainer.querySelectorAll('.date-btn');
+        allDateButtons.forEach(button => button.classList.remove('selected'));
+
+        // Add the 'selected' class to the clicked button
+        event.target.classList.add('selected');
+
+        // Update timeslots for the selected date
+        const selectedDate = event.target.dataset.date;
+        updateTimeslots(selectedDate);
+      }
+    });
 
     // Add click event listener to timeslot buttons
     timeslotContainer.addEventListener('click', function (event) {
@@ -350,20 +371,9 @@
         event.target.classList.add('selected');
       }
     });
-
-    // Add click event listener to date buttons
-    dateContainer.addEventListener('click', function (event) {
-      if (event.target.classList.contains('date-btn')) {
-        // Remove the 'selected' class from all date buttons
-        const allDateButtons = dateContainer.querySelectorAll('.date-btn');
-        allDateButtons.forEach(button => button.classList.remove('selected'));
-
-        // Add the 'selected' class to the clicked button
-        event.target.classList.add('selected');
-      }
-    });
   });
 </script>
+
 <script>
   // Submit Form
   document.getElementById('bookTrialTah').addEventListener('click', async () => {
@@ -514,7 +524,7 @@
                 <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
                 <p><strong>Booked Time Slot:</strong> ${formattedDate} | ${formattedTime}</p>
               </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis.</p>
+              <p class="trial_booked_bottom_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis.</p>
             `;
         // <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
         //   <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
@@ -596,17 +606,26 @@
 </script>
 
 <style>
+  .trial_booked_bottom_text {
+    text-align: left;
+    margin: 15px 0 0 0;
+    font-size: 1.6rem;
+    font-family: 'Quicksand';
+    font-weight: 500;
+  }
   .address-details {
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: start;
     width: 100%;
+    margin-top: 15px;
+    font-size: 1.6rem;
+    gap: 15px;
   }
   .address-details p {
     margin: 0;
     font-family: 'Quicksand';
-    font-size: 1.8rem;
     font-weight: 500;
   }
   .address-details p strong {
@@ -620,7 +639,7 @@
     width: 100%;
     background: #f4eeeb;
     color: #000;
-    padding: 15px;
+    padding: 20px;
     border-radius: 20px 0 20px 0;
   }
   .trial-booked-header {
@@ -661,7 +680,7 @@
   .product-cards .product-card img {
     width: 25%;
     height: auto;
-    border-radius: 15px 0 15px 0;
+    border-radius: 20px 0 20px 0;
   }
   .product-cards .product-card h4 {
     margin: 0;

@@ -310,7 +310,7 @@
       const futureDate = new Date();
       futureDate.setDate(today.getDate() + i);
       const options = { day: '2-digit', month: 'short', weekday: 'long' };
-      const formattedDate = futureDate.toISOString().split('T')[1];
+      const formattedDate = futureDate.toISOString().split('T')[0];
       const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
 
       const buttonHTML = `

@@ -135,7 +135,29 @@
                   }
                 });
               });
-
+              productCard.querySelector('.add-item-button').addEventListener('click', function () {
+                // Check if the product is already selected
+                if (!selectedProductIds.includes(product.id)) {
+                  // Add the product to the selected products container
+                  selectedProductsContainer.innerHTML += `
+          <div class="product-card" data-id="${product.id}">
+            <img
+              src="${product.featured_image}"
+              alt="${product.title}"
+              class="product-card__image"
+            >
+            <div class="product-card-content">
+              <h2 class="product-card__title">${product.title}</h2>
+              <p class="product-card__price">
+                ₹${Math.floor(product.price / 100)}
+              </p>
+            </div>
+          </div>
+        `;
+                  // Add the product ID to the array
+                  selectedProductIds.push(product.id);
+                }
+              });
               collectionProductsContainer.appendChild(productCard);
             });
           })

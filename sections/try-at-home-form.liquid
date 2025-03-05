@@ -2,51 +2,33 @@
   <div class="content-1-tah">
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>
-    {% assign product_id = request.query.product_id %}
-    {% if product_id %}
-      {% assign product = all_products[product_id] %}
-      {% if product %}
-        <script>
-          window.productData = {{ product | json }};
-        </script>
+    <div class="selected-products-container">
+      {% assign product_id = request.query.product_id %}
+
+      {% if product_id %}
+        {% assign product = all_products[product_id] %}
+        {% if product %}
+          <div class="product-card">
+            <img
+              src="{{ product.featured_image | img_url: '600x600' }}"
+              alt="{{ product.title }}"
+              class="product-card__image"
+            >
+            <h2 class="product-card__title">{{ product.title }}</h2>
+            <p class="product-card__price">
+              {{ product.price_min | money }}
+              {% if product.price_min != product.price_max %}
+                - {{ product.price_max | money }}
+              {% endif %}
+            </p>
+          </div>
+        {% else %}
+          <p>No product found for the given ID.</p>
+        {% endif %}
       {% else %}
-        <script>
-          window.productData = null;
-        </script>
+        <p>No product ID provided in the URL.</p>
       {% endif %}
-    {% else %}
-      <script>
-        window.productData = null;
-      </script>
-    {% endif %}
-
-    <div class="selected-products-container" id="selectedProductsContainer">
-      <p>Loading product...</p>
     </div>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const container = document.getElementById('selectedProductsContainer');
-
-        if (window.productData) {
-          const product = window.productData;
-
-          // Render the product card
-          container.innerHTML = `
-              <div class="product-card">
-                <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
-                <h2 class="product-card__title">${product.title}</h2>
-                <p class="product-card__vendor">${product.vendor}</p>
-                <p class="product-card__price">${(product.variants[0].price / 100).toFixed(2)} ${
-            Shopify.currency.active
-          }</p>
-                <a href="/products/${product.handle}" class="product-card__link">View Product</a>
-              </div>
-            `;
-        } else {
-          container.innerHTML = `<p>No product found or invalid product ID.</p>`;
-        }
-      });
-    </script>
   </div>
   <div class="content-2-tah">
     <div class="tryAtHomePopup-input_container_parent">

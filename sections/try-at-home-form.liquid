@@ -40,20 +40,20 @@
             })
             .then((product) => {
               selectedProductsContainer.innerHTML = `
-                    <div class="product-card" data-id="${product.id}">
-                      <img
-                        src="${product.featured_image}"
-                        alt="${product.title}"
-                        class="product-card__image"
-                      >
-                      <div class="product-card-content">
-                        <h2 class="product-card__title">${product.title}</h2>
-                        <p class="product-card__price">
-                          ₹${Math.floor(product.price / 100)}
-                        </p>
-                      </div>
-                    </div>
-                  `;
+              <div class="product-card" data-id="${product.id}">
+                <img
+                  src="${product.featured_image}"
+                  alt="${product.title}"
+                  class="product-card__image"
+                >
+                <div class="product-card-content">
+                  <h2 class="product-card__title">${product.title}</h2>
+                  <p class="product-card__price">
+                    ₹${Math.floor(product.price / 100)}
+                  </p>
+                </div>
+              </div>
+            `;
               document.getElementById('loadingMessage').style.display = 'none';
               selectedProductsContainer.style.display = 'flex';
               selectedProductIds.push(product.id);
@@ -80,22 +80,23 @@
               productCard.classList.add('product-card');
               productCard.dataset.id = product.id;
               productCard.innerHTML = `
-        <img
-          src="${featuredImage}"
-          alt="${product.title}"
-          class="product-card__image"
-        >
-        <div class="product-card-content">
-          <h2 class="product-card__title">${product.title}</h2>
-          <p class="product-card__price">
-            ₹${Math.floor(price)}
-          </p>
-          <button class="add-item-button"><span>+</span> Add</button>
-        </div>
-      `;
+          <img
+            src="${featuredImage}"
+            alt="${product.title}"
+            class="product-card__image"
+          >
+          <div class="product-card-content">
+            <h2 class="product-card__title">${product.title}</h2>
+            <p class="product-card__price">
+              ₹${Math.floor(price)}
+            </p>
+            <button class="add-item-button"><span>+</span> Add</button>
+          </div>
+        `;
 
               // Add functionality to "Add Item" button
-              productCard.querySelector('.add-item-button').addEventListener('click', function () {
+              const addButton = productCard.querySelector('.add-item-button');
+              addButton.addEventListener('click', function () {
                 // Check if the product is already selected
                 if (!selectedProductIds.includes(product.id)) {
                   // Add the product to the selected products container
@@ -116,6 +117,11 @@
             `;
                   // Add the product ID to the array
                   selectedProductIds.push(product.id);
+
+                  // Update button text and style
+                  addButton.textContent = 'Added';
+                  addButton.style.opacity = '0.7';
+                  addButton.disabled = true; // Optionally disable the button
                 }
               });
 

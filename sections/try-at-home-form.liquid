@@ -19,8 +19,22 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        const selectedProductIds = []; // Array to store selected product IDs
+        // Array to store selected product IDs
+        const selectedProductIds = [];
         const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
+        const loadingMessage = document.getElementById('loadingMessage');
+        const collectionProductsContainer = document.getElementById('collectionProducts');
+
+        // Ensure required containers exist
+        if (!selectedProductsContainer) {
+          console.error('Error: Selected products container not found.');
+          return;
+        }
+
+        if (!collectionProductsContainer) {
+          console.error('Error: Collection products container not found.');
+          return;
+        }
 
         // Function to get query parameter value
         function getQueryParam(param) {
@@ -28,10 +42,9 @@
           return params.get(param);
         }
 
+        // Fetch and render selected product if product_handle is in the URL
         const productHandle = getQueryParam('product_handle');
-
         if (productHandle) {
-          // Fetch selected product details using product handle
           fetch(`/products/${productHandle}.js`)
             .then((response) => {
               if (!response.ok) {
@@ -41,94 +54,83 @@
             })
             .then((product) => {
               selectedProductsContainer.innerHTML = `
-              <div class="product-card" data-id="${product.id}">
-                <img
-                  src="${product.featured_image}"
-                  alt="${product.title}"
-                  class="product-card__image"
-                >
-                <div class="product-card-content">
-                  <h2 class="product-card__title">${product.title}</h2>
-                  <p class="product-card__price">
-                    ₹${Math.floor(product.price / 100)}
-                  </p>
-                </div>
+            <div class="product-card" data-id="${product.id}">
+              <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
+              <div class="product-card-content">
+                <h2 class="product-card__title">${product.title}</h2>
+                <p class="product-card__price">₹${Math.floor(product.price / 100)}</p>
               </div>
-            `;
-              document.getElementById('loadingMessage').style.display = 'none';
+            </div>
+          `;
+              loadingMessage.style.display = 'none';
               selectedProductsContainer.style.display = 'flex';
               selectedProductIds.push(product.id);
             })
             .catch((error) => {
-              console.error(error);
-              document.getElementById('loadingMessage').textContent = 'Product not found or invalid handle provided.';
+              console.error('Error fetching product details:', error);
+              loadingMessage.textContent = 'Product not found or invalid handle provided.';
             });
         } else {
-          document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
+          loadingMessage.textContent = 'No product handle provided in the URL.';
         }
 
-        // Fetch collection products
+        // Fetch and render collection products
         fetch(`/collections/{{ section.settings.collection_handle }}/products.json`)
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Failed to fetch collection products');
+            }
+            return response.json();
+          })
           .then((data) => {
-            const collectionProductsContainer = document.getElementById('collectionProducts');
+            if (!data.products || data.products.length === 0) {
+              console.error('No products found in the collection.');
+              return;
+            }
 
             data.products.forEach((product) => {
-              const featuredImage = product.images[0]?.src || ''; // Access the `src` property of the first image
-              const price = product.variants[0]?.price || 0; // Get the price of the first variant or set to 0 if undefined
+              const featuredImage = product.images[0]?.src || '';
+              const price = product.variants[0]?.price || 0;
 
               const productCard = document.createElement('div');
               productCard.classList.add('product-card');
               productCard.dataset.id = product.id;
               productCard.innerHTML = `
-          <img
-            src="${featuredImage}"
-            alt="${product.title}"
-            class="product-card__image"
-          >
-          <div class="product-card-content">
-            <h2 class="product-card__title">${product.title}</h2>
-            <p class="product-card__price">
-              ₹${Math.floor(price)}
-            </p>
-            <button class="add-item-button"><span>+</span> Add</button>
-          </div>
-        `;
+            <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+            <div class="product-card-content">
+              <h2 class="product-card__title">${product.title}</h2>
+              <p class="product-card__price">₹${Math.floor(price / 100)}</p>
+              <button class="add-item-button"><span>+</span> Add</button>
+            </div>
+          `;
 
               // Add functionality to "Add Item" button
               const addButton = productCard.querySelector('.add-item-button');
               addButton.addEventListener('click', function () {
-                // Check if the product is already selected
                 if (!selectedProductIds.includes(product.id)) {
-                  // Add the product to the selected products container
                   selectedProductsContainer.innerHTML += `
-              <div class="product-card" data-id="${product.id}">
-                <img
-                  src="${featuredImage}"
-                  alt="${product.title}"
-                  class="product-card__image"
-                >
-                <div class="product-card-content">
-                  <h2 class="product-card__title">${product.title}</h2>
-                  <p class="product-card__price">
-                    ₹${Math.floor(price)}
-                  </p>
+                <div class="product-card" data-id="${product.id}">
+                  <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+                  <div class="product-card-content">
+                    <h2 class="product-card__title">${product.title}</h2>
+                    <p class="product-card__price">₹${Math.floor(price / 100)}</p>
+                  </div>
                 </div>
-              </div>
-            `;
+              `;
                   selectedProductIds.push(product.id);
                   console.log(`selectedProductIds: ${selectedProductIds}`);
-                  // Update button text and style
                   addButton.textContent = 'Added';
                   addButton.style.opacity = '0.7';
-                  addButton.disabled = true; // Optionally disable the button
+                  addButton.disabled = true;
                 }
               });
 
               collectionProductsContainer.appendChild(productCard);
             });
           })
-          .catch((error) => console.error('Error fetching collection products:', error));
+          .catch((error) => {
+            console.error('Error fetching collection products:', error);
+          });
       });
     </script>
   </div>

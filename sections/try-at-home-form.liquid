@@ -440,75 +440,61 @@
         const content2 = document.querySelector('.content-2-tah');
         content2.style.display = 'none';
 
-        // Function to fetch product details
-        async function fetchProductDetails(productId) {
-          try {
-            // Replace the URL with your API endpoint
-            const response = await fetch(`/products/${productId}.json`);
-            if (!response.ok) throw new Error(`Failed to fetch product ${productId}`);
-            return await response.json();
-          } catch (error) {
-            console.error(error);
-            return null; // Return null if fetching fails
-          }
-        }
-
-        // Fetch and render product cards dynamically
-        const productCardsPromises = (tryAtHomeData.product_ids || []).map(async (productId) => {
-          const product = await fetchProductDetails(productId);
-          if (!product) {
-            // Fallback UI for missing product details
+        // Populate the product cards dynamically
+        const productCards = (tryAtHomeData.product_ids || [])
+          .map((productId) => {
+            const product = allProductsData[productId];
+            if (!product) {
+              // Fallback for unavailable product data
+              return `
+          <div class="product-card">
+            <img src="/path-to-product-image/placeholder.jpg" alt="Product Image" />
+            <div class="product-details">
+              <h4>Product ID ${productId}</h4>
+              <p>Details not available</p>
+            </div>
+          </div>
+        `;
+            }
             return `
         <div class="product-card">
-          <img src="/path-to-product-image/${productId}.jpg" alt="Product Image" />
+          <img src="${product.image}" alt="${product.title}" />
           <div class="product-details">
-            <h4>Product ID ${productId}</h4>
-            <p>Details not available</p>
+            <h4>${product.title}</h4>
+            <p>Price: ₹${product.price}</p>
+            <p>Product ID: ${productId}</p>
           </div>
         </div>
       `;
-          }
-          return `
-      <div class="product-card">
-        <img src="${product.image}" alt="${product.name}" />
-        <div class="product-details">
-          <h4>${product.name}</h4>
-          <p>Price: ₹${product.price}</p>
-          <p>${product.description}</p>
-        </div>
-      </div>
-    `;
+          })
+          .join('');
+
+        // Update the popup content
+        content3.innerHTML = `
+    <div class="trial-booked-header">
+      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1741202752">
+      <h3>Trial Booked</h3>
+    </div>
+    <div class="product-cards">
+      ${productCards}
+    </div>
+    <div class="address-details">
+      <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
+      <p><strong>Date Picked:</strong> ${new Date(tryAtHomeData.timeslot).toLocaleString()}</p>
+      <p><strong>OTP:</strong> 123456</p>
+    </div>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
+    <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
+  `;
+
+        // Add event listeners for the buttons
+        document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
+          window.location.href = '/account#account_page_tah_trials'; // Replace '/account' with your actual account page URL
         });
 
-        // Wait for all promises to resolve
-        Promise.all(productCardsPromises).then((productCards) => {
-          content3.innerHTML = `
-      <div class="trial-booked-header">
-        <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1741202752">
-        <h3>Trial Booked</h3>
-      </div>
-      <div class="product-cards">
-        ${productCards.join('')}
-      </div>
-      <div class="address-details">
-        <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
-        <p><strong>Date Picked:</strong> ${new Date(tryAtHomeData.timeslot).toLocaleString()}</p>
-        <p><strong>OTP:</strong> 123456</p>
-      </div>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-      <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
-      <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
-    `;
-
-          // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
-          document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
-            window.location.href = '/account#account_page_tah_trials'; // Replace '/account' with your actual account page URL
-          });
-
-          // Close popup on "Close" button click
-          document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
-            content3.classList.add('hidden');
-          });
+        document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
+          content3.classList.add('hidden');
         });
       } else {
         alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);

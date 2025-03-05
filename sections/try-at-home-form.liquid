@@ -19,7 +19,7 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        window.selectedProductIds = []; // Declare in the global scope
+        const selectedProductIds = []; // Array to store selected product IDs
         const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
 
         // Function to get query parameter value
@@ -40,8 +40,7 @@
               return response.json();
             })
             .then((product) => {
-              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 40) + '...' : product.title;
-
+              // Render the selected product in the container
               selectedProductsContainer.innerHTML = `
           <div class="product-card" data-id="${product.id}">
             <img
@@ -50,7 +49,7 @@
               class="product-card__image"
             >
             <div class="product-card-content">
-              <h2 class="product-card__title">${truncatedTitle}</h2>
+              <h2 class="product-card__title">${product.title}</h2>
               <p class="product-card__price">
                 ₹${Math.floor(product.price / 100)}
               </p>
@@ -58,7 +57,7 @@
           </div>
         `;
               document.getElementById('loadingMessage').style.display = 'none';
-              selectedProductsContainer.style.display = 'flex';
+              selectedProductsContainer.style.display = 'block';
               selectedProductIds.push(product.id);
             })
             .catch((error) => {
@@ -76,64 +75,47 @@
             const collectionProductsContainer = document.getElementById('collectionProducts');
 
             data.products.forEach((product) => {
-              const featuredImage = product.images[0]?.src || ''; // Access the `src` property of the first image
-              const price = product.variants[0]?.price || 0; // Get the price of the first variant or set to 0 if undefined
-              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 30) + '...' : product.title;
-
               const productCard = document.createElement('div');
               productCard.classList.add('product-card');
               productCard.dataset.id = product.id;
               productCard.innerHTML = `
-                   <img
-                     src="${featuredImage}"
-                     alt="${product.title}"
-                     class="product-card__image"
-                   >
-                   <div class="product-card-content">
-                     <h2 class="product-card__title">${truncatedTitle}</h2>
-                     <p class="product-card__price">
-                       ₹${Math.floor(price)}
-                     </p>
-                     <button class="add-item-button"><span>+</span> Add</button>
-                   </div>
-                 `;
+          <img
+            src="${product.featured_image}"
+            alt="${product.title}"
+            class="product-card__image"
+          >
+          <div class="product-card-content">
+            <h2 class="product-card__title">${product.title}</h2>
+            <p class="product-card__price">
+              ₹${Math.floor(product.price / 100)}
+            </p>
+            <button class="add-item-button">Add Item</button>
+          </div>
+        `;
 
               // Add functionality to "Add Item" button
-              // Array to store selected products
-              window.selectedProducts = [];
-
-              // Add event listener to all add buttons
-              document.querySelectorAll('.add-item-button').forEach((addButton) => {
-                addButton.addEventListener('click', function () {
-                  // Get the parent product card element
-                  const productCard = addButton.closest('.product-card');
-
-                  // Extract product data from the DOM
-                  const productId = productCard.getAttribute('data-id');
-                  const productImage = productCard.querySelector('.product-card__image').src;
-                  const productTitle = productCard.querySelector('.product-card__title').textContent.trim();
-                  const productPrice = productCard.querySelector('.product-card__price').textContent.trim();
-
-                  // Check if the product is already in the selectedProducts array
-                  const isProductAdded = window.selectedProducts.some((product) => product.id === productId);
-
-                  if (!isProductAdded) {
-                    // Add the product to the selectedProducts array
-                    window.selectedProducts.push({
-                      id: productId,
-                      image: productImage,
-                      title: productTitle,
-                      price: productPrice,
-                    });
-
-                    console.log('Selected Products:', window.selectedProducts);
-
-                    // Update button text and style
-                    addButton.textContent = 'Added';
-                    addButton.style.opacity = '0.7';
-                    addButton.disabled = true; // Optionally disable the button
-                  }
-                });
+              productCard.querySelector('.add-item-button').addEventListener('click', function () {
+                // Check if the product is already selected
+                if (!selectedProductIds.includes(product.id)) {
+                  // Add the product to the selected products container
+                  selectedProductsContainer.innerHTML += `
+                <div class="product-card" data-id="${product.id}">
+                  <img
+                    src="${product.featured_image}"
+                    alt="${product.title}"
+                    class="product-card__image"
+                  >
+                  <div class="product-card-content">
+                    <h2 class="product-card__title">${product.title}</h2>
+                    <p class="product-card__price">
+                      ₹${Math.floor(product.price / 100)}
+                    </p>
+                  </div>
+                </div>
+              `;
+                  // Add the product ID to the array
+                  selectedProductIds.push(product.id);
+                }
               });
 
               collectionProductsContainer.appendChild(productCard);

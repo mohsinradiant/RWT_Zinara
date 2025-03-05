@@ -36,10 +36,12 @@
                         alt="${product.title}"
                         class="product-card__image"
                       >
+                      <div class="product-card-content">
                       <h2 class="product-card__title">${product.title}</h2>
                       <p class="product-card__price">
                         $${(product.price / 100).toFixed(2)}
                       </p>
+                      </div>
                     </div>
                   `;
                 document.getElementById('loadingMessage').style.display = 'none';
@@ -378,6 +380,17 @@
 </script>
 
 <style>
+  .selected-products-container .product-card {
+    display: flex;
+    width: 350px;
+    height: fit-content;
+  }
+  .selected-products-container .product-card img {
+    width: 130px;
+    height: 130px;
+    border-radius: 10px 0 10px 0;
+  }
+
   .content-1-tah .section-heading {
     margin-bottom: 0 !important;
   }

@@ -1119,15 +1119,20 @@
     const tryAtHomeButton = document.getElementById('tryAtHomeButton');
 
     if (tryAtHomeButton) {
-      // Replace 'productId' with the variable or data source that holds the product ID
-      const productHandle = '{{ product.handle }}'; // Use Liquid to get the product ID
+      // Replace 'productHandle' with the actual product handle using Liquid
+      const productHandle = '{{ product.handle }}'; // Liquid variable for the product handle
+      const isLoggedIn = '{{ customer.id | default: false }}'; // Check if user is logged in
 
       tryAtHomeButton.addEventListener('click', function () {
-        // Construct the URL with the product ID as a query parameter
-        const redirectUrl = `/pages/try-at-home?view=try-at-home&product_handle=${productHandle}`;
-
-        // Redirect the user
-        window.location.href = redirectUrl;
+        if (isLoggedIn) {
+          // If user is logged in, redirect to the Try at Home page
+          const redirectUrl = `/pages/try-at-home?view=try-at-home&product_handle=${productHandle}`;
+          window.location.href = redirectUrl;
+        } else {
+          // If not logged in, redirect to the login page with return URL
+          const loginRedirectUrl = `/account/login?return_url=/pages/try-at-home?view=try-at-home&product_handle=${productHandle}`;
+          window.location.href = loginRedirectUrl;
+        }
       });
     }
   });

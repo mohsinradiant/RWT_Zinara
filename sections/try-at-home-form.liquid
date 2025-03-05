@@ -41,6 +41,7 @@
             })
             .then((product) => {
               const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 40) + '...' : product.title;
+              window.selectedProducts = [];
               const formattedProduct = {
                 id: product.id.toString(),
                 image: `https:${product.featured_image}`,
@@ -112,7 +113,6 @@
 
               // Add functionality to "Add Item" button
               // Array to store selected products
-              window.selectedProducts = [];
 
               // Add event listener to all add buttons
               document.querySelectorAll('.add-item-button').forEach((addButton) => {

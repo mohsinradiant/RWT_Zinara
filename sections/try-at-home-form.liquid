@@ -308,17 +308,21 @@
    // Generate Dates
 const today = new Date();
 for (let i = 0; i < 7; i++) {
-  const futureDate = new Date();
-  futureDate.setDate(today.getDate() + i); 
+  const futureDate = new Date(today); // Clone today's date
+  futureDate.setDate(today.getDate() + i); // Increment by i days
 
-  const options = { day: '2-digit', month: 'short', weekday: 'long' };
+  // Format the ISO date for the `data-date` attribute (YYYY-MM-DD)
   const formattedDate = futureDate.toISOString().split('T')[0];
-  const displayDate = futureDate.toLocaleDateString('en-US', options).split(',');
+
+  // Format the display date (e.g., Mar 06, Thursday)
+  const day = futureDate.getDate();
+  const month = futureDate.toLocaleString('en-US', { month: 'short' });
+  const weekday = futureDate.toLocaleString('en-US', { weekday: 'long' });
 
   const buttonHTML = `
     <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
-      ${displayDate[1].trim()}<br>
-      <span>${displayDate[0].trim()}</span>
+      ${month} ${String(day).padStart(2, '0')}<br>
+      <span>${weekday}</span>
     </button>
   `;
   dateContainer.innerHTML += buttonHTML;

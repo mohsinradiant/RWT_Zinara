@@ -168,7 +168,7 @@
             <img src="{{ product.featured_image | image_url }}">
             <div class="product_content">
               <h4>{{ product.title }}</h4>
-              <p>{{ product.price }}</p>
+              <p>₹{{ product.price | divided_by: 100 }}</p>
             </div>
           {% endfor %}
         </div>

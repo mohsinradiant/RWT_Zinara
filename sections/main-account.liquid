@@ -164,13 +164,28 @@
       <div class="account_page_tah_trials_container">
         {% for trial in customer.metafields.content.try_at_home_slots.value %}
           <div class="account_page_tah_trials_div">
+            {% comment %} Step 1: Debugging the Product ID {% endcomment %}
+            <p>Raw Product Data: {{ trial.product }}</p>
+
             {% assign product_id_array = trial.product | json %}
+            <p>Parsed Product Array: {{ product_id_array }}</p>
+
+            {% comment %} Step 2: Extracting the GID {% endcomment %}
             {% assign product_gid = product_id_array | first %}
+            <p>Extracted GID: {{ product_gid }}</p>
+
+            {% comment %} Step 3: Extracting the Product Handle {% endcomment %}
             {% assign product_handle = product_gid | split: '/' | last %}
-            {{ product_handle }}
+            <p>Product Handle: {{ product_handle }}</p>
+
+            {% comment %} Step 4: Fetching the Product {% endcomment %}
             {% assign product = all_products[product_handle] %}
-            {{ product }}
+            <p>
+              Product Found: {% if product %} Yes {% else %} No {% endif %}
+            </p>
+
             {% if product %}
+              <p>Product Title: {{ product.title }}</p>
               <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
             {% else %}
               <p>Product not found for handle: {{ product_handle }}</p>

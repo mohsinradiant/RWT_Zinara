@@ -100,7 +100,7 @@
 
               // Add functionality to "Add Item" button
               // Array to store selected products
-              const selectedProducts = [];
+              window.selectedProducts = [];
 
               // Add event listener to all add buttons
               document.querySelectorAll('.add-item-button').forEach((addButton) => {
@@ -115,18 +115,18 @@
                   const productPrice = productCard.querySelector('.product-card__price').textContent.trim();
 
                   // Check if the product is already in the selectedProducts array
-                  const isProductAdded = selectedProducts.some((product) => product.id === productId);
+                  const isProductAdded = window.selectedProducts.some((product) => product.id === productId);
 
                   if (!isProductAdded) {
                     // Add the product to the selectedProducts array
-                    selectedProducts.push({
+                    window.selectedProducts.push({
                       id: productId,
                       image: productImage,
                       title: productTitle,
                       price: productPrice,
                     });
 
-                    console.log('Selected Products:', selectedProducts);
+                    console.log('Selected Products:', window.selectedProducts);
 
                     // Update button text and style
                     addButton.textContent = 'Added';
@@ -446,7 +446,7 @@
         content2.style.display = 'none';
 
         // Populate the product cards using selectedProducts
-        const productCards = selectedProducts
+        const productCards = window.selectedProducts
           .map((product) => {
             return `
         <div class="product-card">

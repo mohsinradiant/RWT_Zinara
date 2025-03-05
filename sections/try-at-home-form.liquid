@@ -7,63 +7,123 @@
       <div id="productCardContainer" style="display: none;">
         <!-- Product details will be inserted here -->
       </div>
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          // Function to get query parameter value
-          function getQueryParam(param) {
-            const params = new URLSearchParams(window.location.search);
-            return params.get(param);
-          }
+    </div>
 
-          const productHandle = getQueryParam('product_handle');
+    <div class="collection-products-container">
+      <h2 class="section-heading">Products from Collection</h2>
+      <div id="collectionProducts">
+        <!-- Collection product cards will be inserted here -->
+      </div>
+    </div>
 
-          if (productHandle) {
-            // Fetch product details using product handle
-            fetch(`/products/${productHandle}.js`)
-              .then((response) => {
-                if (!response.ok) {
-                  throw new Error('Product not found');
-                }
-                return response.json();
-              })
-              .then((product) => {
-                // Build product card
-                const productCardContainer = document.getElementById('productCardContainer');
-                productCardContainer.innerHTML = `
-                    <div class="product-card">
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const selectedProductIds = []; // Array to store selected product IDs
+        const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
+
+        // Function to get query parameter value
+        function getQueryParam(param) {
+          const params = new URLSearchParams(window.location.search);
+          return params.get(param);
+        }
+
+        const productHandle = getQueryParam('product_handle');
+
+        if (productHandle) {
+          // Fetch selected product details using product handle
+          fetch(`/products/${productHandle}.js`)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error('Product not found');
+              }
+              return response.json();
+            })
+            .then((product) => {
+              selectedProductsContainer.innerHTML = `
+                    <div class="product-card" data-id="${product.id}">
                       <img
                         src="${product.featured_image}"
                         alt="${product.title}"
                         class="product-card__image"
                       >
                       <div class="product-card-content">
+                        <h2 class="product-card__title">${product.title}</h2>
+                        <p class="product-card__price">
+                          ₹${Math.floor(product.price / 100)}
+                        </p>
+                      </div>
+                    </div>
+                  `;
+              document.getElementById('loadingMessage').style.display = 'none';
+              selectedProductsContainer.style.display = 'block';
+              selectedProductIds.push(product.id);
+            })
+            .catch((error) => {
+              console.error(error);
+              document.getElementById('loadingMessage').textContent = 'Product not found or invalid handle provided.';
+            });
+        } else {
+          document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
+        }
+
+        // Fetch collection products
+        fetch(`/collections/{{ section.settings.collection_handle }}/products.json`)
+          .then((response) => response.json())
+          .then((data) => {
+            const collectionProductsContainer = document.getElementById('collectionProducts');
+
+            data.products.forEach((product) => {
+              const productCard = document.createElement('div');
+              productCard.classList.add('product-card');
+              productCard.dataset.id = product.id;
+              productCard.innerHTML = `
+                    <img
+                      src="${product.featured_image}"
+                      alt="${product.title}"
+                      class="product-card__image"
+                    >
+                    <div class="product-card-content">
                       <h2 class="product-card__title">${product.title}</h2>
                       <p class="product-card__price">
                         ₹${Math.floor(product.price / 100)}
                       </p>
-                      <div class="product-card-metafields-container">
-                        <span>IS-JI</span>
-                        <span>IS-JI</span>
-                        <span>IS-JI</span>
-                        <span>IS-JI</span>
-                      </div>
-                      </div>
+                      <button class="add-item-button">Add Item</button>
                     </div>
                   `;
-                document.getElementById('loadingMessage').style.display = 'none';
-                productCardContainer.style.display = 'block';
-              })
-              .catch((error) => {
-                console.error(error);
-                document.getElementById('loadingMessage').textContent = 'Product not found or invalid handle provided.';
+
+              // Add functionality to "Add Item" button
+              productCard.querySelector('.add-item-button').addEventListener('click', function () {
+                // Check if the product is already selected
+                if (!selectedProductIds.includes(product.id)) {
+                  // Add the product to the selected products container
+                  selectedProductsContainer.innerHTML += `
+                          <div class="product-card" data-id="${product.id}">
+                            <img
+                              src="${product.featured_image}"
+                              alt="${product.title}"
+                              class="product-card__image"
+                            >
+                            <div class="product-card-content">
+                              <h2 class="product-card__title">${product.title}</h2>
+                              <p class="product-card__price">
+                                ₹${Math.floor(product.price / 100)}
+                              </p>
+                            </div>
+                          </div>
+                        `;
+                  // Add the product ID to the array
+                  selectedProductIds.push(product.id);
+                }
               });
-          } else {
-            document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
-          }
-        });
-      </script>
-    </div>
+
+              collectionProductsContainer.appendChild(productCard);
+            });
+          })
+          .catch((error) => console.error('Error fetching collection products:', error));
+      });
+    </script>
   </div>
+
   {% comment %}
     <div class="content-2-tah">
       <div class="tryAtHomePopup-input_container_parent">
@@ -684,7 +744,13 @@
 {% schema %}
 {
   "name": "Try At Home",
-  "settings": [],
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection_handle",
+      "label": "Select a Collection"
+    }
+  ],
   "blocks": [],
   "presets": [
     {

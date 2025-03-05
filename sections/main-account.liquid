@@ -164,8 +164,16 @@
       <div class="account_page_tah_trials_container">
         {% for trial in customer.metafields.content.try_at_home_slots.value %}
           <div class="account_page_tah_trials_div">
-            {{ trial.product }}
-            <img src="{{ trial.product.featured_image }}" alt="Variant Image">
+            {% assign product_id_array = trial.product | json %}
+            {% assign product_gid = product_id_array | first %}
+            {% assign product_handle = product_gid | split: '/' | last %}
+            {% assign product = all_products[product_handle] %}
+
+            {% if product %}
+              <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+            {% else %}
+              <p>Product not found</p>
+            {% endif %}
           </div>
         {% endfor %}
       </div>

@@ -166,7 +166,7 @@
           <div class="account_page_tah_trials_div">
             {% for product in trial.product.value %}
               {% assign product = product %}
-              <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product_data.title }}">
+              <img src="{{ product.featured_image | image_url }}">
             {% endfor %}
           </div>
         {% endfor %}

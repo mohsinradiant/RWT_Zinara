@@ -2,6 +2,9 @@
   <div class="content-1-tah">
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>
+    <div class="selected-products-container">
+      {% render 'card-product' %}
+    </div>
   </div>
   <div class="content-2-tah">
     <div class="tryAtHomePopup-input_container_parent">
@@ -322,6 +325,34 @@
       console.error('Error fetching unavailable timeslots:', error);
     }
   })();
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Function to get URL parameters
+    function getQueryParam(param) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(param);
+    }
+
+    // Extract the product_id parameter
+    const productId = getQueryParam('product_id');
+
+    if (productId) {
+      // Send the product ID to the server or dynamically update the page
+      fetch(`/products/${productId}.json`)
+        .then((response) => response.json())
+        .then((data) => {
+          // Use the fetched product data
+          const productCardContainer = document.getElementById('productCardContainer');
+          productCardContainer.innerHTML = `
+            {% render 'card-product', product: ${JSON.stringify(data.product)} %}
+          `;
+        })
+        .catch((error) => console.error('Error fetching product:', error));
+    } else {
+      console.error('No product_id found in the URL');
+    }
+  });
 </script>
 
 <style>

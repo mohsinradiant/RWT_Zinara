@@ -166,6 +166,10 @@
           {% for product in trial.product.value %}
             {% assign product = product %}
             <img src="{{ product.featured_image | image_url }}">
+            <div class="product_content">
+              <h4>{{ product.title }}</h4>
+              <p>{{ product.price }}</p>
+            </div>
           {% endfor %}
         </div>
       {% endfor %}
@@ -188,7 +192,7 @@
         display: flex;
         background-color: #f4eeeb;
         border-radius: 15px 0 15px 0;
-        padding: 10px;
+        padding: 8px;
       }
       #account_page_tah_trials {
         margin-top: 3rem;

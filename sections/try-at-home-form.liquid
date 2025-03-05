@@ -440,49 +440,75 @@
         const content2 = document.querySelector('.content-2-tah');
         content2.style.display = 'none';
 
-        // Populate the content based on the submitted form data
-        const productCards = (tryAtHomeData.product_ids || [])
-          .map((productId) => {
-            // Replace this with your logic to fetch product details, if necessary
+        // Function to fetch product details
+        async function fetchProductDetails(productId) {
+          try {
+            // Replace the URL with your API endpoint
+            const response = await fetch(`/products/${productId}.json`);
+            if (!response.ok) throw new Error(`Failed to fetch product ${productId}`);
+            return await response.json();
+          } catch (error) {
+            console.error(error);
+            return null; // Return null if fetching fails
+          }
+        }
+
+        // Fetch and render product cards dynamically
+        const productCardsPromises = (tryAtHomeData.product_ids || []).map(async (productId) => {
+          const product = await fetchProductDetails(productId);
+          if (!product) {
+            // Fallback UI for missing product details
             return `
+        <div class="product-card">
+          <img src="/path-to-product-image/${productId}.jpg" alt="Product Image" />
+          <div class="product-details">
+            <h4>Product ID ${productId}</h4>
+            <p>Details not available</p>
+          </div>
+        </div>
+      `;
+          }
+          return `
       <div class="product-card">
-        <img src="/path-to-product-image/${productId}.jpg" alt="Product Image" />
+        <img src="${product.image}" alt="${product.name}" />
         <div class="product-details">
-          <h4>Product Name for ID ${productId}</h4>
-          <p>Price: ₹23,456</p>
-          <p>IJ - SI | 13 (57.8mm) | Rose Gold | D</p>
+          <h4>${product.name}</h4>
+          <p>Price: ₹${product.price}</p>
+          <p>${product.description}</p>
         </div>
       </div>
     `;
-          })
-          .join('');
-
-        content3.innerHTML = `
-    <div class="trial-booked-header">
-      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1741202752">
-      <h3>Trial Booked</h3>
-    </div>
-    <div class="product-cards">
-      ${productCards}
-    </div>
-    <div class="address-details">
-      <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
-      <p><strong>Date Picked:</strong> ${new Date(tryAtHomeData.timeslot).toLocaleString()}</p>
-      <p><strong>OTP:</strong> 123456</p>
-    </div>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-    <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
-    <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
-  `;
-
-        // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
-        document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
-          window.location.href = '/account#account_page_tah_trials'; // Replace '/account' with your actual account page URL
         });
 
-        // Close popup on "Close" button click
-        document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
-          content3.classList.add('hidden');
+        // Wait for all promises to resolve
+        Promise.all(productCardsPromises).then((productCards) => {
+          content3.innerHTML = `
+      <div class="trial-booked-header">
+        <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1741202752">
+        <h3>Trial Booked</h3>
+      </div>
+      <div class="product-cards">
+        ${productCards.join('')}
+      </div>
+      <div class="address-details">
+        <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
+        <p><strong>Date Picked:</strong> ${new Date(tryAtHomeData.timeslot).toLocaleString()}</p>
+        <p><strong>OTP:</strong> 123456</p>
+      </div>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+      <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
+      <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
+    `;
+
+          // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
+          document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
+            window.location.href = '/account#account_page_tah_trials'; // Replace '/account' with your actual account page URL
+          });
+
+          // Close popup on "Close" button click
+          document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
+            content3.classList.add('hidden');
+          });
         });
       } else {
         alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
@@ -552,6 +578,49 @@
 </script>
 
 <style>
+  .content-3-tah {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 100%;
+    background: #f4eeeb;
+    padding: 15px;
+    border-radius: 20px 0 20px 0;
+  }
+  .trial-booked-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+  .trial-booked-header img {
+    border-radius: 500px;
+    width: 35px;
+    height: auto;
+  }
+
+  .trial-booked-header h3 {
+    font-family: 'Quicksand';
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 0;
+  }
+  .product-cards {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    row-gap: 20px;
+  }
+  .product-cards .product-card {
+    display: flex;
+    width: 32%;
+    justify-content: center;
+    align-items: center;
+  }
   .content-2-tah {
     flex-direction: column;
     align-items: end;

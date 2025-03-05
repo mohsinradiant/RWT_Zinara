@@ -228,7 +228,7 @@
       content1.style.display = 'none';
 
       // Show content-2-tah
-      content2.style.display = 'block';
+      content2.style.display = 'flex';
     });
   });
 </script>
@@ -482,6 +482,10 @@
 </script>
 
 <style>
+  .content-2-tah {
+    flex-direction: column;
+    align-items: end;
+  }
   #select-time-slot-content-1 {
     background: #712242;
     color: #fff;

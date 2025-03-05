@@ -3,21 +3,38 @@
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>
     <div class="selected-products-container">
-      {% assign product_handle = '' %}
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          // Get query parameter value for `product_handle`
+          function getQueryParam(param) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(param);
+          }
 
-      {% if request %}
-        {% assign query_string = request.query %}
+          const productHandle = getQueryParam('product_handle');
 
-        {% assign query_params = query_string | split: '&' %}
-        {% for param in query_params %}
-          {% assign pair = param | split: '=' %}
-          {% if pair[0] == 'product_handle' %}
-            {% assign product_handle = pair[1] %}
-          {% endif %}
-        {% endfor %}
-      {% endif %}
+          if (productHandle) {
+            // Create a hidden input to pass `product_handle` to Liquid
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.id = 'productHandle';
+            hiddenInput.value = productHandle;
 
-      {% if product_handle != '' %}
+            document.body.appendChild(hiddenInput);
+          }
+        });
+      </script>
+
+      {% comment %}
+        Fetch the value of `product_handle` passed via JavaScript
+      {% endcomment %}
+      {% capture product_handle %}
+          <script>
+            document.write(document.getElementById('productHandle')?.value || '');
+          </script>
+        {% endcapture %}
+
+      {% if product_handle %}
         {% assign product = all_products[product_handle] %}
 
         {% if product %}

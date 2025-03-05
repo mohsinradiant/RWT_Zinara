@@ -1120,11 +1120,11 @@
 
     if (tryAtHomeButton) {
       // Replace 'productId' with the variable or data source that holds the product ID
-      const productId = '{{ product.id }}'; // Use Liquid to get the product ID
+      const productHandle = '{{ product.handle }}'; // Use Liquid to get the product ID
 
       tryAtHomeButton.addEventListener('click', function () {
         // Construct the URL with the product ID as a query parameter
-        const redirectUrl = `/pages/try-at-home?view=try-at-home&product_id=${productId}`;
+        const redirectUrl = `/pages/try-at-home?view=try-at-home&product_id=${productHandle}`;
 
         // Redirect the user
         window.location.href = redirectUrl;

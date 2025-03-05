@@ -3,6 +3,39 @@
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>
     <div class="selected-products-container">
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          // Function to get URL parameters
+          function getQueryParam(param) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(param);
+          }
+
+          // Extract `product_id` from the URL
+          const productId = getQueryParam('product_id');
+
+          if (productId) {
+            // Create a hidden input to pass product data to Liquid
+            fetch(`/products/${productId}.json`)
+              .then((response) => response.json())
+              .then((data) => {
+                // Use the fetched product data to populate the Liquid template
+                const productDataInput = document.createElement('input');
+                productDataInput.type = 'hidden';
+                productDataInput.id = 'productData';
+                productDataInput.value = JSON.stringify(data.product);
+
+                // Append input to the body for Liquid access
+                document.body.appendChild(productDataInput);
+
+                // Trigger rendering process (if needed, add your custom logic here)
+              })
+              .catch((error) => console.error('Error fetching product data:', error));
+          } else {
+            console.error('No product_id found in the URL');
+          }
+        });
+      </script>
       {% assign product_data = productData | json_parse %}
 
       {% if product_data %}
@@ -13,7 +46,6 @@
           show_secondary_image: section.settings.show_secondary_image,
           show_vendor: section.settings.show_vendor,
           show_rating: section.settings.show_rating,
-          skip_styles: skip_card_product_styles,
           section_id: section.id,
           quick_add: section.settings.quick_add
         %}
@@ -341,39 +373,6 @@
       console.error('Error fetching unavailable timeslots:', error);
     }
   })();
-</script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Function to get URL parameters
-    function getQueryParam(param) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(param);
-    }
-
-    // Extract `product_id` from the URL
-    const productId = getQueryParam('product_id');
-
-    if (productId) {
-      // Create a hidden input to pass product data to Liquid
-      fetch(`/products/${productId}.json`)
-        .then((response) => response.json())
-        .then((data) => {
-          // Use the fetched product data to populate the Liquid template
-          const productDataInput = document.createElement('input');
-          productDataInput.type = 'hidden';
-          productDataInput.id = 'productData';
-          productDataInput.value = JSON.stringify(data.product);
-
-          // Append input to the body for Liquid access
-          document.body.appendChild(productDataInput);
-
-          // Trigger rendering process (if needed, add your custom logic here)
-        })
-        .catch((error) => console.error('Error fetching product data:', error));
-    } else {
-      console.error('No product_id found in the URL');
-    }
-  });
 </script>
 
 <style>

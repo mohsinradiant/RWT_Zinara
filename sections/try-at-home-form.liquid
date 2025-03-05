@@ -374,9 +374,23 @@
       const name = "{{ customer.first_name | default: '' }} {{ customer.last_name | default: '' }}".trim();
 
       if (!customerId) {
-        alert('You must be logged in to book a slot.');
+        // Show login modal instead of alert
+        const loginModal = document.getElementById('loginModal');
+        loginModal.style.display = 'block';
+
+        // Save current form data to sessionStorage
+        const formData = new FormData(document.querySelector('form'));
+        const formDetails = {};
+        formData.forEach((value, key) => {
+          formDetails[key] = value;
+        });
+        sessionStorage.setItem('formDetails', JSON.stringify(formDetails));
+
+        // Prevent further execution until the user logs in
         return;
       }
+
+      // Proceed with booking if the user is logged in
 
       if (
         !timeslot ||

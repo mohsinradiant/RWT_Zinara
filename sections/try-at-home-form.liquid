@@ -134,9 +134,8 @@
                     addButton.disabled = true; // Optionally disable the button
                   }
                 });
+                collectionProductsContainer.appendChild(productCard);
               });
-
-              collectionProductsContainer.appendChild(productCard);
             });
           })
           .catch((error) => console.error('Error fetching collection products:', error));

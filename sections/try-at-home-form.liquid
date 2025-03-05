@@ -41,7 +41,12 @@
             })
             .then((product) => {
               const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 40) + '...' : product.title;
-
+              const formattedProduct = {
+                id: product.id.toString(),
+                image: product.featured_image,
+                title: truncatedTitle,
+                price: `₹${Math.floor(product.price / 100)}`,
+              };
               selectedProductsContainer.innerHTML = `
           <div class="product-card" data-id="${product.id}">
             <img

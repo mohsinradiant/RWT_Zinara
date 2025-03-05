@@ -19,7 +19,9 @@
     },
     "try_at_home_form_HNyDbd": {
       "type": "try-at-home-form",
-      "settings": {}
+      "settings": {
+        "collection_handle": "rings"
+      }
     }
   },
   "order": [

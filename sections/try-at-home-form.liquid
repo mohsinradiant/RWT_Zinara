@@ -201,17 +201,19 @@
     </div>
     <a id="bookTrialTah" class="submit-btn">Book Trial at Home</a>
   </div>
-  <div class="content-3-tah"></div>
+  <div class="content-3-tah hidden"></div>
 </div>
-<div id="ajax_tah_succ_submit_popup_container" class="hidden">
-  <div class="ajax_tah_succ_submit_popup">
-    <p>Your Try at Home request has been successfully submitted!</p>
-    <div class="button-group">
-      <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
-      <button id="ajax_tah_succ_submit_popup_close_bottom" class="close-bottom-right">Close</button>
+{% comment %}
+  <div id="ajax_tah_succ_submit_popup_container" class="hidden">
+    <div class="ajax_tah_succ_submit_popup">
+      <p>Your Try at Home request has been successfully submitted!</p>
+      <div class="button-group">
+        <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
+        <button id="ajax_tah_succ_submit_popup_close_bottom" class="close-bottom-right">Close</button>
+      </div>
     </div>
   </div>
-</div>
+{% endcomment %}
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -433,8 +435,10 @@
       const jsonResponse = JSON.parse(rawResponse);
       if (response.ok && jsonResponse.success) {
         // Show the success popup
-        const popupContainer = document.getElementById('ajax_tah_succ_submit_popup_container');
-        popupContainer.classList.remove('hidden');
+        const content3 = document.getElementById('content-3-tah');
+        content3.classList.remove('hidden');
+        const content2 = document.querySelector('.content-2-tah');
+        content2.style.display = 'none';
 
         // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
         document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
@@ -443,7 +447,7 @@
 
         // Close popup on "Close" button click
         document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
-          popupContainer.classList.add('hidden');
+          content3.classList.add('hidden');
         });
       } else {
         alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);

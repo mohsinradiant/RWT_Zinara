@@ -283,16 +283,26 @@
     const dateContainer = document.querySelector('.date-container');
     const timeslotContainer = document.querySelector('.timeslot-container');
 
+    // Function to add 5 hours and 30 minutes to a time string
+    function addTimeOffset(timeString, offsetHours, offsetMinutes) {
+      const [hours, minutes] = timeString.split(':').map(Number);
+      const date = new Date();
+      date.setHours(hours + offsetHours);
+      date.setMinutes(minutes + offsetMinutes);
+      return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+    }
+
     // Parse unavailable slots into a structured format (e.g., { 'YYYY-MM-DD': ['HH:mm', ...] })
     const unavailableSlotsMap = unavailableSlots.reduce((acc, slot) => {
       const [date, time] = slot.trim().split('T');
+      const adjustedTime = addTimeOffset(time.split(':').slice(0, 2).join(':'), 5, 30); // Add offset
       if (!acc[date]) acc[date] = [];
-      acc[date].push(time.split(':').slice(0, 2).join(':')); // Only keep HH:mm
+      acc[date].push(adjustedTime); // Push the adjusted time
       return acc;
     }, {});
 
     // Debugging: Log unavailable slots map
-    console.log('Unavailable Slots Map:', unavailableSlotsMap);
+    console.log('Adjusted Unavailable Slots Map:', unavailableSlotsMap);
 
     // Generate Dates
     const today = new Date();

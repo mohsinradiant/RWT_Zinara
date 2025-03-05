@@ -445,10 +445,11 @@
           .map((productId) => {
             return `
               <div class="product-card">
-                <img src="{{ product.featured_image }}" alt="Product Image" />
+                <img src="/path-to-product-image/${productId}.jpg" alt="Product Image" />
                 <div class="product-details">
-                  <h4>{{ product.title }}</h4>
-                  <p>₹${Math.floor(product.price / 100)}</p>
+                  <h4>Product Name for ID ${productId}</h4>
+                  <p>Price: ₹23,456</p>
+                  <p>IJ - SI | 13 (57.8mm) | Rose Gold | D</p>
                 </div>
               </div>
               `;

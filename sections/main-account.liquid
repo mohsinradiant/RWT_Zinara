@@ -164,21 +164,18 @@
       <div class="account_page_tah_trials_container">
         {% for trial in customer.metafields.content.try_at_home_slots.value %}
           <div class="account_page_tah_trials_div">
-            {% comment %} Step 1: Debugging the Product ID {% endcomment %}
+            {% comment %} Step 1: Debugging the Raw Product Data {% endcomment %}
             <p>Raw Product Data: {{ trial.product }}</p>
 
-            {% assign product_id_array = trial.product | json %}
-            <p>Parsed Product Array: {{ product_id_array }}</p>
-
-            {% comment %} Step 2: Extracting the GID {% endcomment %}
-            {% assign product_gid = product_id_array | first %}
+            {% comment %} Step 2: Extracting the GID from the String {% endcomment %}
+            {% assign product_gid = trial.product | remove: '[' | remove: ']' | remove: '"' %}
             <p>Extracted GID: {{ product_gid }}</p>
 
-            {% comment %} Step 3: Extracting the Product Handle {% endcomment %}
+            {% comment %} Step 3: Extracting the Product Handle from the GID {% endcomment %}
             {% assign product_handle = product_gid | split: '/' | last %}
             <p>Product Handle: {{ product_handle }}</p>
 
-            {% comment %} Step 4: Fetching the Product {% endcomment %}
+            {% comment %} Step 4: Fetching the Product Object {% endcomment %}
             {% assign product = all_products[product_handle] %}
             <p>
               Product Found: {% if product %} Yes {% else %} No {% endif %}

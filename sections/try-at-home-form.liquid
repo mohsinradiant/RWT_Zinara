@@ -326,7 +326,7 @@
   // Submit Form
   document.getElementById('bookTrialTah').addEventListener('click', async () => {
     try {
-      // Validate selected date and time
+      // Get selected date and time
       const activeDateBtn = document.querySelector('.date-btn.selected');
       const activeTimeBtn = document.querySelector('.timeslot-btn.selected');
 
@@ -335,39 +335,61 @@
         return;
       }
 
-      const activeDate = activeDateBtn.getAttribute('data-date'); // YYYY-MM-DD
-      const activeTime =
-        activeTimeBtn.getAttribute('data-time') || activeTimeBtn.textContent.trim().split('-')[0].trim();
-      const combinedDateTime = `${activeDate}T${activeTime}:00`;
+      const activeDate = activeDateBtn.getAttribute('data-date'); // Format: YYYY-MM-DD
+      let activeTime = activeTimeBtn.getAttribute('data-time'); // Format: HH:mm
 
+      // If data-time is not defined, fallback to extracting time from the button text
+      if (!activeTime) {
+        const timeText = activeTimeBtn.textContent.trim(); // e.g., "18:00 - 18:30"
+        activeTime = timeText.split('-')[0].trim(); // Extract "18:00"
+      }
+
+      // Combine date and time into a single Date object
+      const combinedDateTime = `${activeDate}T${activeTime}:00`;
       const timeslotLocal = new Date(combinedDateTime);
+
       if (isNaN(timeslotLocal.getTime())) {
+        console.error('Invalid date or time:', { activeDate, activeTime, combinedDateTime });
         alert('Invalid date or time. Please select valid options.');
         return;
       }
 
-      const timeslotIST = new Date(timeslotLocal.getTime() + 5.5 * 60 * 60 * 1000); // IST offset
-      const timeslot = timeslotIST.toISOString();
+      const ISTOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
+      const timeslotIST = new Date(timeslotLocal.getTime() + ISTOffset); // Adjust to IST
+      const timeslot = timeslotIST.toISOString(); // Convert to ISO format
 
-      // Gather form data
+      // Other data fields
       const house = document.getElementById('house').value.trim();
       const locality = document.getElementById('locality').value.trim();
       const city = document.getElementById('city').value.trim();
       const state = document.getElementById('state').value.trim();
       const pincode = document.getElementById('pincode').value.trim();
-      const phone = document.getElementById('phone')?.value.trim() || "{{ customer.phone | default: '' }}";
-      const email = document.getElementById('email')?.value.trim() || "{{ customer.email | default: '' }}";
+      const address = `${house}, ${locality}, ${city}, ${state}`.replace(/,\s*$/, '');
+      const productVariant =
+        window.selectedProductIds && window.selectedProductIds.length > 0 ? window.selectedProductIds : null;
+      const phoneInput = document.getElementById('phone');
+      const emailInput = document.getElementById('email');
+      const phone = phoneInput ? phoneInput.value.trim() : "{{ customer.phone | default: '' }}";
+      const email = emailInput ? emailInput.value.trim() : "{{ customer.email | default: '' }}";
       const customerId = "{{ customer.id | default: '' }}";
       const name = "{{ customer.first_name | default: '' }} {{ customer.last_name | default: '' }}".trim();
-      const address = `${house}, ${locality}, ${city}, ${state}`.replace(/,\s*$/, '');
-      const productVariant = window.selectedProductIds?.length > 0 ? window.selectedProductIds : null;
 
       if (!customerId) {
-        sessionStorage.setItem(
-          'tryAtHomeFormData',
-          JSON.stringify({ timeslot, house, locality, city, state, pincode, address, productVariant, phone, email })
-        );
-        window.location.href = '/account/login';
+        // Save form data to sessionStorage and redirect to login page
+        const formData = {
+          timeslot,
+          house,
+          locality,
+          city,
+          state,
+          pincode,
+          address,
+          productVariant,
+          phone,
+          email,
+        };
+        sessionStorage.setItem('tryAtHomeFormData', JSON.stringify(formData));
+        window.location.href = '/account/login'; // Redirect to login page
         return;
       }
 
@@ -387,7 +409,6 @@
         return;
       }
 
-      // Prepare API data
       const tryAtHomeData = {
         customer: customerId,
         timeslot,
@@ -400,9 +421,8 @@
         slot_status: 'Slot Booked',
       };
 
-      console.log('Submitting data:', tryAtHomeData);
+      console.log('Final data being posted:', tryAtHomeData);
 
-      // API request
       const response = await fetch('https://www.learningtlms.in/Zever4u/shopify_customer.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -410,78 +430,67 @@
       });
 
       const rawResponse = await response.text();
-      console.log('Response:', rawResponse);
+      console.log('Raw Response:', rawResponse);
 
       const jsonResponse = JSON.parse(rawResponse);
       if (response.ok && jsonResponse.success) {
-        showSuccessPopup(tryAtHomeData);
-      } else {
-        alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
-      }
-    } catch (error) {
-      console.error('Error during submission:', error);
-      alert('An error occurred. Please try again.');
-    }
-  });
+        // Show the success popup
+        const content3 = document.getElementById('content-3-tah');
+        content3.classList.remove('hidden');
+        const content2 = document.querySelector('.content-2-tah');
+        content2.style.display = 'none';
 
-  // Function to show success popup
-  function showSuccessPopup(tryAtHomeData) {
-    const content3 = document.getElementById('content-3-tah');
-    const content2 = document.querySelector('.content-2-tah');
-
-    content3.classList.remove('hidden');
-    content2.style.display = 'none';
-
-    const productCards = (tryAtHomeData.product_ids || [])
-      .map((productId) => {
-        const product = allProductsData[productId];
-        if (!product) {
-          return `
-          <div class="product-card">
-            <img src="/path-to-product-image/placeholder.jpg" alt="Product Image" />
-            <div class="product-details">
-              <h4>Product ID ${productId}</h4>
-              <p>Details not available</p>
-            </div>
-          </div>
-        `;
-        }
-        return `
-        <div class="product-card">
-          <img src="${product.image}" alt="${product.title}" />
-          <div class="product-details">
-            <h4>${product.title}</h4>
-            <p>Price: ₹${product.price}</p>
-          </div>
+        // Populate the content based on the submitted form data
+        const productCards = (tryAtHomeData.product_ids || [])
+          .map((productId) => {
+            // Replace this with your logic to fetch product details, if necessary
+            return `
+      <div class="product-card">
+        <img src="/path-to-product-image/${productId}.jpg" alt="Product Image" />
+        <div class="product-details">
+          <h4>Product Name for ID ${productId}</h4>
+          <p>Price: ₹23,456</p>
+          <p>IJ - SI | 13 (57.8mm) | Rose Gold | D</p>
         </div>
-      `;
-      })
-      .join('');
+      </div>
+    `;
+          })
+          .join('');
 
-    content3.innerHTML = `
+        content3.innerHTML = `
     <div class="trial-booked-header">
       <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1741202752">
       <h3>Trial Booked</h3>
     </div>
-    <div class="product-cards">${productCards}</div>
+    <div class="product-cards">
+      ${productCards}
+    </div>
     <div class="address-details">
       <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
       <p><strong>Date Picked:</strong> ${new Date(tryAtHomeData.timeslot).toLocaleString()}</p>
       <p><strong>OTP:</strong> 123456</p>
     </div>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
     <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
     <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
-    `;
+  `;
 
-    // Add event listeners
-    document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
-      window.location.href = '/account#account_page_tah_trials';
-    });
+        // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
+        document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
+          window.location.href = '/account#account_page_tah_trials'; // Replace '/account' with your actual account page URL
+        });
 
-    document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
-      content3.classList.add('hidden');
-    });
-  }
+        // Close popup on "Close" button click
+        document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
+          content3.classList.add('hidden');
+        });
+      } else {
+        alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error during submission:', error);
+    }
+  });
 
   // Restore form data after login
   document.addEventListener('DOMContentLoaded', () => {

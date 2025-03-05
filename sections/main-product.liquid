@@ -1119,20 +1119,18 @@
     const tryAtHomeButton = document.getElementById('tryAtHomeButton');
 
     if (tryAtHomeButton) {
-      // Replace 'productHandle' with the actual product handle using Liquid
-      const productHandle = '{{ product.handle }}'; // Liquid variable for the product handle
-      const isLoggedIn = '{{ customer.id | default: false }}'; // Check if user is logged in
+      // Use Liquid to fetch the product handle
+      const productHandle = '{{ product.handle }}';
 
       tryAtHomeButton.addEventListener('click', function () {
-        if (isLoggedIn) {
-          // If user is logged in, redirect to the Try at Home page
-          const redirectUrl = `/pages/try-at-home?view=try-at-home&product_handle=${productHandle}`;
-          window.location.href = redirectUrl;
-        } else {
-          // If not logged in, redirect to the login page with return URL
-          const loginRedirectUrl = `/account/login?return_url=/pages/try-at-home?view=try-at-home&product_handle=${productHandle}`;
-          window.location.href = loginRedirectUrl;
-        }
+        // Redirect to the "Try at Home" page; Shopify handles login redirect automatically
+        const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle=${productHandle}`;
+
+        // Append login redirection URL
+        const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(tryAtHomeUrl)}`;
+
+        // Redirect the user
+        window.location.href = loginRedirectUrl;
       });
     }
   });

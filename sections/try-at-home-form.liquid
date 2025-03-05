@@ -567,42 +567,42 @@
   });
 
   // Handling Unavailable Timeslots
-  (async () => {
-    try {
-      const response = await fetch('https://www.learningtlms.in/Zever4u/unavailable_timeslots.php');
-      const unavailableSlotsUTC = await response.json(); // Assume server returns ISO strings in UTC
+  //   (async () => {
+  //     try {
+  //       const response = await fetch('https://www.learningtlms.in/Zever4u/unavailable_timeslots.php');
+  //       const unavailableSlotsUTC = await response.json(); // Assume server returns ISO strings in UTC
 
-      const ISTOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
-      const unavailableSlotsIST = unavailableSlotsUTC.map((slot) => {
-        const date = new Date(slot);
-        const ISTDate = new Date(date.getTime() + ISTOffset); // Adjust to IST
-        return ISTDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format in IST
-      });
+  //       const ISTOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
+  //       const unavailableSlotsIST = unavailableSlotsUTC.map((slot) => {
+  //         const date = new Date(slot);
+  //         const ISTDate = new Date(date.getTime() + ISTOffset); // Adjust to IST
+  //         return ISTDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format in IST
+  //       });
 
-      console.log('Unavailable Timeslots (IST):', unavailableSlotsIST);
-      // Update the UI as needed to display unavailable times
-    } catch (error) {
-      console.error('Error fetching unavailable timeslots:', error);
-    }
-  })();
+  //       console.log('Unavailable Timeslots (IST):', unavailableSlotsIST);
+  //       // Update the UI as needed to display unavailable times
+  //     } catch (error) {
+  //       console.error('Error fetching unavailable timeslots:', error);
+  //     }
+  //   })();
 
   // Handling Unavailable Timeslots
-  (async () => {
-    try {
-      const response = await fetch('https://www.learningtlms.in/Zever4u/unavailable_timeslots.php');
-      const unavailableSlotsUTC = await response.json(); // Assume server returns ISO strings in UTC
+  //   (async () => {
+  //     try {
+  //       const response = await fetch('https://www.learningtlms.in/Zever4u/unavailable_timeslots.php');
+  //       const unavailableSlotsUTC = await response.json(); // Assume server returns ISO strings in UTC
 
-      const unavailableSlotsLocal = unavailableSlotsUTC.map((slot) => {
-        const date = new Date(slot);
-        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format in local time
-      });
+  //       const unavailableSlotsLocal = unavailableSlotsUTC.map((slot) => {
+  //         const date = new Date(slot);
+  //         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format in local time
+  //       });
 
-      console.log('Unavailable Timeslots (Local):', unavailableSlotsLocal);
-      // Update the UI as needed to display unavailable times
-    } catch (error) {
-      console.error('Error fetching unavailable timeslots:', error);
-    }
-  })();
+  //       console.log('Unavailable Timeslots (Local):', unavailableSlotsLocal);
+  //       // Update the UI as needed to display unavailable times
+  //     } catch (error) {
+  //       console.error('Error fetching unavailable timeslots:', error);
+  //     }
+  //   })();
 </script>
 
 <style>

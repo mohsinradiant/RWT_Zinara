@@ -165,9 +165,8 @@
         {% for trial in customer.metafields.content.try_at_home_slots.value %}
           <div class="account_page_tah_trials_div">
             {% for product in trial.product.value %}
-              {% assign product_id = product | split: '/' | last %}
-              {% assign product_data = all_products[product_id] %}
-              <img src="{{ product_data.featured_image | img_url: 'medium' }}" alt="{{ product_data.title }}">
+              {% assign product = product %}
+              <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product_data.title }}">
             {% endfor %}
           </div>
         {% endfor %}

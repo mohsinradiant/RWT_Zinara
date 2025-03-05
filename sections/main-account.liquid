@@ -48,7 +48,7 @@
     </a>
   </div>
 
-  <div>
+  <div class="accounts-fold-2-container">
     <h2>{{ 'customer.orders.title' | t }}</h2>
 
     {% paginate customer.orders by 20 %}
@@ -171,6 +171,10 @@
       {% endfor %}
     </div>
     <style>
+      .accounts-fold-2-container {
+        display: flex;
+        flex-direction: column;
+      }
       .account_page_tah_trials_container {
         width: 100%;
         display: flex;
@@ -181,6 +185,9 @@
       .account_page_tah_trials_div {
         width: 50%;
         display: flex;
+      }
+      #account_page_tah_trials {
+        margin-top: 5rem;
       }
     </style>
     {% comment %}

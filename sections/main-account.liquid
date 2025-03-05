@@ -169,6 +169,7 @@
             <div class="product_content">
               <h4>{{ product.title }}</h4>
               <p>₹{{ product.price | divided_by: 100 }}</p>
+              <p>{{ product.slot_date_and_time }}</p>
             </div>
           {% endfor %}
         </div>

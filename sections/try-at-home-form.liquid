@@ -73,23 +73,26 @@
             const collectionProductsContainer = document.getElementById('collectionProducts');
 
             data.products.forEach((product) => {
+              const featuredImage = product.images[0] || ''; // Get the first image or set to empty string if undefined
+              const price = product.variants[0]?.price || 0; // Get the price of the first variant or set to 0 if undefined
+
               const productCard = document.createElement('div');
               productCard.classList.add('product-card');
               productCard.dataset.id = product.id;
               productCard.innerHTML = `
-                    <img
-                      src="${product.featured_image}"
-                      alt="${product.title}"
-                      class="product-card__image"
-                    >
-                    <div class="product-card-content">
-                      <h2 class="product-card__title">${product.title}</h2>
-                      <p class="product-card__price">
-                        ₹${Math.floor(product.price / 100)}
-                      </p>
-                      <button class="add-item-button">Add Item</button>
-                    </div>
-                  `;
+        <img
+          src="${featuredImage}"
+          alt="${product.title}"
+          class="product-card__image"
+        >
+        <div class="product-card-content">
+          <h2 class="product-card__title">${product.title}</h2>
+          <p class="product-card__price">
+            ₹${Math.floor(price / 100)}
+          </p>
+          <button class="add-item-button">Add Item</button>
+        </div>
+      `;
 
               // Add functionality to "Add Item" button
               productCard.querySelector('.add-item-button').addEventListener('click', function () {
@@ -97,20 +100,20 @@
                 if (!selectedProductIds.includes(product.id)) {
                   // Add the product to the selected products container
                   selectedProductsContainer.innerHTML += `
-                          <div class="product-card" data-id="${product.id}">
-                            <img
-                              src="${product.featured_image}"
-                              alt="${product.title}"
-                              class="product-card__image"
-                            >
-                            <div class="product-card-content">
-                              <h2 class="product-card__title">${product.title}</h2>
-                              <p class="product-card__price">
-                                ₹${Math.floor(product.price / 100)}
-                              </p>
-                            </div>
-                          </div>
-                        `;
+              <div class="product-card" data-id="${product.id}">
+                <img
+                  src="${featuredImage}"
+                  alt="${product.title}"
+                  class="product-card__image"
+                >
+                <div class="product-card-content">
+                  <h2 class="product-card__title">${product.title}</h2>
+                  <p class="product-card__price">
+                    ₹${Math.floor(price / 100)}
+                  </p>
+                </div>
+              </div>
+            `;
                   // Add the product ID to the array
                   selectedProductIds.push(product.id);
                 }

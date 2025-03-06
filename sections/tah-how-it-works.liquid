@@ -1,0 +1,53 @@
+<h2 class="page-width section-heading">{{ section.settings.heading }}</h2>
+<div class="page-width tah-how-it-works-container">
+  <div class="tah-how-it-works">
+    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector.png?v=1741243196">
+    <p>Choose your designs (Upto 20)</p>
+  </div>
+  <div class="tah-how-it-works">
+    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector-1.png?v=1741243196">
+    <p>A Zinara professional will come to your home</p>
+  </div>
+  <div class="tah-how-it-works">
+    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector-2.png?v=1741243196">
+    <p>Own your favourite designs</p>
+  </div>
+</div>
+<style>
+  .tah-how-it-works-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .tah-how-it-works {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+  .tah-how-it-works img {
+    background-color: #f4eeeb;
+    padding: 15px;
+    width: 65px;
+    height: auto;
+    border-radius: 15px 0 15px 0;
+  }
+</style>
+{% schema %}
+{
+  "name": "TAH How It Works",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "How it works"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "TAH How It Works"
+    }
+  ]
+}
+{% endschema %}

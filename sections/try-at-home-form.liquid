@@ -7,7 +7,9 @@
       <div id="productCardContainer" style="display: none;">
         <!-- Product details will be inserted here -->
       </div>
-      <button id="select-time-slot-content-1">Select Time Slot</button>
+      <div class="select-time-slot-content-1-wrapper">
+        <button id="select-time-slot-content-1">Select Time Slot</button>
+      </div>
     </div>
 
     <div class="collection-products-container">
@@ -241,7 +243,9 @@
         >
       </div>
     </div>
-    <a id="bookTrialTah" class="submit-btn">Book Trial at Home</a>
+    <div class="bookTrialTah-container">
+      <button id="bookTrialTah" class="submit-btn">Book Trial at Home</button>
+    </div>
   </div>
   <div id="content-3-tah" class="content-3-tah hidden"></div>
 </div>
@@ -1050,6 +1054,9 @@ for (let i = 0; i < 7; i++) {
     cursor: pointer !important;
     margin-top: 1.3rem;
     width: fit-content;
+    font-size: 2.2rem;
+    font-weight: 400;
+    font-family: 'Quicksand';
   }
   .tryAtHomePopup-input_container {
     display: flex;
@@ -1083,7 +1090,10 @@ for (let i = 0; i < 7; i++) {
       width: 100%;
     }
     .popup-content-tah {
-      max-width: 85%;
+      padding: 15px;
+    }
+    .selected-products-container .product-card {
+      min-width: 88%;
     }
     .try-at-home-button-sticky {
       width: 49%;
@@ -1096,6 +1106,74 @@ for (let i = 0; i < 7; i++) {
     }
     .sticky-atc-container div .product-form__buttons button {
       width: 100%;
+    }
+    #productCardContainer {
+      flex-wrap: nowrap;
+      gap: 10px;
+      overflow-x: auto;
+    }
+    .selected-products-container .product-card img {
+      width: 100px;
+      height: 100px;
+    }
+    .selected-products-container .product-card h2 {
+      font-size: 1.4rem;
+    }
+    .selected-products-container .product-card p {
+      font-size: 1.9rem;
+    }
+    .select-time-slot-content-1-wrapper,
+    .bookTrialTah-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: #f9f7f9;
+      z-index: 10;
+    }
+    .select-time-slot-content-1-wrapper button,
+    .bookTrialTah-container button {
+      width: 100%;
+      display: flex;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      margin-top: 0;
+    }
+    .selected-products-container {
+      margin-bottom: 0;
+    }
+    .collection-products-container .product-card {
+      min-width: 44%;
+    }
+    #collectionProducts {
+      flex-wrap: nowrap;
+      justify-content: start;
+      overflow-x: auto;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .collection-products-container .product-card h2 {
+      font-size: 1.6rem;
+    }
+    .add-item-button {
+      font-size: 1.7rem;
+    }
+    .add-item-button span {
+      margin-right: 6px;
+    }
+    .product-cards .product-card h4 {
+      font-size: 1.6rem;
+    }
+    .product-cards .product-card {
+      width: 100%;
+    }
+    .product-cards .product-card img {
+    width: 30%;
+    }
+    .address-details p{
+      text-align: left;
     }
   }
 </style>

@@ -170,7 +170,9 @@
             <div class="product_content">
               <h4>{{ product.title }}</h4>
               <p>₹{{ product.price | divided_by: 100 }}</p>
-              <p>Booked Slot: {{ trial.slot_date_and_time | date: '%-d/%-m/%y | %H:%M' }}</p>
+              <p class="product_content_booked-slot">
+                Booked Slot: {{ trial.slot_date_and_time | date: '%-d/%-m/%y | %H:%M' }}
+              </p>
             </div>
           </div>
         {% endfor %}
@@ -178,6 +180,10 @@
       {% endfor %}
     </div>
     <style>
+      .product_content .product_content_booked-slot {
+        font-weight: 400;
+        font-size: 1.6rem;
+      }
       .accounts-fold-2-container {
         display: flex;
         flex-direction: column;
@@ -228,6 +234,11 @@
         flex-direction: column;
         padding: 15px 0 15px 10px;
         justify-content: space-between;
+      }
+      @media (max-width: 756px) {
+        .account_page_tah_trials_div_product {
+          width: 100%;
+        }
       }
     </style>
     {% comment %}

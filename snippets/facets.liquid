@@ -240,19 +240,43 @@
                         >
                         <script>
                           document.addEventListener('DOMContentLoaded', function () {
+                            // Clear Filters Button Functionality
+                            const clearFiltersButton = document.getElementById('bottom-buton-1');
+                            clearFiltersButton.addEventListener('click', function () {
+                              const baseUrl = window.location.origin + window.location.pathname;
+                              window.location.href = baseUrl; // Reload the page without query parameters
+                            });
+                        
+                            // Show Results Button Functionality
+                            const showResultsButton = document.getElementById('bottom-buton-2');
+                            showResultsButton.addEventListener('click', function () {
+                              const slider = document.getElementById('price-slider');
+                              if (slider && slider.noUiSlider) {
+                                const values = slider.noUiSlider.get();
+                                const minPrice = values[0].replace(/,/g, '');
+                                const maxPrice = values[1].replace(/,/g, '');
+                                const newUrl = new URL(window.location.href);
+                                newUrl.searchParams.set('filter.v.price.gte', minPrice);
+                                newUrl.searchParams.set('filter.v.price.lte', maxPrice);
+                        
+                                // Apply other filters if needed before navigating
+                                window.location.href = newUrl.href;
+                              }
+                            });
+                        
+                            // Initialize Price Slider Functionality
                             const initializePriceSlider = () => {
                               const slider = document.getElementById('price-slider');
-                              if (!slider || slider.noUiSlider) return; // Exit if slider is already initialized or not found
-
+                              if (!slider || slider.noUiSlider) return;
+                        
                               const minInput = document.getElementById('slider-min');
                               const maxInput = document.getElementById('slider-max');
-
                               const maxPrice = Number(slider.getAttribute('data-max-price')) || 100000;
-
+                        
                               const urlParams = new URLSearchParams(window.location.search);
                               const appliedMinPrice = urlParams.get('filter.v.price.gte') || 0;
                               const appliedMaxPrice = urlParams.get('filter.v.price.lte') || maxPrice;
-
+                        
                               noUiSlider.create(slider, {
                                 start: [Number(appliedMinPrice), Number(appliedMaxPrice)],
                                 connect: true,
@@ -269,42 +293,33 @@
                                   },
                                 },
                               });
-
+                        
                               slider.noUiSlider.on('update', function (values) {
                                 minInput.textContent = values[0];
                                 maxInput.textContent = values[1];
                               });
-
-                              slider.noUiSlider.on('change', function (values) {
-                                const minPrice = values[0].replace(/,/g, '');
-                                const maxPrice = values[1].replace(/,/g, '');
-                                const newUrl = new URL(window.location.href);
-                                newUrl.searchParams.set('filter.v.price.gte', minPrice);
-                                newUrl.searchParams.set('filter.v.price.lte', maxPrice);
-                                window.location.href = newUrl.href;
-                              });
-
+                        
                               // Set the background color for the connected range
                               const connect = slider.querySelector('.noUi-connect');
                               if (connect) {
                                 connect.style.backgroundColor = '#610c27';
                               }
                             };
-
-                            // Initialize slider on page load
+                        
                             initializePriceSlider();
-
-                            // Reinitialize slider on DOM changes (e.g., after AJAX updates)
+                        
+                            // Observe DOM changes to reinitialize slider
                             const observer = new MutationObserver(() => {
                               initializePriceSlider();
                             });
-
+                        
                             observer.observe(document.getElementById('price-slider-container'), {
                               childList: true,
                               subtree: true,
                             });
                           });
                         </script>
+                        
                         <div id="price-slider-container">
                           <div
                             id="price-slider"

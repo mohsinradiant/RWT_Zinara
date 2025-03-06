@@ -1083,7 +1083,10 @@ for (let i = 0; i < 7; i++) {
       width: 100%;
     }
     .popup-content-tah {
-      max-width: 85%;
+      padding: 15px;
+    }
+    .selected-products-container .product-card {
+      min-width: 88%;
     }
     .try-at-home-button-sticky {
       width: 49%;
@@ -1096,6 +1099,21 @@ for (let i = 0; i < 7; i++) {
     }
     .sticky-atc-container div .product-form__buttons button {
       width: 100%;
+    }
+    #productCardContainer {
+      flex-wrap: nowrap;
+      gap: 10px;
+      overflow-x: auto;
+    }
+    .selected-products-container .product-card img {
+      width: 100px;
+      height: 100px;
+    }
+    .selected-products-container .product-card h2 {
+      font-size: 1.4rem;
+    }
+    .selected-products-container .product-card p {
+      font-size: 1.9rem;
     }
   }
 </style>

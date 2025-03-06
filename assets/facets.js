@@ -252,7 +252,19 @@ class FacetFiltersForm extends HTMLElement {
 
   createSearchParams(form) {
     const formData = new FormData(form);
-    return new URLSearchParams(formData).toString();
+    const searchParams = new URLSearchParams();
+  
+    // Iterate over the form data and only add checked filters to the searchParams
+    formData.forEach((value, key) => {
+      const input = form.querySelector(`[name="${key}"]`);
+      if (input && input.type === 'checkbox' && !input.checked) {
+        // Skip unchecked checkboxes
+        return;
+      }
+      searchParams.append(key, value);
+    });
+  
+    return searchParams.toString();
   }
 
   onSubmitForm(searchParams, event) {
@@ -262,24 +274,46 @@ class FacetFiltersForm extends HTMLElement {
   onSubmitHandler(event) {
     event.preventDefault();
     const sortFilterForms = document.querySelectorAll('facet-filters-form form');
-    if (event.srcElement.className == 'mobile-facets__checkbox') {
-      const searchParams = this.createSearchParams(event.target.closest('form'));
-      this.onSubmitForm(searchParams, event);
-    } else {
-      const forms = [];
-      const isMobile = event.target.closest('form').id === 'FacetFiltersFormMobile';
-
-      sortFilterForms.forEach((form) => {
-        if (!isMobile) {
-          if (form.id === 'FacetSortForm' || form.id === 'FacetFiltersForm' || form.id === 'FacetSortDrawerForm') {
-            forms.push(this.createSearchParams(form));
-          }
-        } else if (form.id === 'FacetFiltersFormMobile') {
-          forms.push(this.createSearchParams(form));
+    const forms = [];
+    const isMobile = event.target.closest('form').id === 'FacetFiltersFormMobile';
+  
+    sortFilterForms.forEach((form) => {
+      if (!isMobile) {
+        if (form.id === 'FacetSortForm' || form.id === 'FacetFiltersForm' || form.id === 'FacetSortDrawerForm') {
+          const formData = new FormData(form);
+          const searchParams = new URLSearchParams();
+  
+          // Iterate over the form data and only add checked filters to the searchParams
+          formData.forEach((value, key) => {
+            const input = form.querySelector(`[name="${key}"]`);
+            if (input && input.type === 'checkbox' && !input.checked) {
+              // Skip unchecked checkboxes
+              return;
+            }
+            searchParams.append(key, value);
+          });
+  
+          forms.push(searchParams.toString());
         }
-      });
-      this.onSubmitForm(forms.join('&'), event);
-    }
+      } else if (form.id === 'FacetFiltersFormMobile') {
+        const formData = new FormData(form);
+        const searchParams = new URLSearchParams();
+  
+        // Iterate over the form data and only add checked filters to the searchParams
+        formData.forEach((value, key) => {
+          const input = form.querySelector(`[name="${key}"]`);
+          if (input && input.type === 'checkbox' && !input.checked) {
+            // Skip unchecked checkboxes
+            return;
+          }
+          searchParams.append(key, value);
+        });
+  
+        forms.push(searchParams.toString());
+      }
+    });
+  
+    this.onSubmitForm(forms.join('&'), event);
   }
 
   onActiveFilterClick(event) {

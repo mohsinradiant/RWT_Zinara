@@ -240,77 +240,68 @@
                         >
                         <script>
                           document.addEventListener('DOMContentLoaded', function () {
-                            const showResultsButton = document.getElementById('bottom-buton-2');
+                            // Handle checkbox filter changes
+                            const filterInputs = document.querySelectorAll('.facets__checkbox input[type="checkbox"]');
 
-                            showResultsButton.addEventListener('click', function () {
-                              const slider = document.getElementById('price-slider');
+                            filterInputs.forEach((input) => {
+                              input.addEventListener('change', function () {
+                                const currentUrl = new URL(window.location.href);
+                                const paramName = this.name;
+                                const paramValue = this.value;
 
-                              // Get the current URL
-                              const currentUrl = new URL(window.location.href);
-
-                              if (slider && slider.noUiSlider) {
-                                const values = slider.noUiSlider.get(); // Get current slider values
-                                const minPrice = parseInt(values[0].replace(/,/g, ''), 10);
-                                const maxPrice = parseInt(values[1].replace(/,/g, ''), 10);
-
-                                const sliderMax = parseInt(slider.getAttribute('data-max-price'), 10) || 100000;
-
-                                // Only add the price filter if it's not set to the default range
-                                if (minPrice > 0 || maxPrice < sliderMax) {
-                                  currentUrl.searchParams.set('filter.v.price.gte', minPrice);
-                                  currentUrl.searchParams.set('filter.v.price.lte', maxPrice);
-                                  console.log('Added price filter:', { minPrice, maxPrice });
+                                if (this.checked) {
+                                  // Add filter to URL
+                                  currentUrl.searchParams.append(paramName, paramValue);
+                                  console.log(`Filter added: ${paramName}=${paramValue}`);
                                 } else {
-                                  console.log('Price slider is at the default range. No filter added.');
-                                }
-                              } else {
-                                console.log('Price slider not found or not initialized.');
-                              }
+                                  // Remove filter from URL
+                                  const filters = currentUrl.searchParams.getAll(paramName);
+                                  currentUrl.searchParams.delete(paramName); // Remove all occurrences of the parameter
 
-                              // Navigate to the updated URL
-                              console.log('Redirecting to updated URL:', currentUrl.href);
-                              window.location.href = currentUrl.href;
+                                  // Re-add the ones that aren't this input's value
+                                  filters.forEach((value) => {
+                                    if (value !== paramValue) {
+                                      currentUrl.searchParams.append(paramName, value);
+                                    }
+                                  });
+                                  console.log(`Filter removed: ${paramName}=${paramValue}`);
+                                }
+
+                                // Update the URL
+                                window.history.replaceState(null, '', currentUrl.href);
+                                console.log('Updated URL:', currentUrl.href);
+                              });
                             });
 
-                            const initializePriceSlider = () => {
+                            // Show Results button functionality
+                            const showResultsButton = document.getElementById('bottom-buton-2');
+                            showResultsButton.addEventListener('click', function () {
+                              const currentUrl = new URL(window.location.href);
                               const slider = document.getElementById('price-slider');
-                              if (!slider || slider.noUiSlider) {
-                                console.log('Slider not found or already initialized.');
-                                return;
+
+                              if (slider && slider.noUiSlider) {
+                                const values = slider.noUiSlider.get();
+                                const minPrice = parseInt(values[0].replace(/,/g, ''), 10);
+                                const maxPrice = parseInt(values[1].replace(/,/g, ''), 10);
+                                const maxPriceLimit = parseInt(slider.getAttribute('data-max-price'), 10);
+
+                                if (minPrice > 0 || maxPrice < maxPriceLimit) {
+                                  // Add price filter to URL
+                                  currentUrl.searchParams.set('filter.v.price.gte', minPrice);
+                                  currentUrl.searchParams.set('filter.v.price.lte', maxPrice);
+                                  console.log(`Price filter applied: ${minPrice} to ${maxPrice}`);
+                                } else {
+                                  // Remove price filter if slider is at default range
+                                  currentUrl.searchParams.delete('filter.v.price.gte');
+                                  currentUrl.searchParams.delete('filter.v.price.lte');
+                                  console.log('Price filter cleared');
+                                }
                               }
 
-                              const maxPrice = parseInt(slider.getAttribute('data-max-price'), 10) || 100000;
-                              const urlParams = new URLSearchParams(window.location.search);
-                              const appliedMinPrice = parseInt(urlParams.get('filter.v.price.gte'), 10) || 0;
-                              const appliedMaxPrice = parseInt(urlParams.get('filter.v.price.lte'), 10) || maxPrice;
-
-                              console.log('Initializing price slider with:', { appliedMinPrice, appliedMaxPrice });
-
-                              noUiSlider.create(slider, {
-                                start: [appliedMinPrice, appliedMaxPrice],
-                                connect: true,
-                                range: {
-                                  min: 0,
-                                  max: maxPrice,
-                                },
-                                format: {
-                                  to: (value) => Math.round(value).toLocaleString('en-IN'),
-                                  from: (value) => parseInt(value.replace(/,/g, ''), 10),
-                                },
-                              });
-
-                              slider.noUiSlider.on('update', (values) => {
-                                console.log('Price slider updated:', { min: values[0], max: values[1] });
-                              });
-
-                              // Set the background color for the connected range
-                              const connect = slider.querySelector('.noUi-connect');
-                              if (connect) {
-                                connect.style.backgroundColor = '#610c27';
-                              }
-                            };
-
-                            initializePriceSlider();
+                              // Update the URL
+                              window.location.href = currentUrl.href;
+                              console.log('Final URL:', currentUrl.href);
+                            });
                           });
                         </script>
 

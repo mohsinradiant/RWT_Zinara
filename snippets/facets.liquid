@@ -244,50 +244,61 @@
                             const clearFiltersButton = document.getElementById('bottom-buton-1');
                             clearFiltersButton.addEventListener('click', function () {
                               const baseUrl = window.location.origin + window.location.pathname;
+                              console.log('Clear Filters clicked. Redirecting to:', baseUrl);
                               window.location.href = baseUrl; // Reload the page without query parameters
                             });
 
                             // Show Results Button Functionality
                             const showResultsButton = document.getElementById('bottom-buton-2');
                             showResultsButton.addEventListener('click', function () {
-                              const slider = document.getElementById('price-slider');
                               const newUrl = new URL(window.location.href);
+                              console.log('Show Results clicked. Initial URL:', newUrl.href);
 
-                              // Apply price filter values
+                              // Handle price slider
+                              const slider = document.getElementById('price-slider');
                               if (slider && slider.noUiSlider) {
                                 const values = slider.noUiSlider.get();
                                 const minPrice = values[0].replace(/,/g, '');
                                 const maxPrice = values[1].replace(/,/g, '');
                                 newUrl.searchParams.set('filter.v.price.gte', minPrice);
                                 newUrl.searchParams.set('filter.v.price.lte', maxPrice);
+                                console.log('Price slider values:', { minPrice, maxPrice });
+                              } else {
+                                console.log('Price slider not found or not initialized.');
                               }
 
-                              // Handle checkbox/radio filters
+                              // Handle selected filters
                               const filters = document.querySelectorAll(
                                 'input[type="checkbox"]:checked, input[type="radio"]:checked'
                               );
                               filters.forEach((filter) => {
-                                const filterKey = filter.name; // Name of the filter (e.g., 'filter.p.product_type')
-                                const filterValue = filter.value; // Value of the filter
+                                const filterKey = filter.name;
+                                const filterValue = filter.value;
                                 newUrl.searchParams.set(filterKey, filterValue);
+                                console.log('Adding filter:', { filterKey, filterValue });
                               });
 
-                              // Remove unchecked filters
+                              // Handle unchecked filters
                               const uncheckedFilters = document.querySelectorAll(
                                 'input[type="checkbox"]:not(:checked), input[type="radio"]:not(:checked)'
                               );
                               uncheckedFilters.forEach((filter) => {
-                                newUrl.searchParams.delete(filter.name); // Remove unchecked filters from the URL
+                                newUrl.searchParams.delete(filter.name);
+                                console.log('Removing unchecked filter:', filter.name);
                               });
 
                               // Navigate to the updated URL
+                              console.log('Redirecting to new URL:', newUrl.href);
                               window.location.href = newUrl.href;
                             });
 
                             // Initialize Price Slider Functionality
                             const initializePriceSlider = () => {
                               const slider = document.getElementById('price-slider');
-                              if (!slider || slider.noUiSlider) return;
+                              if (!slider || slider.noUiSlider) {
+                                console.log('Slider not found or already initialized.');
+                                return;
+                              }
 
                               const minInput = document.getElementById('slider-min');
                               const maxInput = document.getElementById('slider-max');
@@ -296,6 +307,8 @@
                               const urlParams = new URLSearchParams(window.location.search);
                               const appliedMinPrice = urlParams.get('filter.v.price.gte') || 0;
                               const appliedMaxPrice = urlParams.get('filter.v.price.lte') || maxPrice;
+
+                              console.log('Initializing price slider with:', { appliedMinPrice, appliedMaxPrice });
 
                               noUiSlider.create(slider, {
                                 start: [Number(appliedMinPrice), Number(appliedMaxPrice)],
@@ -317,6 +330,7 @@
                               slider.noUiSlider.on('update', function (values) {
                                 minInput.textContent = values[0];
                                 maxInput.textContent = values[1];
+                                console.log('Price slider updated:', { min: values[0], max: values[1] });
                               });
 
                               // Set the background color for the connected range
@@ -330,13 +344,19 @@
 
                             // Observe DOM changes to reinitialize slider
                             const observer = new MutationObserver(() => {
+                              console.log('DOM changed, reinitializing price slider...');
                               initializePriceSlider();
                             });
 
-                            observer.observe(document.getElementById('price-slider-container'), {
-                              childList: true,
-                              subtree: true,
-                            });
+                            const sliderContainer = document.getElementById('price-slider-container');
+                            if (sliderContainer) {
+                              observer.observe(sliderContainer, {
+                                childList: true,
+                                subtree: true,
+                              });
+                            } else {
+                              console.log('Price slider container not found for observation.');
+                            }
                           });
                         </script>
 

@@ -240,14 +240,6 @@
                         >
                         <script>
                           document.addEventListener('DOMContentLoaded', function () {
-                            // Clear Filters Button Functionality
-                            const clearFiltersButton = document.getElementById('bottom-buton-1');
-                            clearFiltersButton.addEventListener('click', function () {
-                              const baseUrl = window.location.origin + window.location.pathname;
-                              console.log('Clear Filters clicked. Redirecting to:', baseUrl);
-                              window.location.href = baseUrl; // Reload the page without query parameters
-                            });
-
                             // Show Results Button Functionality
                             const showResultsButton = document.getElementById('bottom-buton-2');
                             showResultsButton.addEventListener('click', function () {
@@ -262,23 +254,12 @@
                                 const maxPrice = values[1].replace(/,/g, '');
                                 newUrl.searchParams.set('filter.v.price.gte', minPrice);
                                 newUrl.searchParams.set('filter.v.price.lte', maxPrice);
-                                console.log('Price slider values:', { minPrice, maxPrice });
+                                console.log('Price slider values added:', { minPrice, maxPrice });
                               } else {
                                 console.log('Price slider not found or not initialized.');
                               }
 
-                              // Handle selected filters
-                              const filters = document.querySelectorAll(
-                                'input[type="checkbox"]:checked, input[type="radio"]:checked'
-                              );
-                              filters.forEach((filter) => {
-                                const filterKey = filter.name;
-                                const filterValue = filter.value;
-                                newUrl.searchParams.set(filterKey, filterValue);
-                                console.log('Adding filter:', { filterKey, filterValue });
-                              });
-
-                              // Handle unchecked filters
+                              // Remove unchecked filters
                               const uncheckedFilters = document.querySelectorAll(
                                 'input[type="checkbox"]:not(:checked), input[type="radio"]:not(:checked)'
                               );

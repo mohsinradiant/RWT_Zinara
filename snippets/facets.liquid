@@ -240,39 +240,57 @@
                         >
                         <script>
                           document.addEventListener('DOMContentLoaded', function () {
-
                             // Clear Filters Button Functionality
-    const clearFiltersButton = document.getElementById('bottom-buton-1');
-    clearFiltersButton.addEventListener('click', function () {
-      const baseUrl = window.location.origin + window.location.pathname;
-      window.location.href = baseUrl; // Reload the page without query parameters
-    });
+                            const clearFiltersButton = document.getElementById('bottom-buton-1');
+                            clearFiltersButton.addEventListener('click', function () {
+                              const baseUrl = window.location.origin + window.location.pathname;
+                              window.location.href = baseUrl; // Reload the page without query parameters
+                            });
 
-    // Show Results Button Functionality
-    const showResultsButton = document.getElementById('bottom-buton-2');
-    showResultsButton.addEventListener('click', function () {
-      const slider = document.getElementById('price-slider');
-      if (slider && slider.noUiSlider) {
-        const values = slider.noUiSlider.get();
-        const minPrice = values[0].replace(/,/g, '');
-        const maxPrice = values[1].replace(/,/g, '');
-        const newUrl = new URL(window.location.href);
-        newUrl.searchParams.set('filter.v.price.gte', minPrice);
-        newUrl.searchParams.set('filter.v.price.lte', maxPrice);
+                            // Show Results Button Functionality
+                            const showResultsButton = document.getElementById('bottom-buton-2');
+                            showResultsButton.addEventListener('click', function () {
+                              const slider = document.getElementById('price-slider');
+                              const newUrl = new URL(window.location.href);
 
-        // Apply other filters if needed before navigating
-        window.location.href = newUrl.href;
-      }
-    });
+                              // Apply price filter values
+                              if (slider && slider.noUiSlider) {
+                                const values = slider.noUiSlider.get();
+                                const minPrice = values[0].replace(/,/g, '');
+                                const maxPrice = values[1].replace(/,/g, '');
+                                newUrl.searchParams.set('filter.v.price.gte', minPrice);
+                                newUrl.searchParams.set('filter.v.price.lte', maxPrice);
+                              }
 
+                              // Handle checkbox/radio filters
+                              const filters = document.querySelectorAll(
+                                'input[type="checkbox"]:checked, input[type="radio"]:checked'
+                              );
+                              filters.forEach((filter) => {
+                                const filterKey = filter.name; // Name of the filter (e.g., 'filter.p.product_type')
+                                const filterValue = filter.value; // Value of the filter
+                                newUrl.searchParams.set(filterKey, filterValue);
+                              });
 
+                              // Remove unchecked filters
+                              const uncheckedFilters = document.querySelectorAll(
+                                'input[type="checkbox"]:not(:checked), input[type="radio"]:not(:checked)'
+                              );
+                              uncheckedFilters.forEach((filter) => {
+                                newUrl.searchParams.delete(filter.name); // Remove unchecked filters from the URL
+                              });
+
+                              // Navigate to the updated URL
+                              window.location.href = newUrl.href;
+                            });
+
+                            // Initialize Price Slider Functionality
                             const initializePriceSlider = () => {
                               const slider = document.getElementById('price-slider');
-                              if (!slider || slider.noUiSlider) return; // Exit if slider is already initialized or not found
+                              if (!slider || slider.noUiSlider) return;
 
                               const minInput = document.getElementById('slider-min');
                               const maxInput = document.getElementById('slider-max');
-
                               const maxPrice = Number(slider.getAttribute('data-max-price')) || 100000;
 
                               const urlParams = new URLSearchParams(window.location.search);
@@ -301,15 +319,6 @@
                                 maxInput.textContent = values[1];
                               });
 
-                              slider.noUiSlider.on('change', function (values) {
-                                const minPrice = values[0].replace(/,/g, '');
-                                const maxPrice = values[1].replace(/,/g, '');
-                                const newUrl = new URL(window.location.href);
-                                newUrl.searchParams.set('filter.v.price.gte', minPrice);
-                                newUrl.searchParams.set('filter.v.price.lte', maxPrice);
-                                window.location.href = newUrl.href;
-                              });
-
                               // Set the background color for the connected range
                               const connect = slider.querySelector('.noUi-connect');
                               if (connect) {
@@ -317,10 +326,9 @@
                               }
                             };
 
-                            // Initialize slider on page load
                             initializePriceSlider();
 
-                            // Reinitialize slider on DOM changes (e.g., after AJAX updates)
+                            // Observe DOM changes to reinitialize slider
                             const observer = new MutationObserver(() => {
                               initializePriceSlider();
                             });
@@ -331,6 +339,7 @@
                             });
                           });
                         </script>
+
                         <div id="price-slider-container">
                           <div
                             id="price-slider"

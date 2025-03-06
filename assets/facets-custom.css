@@ -27,7 +27,7 @@
     position: fixed;
     background: #f8f7f9;
     width: 100vw !important;
-    height: 100vh !important;
+    height: -webkit-fill-available !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease-in-out;
     z-index: 2000;

@@ -216,6 +216,17 @@
     padding: 20px;
 }
 
+.mobile-coll-filters-bottom-buttons #bottom-buton-1 {
+    color: #610C27;
+    border: solid 1px #610C27;
+    background: transparent;
+    padding: 15px;
+    width: 49%;
+    font-family: 'Quicksand';
+    font-size: 1.7rem;
+    font-weight: 500;
+}
+
 @media(max-width:756px) {
     .mobile-filter-row-item {
         display: flex;

@@ -361,7 +361,7 @@
                             }
 
                             // Handle dynamic checkbox filter changes
-                            const filterInputs = document.querySelectorAll('.facets__checkbox input[type="checkbox"]');
+                            const filterInputs = document.querySelectorAll('.facets__label input[type="checkbox"]');
                             filterInputs.forEach((input) => {
                               input.addEventListener('change', function () {
                                 const currentUrl = new URL(window.location.href);
@@ -369,15 +369,18 @@
                                 const paramValue = this.value;
 
                                 if (this.checked) {
-                                  // Add filter to URL
-                                  currentUrl.searchParams.append(paramName, paramValue);
-                                  console.log(`Filter added: ${paramName}=${paramValue}`);
+                                  // Add the filter to the URL only if it doesn't already exist
+                                  const existingValues = currentUrl.searchParams.getAll(paramName);
+                                  if (!existingValues.includes(paramValue)) {
+                                    currentUrl.searchParams.append(paramName, paramValue);
+                                    console.log(`Filter added: ${paramName}=${paramValue}`);
+                                  }
                                 } else {
-                                  // Remove filter from URL
+                                  // Remove the filter from the URL
                                   const existingValues = currentUrl.searchParams.getAll(paramName);
                                   currentUrl.searchParams.delete(paramName);
 
-                                  // Re-add the ones that aren't this input's value
+                                  // Re-add the remaining filters that are not this unchecked value
                                   existingValues.forEach((value) => {
                                     if (value !== paramValue) {
                                       currentUrl.searchParams.append(paramName, value);
@@ -387,7 +390,7 @@
                                   console.log(`Filter removed: ${paramName}=${paramValue}`);
                                 }
 
-                                // Update the URL
+                                // Update the browser URL without reloading the page
                                 window.history.replaceState(null, '', currentUrl.href);
                                 console.log('Updated URL:', currentUrl.href);
                               });

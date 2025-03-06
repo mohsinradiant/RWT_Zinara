@@ -380,7 +380,7 @@
                                   const existingValues = currentUrl.searchParams.getAll(paramName);
                                   currentUrl.searchParams.delete(paramName);
 
-                                  // Re-add other existing filters (excluding the unchecked one)
+                                  // Re-add the remaining filters that are not this unchecked value
                                   existingValues.forEach((value) => {
                                     if (value !== paramValue) {
                                       currentUrl.searchParams.append(paramName, value);
@@ -393,45 +393,7 @@
                                 // Update the browser URL without reloading the page
                                 window.history.replaceState(null, '', currentUrl.href);
                                 console.log('Updated URL:', currentUrl.href);
-
-                                // Dispatch a custom event to prevent other scripts from interfering
-                                const filterEvent = new Event('filterUpdated', { bubbles: true, cancelable: true });
-                                document.dispatchEvent(filterEvent);
                               });
-                            });
-
-                            // Listen for external DOM updates and prevent automatic re-adding
-                            document.addEventListener('filterUpdated', function (e) {
-                              console.log('Filter update handled. Preventing external interference.');
-                            });
-
-                            // Observe the DOM for automatic additions and block them
-                            const observer = new MutationObserver(() => {
-                              filterInputs.forEach((input) => {
-                                const currentUrl = new URL(window.location.href);
-                                const paramName = input.name;
-                                const paramValue = input.value;
-
-                                // If the checkbox is unchecked but the filter is in the URL, remove it
-                                if (!input.checked && currentUrl.searchParams.has(paramName)) {
-                                  const existingValues = currentUrl.searchParams.getAll(paramName);
-                                  currentUrl.searchParams.delete(paramName);
-
-                                  existingValues.forEach((value) => {
-                                    if (value !== paramValue) {
-                                      currentUrl.searchParams.append(paramName, value);
-                                    }
-                                  });
-
-                                  window.history.replaceState(null, '', currentUrl.href);
-                                  console.log(`Removed auto-added filter: ${paramName}=${paramValue}`);
-                                }
-                              });
-                            });
-
-                            observer.observe(document.body, {
-                              childList: true,
-                              subtree: true,
                             });
                           });
                         </script>

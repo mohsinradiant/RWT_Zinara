@@ -240,9 +240,128 @@
                         >
                         <script>
                           document.addEventListener('DOMContentLoaded', function () {
-                            // Handle checkbox filter changes
-                            const filterInputs = document.querySelectorAll('.facets__checkbox input[type="checkbox"]');
+                            // Show Results Button Functionality
+                            const showResultsButton = document.getElementById('bottom-buton-2');
+                            showResultsButton.addEventListener('click', function () {
+                              const newUrl = new URL(window.location.href);
+                              console.log('Show Results clicked. Initial URL:', newUrl.href);
 
+                              // Handle price slider
+                              const slider = document.getElementById('price-slider');
+                              if (slider && slider.noUiSlider) {
+                                const values = slider.noUiSlider.get();
+                                const minPrice = parseInt(values[0].replace(/,/g, ''), 10);
+                                const maxPrice = parseInt(values[1].replace(/,/g, ''), 10);
+                                const maxPriceLimit = parseInt(slider.getAttribute('data-max-price'), 10);
+
+                                if (minPrice > 0 || maxPrice < maxPriceLimit) {
+                                  newUrl.searchParams.set('filter.v.price.gte', minPrice);
+                                  newUrl.searchParams.set('filter.v.price.lte', maxPrice);
+                                  console.log('Price slider values added:', { minPrice, maxPrice });
+                                } else {
+                                  // Remove price filters if at default range
+                                  newUrl.searchParams.delete('filter.v.price.gte');
+                                  newUrl.searchParams.delete('filter.v.price.lte');
+                                  console.log('Price slider cleared.');
+                                }
+                              } else {
+                                console.log('Price slider not found or not initialized.');
+                              }
+
+                              // Remove unchecked filters
+                              const uncheckedFilters = document.querySelectorAll(
+                                'input[type="checkbox"]:not(:checked), input[type="radio"]:not(:checked)'
+                              );
+                              uncheckedFilters.forEach((filter) => {
+                                const paramName = filter.name;
+                                const paramValue = filter.value;
+
+                                const existingValues = newUrl.searchParams.getAll(paramName);
+                                newUrl.searchParams.delete(paramName);
+
+                                // Re-add the ones that aren't the unchecked filter's value
+                                existingValues.forEach((value) => {
+                                  if (value !== paramValue) {
+                                    newUrl.searchParams.append(paramName, value);
+                                  }
+                                });
+
+                                console.log('Removed unchecked filter:', { paramName, paramValue });
+                              });
+
+                              // Navigate to the updated URL
+                              console.log('Redirecting to new URL:', newUrl.href);
+                              window.location.href = newUrl.href;
+                            });
+
+                            // Initialize Price Slider Functionality
+                            const initializePriceSlider = () => {
+                              const slider = document.getElementById('price-slider');
+                              if (!slider || slider.noUiSlider) {
+                                console.log('Slider not found or already initialized.');
+                                return;
+                              }
+
+                              const minInput = document.getElementById('slider-min');
+                              const maxInput = document.getElementById('slider-max');
+                              const maxPrice = Number(slider.getAttribute('data-max-price')) || 100000;
+
+                              const urlParams = new URLSearchParams(window.location.search);
+                              const appliedMinPrice = urlParams.get('filter.v.price.gte') || 0;
+                              const appliedMaxPrice = urlParams.get('filter.v.price.lte') || maxPrice;
+
+                              console.log('Initializing price slider with:', { appliedMinPrice, appliedMaxPrice });
+
+                              noUiSlider.create(slider, {
+                                start: [Number(appliedMinPrice), Number(appliedMaxPrice)],
+                                connect: true,
+                                range: {
+                                  min: 0,
+                                  max: maxPrice,
+                                },
+                                format: {
+                                  to: function (value) {
+                                    return Math.round(value).toLocaleString('en-IN');
+                                  },
+                                  from: function (value) {
+                                    return Number(value.replace(/,/g, ''));
+                                  },
+                                },
+                              });
+
+                              slider.noUiSlider.on('update', function (values) {
+                                minInput.textContent = values[0];
+                                maxInput.textContent = values[1];
+                                console.log('Price slider updated:', { min: values[0], max: values[1] });
+                              });
+
+                              // Set the background color for the connected range
+                              const connect = slider.querySelector('.noUi-connect');
+                              if (connect) {
+                                connect.style.backgroundColor = '#610c27';
+                              }
+                            };
+
+                            initializePriceSlider();
+
+                            // Observe DOM changes to reinitialize slider
+                            const observer = new MutationObserver(() => {
+                              console.log('DOM changed, reinitializing price slider...');
+                              initializePriceSlider();
+                            });
+
+                            const sliderContainer = document.getElementById('price-slider-container');
+                            if (sliderContainer) {
+                              observer.observe(sliderContainer, {
+                                childList: true,
+                                subtree: true,
+                              });
+                            } else {
+                              console.log('Price slider container not found for observation.');
+                            }
+
+                            // Handle dynamic checkbox filter changes
+                            const filterInputs = document.querySelectorAll('.facets__checkbox input[type="checkbox"]');
                             filterInputs.forEach((input) => {
                               input.addEventListener('change', function () {
                                 const currentUrl = new URL(window.location.href);
@@ -255,15 +374,16 @@
                                   console.log(`Filter added: ${paramName}=${paramValue}`);
                                 } else {
                                   // Remove filter from URL
-                                  const filters = currentUrl.searchParams.getAll(paramName);
-                                  currentUrl.searchParams.delete(paramName); // Remove all occurrences of the parameter
+                                  const existingValues = currentUrl.searchParams.getAll(paramName);
+                                  currentUrl.searchParams.delete(paramName);
 
                                   // Re-add the ones that aren't this input's value
-                                  filters.forEach((value) => {
+                                  existingValues.forEach((value) => {
                                     if (value !== paramValue) {
                                       currentUrl.searchParams.append(paramName, value);
                                     }
                                   });
+
                                   console.log(`Filter removed: ${paramName}=${paramValue}`);
                                 }
 
@@ -271,36 +391,6 @@
                                 window.history.replaceState(null, '', currentUrl.href);
                                 console.log('Updated URL:', currentUrl.href);
                               });
-                            });
-
-                            // Show Results button functionality
-                            const showResultsButton = document.getElementById('bottom-buton-2');
-                            showResultsButton.addEventListener('click', function () {
-                              const currentUrl = new URL(window.location.href);
-                              const slider = document.getElementById('price-slider');
-
-                              if (slider && slider.noUiSlider) {
-                                const values = slider.noUiSlider.get();
-                                const minPrice = parseInt(values[0].replace(/,/g, ''), 10);
-                                const maxPrice = parseInt(values[1].replace(/,/g, ''), 10);
-                                const maxPriceLimit = parseInt(slider.getAttribute('data-max-price'), 10);
-
-                                if (minPrice > 0 || maxPrice < maxPriceLimit) {
-                                  // Add price filter to URL
-                                  currentUrl.searchParams.set('filter.v.price.gte', minPrice);
-                                  currentUrl.searchParams.set('filter.v.price.lte', maxPrice);
-                                  console.log(`Price filter applied: ${minPrice} to ${maxPrice}`);
-                                } else {
-                                  // Remove price filter if slider is at default range
-                                  currentUrl.searchParams.delete('filter.v.price.gte');
-                                  currentUrl.searchParams.delete('filter.v.price.lte');
-                                  console.log('Price filter cleared');
-                                }
-                              }
-
-                              // Update the URL
-                              window.location.href = currentUrl.href;
-                              console.log('Final URL:', currentUrl.href);
                             });
                           });
                         </script>

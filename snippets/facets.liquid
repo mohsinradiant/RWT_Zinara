@@ -246,7 +246,7 @@
                               const baseUrl = window.location.origin + window.location.pathname;
                               window.location.href = baseUrl; // Reload the page without query parameters
                             });
-                        
+
                             // Show Results Button Functionality
                             const showResultsButton = document.getElementById('bottom-buton-2');
                             showResultsButton.addEventListener('click', function () {
@@ -258,25 +258,25 @@
                                 const newUrl = new URL(window.location.href);
                                 newUrl.searchParams.set('filter.v.price.gte', minPrice);
                                 newUrl.searchParams.set('filter.v.price.lte', maxPrice);
-                        
+
                                 // Apply other filters if needed before navigating
                                 window.location.href = newUrl.href;
                               }
                             });
-                        
+
                             // Initialize Price Slider Functionality
                             const initializePriceSlider = () => {
                               const slider = document.getElementById('price-slider');
                               if (!slider || slider.noUiSlider) return;
-                        
+
                               const minInput = document.getElementById('slider-min');
                               const maxInput = document.getElementById('slider-max');
                               const maxPrice = Number(slider.getAttribute('data-max-price')) || 100000;
-                        
+
                               const urlParams = new URLSearchParams(window.location.search);
                               const appliedMinPrice = urlParams.get('filter.v.price.gte') || 0;
                               const appliedMaxPrice = urlParams.get('filter.v.price.lte') || maxPrice;
-                        
+
                               noUiSlider.create(slider, {
                                 start: [Number(appliedMinPrice), Number(appliedMaxPrice)],
                                 connect: true,
@@ -293,33 +293,33 @@
                                   },
                                 },
                               });
-                        
+
                               slider.noUiSlider.on('update', function (values) {
                                 minInput.textContent = values[0];
                                 maxInput.textContent = values[1];
                               });
-                        
+
                               // Set the background color for the connected range
                               const connect = slider.querySelector('.noUi-connect');
                               if (connect) {
                                 connect.style.backgroundColor = '#610c27';
                               }
                             };
-                        
+
                             initializePriceSlider();
-                        
+
                             // Observe DOM changes to reinitialize slider
                             const observer = new MutationObserver(() => {
                               initializePriceSlider();
                             });
-                        
+
                             observer.observe(document.getElementById('price-slider-container'), {
                               childList: true,
                               subtree: true,
                             });
                           });
                         </script>
-                        
+
                         <div id="price-slider-container">
                           <div
                             id="price-slider"
@@ -347,7 +347,9 @@
               </div>
 
               <div class="mobile-coll-filters-bottom-buttons">
-                <button id="bottom-buton-1">Clear Filters</button>
+                <a href="{{ results_url }}" class="active-facets__button-remove underlined-link">
+                  <span>{{ 'products.facets.clear_all' | t }}</span>
+                </a>
                 <button id="bottom-buton-2">Show Results</button>
               </div>
             </aside>

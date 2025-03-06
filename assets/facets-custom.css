@@ -205,6 +205,17 @@
     color: #610C27;
 }
 
+.mobile-coll-filters-bottom-buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
 @media(max-width:756px) {
     .mobile-filter-row-item {
         display: flex;

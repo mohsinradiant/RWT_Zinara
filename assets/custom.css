@@ -854,11 +854,12 @@ body.no-scroll {
     font-family: 'Quicksand';
     font-weight: 500;
     font-size: 2rem;
-    letter-spacing: 0%;
+    letter-spacing: 0;
 }
 .price_breakdown_compare_at_price{
     opacity: .7;
-    font-weight: 400;
+    font-weight: 400 !important;
+    text-decoration: line-through;
 }
 .price-breakdown-total {
     font-weight: bold;

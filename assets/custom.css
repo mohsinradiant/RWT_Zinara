@@ -819,7 +819,7 @@ body.no-scroll {
     width: 240px;
 }
 .images-parent-div a {
-    width: 100%;
+    width: 75%;
     display: flex !important;
     position: absolute;
     top: 0;

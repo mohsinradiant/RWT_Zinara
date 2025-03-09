@@ -814,6 +814,9 @@ body.no-scroll {
     width: 240px;
     align-items: start;
 }
+.price-breakdown-list span{
+    width: 240px;
+}
 
 .price_breakdown-left_container_top {
     display: flex;

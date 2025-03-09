@@ -1186,7 +1186,17 @@ if (selectedVariantId) {
   </script>
   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
 </div>
+<script>
+  document.addEventListener('change', function (event) {
+    if (event.target.matches('.variant-selector')) {
+      // Get the selected variant ID from the dropdown or button
+      const newVariantId = event.target.value;
 
+      // Update the price breakdown for the selected variant
+      updatePriceBreakdown(newVariantId);
+    }
+  });
+</script>
 <div class="sticky-atc-container">
   <button id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</button>
   {%- render 'buy-buttons',

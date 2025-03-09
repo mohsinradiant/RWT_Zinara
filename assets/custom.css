@@ -921,15 +921,7 @@ body.no-scroll {
     display: block;
 }
 
-.price-breakdown-close-btn {
-    margin-top: 10px;
-    cursor: pointer;
-    color: #610C27;
-    font-family: 'Quicksand';
-    font-weight: 600;
-    letter-spacing: 0;
-    font-size: 1.5rem;
-}
+
 
 .mobile_collection-sort {
     display: none !important;

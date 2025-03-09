@@ -811,7 +811,7 @@ body.no-scroll {
     display: flex;
     flex-direction: column;
     justify-content: start;
-    width: calc(100% - 35px);
+    width: calc(50% - 35px);
     align-items: start;
 }
 

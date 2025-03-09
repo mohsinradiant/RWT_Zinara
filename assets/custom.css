@@ -1336,12 +1336,12 @@ body.no-scroll {
     }
 
 
-    .image-carousel img {
+    .image-carousel a {
         width: 75% !important;
         scroll-snap-align: start;
     }
 
-    .image-carousel img {
+    .image-carousel a {
         padding-left: 10px;
     }
 

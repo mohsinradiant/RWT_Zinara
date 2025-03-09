@@ -370,6 +370,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Select the "Contact" link based on its href attribute
+        const contactLink = document.querySelector('a[href="/pages/contact"]');
+        const footer = document.querySelector('.footer');
+
+        if (contactLink && footer) {
+          contactLink.addEventListener('click', (event) => {
+            // Prevent default navigation behavior
+            event.preventDefault();
+
+            // Smooth scroll to footer
+            footer.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            });
+          });
+        }
+      });
+    </script>
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">

@@ -841,6 +841,7 @@ body.no-scroll {
     font-family: 'Quicksand';
     margin: 0;
     opacity: .7;
+    line-height: 2.4rem;
 }
 
 .price-breakdown-list {
@@ -945,6 +946,13 @@ body.no-scroll {
 }
 
 @media (max-width: 756px) {
+    .price-breakdown-list li{
+        gap: 15px;
+    }
+    .price_breakdown-left_container {
+        width: 160px;
+    }
+
     .facet-filters__field h2 {
         display: none;
     }

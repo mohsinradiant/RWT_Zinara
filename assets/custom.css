@@ -825,9 +825,10 @@ body.no-scroll {
     justify-content: start;
     align-items: start;
 }
+
 .price_breakdown-left_container_bottom p {
-    font-size: 1.4rem;
-    font-weight: 600;
+    font-size: 1.6rem;
+    font-weight: 400;
     letter-spacing: 0;
     font-family: 'Quicksand';
     margin: 0;

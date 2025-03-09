@@ -1093,51 +1093,94 @@
   </ul>
 
   <script>
-    // Get the product object
-    var product = {{ product | json }};
-    var selectedVariantId = new URLSearchParams(window.location.search).get('variant');
+    // Store variant metafields in JavaScript
+    var variantMetafields = {
+      {% for variant in product.variants %}
+        {{ variant.id }}: {{ variant.metafields.content.price_breakdown | json }}{% if forloop.last == false %},{% endif %}
+      {% endfor %}
+    };
 
-    if (!selectedVariantId) {
-      selectedVariantId = product.variants[0].id; // Fallback to the first variant if no variant is selected
-    }
-
-    // Find the selected variant
-    var selectedVariant = product.variants.find(function(variant) {
-      return variant.id.toString() === selectedVariantId;
-    });
-
-    // Now use the selectedVariant object to update the page content
-    if (selectedVariant) {
-      // Update the displayed price (if you have an element with id 'variant-price')
-      document.getElementById('variant-price').textContent = selectedVariant.price / 100; // Assuming price is in cents
-      // Update the displayed image (if you have an element with id 'variant-image')
-      document.getElementById('variant-image').src = selectedVariant.featured_image.src;
-
-      // Update metafields dynamically (price breakdown)
+    // Update the content dynamically based on the selected variant
+    function updatePriceBreakdown(variantId) {
       var priceBreakdownList = document.getElementById('price-breakdown-list');
-      if (selectedVariant.metafields && selectedVariant.metafields.content.price_breakdown) {
-        priceBreakdownList.innerHTML = ''; // Clear the current list
-        selectedVariant.metafields.content.price_breakdown.value.forEach(function(item) {
-          var li = document.createElement('li');
-          li.innerHTML = '<span>' + item.title + '</span> <span>₹' + item.description + '</span>';
-          priceBreakdownList.appendChild(li);
+      var selectedVariantBreakdown = variantMetafields[variantId];
+
+      if (selectedVariantBreakdown) {
+        // Clear existing content
+        priceBreakdownList.innerHTML = '';
+
+        // Loop through and create new list items
+        selectedVariantBreakdown.forEach(function(item) {
+          var listItem = document.createElement('li');
+          listItem.innerHTML = `
+            <div class="price_breakdown-left_container">
+              <div class="price_breakdown-left_container_top">
+                <span>${item.title}</span>
+                ${
+                  item.compare_at_price && item.selling_price
+                    ? `<span class="price_discount">${Math.round(
+                        ((item.compare_at_price - item.selling_price) /
+                          item.compare_at_price) *
+                          100
+                      )}% off</span>`
+                    : ''
+                }
+              </div>
+              <div class="price_breakdown-left_container_bottom">
+                <p>${item.subtitle_1 || ''}</p>
+                <p>${item.subtitle_2 || ''}</p>
+              </div>
+            </div>
+            <div class="price_breakdown-right_container">
+              ${
+                item.selling_price
+                  ? `<span>₹${item.selling_price}</span>`
+                  : ''
+              }
+              ${
+                item.compare_at_price
+                  ? `<span class="price_breakdown_compare_at_price">₹${item.compare_at_price}</span>`
+                  : ''
+              }
+            </div>
+          `;
+          priceBreakdownList.appendChild(listItem);
         });
 
-        // Update the total cost (if you have an element for this)
-        var totalCost = selectedVariant.price / 100; // Assuming price is in cents
-        priceBreakdownList.innerHTML += '<li class="price-breakdown-total"><span>Total Cost</span><span>₹' + totalCost + '</span></li>';
+        // Add total cost
+        var totalCost = selectedVariantBreakdown.reduce(
+          (total, item) => total + (item.selling_price || 0),
+          0
+        );
+        priceBreakdownList.innerHTML += `
+          <li class="price-breakdown-total">
+            <span>Total Cost</span>
+            <span>₹${totalCost}</span>
+          </li>
+        `;
+      } else {
+        priceBreakdownList.innerHTML =
+          '<li>No price breakdown available for this variant.</li>';
       }
+    }
+
+    // Get the selected variant ID from the URL or fallback to the first variant
+    var selectedVariantId =
+      new URLSearchParams(window.location.search).get('variant') ||
+      Object.keys(variantMetafields)[0];
+
+    // Initialize the popup with the selected variant's breakdown
+    updatePriceBreakdown(selectedVariantId);
+
+    function togglePopup() {
+      document.querySelector('.price-breakdown-popup').classList.toggle('active');
+      document.getElementById('overlay').classList.toggle('active');
     }
   </script>
 
   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
 </div>
-<script>
-  function togglePopup() {
-    document.querySelector('.price-breakdown-popup').classList.toggle('active');
-    document.getElementById('overlay').classList.toggle('active');
-  }
-</script>
+
 <div class="sticky-atc-container">
   <button id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</button>
   {%- render 'buy-buttons',

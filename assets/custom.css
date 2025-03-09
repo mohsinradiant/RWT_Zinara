@@ -871,7 +871,7 @@ body.no-scroll {
 .price_breakdown-right_container {
     display: flex;
     gap: 10px;
-    width: 50%;
+    min-width: 50%;
 }
 
 .price-breakdown-total {

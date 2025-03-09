@@ -453,23 +453,13 @@
     {%- endif -%}
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // Select the "Contact" link using the href attribute
         const contactLink = document.querySelector('a[href="/pages/contact"]');
         const footer = document.querySelector('.footer');
 
         if (contactLink && footer) {
           contactLink.addEventListener('click', (event) => {
-            // Stop the default action of the link
-            event.preventDefault();
-            event.stopImmediatePropagation();
-
-            // Smooth scroll to the footer
-            footer.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start',
-            });
-
-            return false; // Extra precaution to prevent any redirection
+            event.preventDefault(); // Prevent default navigation
+            footer.scrollIntoView({ behavior: 'smooth', block: 'start' });
           });
         }
       });

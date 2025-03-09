@@ -459,8 +459,9 @@
 
         if (contactLink && footer) {
           contactLink.addEventListener('click', (event) => {
-            // Prevent the default behavior of the link
+            // Stop the default action of the link
             event.preventDefault();
+            event.stopImmediatePropagation();
 
             // Smooth scroll to the footer
             footer.scrollIntoView({
@@ -468,7 +469,7 @@
               block: 'start',
             });
 
-            return false; // Ensure no redirection happens
+            return false; // Extra precaution to prevent any redirection
           });
         }
       });

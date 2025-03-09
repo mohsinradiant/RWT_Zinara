@@ -1091,6 +1091,93 @@
       <li>No price breakdown available for this variant.</li>
     {% endif %}
   </ul>
+  <script>
+    // Function to fetch variant details and update the container
+    function updatePriceBreakdown(selectedVariantId) {
+      var product = {{ product | json }};
+      var selectedVariant = product.variants.find(function (variant) {
+        return variant.id.toString() === selectedVariantId;
+      });
+  
+      if (selectedVariant) {
+        // Get the price breakdown list container
+        var priceBreakdownList = document.getElementById("price-breakdown-list");
+        priceBreakdownList.innerHTML = ""; // Clear existing content
+  
+        if (
+          selectedVariant.metafields &&
+          selectedVariant.metafields.content.price_breakdown
+        ) {
+          // Update price breakdown items
+          selectedVariant.metafields.content.price_breakdown.value.forEach(
+            function (item) {
+              var li = document.createElement("li");
+              li.innerHTML =
+                '<div class="price_breakdown-left_container">' +
+                '<div class="price_breakdown-left_container_top">' +
+                '<span>' +
+                item.title +
+                "</span>" +
+                (item.compare_at_price && item.selling_price
+                  ? (function () {
+                      var compareAtPrice = item.compare_at_price.value * 1.0;
+                      var sellingPrice = item.selling_price.value * 1.0;
+                      var priceDifference = compareAtPrice - sellingPrice;
+                      var percentageDifference = Math.round(
+                        (priceDifference / compareAtPrice) * 100
+                      );
+                      return percentageDifference > 0
+                        ? `<span class="price_discount">(${percentageDifference}% off)</span>`
+                        : "";
+                    })()
+                  : "") +
+                "</div>" +
+                '<div class="price_breakdown-left_container_bottom">' +
+                `<p>${item.subtitle_1}</p>` +
+                `<p>${item.subtitle_2}</p>` +
+                "</div>" +
+                "</div>" +
+                '<div class="price_breakdown-right_container">' +
+                (item.selling_price
+                  ? `<span>₹${item.selling_price.value / 100}</span>`
+                  : "") +
+                (item.compare_at_price
+                  ? `<span class="price_breakdown_compare_at_price">₹${item.compare_at_price.value / 100}</span>`
+                  : "") +
+                "</div>";
+              priceBreakdownList.appendChild(li);
+            }
+          );
+  
+          // Add the total cost
+          var totalCostLi = document.createElement("li");
+          totalCostLi.classList.add("price-breakdown-total");
+          totalCostLi.innerHTML =
+            '<span>Total Cost</span><span>₹' +
+            selectedVariant.price / 100 +
+            "</span>";
+          priceBreakdownList.appendChild(totalCostLi);
+        } else {
+          priceBreakdownList.innerHTML =
+            "<li>No price breakdown available for this variant.</li>";
+        }
+      }
+    }
+  
+    // Event listener for variant change
+    document
+      .querySelector("[name='id']") // Update to match your variant dropdown/radio name
+      .addEventListener("change", function (event) {
+        var selectedVariantId = event.target.value;
+        updatePriceBreakdown(selectedVariantId);
+      });
+  
+    // Initial load to set up the default variant
+    document.addEventListener("DOMContentLoaded", function () {
+      var defaultVariantId = document.querySelector("[name='id']").value;
+      updatePriceBreakdown(defaultVariantId);
+    });
+  </script>
 
   <script>
     // Get the product object

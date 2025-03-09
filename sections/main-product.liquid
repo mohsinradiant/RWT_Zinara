@@ -1048,7 +1048,13 @@
       {% for item in selected_variant.metafields.content.price_breakdown.value %}
         <li>
           <div class="price_breakdown-left_container">
-            <span>{{ item.title }}</span>
+            <div class="price_breakdown-left_container_top">
+              <span>{{ item.title }}</span>
+            </div>
+            <div class="price_breakdown-left_container_bottom">
+              <p>{{ item.subtitle_1 }}</p>
+              <p>{{ item.subtitle_2 }}</p>
+            </div>
           </div>
           <div class="price_breakdown-right_container">
             {% if item.selling_price %}

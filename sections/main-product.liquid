@@ -1150,6 +1150,12 @@
       }
     }
 
+    function togglePopup() {
+      const popup = document.getElementById('popup');
+      popup.classList.toggle('active');
+      document.getElementById('overlay').classList.toggle('active');
+    }
+
     // Listen for variant selection changes
     document.addEventListener('change', function (event) {
       if (event.target.matches('.variant-selector')) {

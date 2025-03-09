@@ -372,20 +372,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // Select the "Contact" link based on its href attribute
+        // Select the "Contact" link using the href attribute
         const contactLink = document.querySelector('a[href="/pages/contact"]');
         const footer = document.querySelector('.footer');
 
         if (contactLink && footer) {
           contactLink.addEventListener('click', (event) => {
-            // Prevent default navigation behavior
+            // Prevent the default behavior of the link
             event.preventDefault();
 
-            // Smooth scroll to footer
+            // Smooth scroll to the footer
             footer.scrollIntoView({
               behavior: 'smooth',
               block: 'start',
             });
+
+            return false; // Ensure no redirection happens
           });
         }
       });

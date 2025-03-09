@@ -849,7 +849,7 @@ body.no-scroll {
     display: flex;
     justify-content: space-between;
     text-wrap: nowrap;
-    gap: 150px;
+    gap: 70px;
     color: #171717;
     width: 100%;
 }

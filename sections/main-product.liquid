@@ -1051,8 +1051,12 @@
             <span>{{ item.title }}</span>
           </div>
           <div class="price_breakdown-right_container">
-            <span>₹{{ item.selling_price.value | money_without_trailing_zeros }}</span>
-            <span>₹{{ item.compare_at_price.value | money_without_trailing_zeros }}</span>
+            {% if item.selling_price %}
+              <span>₹{{ item.selling_price.value | money_without_trailing_zeros }}</span>
+            {% endif %}
+            {% if item.compare_at_price %}
+              <span>₹{{ item.compare_at_price.value | money_without_trailing_zeros }}</span>
+            {% endif %}
           </div>
         </li>
       {% endfor %}

@@ -818,9 +818,11 @@ body.no-scroll {
 .price-breakdown-list .price-breakdown-total span:nth-of-type(1) {
     width: 240px;
 }
+
 .price-breakdown-list .price-breakdown-total span {
     font-size: 2.4rem;
 }
+
 .price_breakdown-left_container_top {
     display: flex;
     gap: 5px;
@@ -941,6 +943,20 @@ body.no-scroll {
 }
 
 @media (max-width: 756px) {
+    .price_breakdown-right_container {
+        width: 160px;
+        flex-wrap: wrap;
+        row-gap: 0;
+    }
+
+    .price-breakdown-list span {
+        font-size: 1.6rem;
+    }
+
+    .price-breakdown-list .price-breakdown-total span {
+        font-size: 2.1rem;
+    }
+
     .price-breakdown-list li {
         gap: 15px;
     }

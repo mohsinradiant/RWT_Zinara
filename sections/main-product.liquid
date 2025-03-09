@@ -1062,7 +1062,7 @@
                   {% assign price_difference = compare_at_price | minus: selling_price %}
                   {% assign percentage_difference = price_difference
                     | divided_by: compare_at_price
-                    | times: 100
+                    | times: 100.0
                     | round
                   %}
                   <span class="price_discount">({{ percentage_difference }}% off)</span>

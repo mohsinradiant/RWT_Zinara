@@ -810,6 +810,7 @@ body.no-scroll {
     display: flex;
     flex-direction: column;
     justify-content: start;
+    width: 50%;
     align-items: start;
 }
 
@@ -850,6 +851,7 @@ body.no-scroll {
     text-wrap: nowrap;
     gap: 150px;
     color: #171717;
+    width: 100%;
 }
 
 .price-breakdown-list span {
@@ -869,6 +871,7 @@ body.no-scroll {
 .price_breakdown-right_container {
     display: flex;
     gap: 10px;
+    width: 50%;
 }
 
 .price-breakdown-total {

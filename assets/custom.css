@@ -947,6 +947,10 @@ body.no-scroll {
         width: 155px;
     }
 
+    .price-breakdown-list .price-breakdown-total span:nth-of-type(1) {
+        width: 155px;
+    }
+
     .facet-filters__field h2 {
         display: none;
     }

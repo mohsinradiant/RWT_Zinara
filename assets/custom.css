@@ -810,7 +810,7 @@ body.no-scroll {
     display: flex;
     flex-direction: column;
     justify-content: start;
-    width: 50%;
+    min-width: 50%;
     align-items: start;
 }
 

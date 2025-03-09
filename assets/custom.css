@@ -900,6 +900,7 @@ body.no-scroll {
     background: #610C27;
     padding: .6rem 3rem;
     width: 100%;
+    text-align: center;
 }
 
 .price-breakdown-popup.active {

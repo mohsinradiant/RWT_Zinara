@@ -838,12 +838,14 @@ body.no-scroll {
     list-style: none;
     padding: 0;
     margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
 .price-breakdown-list li {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
     text-wrap: nowrap;
     gap: 150px;
 }
@@ -851,7 +853,6 @@ body.no-scroll {
 .price-breakdown-total {
     font-weight: bold;
     font-size: 16px;
-    margin-top: 10px;
     border-top: 1px solid #610C27;
     padding-top: 5px;
 }

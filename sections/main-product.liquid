@@ -1095,11 +1095,27 @@
   <script>
     // Store variant metafields in JavaScript
     var variantMetafields = {
-      {% for variant in product.variants %}
-        {{ variant.id }}: {{ variant.metafields.content.price_breakdown | json }}{% if forloop.last == false %},{% endif %}
-      {% endfor %}
-    };
-    console.log(variantMetafields)
+    {% for variant in product.variants %}
+      {{ variant.id }}: 
+      {% if variant.metafields.content.price_breakdown %}
+        {
+          {% for item in variant.metafields.content.price_breakdown.value %}
+            "{{ item.title }}": {
+              "selling_price": "{{ item.selling_price | default: 0 }}",
+              "compare_at_price": "{{ item.compare_at_price | default: 0 }}",
+              "subtitle_1": "{{ item.subtitle_1 | escape }}",
+              "subtitle_2": "{{ item.subtitle_2 | escape }}"
+            }
+            {% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        }
+      {% else %}
+        null
+      {% endif %}
+      {% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  };
+  console.log(variantMetafields);
 
     function updatePriceBreakdown(variantId) {
   var priceBreakdownList = document.getElementById('price-breakdown-list');

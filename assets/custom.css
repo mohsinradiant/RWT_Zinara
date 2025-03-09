@@ -947,6 +947,15 @@ body.no-scroll {
 }
 
 @media (max-width: 756px) {
+    .price_breakdown-left_container_top {
+        flex-wrap: wrap;
+        row-gap: 5px;
+    }
+
+    .price-breakdown-list .price_discount {
+        margin-bottom: 10px;
+    }
+
     .price_breakdown-right_container {
         width: 160px;
         flex-wrap: wrap;

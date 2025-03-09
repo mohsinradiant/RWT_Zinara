@@ -848,7 +848,7 @@ body.no-scroll {
 
 .price-breakdown-list li {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     text-wrap: nowrap;
     gap: 70px;
     color: #171717;
@@ -872,7 +872,7 @@ body.no-scroll {
 .price_breakdown-right_container {
     display: flex;
     gap: 10px;
-    width: calc(100% - 35px);
+    width: fit-content;
 }
 
 .price-breakdown-total {

@@ -926,7 +926,11 @@ body.no-scroll {
     display: block;
 }
 
-
+.price-breakdown-list .price_discount {
+    background: #eae3e1;
+    padding: .9rem 1.1rem;
+    line-height: 2.3rem;
+}
 
 .mobile_collection-sort {
     display: none !important;

@@ -1345,7 +1345,7 @@ body.no-scroll {
         padding-left: 10px;
     }
 
-    .image-carousel img:nth-last-of-type(1) {
+    .image-carousel a:nth-last-of-type(1) {
         padding-right: 10px;
     }
 

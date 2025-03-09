@@ -1061,6 +1061,8 @@
                   | round
                 %}
                 <span class="price_discount">({{ percentage_difference }}% off)</span>
+              {% else %}
+                <span class="price_discount">(0% off)</span>
               {% endif %}
             </div>
             <div class="price_breakdown-left_container_bottom">

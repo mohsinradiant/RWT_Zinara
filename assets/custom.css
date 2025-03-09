@@ -939,11 +939,12 @@ body.no-scroll {
 }
 
 @media (max-width: 756px) {
-    .price-breakdown-list li{
+    .price-breakdown-list li {
         gap: 15px;
     }
+
     .price_breakdown-left_container {
-        width: 160px;
+        width: 155px;
     }
 
     .facet-filters__field h2 {

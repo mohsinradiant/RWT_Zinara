@@ -825,7 +825,7 @@ body.no-scroll {
 
 .price_breakdown-left_container_top {
     display: flex;
-    gap: 5px;
+    gap: 11px;
     align-items: center;
 }
 

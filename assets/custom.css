@@ -1349,7 +1349,7 @@ body.no-scroll {
         padding-right: 10px;
     }
 
-    .image-carousel img:not(.active) {
+    .image-carousel a:not(.active) {
         opacity: 1 !important;
         transform: scale(1) !important;
     }

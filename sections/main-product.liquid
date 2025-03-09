@@ -1113,29 +1113,7 @@
       {% endif %}
       {% unless forloop.last %},{% endunless %}
     {% endfor %}
-    // Listen for changes in the variant selector
-document.addEventListener("change", function (event) {
-  if (event.target.matches(".variant-selector")) {
-    const newVariantId = event.target.value; // Get the selected variant ID
-    updatePriceBreakdown(newVariantId);
-
-    // Update total cost dynamically
-    const selectedVariant = variantMetafields[newVariantId];
-    const totalCostElement = document.querySelector(".price-breakdown-total span:last-child");
-    if (totalCostElement && selectedVariant) {
-      // Assuming the price is stored in 'selectedVariant.price'
-      const newTotalCost = parseFloat(selectedVariant.price || 0) / 100; // Adjust for Shopify price format
-      totalCostElement.textContent = `₹${newTotalCost.toFixed(2)}`;
-    }
-  }
-});
-
-// Trigger an initial update for the first variant
-const initialVariantSelector = document.querySelector(".variant-selector");
-if (initialVariantSelector) {
-  updatePriceBreakdown(initialVariantSelector.value);
-}
-
+    
        };
        console.log(variantMetafields);
 

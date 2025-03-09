@@ -1099,7 +1099,6 @@
         {{ variant.id }}: {{ variant.metafields.content.price_breakdown | json }}{% if forloop.last == false %},{% endif %}
       {% endfor %}
     };
-    console.log('variantMetafields:' variantMetafields)
 
     function updatePriceBreakdown(variantId) {
   var priceBreakdownList = document.getElementById('price-breakdown-list');

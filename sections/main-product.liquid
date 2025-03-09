@@ -1099,8 +1099,8 @@
         {{ variant.id }}: {{ variant.metafields.content.price_breakdown | json }}{% if forloop.last == false %},{% endif %}
       {% endfor %}
     };
+    console.log('variantMetafields:' variantMetafields)
 
-    // Update the content dynamically based on the selected variant
     function updatePriceBreakdown(variantId) {
   var priceBreakdownList = document.getElementById('price-breakdown-list');
   var selectedVariantBreakdown = variantMetafields[variantId];

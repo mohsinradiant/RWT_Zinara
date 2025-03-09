@@ -811,7 +811,7 @@ body.no-scroll {
     display: flex;
     flex-direction: column;
     justify-content: start;
-    min-width: 50%;
+    width: calc(100% - 35px);
     align-items: start;
 }
 
@@ -872,7 +872,7 @@ body.no-scroll {
 .price_breakdown-right_container {
     display: flex;
     gap: 10px;
-    min-width: 50%;
+    width: calc(100% - 35px);
 }
 
 .price-breakdown-total {

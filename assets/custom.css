@@ -814,7 +814,8 @@ body.no-scroll {
     width: 240px;
     align-items: start;
 }
-.price-breakdown-list .price-breakdown-total span:nth-of-type(1){
+
+.price-breakdown-list .price-breakdown-total span:nth-of-type(1) {
     width: 240px;
 }
 
@@ -890,8 +891,14 @@ body.no-scroll {
 .price-breakdown-close-btn {
     margin-top: 10px;
     cursor: pointer;
-    color: #610C27;
-    text-align: center;
+    color: #fff;
+    font-family: 'Quicksand';
+    font-weight: 600;
+    letter-spacing: 0;
+    font-size: 1.5rem;
+    background: #610C27;
+    padding: .6rem 3rem;
+    width: 100%;
 }
 
 .price-breakdown-popup.active {

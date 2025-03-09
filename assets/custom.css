@@ -818,8 +818,9 @@ body.no-scroll {
 .price-breakdown-list .price-breakdown-total span:nth-of-type(1) {
     width: 240px;
 }
+
 .images-parent-div a {
-    width: 75%;
+    width: 48%;
     display: flex !important;
     position: absolute;
     top: 0;
@@ -827,7 +828,8 @@ body.no-scroll {
     right: 0;
     bottom: 0;
     z-index: 2;
-  }
+}
+
 .price-breakdown-list .price-breakdown-total span {
     font-size: 2.4rem;
 }
@@ -956,6 +958,10 @@ body.no-scroll {
 }
 
 @media (max-width: 756px) {
+    .images-parent-div a {
+        width: 75%;
+    }
+
     .price_breakdown-left_container_top {
         flex-wrap: wrap;
         row-gap: 5px;

@@ -1052,8 +1052,8 @@
               <span>{{ item.title }}</span>
 
               {% if item.compare_at_price and item.selling_price %}
-                {% assign compare_at_price = item.compare_at_price.value | times: 1 %}
-                {% assign selling_price = item.selling_price.value | times: 1 %}
+                {% assign compare_at_price = item.compare_at_price.value | times: 1.0 %}
+                {% assign selling_price = item.selling_price.value | times: 1.0 %}
 
                 <p>Debug: Compare At Price = {{ compare_at_price }}</p>
                 <p>Debug: Selling Price = {{ selling_price }}</p>

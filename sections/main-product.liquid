@@ -1050,6 +1050,7 @@
           <div class="price_breakdown-left_container">
             <div class="price_breakdown-left_container_top">
               <span>{{ item.title }}</span>
+
               {% if item.compare_at_price and item.selling_price %}
                 {% assign compare_at_price = item.compare_at_price.value | times: 1.0 %}
                 {% assign selling_price = item.selling_price.value | times: 1.0 %}
@@ -1081,89 +1082,118 @@
           </div>
         </li>
       {% endfor %}
+
+      <li class="price-breakdown-total">
+        <span>Total Cost</span>
+        <span>₹{{ selected_variant.price | divided_by: 100 }}</span>
+      </li>
     {% else %}
       <li>No price breakdown available for this variant.</li>
     {% endif %}
   </ul>
 
   <script>
-    const variantMetafields = {
-      {% for variant in product.variants %}
-        "{{ variant.id }}": {% if variant.metafields.content.price_breakdown %}
-          {
-            {% for item in variant.metafields.content.price_breakdown.value %}
-              "{{ item.title }}": {
-                "selling_price": "{{ item.selling_price.value | default: 0 }}",
-                "compare_at_price": "{{ item.compare_at_price.value | default: 0 }}",
-                "subtitle_1": "{{ item.subtitle_1 | escape }}",
-                "subtitle_2": "{{ item.subtitle_2 | escape }}"
-              }{% unless forloop.last %}, {% endunless %}
-            {% endfor %}
-          }
-        {% else %}
-          null
-        {% endif %}{% unless forloop.last %}, {% endunless %}
+    var variantMetafields = {
+        {% for variant in product.variants %}
+    { { variant.id } }:
+    {% if variant.metafields.content.price_breakdown %}
+    {
+      {% for item in variant.metafields.content.price_breakdown.value %}
+      "{{ item.title }}": {
+        "selling_price": "{{ item.selling_price.value | default: 0 }}",
+          "compare_at_price": "{{ item.compare_at_price.value | default: 0 }}",
+            "subtitle_1": "{{ item.subtitle_1 | escape }}",
+              "subtitle_2": "{{ item.subtitle_2 | escape }}"
+      }
+      {% unless forloop.last %}, {% endunless %}
       {% endfor %}
-    };
-
-    console.log("Generated variantMetafields:", variantMetafields);
-
+    }
+    {% else %}
+    null
+    {% endif %}
+    {% unless forloop.last %}, {% endunless %}
+    {% endfor %}
+           };
+    console.log(variantMetafields);
+    
     function updatePriceBreakdown(variantId) {
-      const priceBreakdownList = document.getElementById('price-breakdown-list');
-      const selectedVariantBreakdown = variantMetafields[variantId];
-
+      var priceBreakdownList = document.getElementById('price-breakdown-list');
+      var selectedVariantBreakdown = variantMetafields[variantId];
+    
       if (selectedVariantBreakdown) {
         priceBreakdownList.innerHTML = '';
-
-        Object.entries(selectedVariantBreakdown).forEach(([key, item]) => {
-          const listItem = document.createElement('li');
+    
+        Object.keys(selectedVariantBreakdown).forEach(function (key) {
+          var item = selectedVariantBreakdown[key];
+    
+          var listItem = document.createElement('li');
           listItem.innerHTML = `
-            <div class="price_breakdown-left_container">
-              <div class="price_breakdown-left_container_top">
-                <span>${key}</span>
-                ${item.compare_at_price && item.selling_price
-                  ? `<span class="price_discount">${Math.round(
-                      ((item.compare_at_price - item.selling_price) / item.compare_at_price) * 100
-                    )}% off</span>`
-                  : ''}
-              </div>
-              <div class="price_breakdown-left_container_bottom">
-                <p>${item.subtitle_1 || ''}</p>
-                <p>${item.subtitle_2 || ''}</p>
-              </div>
-            </div>
-            <div class="price_breakdown-right_container">
-              ${item.selling_price
-                ? `<span>₹${item.selling_price}</span>`
-                : ''}
-              ${item.compare_at_price
-                ? `<span class="price_breakdown_compare_at_price">₹${item.compare_at_price}</span>`
-                : ''}
-            </div>
-          `;
+               <div class="price_breakdown-left_container">
+                 <div class="price_breakdown-left_container_top">
+                   <span>${key}</span>
+                   ${item.compare_at_price && item.selling_price
+              ? `<span class="price_discount">${Math.round(
+                ((item.compare_at_price - item.selling_price) /
+                  item.compare_at_price) *
+                100
+              )}% off</span>`
+              : ''
+            }
+                 </div>
+                 <div class="price_breakdown-left_container_bottom">
+                   <p>${item.subtitle_1 || ''}</p>
+                   <p>${item.subtitle_2 || ''}</p>
+                 </div>
+               </div>
+               <div class="price_breakdown-right_container">
+                 ${item.selling_price
+              ? `<span>₹${item.selling_price}</span>`
+              : ''
+            }
+                 ${item.compare_at_price
+              ? `<span class="price_breakdown_compare_at_price">₹${item.compare_at_price}</span>`
+              : ''
+            }
+               </div>
+             `;
           priceBreakdownList.appendChild(listItem);
         });
       } else {
-        priceBreakdownList.innerHTML = '<li>No price breakdown available for this variant.</li>';
+        priceBreakdownList.innerHTML =
+          '<li>No price breakdown available for this variant.</li>';
       }
     }
-
-    document.addEventListener('change', function (event) {
-      if (event.target.matches('.variant-selector')) {
-        const newVariantId = event.target.value;
-        updatePriceBreakdown(newVariantId);
-      }
-    });
-
-    const selectedVariantId = new URLSearchParams(window.location.search).get('variant') ||
+    
+    // Get the selected variant ID from the URL or fallback to the first variant
+    var selectedVariantId =
+      new URLSearchParams(window.location.search).get('variant') ||
       Object.keys(variantMetafields).find((id) => variantMetafields[id] !== null);
-
+    
     if (selectedVariantId) {
       updatePriceBreakdown(selectedVariantId);
+    } else {
+      console.error("No valid variant metafields found.");
+    }
+    
+    
+    function togglePopup() {
+      document.querySelector('.price-breakdown-popup').classList.toggle('active');
+      document.getElementById('overlay').classList.toggle('active');
     }
   </script>
+  <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
 </div>
+<script>
+  document.addEventListener('change', function (event) {
+    if (event.target.matches('.variant-selector')) {
+      // Get the selected variant ID from the dropdown or button
+      const newVariantId = event.target.value;
 
+      // Update the price breakdown for the selected variant
+      updatePriceBreakdown(newVariantId);
+    }
+  });
+</script>
 <div class="sticky-atc-container">
   <button id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</button>
   {%- render 'buy-buttons',

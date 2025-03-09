@@ -1092,25 +1092,35 @@
     {% endif %}
   </ul>
   <script>
-    // Function to fetch variant details and update the container
     function updatePriceBreakdown(selectedVariantId) {
       var product = {{ product | json }};
+      console.log("Product Data:", product); // Log entire product data for reference
+  
       var selectedVariant = product.variants.find(function (variant) {
         return variant.id.toString() === selectedVariantId;
       });
   
-      if (selectedVariant) {
-        // Get the price breakdown list container
-        var priceBreakdownList = document.getElementById("price-breakdown-list");
-        priceBreakdownList.innerHTML = ""; // Clear existing content
+      console.log("Selected Variant ID:", selectedVariantId);
+      console.log("Selected Variant:", selectedVariant); // Log the selected variant
   
+      var priceBreakdownList = document.getElementById("price-breakdown-list");
+      priceBreakdownList.innerHTML = ""; // Clear existing content
+  
+      if (selectedVariant) {
         if (
           selectedVariant.metafields &&
+          selectedVariant.metafields.content &&
           selectedVariant.metafields.content.price_breakdown
         ) {
-          // Update price breakdown items
+          console.log(
+            "Price Breakdown Data:",
+            selectedVariant.metafields.content.price_breakdown
+          );
+  
           selectedVariant.metafields.content.price_breakdown.value.forEach(
             function (item) {
+              console.log("Price Breakdown Item:", item); // Log each breakdown item
+  
               var li = document.createElement("li");
               li.innerHTML =
                 '<div class="price_breakdown-left_container">' +
@@ -1149,7 +1159,7 @@
             }
           );
   
-          // Add the total cost
+          // Add total cost
           var totalCostLi = document.createElement("li");
           totalCostLi.classList.add("price-breakdown-total");
           totalCostLi.innerHTML =
@@ -1158,21 +1168,26 @@
             "</span>";
           priceBreakdownList.appendChild(totalCostLi);
         } else {
+          console.log("No price breakdown data found for this variant.");
           priceBreakdownList.innerHTML =
-            "<li>No price breakdown available for this variant.sdfsdfgff</li>";
+            "<li>No price breakdown available for this variant.</li>";
         }
+      } else {
+        console.error("Selected variant not found.");
+        priceBreakdownList.innerHTML =
+          "<li>Selected variant not found.</li>";
       }
     }
   
     // Event listener for variant change
     document
-      .querySelector("[name='id']") // Update to match your variant dropdown/radio name
+      .querySelector("[name='id']")
       .addEventListener("change", function (event) {
         var selectedVariantId = event.target.value;
         updatePriceBreakdown(selectedVariantId);
       });
   
-    // Initial load to set up the default variant
+    // Initial load
     document.addEventListener("DOMContentLoaded", function () {
       var defaultVariantId = document.querySelector("[name='id']").value;
       updatePriceBreakdown(defaultVariantId);

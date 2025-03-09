@@ -1050,6 +1050,18 @@
           <div class="price_breakdown-left_container">
             <div class="price_breakdown-left_container_top">
               <span>{{ item.title }}</span>
+              {% if item.compare_at_price
+                and item.selling_price
+                and item.compare_at_price.value > item.selling_price.value
+              %}
+                {% assign price_difference = item.compare_at_price.value | minus: item.selling_price.value %}
+                {% assign percentage_difference = price_difference
+                  | divided_by: item.compare_at_price.value
+                  | times: 100
+                  | round
+                %}
+                <span class="price_discount">({{ percentage_difference }}% off)</span>
+              {% endif %}
             </div>
             <div class="price_breakdown-left_container_bottom">
               <p>{{ item.subtitle_1 }}</p>
@@ -1061,11 +1073,14 @@
               <span>₹{{ item.selling_price.value | money_without_trailing_zeros }}</span>
             {% endif %}
             {% if item.compare_at_price %}
-              <span class="price_breakdown_compare_at_price">₹{{ item.compare_at_price.value | money_without_trailing_zeros }}</span>
+              <span class="price_breakdown_compare_at_price"
+                >₹{{ item.compare_at_price.value | money_without_trailing_zeros -}}
+              </span>
             {% endif %}
           </div>
         </li>
       {% endfor %}
+
       <li class="price-breakdown-total">
         <span>Total Cost</span>
         <span>₹{{ selected_variant.price | divided_by: 100 }}</span>

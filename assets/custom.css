@@ -804,6 +804,7 @@ body.no-scroll {
     border-radius: 8px;
     transition: transform 0.3s ease-in-out;
     z-index: 1000;
+    width: 600px;
 }
 
 .price_breakdown-left_container {

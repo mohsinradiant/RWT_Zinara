@@ -1117,21 +1117,22 @@
   };
   console.log(variantMetafields);
 
-  function updatePriceBreakdown(variantId) {
+    function updatePriceBreakdown(variantId) {
   var priceBreakdownList = document.getElementById('price-breakdown-list');
   var selectedVariantBreakdown = variantMetafields[variantId];
 
-  if (selectedVariantBreakdown) {
+  // Check if the data exists and is an array
+  if (selectedVariantBreakdown && Array.isArray(selectedVariantBreakdown)) {
+    // Clear existing content
     priceBreakdownList.innerHTML = '';
 
-    Object.keys(selectedVariantBreakdown).forEach(function (key) {
-      var item = selectedVariantBreakdown[key];
-
+    // Loop through and create new list items
+    selectedVariantBreakdown.forEach(function (item) {
       var listItem = document.createElement('li');
       listItem.innerHTML = `
         <div class="price_breakdown-left_container">
           <div class="price_breakdown-left_container_top">
-            <span>${key}</span>
+            <span>${item.title}</span>
             ${
               item.compare_at_price && item.selling_price
                 ? `<span class="price_discount">${Math.round(
@@ -1162,11 +1163,25 @@
       `;
       priceBreakdownList.appendChild(listItem);
     });
+
+    // Add total cost
+    var totalCost = selectedVariantBreakdown.reduce(
+      (total, item) => total + (item.selling_price || 0),
+      0
+    );
+    priceBreakdownList.innerHTML += `
+      <li class="price-breakdown-total">
+        <span>Total Cost</span>
+        <span>₹${totalCost}</span>
+      </li>
+    `;
   } else {
+    // Handle the case where no price breakdown is available
     priceBreakdownList.innerHTML =
       '<li>No price breakdown available for this variant.</li>';
   }
 }
+
 
     // Get the selected variant ID from the URL or fallback to the first variant
     var selectedVariantId =

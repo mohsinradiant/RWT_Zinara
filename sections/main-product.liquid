@@ -1050,16 +1050,19 @@
           <div class="price_breakdown-left_container">
             <div class="price_breakdown-left_container_top">
               <span>{{ item.title }}</span>
-              {% if item.compare_at_price.value > item.selling_price.value %}
-                {% assign price_difference = item.compare_at_price.value | minus: item.selling_price.value %}
+              {% if item.compare_at_price
+                and item.selling_price
+                and item.compare_at_price.value > item.selling_price.value
+              %}
+                {% assign selling_price = item.selling_price.value | times: 1 %}
+                {% assign compare_at_price = item.compare_at_price.value | times: 1 %}
+                {% assign price_difference = compare_at_price | minus: selling_price %}
                 {% assign percentage_difference = price_difference
-                  | divided_by: item.compare_at_price.value
-                  | times: 10
+                  | divided_by: compare_at_price
+                  | times: 100
                   | round
                 %}
                 <span class="price_discount">({{ percentage_difference }}% off)</span>
-              {% else %}
-                <span class="price_discount">(0% off)</span>
               {% endif %}
             </div>
             <div class="price_breakdown-left_container_bottom">

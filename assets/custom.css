@@ -858,6 +858,7 @@ body.no-scroll {
 }
 .price_breakdown_compare_at_price{
     opacity: .7;
+    font-weight: 400;
 }
 .price-breakdown-total {
     font-weight: bold;

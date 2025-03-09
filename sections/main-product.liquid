@@ -1048,10 +1048,10 @@
       {% for item in selected_variant.metafields.content.price_breakdown.value %}
         <li>
           <div class="price_breakdown-left_container">
-            <span>{{ item.title }}</span> <span>₹{{ item.description }}</span>
+            <span>{{ item.title }}</span>
           </div>
           <div class="price_breakdown-right_container">
-            <span>{{ item.title }}</span> <span>₹{{ item.description }}</span>
+            <span>{{ item.selling_price }}</span> <span>₹{{ item.compare_at_price }}</span>
           </div>
         </li>
       {% endfor %}

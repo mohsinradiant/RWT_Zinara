@@ -818,7 +818,16 @@ body.no-scroll {
 .price-breakdown-list .price-breakdown-total span:nth-of-type(1) {
     width: 240px;
 }
-
+.images-parent-div a {
+    width: 100%;
+    display: flex !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+  }
 .price-breakdown-list .price-breakdown-total span {
     font-size: 2.4rem;
 }

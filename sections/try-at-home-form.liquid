@@ -187,9 +187,6 @@
                     hideErrorModal();
                   }
                 });
-
-                // Example usage: Call `showErrorModal()` when you want to show the modal
-                // showErrorModal();
               });
 
               // Add event listener to all add buttons
@@ -197,7 +194,9 @@
                 addButton.addEventListener('click', function () {
                   // Check if the maximum limit is reached
                   if (window.selectedProducts.length >= 10) {
-                    showErrorModal();
+                    const errorModal = document.getElementById('errorModal');
+                    errorModal.style.display = 'flex';
+
                     return;
                   }
 

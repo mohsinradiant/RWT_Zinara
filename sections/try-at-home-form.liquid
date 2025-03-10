@@ -67,7 +67,32 @@
         margin: 0;
       }
     </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const errorModal = document.getElementById('errorModal');
+        const closeModal = document.getElementById('closeModal');
 
+        // Function to show the modal
+        function showErrorModal() {
+          errorModal.style.display = 'flex'; // Show the modal
+        }
+
+        // Function to hide the modal
+        function hideErrorModal() {
+          errorModal.style.display = 'none'; // Hide the modal
+        }
+
+        // Add event listener to the close button
+        closeModal.addEventListener('click', hideErrorModal);
+
+        // Add event listener for tapping outside the modal content
+        errorModal.addEventListener('click', function (event) {
+          if (event.target === errorModal) {
+            hideErrorModal();
+          }
+        });
+      });
+    </script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         window.selectedProductIds = []; // Declare in the global scope
@@ -161,33 +186,6 @@
                      <button class="add-item-button"><span>+</span> Add</button>
                    </div>
                  `;
-
-              // Add functionality to "Add Item" button
-              // Array to store selected products
-              document.addEventListener('DOMContentLoaded', function () {
-                const errorModal = document.getElementById('errorModal');
-                const closeModal = document.getElementById('closeModal');
-
-                // Function to show the modal
-                function showErrorModal() {
-                  errorModal.style.display = 'flex'; // Show the modal
-                }
-
-                // Function to hide the modal
-                function hideErrorModal() {
-                  errorModal.style.display = 'none'; // Hide the modal
-                }
-
-                // Add event listener to the close button
-                closeModal.addEventListener('click', hideErrorModal);
-
-                // Add event listener for tapping outside the modal content
-                errorModal.addEventListener('click', function (event) {
-                  if (event.target === errorModal) {
-                    hideErrorModal();
-                  }
-                });
-              });
 
               // Add event listener to all add buttons
               document.querySelectorAll('.add-item-button').forEach((addButton) => {

@@ -173,7 +173,7 @@
                 <div class="product-card-content">
                   <h2 class="product-card__title">${truncatedTitle}</h2>
                   <p class="product-card__price">
-                    ₹${Math.floor(product.price / 100)}
+₹${Math.floor(product.price / 100).toLocaleString('en-IN')}
                   </p>
                 </div>
                 </div>
@@ -213,7 +213,8 @@
                    <div class="product-card-content">
                      <h2 class="product-card__title">${truncatedTitle}</h2>
                      <p class="product-card__price">
-                       ₹${Math.floor(price)}
+                       ₹${Math.floor(price).toLocaleString('en-IN')}
+
                      </p>
                      <button class="add-item-button"><span>+</span> Add</button>
                    </div>

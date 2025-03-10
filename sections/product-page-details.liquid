@@ -1,169 +1,169 @@
-<div class="product-page-details-container">
-  <h2 class="page-width section-heading">{{ section.settings.heading }}</h2>
-  <div class="page-width product-page-details-parent">
-    <div class="product-page-details-parent-child product-page-details-parent-child_1">
-      {% for list_1 in product.metafields.content.product_details_list_1.value %}
-        <div class="product-page-details-list-container">
-          <p class="product-page-details-list_heading">{{ list_1.heading }}</p>
-          {% for list-item_1 in list_1.product_details_item.value %}
-            <div class="product-page-details-list-parent">
-              <p class="product-page-details-list_title">{{ list-item_1.title }}</p>
-              <p class="product-page-details-list_content">{{ list-item_1.content }}</p>
-            </div>
-          {% endfor %}
-        </div>
-      {% endfor %}
-    </div>
-    <div class="product-page-details-parent-child product-page-details-parent-child_2">
-      {% for list in product.metafields.content.product_details_list.value %}
-        <div class="product-page-details-list-container">
-          <p class="product-page-details-list_heading">{{ list.heading }}</p>
-          {% for list-item in list.product_details_item.value %}
-            <div class="product-page-details-list-parent">
-              <p class="product-page-details-list_title">{{ list-item.title }}</p>
-              <p class="product-page-details-list_content">{{ list-item.content }}</p>
-            </div>
-          {% endfor %}
-        </div>
-      {% endfor %}
-      <div class="product_details_stone_info_tabs">
-        <div class="product_details_stone_info_tab">
-          <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_19.png?v=1739429819">
-          <p>Cut</p>
-        </div>
-        <div class="product_details_stone_info_tab">
-          <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_19.png?v=1739429819">
-          <p>Color/Clarity</p>
+{% if product.metafields.content.product_details_list_1 or product.metafields.content.product_details_list %}
+  <div class="product-page-details-container">
+    <h2 class="page-width section-heading">{{ section.settings.heading }}</h2>
+    <div class="page-width product-page-details-parent">
+      <div class="product-page-details-parent-child product-page-details-parent-child_1">
+        {% for list_1 in product.metafields.content.product_details_list_1.value %}
+          <div class="product-page-details-list-container">
+            <p class="product-page-details-list_heading">{{ list_1.heading }}</p>
+            {% for list-item_1 in list_1.product_details_item.value %}
+              <div class="product-page-details-list-parent">
+                <p class="product-page-details-list_title">{{ list-item_1.title }}</p>
+                <p class="product-page-details-list_content">{{ list-item_1.content }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="product-page-details-parent-child product-page-details-parent-child_2">
+        {% for list in product.metafields.content.product_details_list.value %}
+          <div class="product-page-details-list-container">
+            <p class="product-page-details-list_heading">{{ list.heading }}</p>
+            {% for list-item in list.product_details_item.value %}
+              <div class="product-page-details-list-parent">
+                <p class="product-page-details-list_title">{{ list-item.title }}</p>
+                <p class="product-page-details-list_content">{{ list-item.content }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+        <div class="product_details_stone_info_tabs">
+          <div class="product_details_stone_info_tab">
+            <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_19.png?v=1739429819">
+            <p>Cut</p>
+          </div>
+          <div class="product_details_stone_info_tab">
+            <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_19.png?v=1739429819">
+            <p>Color/Clarity</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-<style>
-  .product_details_stone_info_tabs {
-    display: flex;
-    gap: 5px;
-    justify-content: start;
-    align-items: start;
-    width: fit-content;
-    position: absolute;
-    bottom: -47px;
-    left: 34.4%;
-  }
-  .product_details_stone_info_tab {
-    background-color: #610c270d;
-    padding: 5px 7px;
-    display: flex;
-    gap: 6px;
-    justify-content: center;
-    align-items: center;
-  }
-  .product_details_stone_info_tab img {
-    width: 20px;
-    height: 20px;
-  }
-  .product_details_stone_info_tab p {
-    margin: 0;
-    color: black;
-    letter-spacing: 0;
-  }
-  .product-page-details-parent-child_1 {
-    /* width: 33%; */
-    width: fit-content;
-  }
-  .product-page-details-parent-child_2 {
-    /* width: 67%; */
-    width: fit-content;
-  }
-  .product-page-details-container .section-heading {
-    margin-top: 40px !important;
-    margin-bottom: 20px !important;
-  }
-  .product-page-details-container {
-    margin-bottom: 65px;
-  }
-  .product-page-details-parent {
-    display: flex;
-    position: relative;
-    flex-wrap: wrap;
-    row-gap: 10px;
-  }
-  .product-page-details-parent-child {
-    display: flex;
-    justify-content: start;
-    align-items: start;
-  }
-  .product-page-details-container p {
-    margin: 0;
-    color: black;
-    letter-spacing: 0;
-  }
-  .product-page-details-list-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    background: #f4eeeb;
-    margin-right: 10px;
-    padding: 15px;
-    min-width: max-content;
-    height: 100%;
-  }
-  .product-page-details-list-parent {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 70px;
-  }
-  .product-page-details-list_heading {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 10px !important;
-  }
-  .product-page-details-list_content {
-    text-align: right;
-  }
-  .product-page-details-list_title,
-  .product-page-details-list_content {
-    font-size: 1.6rem;
-    font-weight: 500;
-    line-height: 3.4rem;
-  }
-  .product-page-details-list_content {
-    opacity: 0.6;
-  }
-  @media (max-width: 1100px) {
-    .product-page-details-container {
-      margin-bottom: 80px;
-    }
+  <style>
     .product_details_stone_info_tabs {
-      left: 6%;
+      display: flex;
+      gap: 5px;
+      justify-content: start;
+      align-items: start;
+      width: fit-content;
+      position: absolute;
+      bottom: -47px;
+      left: 34.4%;
+    }
+    .product_details_stone_info_tab {
+      background-color: #610c270d;
+      padding: 5px 7px;
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      align-items: center;
+    }
+    .product_details_stone_info_tab img {
+      width: 20px;
+      height: 20px;
+    }
+    .product_details_stone_info_tab p {
+      margin: 0;
+      color: black;
+      letter-spacing: 0;
     }
     .product-page-details-parent-child_1 {
-      width: 100%;
-    }
-    .product-page-details-parent-child_2 {
-      width: 100%;
-    }
-    .product-page-details-parent {
-      flex-direction: column;
-      gap: 10px;
-    }
-    .product-page-details-list-container {
+      /* width: 33%; */
       width: fit-content;
     }
-    .product-page-details-list-parent {
-      gap: 100px;
+    .product-page-details-parent-child_2 {
+      /* width: 67%; */
+      width: fit-content;
+    }
+    .product-page-details-container .section-heading {
+      margin-top: 40px !important;
+      margin-bottom: 20px !important;
+    }
+    .product-page-details-container {
+      margin-bottom: 65px;
+    }
+    .product-page-details-parent {
+      display: flex;
+      position: relative;
+      flex-wrap: wrap;
+      row-gap: 10px;
     }
     .product-page-details-parent-child {
-      overflow-x: auto;
+      display: flex;
+      justify-content: start;
+      align-items: start;
+    }
+    .product-page-details-container p {
+      margin: 0;
+      color: black;
+      letter-spacing: 0;
     }
     .product-page-details-list-container {
-      min-width: 310px;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      background: #f4eeeb;
+      margin-right: 10px;
+      padding: 15px;
+      min-width: max-content;
+      height: 100%;
     }
-  }
-</style>
-
+    .product-page-details-list-parent {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 70px;
+    }
+    .product-page-details-list_heading {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 10px !important;
+    }
+    .product-page-details-list_content {
+      text-align: right;
+    }
+    .product-page-details-list_title,
+    .product-page-details-list_content {
+      font-size: 1.6rem;
+      font-weight: 500;
+      line-height: 3.4rem;
+    }
+    .product-page-details-list_content {
+      opacity: 0.6;
+    }
+    @media (max-width: 1100px) {
+      .product-page-details-container {
+        margin-bottom: 80px;
+      }
+      .product_details_stone_info_tabs {
+        left: 6%;
+      }
+      .product-page-details-parent-child_1 {
+        width: 100%;
+      }
+      .product-page-details-parent-child_2 {
+        width: 100%;
+      }
+      .product-page-details-parent {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .product-page-details-list-container {
+        width: fit-content;
+      }
+      .product-page-details-list-parent {
+        gap: 100px;
+      }
+      .product-page-details-parent-child {
+        overflow-x: auto;
+      }
+      .product-page-details-list-container {
+        min-width: 310px;
+      }
+    }
+  </style>
+{% endif %}
 {% schema %}
 {
   "name": "Product Page Details",

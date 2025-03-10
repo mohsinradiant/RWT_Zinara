@@ -1042,7 +1042,6 @@
   {% if selected_variant == null %}
     {% assign selected_variant = product.variants.first %}
   {% endif %}
-
   <ul class="price-breakdown-list" id="price-breakdown-list">
     {% if selected_variant.metafields.content.price_breakdown %}
       {% for item in selected_variant.metafields.content.price_breakdown.value %}
@@ -1091,7 +1090,6 @@
       <li>No price breakdown available for this variant.</li>
     {% endif %}
   </ul>
-
   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
 </div>
 <div class="sticky-atc-container">

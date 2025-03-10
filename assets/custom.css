@@ -946,7 +946,10 @@ body.no-scroll {
 .mobile_collection-sort {
     display: none !important;
 }
-
+header .menu-drawer{
+    height: 100vh !important;
+    top: 0 !important;
+}
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;

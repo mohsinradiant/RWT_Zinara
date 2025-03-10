@@ -466,41 +466,20 @@
     </script>
     {% if template == 'product' %}
       <script>
+        // Function to format numbers for money
         function formatMoney(amount) {
           return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(amount);
         }
-      
-        var variantMetafields = {
-          {% for variant in product.variants %}
-            {{ variant.id }}: 
-            {% if variant.metafields.content.price_breakdown %}
-              {
-                {% for item in variant.metafields.content.price_breakdown.value %}
-                  "{{ item.title }}": {
-                    "selling_price": "{{ item.selling_price.value | default: 0 }}",
-                    "compare_at_price": "{{ item.compare_at_price.value | default: 0 }}",
-                    "subtitle_1": "{{ item.subtitle_1 | escape }}",
-                    "subtitle_2": "{{ item.subtitle_2 | escape }}"
-                  }
-                  {% unless forloop.last %},{% endunless %}
-                {% endfor %}
-              }
-            {% else %}
-              null
-            {% endif %}
-            {% unless forloop.last %},{% endunless %}
-          {% endfor %}
-        };
-      
-        console.log('Variant Metafields:', variantMetafields);
-      
+
+        // Function to update price breakdown based on variant ID
         function updatePriceBreakdown(variantId) {
-          console.log('Updating price breakdown for variantId:', variantId);
+          console.log(`Updating price breakdown for variant ID: ${variantId}`);
           var priceBreakdownList = document.getElementById('price-breakdown-list');
           var selectedVariantBreakdown = variantMetafields[variantId];
-      
+
           if (selectedVariantBreakdown) {
             priceBreakdownList.innerHTML = '';
+
             Object.keys(selectedVariantBreakdown).forEach(function (key) {
               var item = selectedVariantBreakdown[key];
               var listItem = document.createElement('li');
@@ -522,11 +501,7 @@
                   </div>
                 </div>
                 <div class="price_breakdown-right_container">
-                  ${
-                    item.selling_price > 0
-                      ? `<span>₹${formatMoney(item.selling_price)}</span>`
-                      : ''
-                  }
+                  ${item.selling_price > 0 ? `<span>₹${formatMoney(item.selling_price)}</span>` : ''}
                   ${
                     item.compare_at_price > 0
                       ? `<span class="price_breakdown_compare_at_price">₹${formatMoney(item.compare_at_price)}</span>`
@@ -537,40 +512,51 @@
               priceBreakdownList.appendChild(listItem);
             });
           } else {
-            console.warn('No price breakdown available for this variant.');
             priceBreakdownList.innerHTML = '<li>No price breakdown available for this variant.</li>';
           }
         }
-      
+
+        // Function to check the current variant in the URL
         function checkVariantInURL() {
-          var urlParams = new URLSearchParams(window.location.search);
-          var variantId = urlParams.get('variant');
+          const params = new URLSearchParams(window.location.search);
+          const variantId = params.get('variant');
+
           if (variantId) {
-            console.log('Variant detected in URL:', variantId);
+            console.log(`Detected variant in URL: ${variantId}`);
             updatePriceBreakdown(variantId);
           } else {
-            console.warn('No variant ID in URL.');
+            console.warn('No variant found in URL.');
           }
         }
-      
-        // Detect URL changes using popstate and initial load
-        window.addEventListener('popstate', function () {
-          console.log('URL changed, checking for variant...');
-          checkVariantInURL();
-        });
-      
-        // Also check for variant on initial load
-        checkVariantInURL();
-      
-        // Attach click listeners to update content for variant selection (if applicable)
-        document.querySelectorAll('[data-variant-id]').forEach(function (variantButton) {
-          variantButton.addEventListener('click', function () {
-            var newVariantId = this.getAttribute('data-variant-id');
-            console.log('Variant button clicked. New VariantId:', newVariantId);
-            if (newVariantId) {
-              updatePriceBreakdown(newVariantId);
+
+        // Add event listener to <select> for detecting changes
+        document.querySelectorAll('select').forEach(function (selectElement) {
+          selectElement.addEventListener('change', function () {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const variantId = selectedOption.value;
+
+            if (variantId) {
+              // Update URL to include the variant
+              const newURL = new URL(window.location);
+              newURL.searchParams.set('variant', variantId);
+              window.history.pushState({ path: newURL.href }, '', newURL.href);
+
+              // Update price breakdown based on selected variant
+              updatePriceBreakdown(variantId);
             }
           });
+        });
+
+        // Re-check for the variant whenever the browser history changes
+        window.addEventListener('popstate', function () {
+          console.log('History changed, checking variant in URL...');
+          checkVariantInURL();
+        });
+
+        // Initial check on page load
+        document.addEventListener('DOMContentLoaded', function () {
+          console.log('Page loaded, checking variant in URL...');
+          checkVariantInURL();
         });
       </script>
     {% endif %}

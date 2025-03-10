@@ -495,20 +495,19 @@
   console.log('Variant Metafields:', variantMetafields);
           
   function updatePriceBreakdown(variantId) {
-  console.log(`Updating price breakdown for variant ID: ${variantId}`);
-  var priceBreakdownList = document.getElementById('price-breakdown-list');
-  const selectedVariantBreakdown = variantMetafields[variantId];
+  console.log("Updating price breakdown for variant ID:", variantId);
 
+  const selectedVariantBreakdown = variantMetafields[String(variantId)]; // Always use String
   console.log("Selected Variant Breakdown:", selectedVariantBreakdown);
-  console.log("variantId:", variantId);
 
-  if (selectedVariantBreakdown) {
-    console.log("Variant breakdown found, updating the UI...");
-    priceBreakdownList.innerHTML = ''; // Clear existing content
+  if (!selectedVariantBreakdown) {
+    console.warn(`No price breakdown available for variant ID: ${variantId}`);
+    return;
+  }
 
-    Object.keys(selectedVariantBreakdown).forEach(function (key) {
-      var item = selectedVariantBreakdown[key];
-      console.log(`Rendering breakdown for: ${key}`, item);
+  console.log("Variant breakdown found, updating the UI...");
+  for (const [key, value] of Object.entries(selectedVariantBreakdown)) {
+    console.log("Rendering breakdown for:", key, value);
 
       var listItem = document.createElement('li');
       listItem.innerHTML = `
@@ -555,34 +554,24 @@
           
   // Function to check the current variant in the URL
   function checkVariantInURL() {
-  const params = new URLSearchParams(window.location.search);
-  const variantId = params.get('variant');
+  const urlParams = new URLSearchParams(window.location.search);
+  const variantIdFromURL = urlParams.get("variant"); // Use this for breakdown
+  console.log("Detected variant in URL:", variantIdFromURL);
 
-  if (variantId) {
-    console.log(`Detected variant in URL: ${variantId}`);
-    updatePriceBreakdown(variantId);
-  } else {
-    console.warn('No variant found in URL.');
+  if (variantIdFromURL) {
+    updatePriceBreakdown(variantIdFromURL); // Always pass the URL variant ID
   }
-  }
+}
           
   // Add event listener to <select> for detecting changes
-  document.querySelectorAll('select').forEach(function (selectElement) {
-  selectElement.addEventListener('change', function () {
-    const selectedOption = selectElement.options[selectElement.selectedIndex];
-    const variantId = selectedOption.value;
+    document.querySelector("select").addEventListener("change", function (e) {
+  const selectedOptionValue = e.target.value; // Get the selected option's value
+  console.log("Selected option value:", selectedOptionValue);
 
-    if (variantId) {
-      // Update URL to include the variant
-      const newURL = new URL(window.location);
-      newURL.searchParams.set('variant', variantId);
-      window.history.pushState({ path: newURL.href }, '', newURL.href);
+  // Update content/UI based on selected option
+  updatePriceBreakdown(selectedOptionValue); // Use the selected value here
+});
 
-      // Update price breakdown based on selected variant
-      updatePriceBreakdown(variantId);
-    }
-  });
-  });
           
   // Re-check for the variant whenever the browser history changes
   window.addEventListener('popstate', function () {

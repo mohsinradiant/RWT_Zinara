@@ -33,7 +33,6 @@
         background: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(4px);
         z-index: 50;
-        display: flex;
         align-items: center;
         justify-content: center;
       }
@@ -171,8 +170,9 @@
                 addButton.addEventListener('click', function () {
                   // Check if the maximum limit is reached
                   if (window.selectedProducts.length >= 10) {
-                    alert('Maximum limit reached'); // Show the alert
-                    return; // Stop further execution
+                    const max_limit_error = document.getElementById('errorModal');
+                    max_limit_error.style.display = 'flex';
+                    return;
                   }
 
                   // Get the parent product card element

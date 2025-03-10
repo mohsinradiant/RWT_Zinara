@@ -424,7 +424,7 @@ for (let i = 0; i < 7; i++) {
       let startMinutes = 0;
 
       for (let i = 0; i < 18; i++) {
-        const endMinutes = startMinutes + 30;
+        const endMinutes = startMinutes + 60;
         const endTime = startTime + Math.floor(endMinutes / 60);
         const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
         const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;

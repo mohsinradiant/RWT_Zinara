@@ -496,10 +496,10 @@
         console.log('Variant Metafields:', variantMetafields);
       
         // Function to update the price breakdown
-        function updatePriceBreakdown(variantId) {
+        function updatePriceBreakdown(variantIdFromURL) {
           console.log("Updating price breakdown for variant ID:", variantIdFromURL);
       
-          const selectedVariantBreakdown = variantMetafields[String(variantId)];
+          const selectedVariantBreakdown = variantMetafields[String(variantIdFromURL)];
           console.log("Selected Variant Breakdown:", selectedVariantBreakdown);
       
           const priceBreakdownList = document.querySelector(".price-breakdown-list");
@@ -512,7 +512,7 @@
           priceBreakdownList.innerHTML = "";
       
           if (!selectedVariantBreakdown) {
-            console.warn(`No price breakdown available for variant ID: ${variantId}`);
+            console.warn(`No price breakdown available for variant ID: ${variantIdFromURL}`);
             priceBreakdownList.innerHTML =
               '<li>No price breakdown available for this variant.</li>';
             return;

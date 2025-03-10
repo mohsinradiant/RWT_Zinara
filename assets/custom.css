@@ -946,10 +946,51 @@ body.no-scroll {
 .mobile_collection-sort {
     display: none !important;
 }
-header .menu-drawer{
+
+header .menu-drawer {
     height: 100vh !important;
     top: 0 !important;
 }
+
+/* Dropdown menu styles */
+.dropdown-menu {
+    display: none;
+    padding-left: 1.5rem;
+    margin: 0;
+    list-style: none;
+}
+
+.dropdown[open]>.dropdown-menu {
+    display: block;
+}
+
+.dropdown summary {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.svg-wrapper.dropdown-icon {
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+/* Rotate dropdown icon when open */
+.dropdown[open] .svg-wrapper.dropdown-icon {
+    transform: rotate(180deg) translateY(10px);
+}
+
+#HeaderDrawer-products .icon-caret {
+    display: flex !important;
+    position: unset !important;
+    height: unset !important;
+}
+
+.menu-drawer__navigation .menu-item .dropdown-menu .menu-item {
+    opacity: 0.6;
+}
+
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;

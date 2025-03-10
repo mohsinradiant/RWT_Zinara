@@ -466,8 +466,7 @@
     </script>
     {% if template == 'product' %}
       <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const variantIdFromURL = urlParams.get("variant");
+        let variantIdFromURL; 
         function formatMoney(amount) {
           return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(amount);
         }
@@ -560,15 +559,17 @@
         }
       
         // Function to get the variant ID from the URL and update the price breakdown
-        function checkVariantInURL() {
-          const urlParams = new URLSearchParams(window.location.search);
-          const variantIdFromURL = urlParams.get("variant");
-          console.log("Detected variant in URL:", variantIdFromURL);
-      
-          if (variantIdFromURL) {
-            updatePriceBreakdown(variantIdFromURL);
-          }
-        }
+
+function checkVariantInURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  variantIdFromURL = urlParams.get("variant"); // Update the global variable
+  console.log("Detected variant in URL:", variantIdFromURL);
+
+  if (variantIdFromURL) {
+    updatePriceBreakdown(variantIdFromURL);
+  }
+}
+
       
         // Event listener for <select> elements
         document.querySelectorAll("select").forEach((selectElement) => {

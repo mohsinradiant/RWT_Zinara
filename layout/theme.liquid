@@ -571,10 +571,13 @@
             console.log("Selected option value:", selectedOptionValue);
       
             if (selectedOptionValue) {
+              // Update URL to include the variant
               const newURL = new URL(window.location);
               newURL.searchParams.set("variant", selectedOptionValue);
               window.history.pushState({ path: newURL.href }, "", newURL.href);
-              updatePriceBreakdown(selectedOptionValue);
+      
+              // Check the variant in the updated URL
+              checkVariantInURL();
             }
           }
       
@@ -583,10 +586,13 @@
             console.log("Variant button clicked. New VariantId:", newVariantId);
       
             if (newVariantId) {
+              // Update URL to include the variant
               const newURL = new URL(window.location);
               newURL.searchParams.set("variant", newVariantId);
               window.history.pushState({ path: newURL.href }, "", newURL.href);
-              updatePriceBreakdown(newVariantId);
+      
+              // Check the variant in the updated URL
+              checkVariantInURL();
             }
           }
       

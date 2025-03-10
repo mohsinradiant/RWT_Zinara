@@ -466,6 +466,7 @@
     </script>
     {% if template == 'product' %}
       <script>
+        const variantIdFromURL = urlParams.get("variant");
         function formatMoney(amount) {
           return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(amount);
         }
@@ -497,7 +498,7 @@
       
         // Function to update the price breakdown
         function updatePriceBreakdown(variantId) {
-          console.log("Updating price breakdown for variant ID:", variantId);
+          console.log("Updating price breakdown for variant ID:", variantIdFromURL);
       
           const selectedVariantBreakdown = variantMetafields[String(variantId)];
           console.log("Selected Variant Breakdown:", selectedVariantBreakdown);

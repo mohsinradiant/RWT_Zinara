@@ -501,7 +501,7 @@
         function updatePriceBreakdown(variantId) {
           console.log("Updating price breakdown for variant ID:", variantIdFromURL);
       
-          const selectedVariantBreakdown = variantMetafields[String(variantId)];
+          const selectedVariantBreakdown = variantMetafields[String(variantIdFromURL)];
           console.log("Selected Variant Breakdown:", selectedVariantBreakdown);
       
           const priceBreakdownList = document.querySelector(".price-breakdown-list");

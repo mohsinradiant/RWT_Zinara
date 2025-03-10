@@ -22,6 +22,7 @@
         },
         "text_aprXn6": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "text": "(Inclusive of all taxes and shipping)",
             "text_style": "body"

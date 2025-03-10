@@ -136,7 +136,7 @@
                 {%- endfor -%}
               </ul>
             {% endcomment %}
-            <ul class="menu-drawer__menu has-submenu list-menu" role="list">
+            <ul class="menu-drawer__menu list-menu" role="list">
               {%- for link in section.settings.menu.links -%}
                 <li class="menu-item">
                   {%- if link.links != blank -%}
@@ -152,7 +152,7 @@
                       </summary>
                       <ul class="dropdown-menu list-menu">
                         {%- for childlink in link.links -%}
-                          <li>
+                          <li class="menu-item">
                             {%- if childlink.links == blank -%}
                               <a
                                 id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
@@ -372,12 +372,31 @@
   </details>
 </header-drawer>
 <style>
-  .menu-item .dropdown-menu {
+  /* Base styles for dropdown menu */
+  .dropdown-menu {
     display: none;
-    padding-left: 20px;
+    padding-left: 1.5rem;
+    margin: 0;
+    list-style: none;
   }
 
   .dropdown[open] > .dropdown-menu {
     display: block;
+  }
+
+  .dropdown summary {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .svg-wrapper {
+    margin-left: 0.5rem;
+    transition: transform 0.3s;
+  }
+
+  .dropdown[open] summary .svg-wrapper {
+    transform: rotate(180deg); /* Rotate icon when open */
   }
 </style>

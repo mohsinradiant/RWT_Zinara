@@ -164,14 +164,40 @@
 
               // Add functionality to "Add Item" button
               // Array to store selected products
+              document.addEventListener('DOMContentLoaded', function () {
+                const errorModal = document.getElementById('errorModal');
+                const closeModal = document.getElementById('closeModal');
+
+                // Function to show the modal
+                function showErrorModal() {
+                  errorModal.style.display = 'flex'; // Show the modal
+                }
+
+                // Function to hide the modal
+                function hideErrorModal() {
+                  errorModal.style.display = 'none'; // Hide the modal
+                }
+
+                // Add event listener to the close button
+                closeModal.addEventListener('click', hideErrorModal);
+
+                // Add event listener for tapping outside the modal content
+                errorModal.addEventListener('click', function (event) {
+                  if (event.target === errorModal) {
+                    hideErrorModal();
+                  }
+                });
+
+                // Example usage: Call `showErrorModal()` when you want to show the modal
+                // showErrorModal();
+              });
 
               // Add event listener to all add buttons
               document.querySelectorAll('.add-item-button').forEach((addButton) => {
                 addButton.addEventListener('click', function () {
                   // Check if the maximum limit is reached
                   if (window.selectedProducts.length >= 10) {
-                    const max_limit_error = document.getElementById('errorModal');
-                    max_limit_error.style.display = 'flex';
+                    showErrorModal();
                     return;
                   }
 

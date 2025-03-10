@@ -495,72 +495,66 @@
   console.log('Variant Metafields:', variantMetafields);
           
   function updatePriceBreakdown(variantId) {
-  console.log("Updating price breakdown for variant ID:", variantId);
+  console.log(`Updating price breakdown for variant ID: ${variantId}`);
+  var priceBreakdownList = document.getElementById('price-breakdown-list');
+  const selectedVariantBreakdown = variantMetafields[variantId];
 
-  const selectedVariantBreakdown = variantMetafields[String(variantId)];
   console.log("Selected Variant Breakdown:", selectedVariantBreakdown);
+  console.log("variantId:", variantId);
 
-  const priceBreakdownList = document.querySelector(".price-breakdown-list");
-  if (!priceBreakdownList) {
-    console.error("Element '.price-breakdown-list' not found.");
-    return;
-  }
+  if (selectedVariantBreakdown) {
+    console.log("Variant breakdown found, updating the UI...");
+    priceBreakdownList.innerHTML = ''; // Clear existing content
 
-  // Clear existing list items
-  priceBreakdownList.innerHTML = "";
+    Object.keys(selectedVariantBreakdown).forEach(function (key) {
+      var item = selectedVariantBreakdown[key];
+      console.log(`Rendering breakdown for: ${key}`, item);
 
-  if (!selectedVariantBreakdown) {
-    console.warn(`No price breakdown available for variant ID: ${variantId}`);
-    priceBreakdownList.innerHTML =
-      '<li>No price breakdown available for this variant.</li>';
-    return;
-  }
-
-  console.log("Variant breakdown found, updating the UI...");
-  for (const [key, value] of Object.entries(selectedVariantBreakdown)) {
-    if (!value) continue; // Skip if no data for this entry
-
-    const listItem = document.createElement("li");
-    listItem.innerHTML = `
-      <div class="price_breakdown-left_container">
-        <div class="price_breakdown-left_container_top">
-          <span>${key}</span>
+      var listItem = document.createElement('li');
+      listItem.innerHTML = `
+        <div class="price_breakdown-left_container">
+          <div class="price_breakdown-left_container_top">
+            <span>${key}</span>
+            ${
+              item.compare_at_price > 0 && item.selling_price > 0
+                ? `<span class="price_discount">${Math.round(
+                    ((item.compare_at_price - item.selling_price) /
+                      item.compare_at_price) *
+                      100
+                  )}% off</span>`
+                : ''
+            }
+          </div>
+          <div class="price_breakdown-left_container_bottom">
+            <p>${item.subtitle_1 || ''}</p>
+            <p>${item.subtitle_2 || ''}</p>
+          </div>
+        </div>
+        <div class="price_breakdown-right_container">
           ${
-            value.compare_at_price > 0 && value.selling_price > 0
-              ? `<span class="price_discount">${Math.round(
-                  ((value.compare_at_price - value.selling_price) /
-                    value.compare_at_price) *
-                    100
-                )}% off</span>`
-              : ""
+            item.selling_price > 0
+              ? `<span>₹${formatMoney(item.selling_price)}</span>`
+              : ''
+          }
+          ${
+            item.compare_at_price > 0
+              ? `<span class="price_breakdown_compare_at_price">₹${formatMoney(item.compare_at_price)}</span>`
+              : ''
           }
         </div>
-        <div class="price_breakdown-left_container_bottom">
-          <p>${value.subtitle_1 || ""}</p>
-          <p>${value.subtitle_2 || ""}</p>
-        </div>
-      </div>
-      <div class="price_breakdown-right_container">
-        ${
-          value.selling_price > 0
-            ? `<span>₹${formatMoney(value.selling_price)}</span>`
-            : ""
-        }
-        ${
-          value.compare_at_price > 0
-            ? `<span class="price_breakdown_compare_at_price">₹${formatMoney(
-                value.compare_at_price
-              )}</span>`
-            : ""
-        }
-      </div>
-    `;
-    priceBreakdownList.appendChild(listItem);
+      `;
+      priceBreakdownList.appendChild(listItem);
+    });
+  } else {
+    console.warn("No data found for this variant, showing fallback message.");
+    priceBreakdownList.innerHTML =
+      '<li>No price breakdown available for this variant.</li>';
   }
 }
+
           
   // Function to check the current variant in the URL
-  function checkVariantInURL() {
+function checkVariantInURL() {
   const urlParams = new URLSearchParams(window.location.search);
   const variantIdFromURL = urlParams.get("variant"); // Use this for breakdown
   console.log("Detected variant in URL:", variantIdFromURL);
@@ -571,14 +565,22 @@
 }
           
   // Add event listener to <select> for detecting changes
-    document.querySelector("select").addEventListener("change", function (e) {
-  const selectedOptionValue = e.target.value; // Get the selected option's value
-  console.log("Selected option value:", selectedOptionValue);
+  document.querySelectorAll('select').forEach(function (selectElement) {
+  selectElement.addEventListener('change', function () {
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    const variantId = selectedOption.value;
 
-  // Update content/UI based on selected option
-  updatePriceBreakdown(selectedOptionValue); // Use the selected value here
-});
+    if (variantId) {
+      // Update URL to include the variant
+      const newURL = new URL(window.location);
+      newURL.searchParams.set('variant', variantId);
+      window.history.pushState({ path: newURL.href }, '', newURL.href);
 
+      // Update price breakdown based on selected variant
+      updatePriceBreakdown(variantId);
+    }
+  });
+  });
           
   // Re-check for the variant whenever the browser history changes
   window.addEventListener('popstate', function () {

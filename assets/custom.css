@@ -1002,6 +1002,10 @@ header .menu-drawer {
 }
 
 @media (max-width: 756px) {
+    header .menu-drawer {
+        width: 78%;
+    }
+
     .images-parent-div a {
         width: 75%;
     }

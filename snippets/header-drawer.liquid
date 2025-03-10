@@ -146,7 +146,7 @@
                         class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
                       >
                         {{ link.title | escape }}
-                        <span class="svg-wrapper">
+                        <span class="svg-wrapper dropdown-icon">
                           {{- 'icon-caret.svg' | inline_asset_content -}}
                         </span>
                       </summary>
@@ -171,7 +171,7 @@
                                   class="menu-drawer__menu-item link link--text list-menu__item focus-inset"
                                 >
                                   {{ childlink.title | escape }}
-                                  <span class="svg-wrapper">
+                                  <span class="svg-wrapper dropdown-icon">
                                     {{- 'icon-caret.svg' | inline_asset_content -}}
                                   </span>
                                 </summary>
@@ -372,7 +372,7 @@
   </details>
 </header-drawer>
 <style>
-  /* Base styles for dropdown menu */
+  /* Dropdown menu styles */
   .dropdown-menu {
     display: none;
     padding-left: 1.5rem;
@@ -391,12 +391,13 @@
     align-items: center;
   }
 
-  .svg-wrapper {
+  .svg-wrapper.dropdown-icon {
     margin-left: 0.5rem;
-    transition: transform 0.3s;
+    transition: transform 0.3s ease;
   }
 
-  .dropdown[open] summary .svg-wrapper {
-    transform: rotate(180deg); /* Rotate icon when open */
+  /* Rotate dropdown icon when open */
+  .dropdown[open] .svg-wrapper.dropdown-icon {
+    transform: rotate(180deg);
   }
 </style>

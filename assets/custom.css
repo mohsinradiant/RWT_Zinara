@@ -161,6 +161,7 @@ slideshow-component .slideshow {
     margin: 0;
     line-height: 3rem;
     width: 80%;
+    font-weight: 400;
 }
 
 /* Dropdown styling */
@@ -457,8 +458,9 @@ header .header__search {
     width: 100%;
 }
 
+
 .home-try-at-home-section-left a {
-    border: solid 1px #610c27;
+    border: solid 2px #610c27;
     background: transparent;
     text-decoration: none;
     color: #610c27;

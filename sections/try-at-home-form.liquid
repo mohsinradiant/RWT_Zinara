@@ -512,7 +512,7 @@ for (let i = 0; i < 7; i++) {
 <script>
   // Submit Form
   document.getElementById('bookTrialTah').addEventListener('click', async () => {
-    const button = this; // Reference to the button
+    const button = document.getElementById('bookTrialTah');
     button.classList.add('loading'); // Add loading state
     button.disabled = true; // Disable the button
     try {

@@ -467,7 +467,6 @@
     {% if template == 'product' %}
       <script>
         function formatMoney(amount) {
-          // Format the number in Indian currency style (e.g., 1,23,456)
           return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(amount);
         }
       
@@ -543,46 +542,36 @@
           }
         }
       
-        function reinitializeListeners() {
-          console.log('Reinitializing listeners...');
-          document.querySelectorAll('[data-variant-id]').forEach(function (variantButton) {
-            variantButton.addEventListener('click', function () {
-              var newVariantId = this.getAttribute('data-variant-id');
-              console.log('Variant button clicked. New VariantId:', newVariantId);
-              if (newVariantId) {
-                updatePriceBreakdown(newVariantId);
-              }
-            });
-          });
+        function checkVariantInURL() {
+          var urlParams = new URLSearchParams(window.location.search);
+          var variantId = urlParams.get('variant');
+          if (variantId) {
+            console.log('Variant detected in URL:', variantId);
+            updatePriceBreakdown(variantId);
+          } else {
+            console.warn('No variant ID in URL.');
+          }
         }
       
-        // Monitor DOM changes to reinitialize listeners
-        var observer = new MutationObserver(function (mutationsList) {
-          for (var mutation of mutationsList) {
-            if (
-              mutation.type === 'childList' &&
-              mutation.target.id === 'price-breakdown-list'
-            ) {
-              console.log('Price breakdown list updated. Reinitializing...');
-              reinitializeListeners();
-            }
-          }
+        // Detect URL changes using popstate and initial load
+        window.addEventListener('popstate', function () {
+          console.log('URL changed, checking for variant...');
+          checkVariantInURL();
         });
       
-        observer.observe(document.body, { childList: true, subtree: true });
+        // Also check for variant on initial load
+        checkVariantInURL();
       
-        // Initial Setup
-        var selectedVariantId =
-          new URLSearchParams(window.location.search).get('variant') ||
-          Object.keys(variantMetafields).find((id) => variantMetafields[id] !== null);
-      
-        if (selectedVariantId) {
-          updatePriceBreakdown(selectedVariantId);
-        } else {
-          console.error('No valid variant metafields found.');
-        }
-      
-        reinitializeListeners();
+        // Attach click listeners to update content for variant selection (if applicable)
+        document.querySelectorAll('[data-variant-id]').forEach(function (variantButton) {
+          variantButton.addEventListener('click', function () {
+            var newVariantId = this.getAttribute('data-variant-id');
+            console.log('Variant button clicked. New VariantId:', newVariantId);
+            if (newVariantId) {
+              updatePriceBreakdown(newVariantId);
+            }
+          });
+        });
       </script>
     {% endif %}
   </body>

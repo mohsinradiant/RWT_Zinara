@@ -466,11 +466,12 @@
     </script>
     {% if template == 'product' %}
       <script>
-  function formatMoney(amount) {
+        function formatMoney(amount) {
           return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(amount);
-  }
-  
-  var variantMetafields = {
+        }
+      
+        // Generate variant metafields
+        var variantMetafields = {
           {% for variant in product.variants %}
             {{ variant.id }}: 
             {% if variant.metafields.content.price_breakdown %}
@@ -490,120 +491,130 @@
             {% endif %}
             {% unless forloop.last %},{% endunless %}
           {% endfor %}
-  };
-          
-  console.log('Variant Metafields:', variantMetafields);
-          
-  function updatePriceBreakdown(variantId) {
-  console.log(`Updating price breakdown for variant ID: ${variantId}`);
-  var priceBreakdownList = document.getElementById('price-breakdown-list');
-  const selectedVariantBreakdown = variantMetafields[variantId];
-
-  console.log("Selected Variant Breakdown:", selectedVariantBreakdown);
-  console.log("variantId:", variantId);
-
-  if (selectedVariantBreakdown) {
-    console.log("Variant breakdown found, updating the UI...");
-    priceBreakdownList.innerHTML = ''; // Clear existing content
-
-    Object.keys(selectedVariantBreakdown).forEach(function (key) {
-      var item = selectedVariantBreakdown[key];
-      console.log(`Rendering breakdown for: ${key}`, item);
-
-      var listItem = document.createElement('li');
-      listItem.innerHTML = `
-        <div class="price_breakdown-left_container">
-          <div class="price_breakdown-left_container_top">
-            <span>${key}</span>
-            ${
-              item.compare_at_price > 0 && item.selling_price > 0
-                ? `<span class="price_discount">${Math.round(
-                    ((item.compare_at_price - item.selling_price) /
-                      item.compare_at_price) *
-                      100
-                  )}% off</span>`
-                : ''
+        };
+      
+        console.log('Variant Metafields:', variantMetafields);
+      
+        // Function to update the price breakdown
+        function updatePriceBreakdown(variantId) {
+          console.log("Updating price breakdown for variant ID:", variantId);
+      
+          const selectedVariantBreakdown = variantMetafields[String(variantId)];
+          console.log("Selected Variant Breakdown:", selectedVariantBreakdown);
+      
+          const priceBreakdownList = document.querySelector(".price-breakdown-list");
+          if (!priceBreakdownList) {
+            console.error("Element '.price-breakdown-list' not found.");
+            return;
+          }
+      
+          // Clear existing list items
+          priceBreakdownList.innerHTML = "";
+      
+          if (!selectedVariantBreakdown) {
+            console.warn(`No price breakdown available for variant ID: ${variantId}`);
+            priceBreakdownList.innerHTML =
+              '<li>No price breakdown available for this variant.</li>';
+            return;
+          }
+      
+          console.log("Variant breakdown found, updating the UI...");
+          for (const [key, value] of Object.entries(selectedVariantBreakdown)) {
+            if (!value) continue; // Skip if no data for this entry
+      
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `
+              <div class="price_breakdown-left_container">
+                <div class="price_breakdown-left_container_top">
+                  <span>${key}</span>
+                  ${
+                    value.compare_at_price > 0 && value.selling_price > 0
+                      ? `<span class="price_discount">${Math.round(
+                          ((value.compare_at_price - value.selling_price) / value.compare_at_price) * 100
+                        )}% off</span>`
+                      : ""
+                  }
+                </div>
+                <div class="price_breakdown-left_container_bottom">
+                  <p>${value.subtitle_1 || ""}</p>
+                  <p>${value.subtitle_2 || ""}</p>
+                </div>
+              </div>
+              <div class="price_breakdown-right_container">
+                ${
+                  value.selling_price > 0
+                    ? `<span>₹${formatMoney(value.selling_price)}</span>`
+                    : ""
+                }
+                ${
+                  value.compare_at_price > 0
+                    ? `<span class="price_breakdown_compare_at_price">₹${formatMoney(value.compare_at_price)}</span>`
+                    : ""
+                }
+              </div>
+            `;
+            priceBreakdownList.appendChild(listItem);
+          }
+        }
+      
+        // Function to check and update the current variant in the URL
+        function checkVariantInURL() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const variantIdFromURL = urlParams.get("variant");
+          console.log("Detected variant in URL:", variantIdFromURL);
+      
+          if (variantIdFromURL) {
+            updatePriceBreakdown(variantIdFromURL);
+          }
+        }
+      
+        // Event listener for <select> elements
+        document.querySelectorAll("select").forEach((selectElement) => {
+          selectElement.addEventListener("change", function (e) {
+            const selectedOptionValue = e.target.value;
+            console.log("Selected option value:", selectedOptionValue);
+      
+            if (selectedOptionValue) {
+              // Update URL to include the variant
+              const newURL = new URL(window.location);
+              newURL.searchParams.set("variant", selectedOptionValue);
+              window.history.pushState({ path: newURL.href }, "", newURL.href);
+      
+              // Update content/UI based on selected option
+              updatePriceBreakdown(selectedOptionValue);
             }
-          </div>
-          <div class="price_breakdown-left_container_bottom">
-            <p>${item.subtitle_1 || ''}</p>
-            <p>${item.subtitle_2 || ''}</p>
-          </div>
-        </div>
-        <div class="price_breakdown-right_container">
-          ${
-            item.selling_price > 0
-              ? `<span>₹${formatMoney(item.selling_price)}</span>`
-              : ''
-          }
-          ${
-            item.compare_at_price > 0
-              ? `<span class="price_breakdown_compare_at_price">₹${formatMoney(item.compare_at_price)}</span>`
-              : ''
-          }
-        </div>
-      `;
-      priceBreakdownList.appendChild(listItem);
-    });
-  } else {
-    console.warn("No data found for this variant, showing fallback message.");
-    priceBreakdownList.innerHTML =
-      '<li>No price breakdown available for this variant.</li>';
-  }
-}
-
-          
-  // Function to check the current variant in the URL
-function checkVariantInURL() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const variantIdFromURL = urlParams.get("variant"); // Use this for breakdown
-  console.log("Detected variant in URL:", variantIdFromURL);
-
-  if (variantIdFromURL) {
-    updatePriceBreakdown(variantIdFromURL); // Always pass the URL variant ID
-  }
-}
-          
-  // Add event listener to <select> for detecting changes
-  document.querySelectorAll('select').forEach(function (selectElement) {
-  selectElement.addEventListener('change', function () {
-    const selectedOption = selectElement.options[selectElement.selectedIndex];
-    const variantId = selectedOption.value;
-
-    if (variantId) {
-      // Update URL to include the variant
-      const newURL = new URL(window.location);
-      newURL.searchParams.set('variant', variantId);
-      window.history.pushState({ path: newURL.href }, '', newURL.href);
-
-      // Update price breakdown based on selected variant
-      updatePriceBreakdown(variantId);
-    }
-  });
-  });
-          
-  // Re-check for the variant whenever the browser history changes
-  window.addEventListener('popstate', function () {
-  console.log('History changed, checking variant in URL...');
-  checkVariantInURL();
-  });
-          
-  // Initial check on page load
-  document.addEventListener('DOMContentLoaded', function () {
-  console.log('Page loaded, checking variant in URL...');
-  checkVariantInURL();
-  });
-          
-  // Attach click listeners to update content for variant selection (if applicable)
-  document.querySelectorAll('[data-variant-id]').forEach(function (variantButton) {
-          variantButton.addEventListener('click', function () {
-            var newVariantId = this.getAttribute('data-variant-id');
-            console.log('Variant button clicked. New VariantId:', newVariantId);
+          });
+        });
+      
+        // Re-check the variant whenever browser history changes
+        window.addEventListener("popstate", function () {
+          console.log("History changed, checking variant in URL...");
+          checkVariantInURL();
+        });
+      
+        // Initial check on page load
+        document.addEventListener("DOMContentLoaded", function () {
+          console.log("Page loaded, checking variant in URL...");
+          checkVariantInURL();
+        });
+      
+        // Attach click listeners to variant buttons
+        document.querySelectorAll("[data-variant-id]").forEach(function (variantButton) {
+          variantButton.addEventListener("click", function () {
+            const newVariantId = this.getAttribute("data-variant-id");
+            console.log("Variant button clicked. New VariantId:", newVariantId);
+      
             if (newVariantId) {
+              // Update URL to include the variant
+              const newURL = new URL(window.location);
+              newURL.searchParams.set("variant", newVariantId);
+              window.history.pushState({ path: newURL.href }, "", newURL.href);
+      
+              // Update content/UI based on clicked variant
               updatePriceBreakdown(newVariantId);
             }
           });
-  });
+        });
       </script>
     {% endif %}
   </body>

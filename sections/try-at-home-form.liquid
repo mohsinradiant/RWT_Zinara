@@ -615,11 +615,6 @@ for (let i = 0; i < 7; i++) {
 
         // Update the content3 container with the product cards and other details
         const date = new Date(tryAtHomeData.timeslot);
-
-        // Subtract 5 hours and 30 minutes
-        date.setHours(date.getHours() - 5);
-        date.setMinutes(date.getMinutes() - 30);
-
         const formattedDate = date.toLocaleDateString(); // e.g., "3/5/2025"
         const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // e.g., "10:30 PM"
 

@@ -121,15 +121,8 @@
                 addButton.addEventListener('click', function () {
                   // Check if the maximum limit is reached
                   if (window.selectedProducts.length >= 10) {
-                    // Disable all "Add Item" buttons to prevent further clicks
-                    document.querySelectorAll('.add-item-button').forEach((btn) => {
-                      btn.disabled = true;
-                      btn.style.opacity = '0.5'; // Optional: visually indicate they are disabled
-                    });
-
-                    // Show the alert once
-                    alert('Maximum limit reached');
-                    return; // Exit the function
+                    alert('Maximum limit reached'); // Show the alert
+                    return; // Stop further execution
                   }
 
                   // Get the parent product card element

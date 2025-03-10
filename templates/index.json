@@ -294,35 +294,40 @@
           "type": "image_picker",
           "settings": {
             "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
+            "alt_text": "Carousel Image",
+            "url": "shopify://collections/earrings"
           }
         },
         "image_picker_gtLymc": {
           "type": "image_picker",
           "settings": {
             "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
+            "alt_text": "Carousel Image",
+            "url": ""
           }
         },
         "image_picker_zN3d8M": {
           "type": "image_picker",
           "settings": {
             "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
+            "alt_text": "Carousel Image",
+            "url": ""
           }
         },
         "image_picker_8FC4jK": {
           "type": "image_picker",
           "settings": {
             "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
+            "alt_text": "Carousel Image",
+            "url": ""
           }
         },
         "image_picker_rwCCJA": {
           "type": "image_picker",
           "settings": {
             "image": "shopify://shop_images/Daily_Wear_Image.png",
-            "alt_text": "Carousel Image"
+            "alt_text": "Carousel Image",
+            "url": ""
           }
         }
       },

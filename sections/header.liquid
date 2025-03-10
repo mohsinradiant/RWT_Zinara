@@ -232,6 +232,7 @@
       {% for link in linklists.header_menu_2.links %}
         <a class="header__menu-item list-menu__item link link--text focus-inset" href="{{ link.url }}">{{ link.title }}</a>
        {% endfor %}
+       <a class="scrollable_contact_menu_header header__menu-item list-menu__item link link--text focus-inset" href="">Contact</a>
     </div>
     <div class="header__icons{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header__icons--localization header-localization{% endif %}">
       <div class="desktop-localization-wrapper">

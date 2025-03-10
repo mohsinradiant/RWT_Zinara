@@ -517,29 +517,39 @@
                 const sortClose = document.getElementById('sort-close');
 
                 // Open Filter Aside
-                filterTrigger.addEventListener('click', () => {
-                  filterAside.classList.add('active');
+                filterTrigger?.addEventListener('click', () => {
+                  filterAside?.classList.add('active');
                 });
 
                 // Open Sort Aside
-                sortTrigger.addEventListener('click', () => {
-                  sortAside.classList.add('active');
+                sortTrigger?.addEventListener('click', () => {
+                  sortAside?.classList.add('active');
                 });
 
                 // Close Filter Aside
-                filterClose.addEventListener('click', () => {
-                  filterAside.classList.remove('active');
+                filterClose?.addEventListener('click', () => {
+                  filterAside?.classList.remove('active');
                 });
 
                 // Close Sort Aside
-                sortClose.addEventListener('click', () => {
-                  sortAside.classList.remove('active');
+                sortClose?.addEventListener('click', () => {
+                  sortAside?.classList.remove('active');
                 });
 
-                // Close when clicking on overlay
-                overlay.addEventListener('click', () => {
-                  filterAside.classList.remove('active');
-                  sortAside.classList.remove('active');
+                // Close when clicking outside the drawer
+                document.addEventListener('click', (event) => {
+                  const target = event.target;
+
+                  // Check if the click is outside the `filterAside` or `sortAside`
+                  if (
+                    !filterAside?.contains(target) &&
+                    !sortAside?.contains(target) &&
+                    !filterTrigger?.contains(target) &&
+                    !sortTrigger?.contains(target)
+                  ) {
+                    filterAside?.classList.remove('active');
+                    sortAside?.classList.remove('active');
+                  }
                 });
               });
             </script>

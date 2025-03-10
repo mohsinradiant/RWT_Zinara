@@ -1042,14 +1042,46 @@
   {% if selected_variant == null %}
     {% assign selected_variant = product.variants.first %}
   {% endif %}
-
   <ul class="price-breakdown-list" id="price-breakdown-list">
     {% if selected_variant.metafields.content.price_breakdown %}
       {% for item in selected_variant.metafields.content.price_breakdown.value %}
         <li>
-          <span>{{ item.title }}</span> <span>₹{{ item.description }}</span>
+          <div class="price_breakdown-left_container">
+            <div class="price_breakdown-left_container_top">
+              <span>{{ item.title }}</span>
+
+              {% if item.compare_at_price and item.selling_price %}
+                {% assign compare_at_price = item.compare_at_price.value | times: 1.0 %}
+                {% assign selling_price = item.selling_price.value | times: 1.0 %}
+                {% assign price_difference = compare_at_price | minus: selling_price %}
+                {% assign percentage_difference = price_difference
+                  | divided_by: compare_at_price
+                  | times: 100.0
+                  | round
+                %}
+                {% if percentage_difference > 0 %}
+                  <span class="price_discount">{{ percentage_difference }}% off</span>
+                {% endif %}
+              {% endif %}
+            </div>
+            <div class="price_breakdown-left_container_bottom">
+              <p>{{ item.subtitle_1 }}</p>
+              <p>{{ item.subtitle_2 }}</p>
+            </div>
+          </div>
+          <div class="price_breakdown-right_container">
+            {% if item.selling_price %}
+              <span>₹{{ item.selling_price.value | money_without_trailing_zeros }}</span>
+            {% endif %}
+            {% if item.compare_at_price and item.compare_at_price != 0 and item.compare_at_price != null %}
+              <span class="price_breakdown_compare_at_price">
+                ₹{{ item.compare_at_price.value | money_without_trailing_zeros }}
+              </span>
+            {% endif %}
+          </div>
         </li>
       {% endfor %}
+
       <li class="price-breakdown-total">
         <span>Total Cost</span>
         <span>₹{{ selected_variant.price | divided_by: 100 }}</span>
@@ -1058,55 +1090,10 @@
       <li>No price breakdown available for this variant.</li>
     {% endif %}
   </ul>
-
-  <script>
-    // Get the product object
-    var product = {{ product | json }};
-    var selectedVariantId = new URLSearchParams(window.location.search).get('variant');
-
-    if (!selectedVariantId) {
-      selectedVariantId = product.variants[0].id; // Fallback to the first variant if no variant is selected
-    }
-
-    // Find the selected variant
-    var selectedVariant = product.variants.find(function(variant) {
-      return variant.id.toString() === selectedVariantId;
-    });
-
-    // Now use the selectedVariant object to update the page content
-    if (selectedVariant) {
-      // Update the displayed price (if you have an element with id 'variant-price')
-      document.getElementById('variant-price').textContent = selectedVariant.price / 100; // Assuming price is in cents
-      // Update the displayed image (if you have an element with id 'variant-image')
-      document.getElementById('variant-image').src = selectedVariant.featured_image.src;
-
-      // Update metafields dynamically (price breakdown)
-      var priceBreakdownList = document.getElementById('price-breakdown-list');
-      if (selectedVariant.metafields && selectedVariant.metafields.content.price_breakdown) {
-        priceBreakdownList.innerHTML = ''; // Clear the current list
-        selectedVariant.metafields.content.price_breakdown.value.forEach(function(item) {
-          var li = document.createElement('li');
-          li.innerHTML = '<span>' + item.title + '</span> <span>₹' + item.description + '</span>';
-          priceBreakdownList.appendChild(li);
-        });
-
-        // Update the total cost (if you have an element for this)
-        var totalCost = selectedVariant.price / 100; // Assuming price is in cents
-        priceBreakdownList.innerHTML += '<li class="price-breakdown-total"><span>Total Cost</span><span>₹' + totalCost + '</span></li>';
-      }
-    }
-  </script>
-
   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
 </div>
-<script>
-  function togglePopup() {
-    document.querySelector('.price-breakdown-popup').classList.toggle('active');
-    document.getElementById('overlay').classList.toggle('active');
-  }
-</script>
 <div class="sticky-atc-container">
-  <button id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</button>
+  <p id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</p>
   {%- render 'buy-buttons',
     product: product,
     product_form_id: product_form_id,
@@ -1134,6 +1121,12 @@
       });
     }
   });
+</script>
+<script>
+  function togglePopup() {
+    document.querySelector('.price-breakdown-popup').classList.toggle('active');
+    document.getElementById('overlay').classList.toggle('active');
+  }
 </script>
 
 <script>

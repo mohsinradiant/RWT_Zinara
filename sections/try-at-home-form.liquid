@@ -18,7 +18,87 @@
         <!-- Collection product cards will be inserted here -->
       </div>
     </div>
+    <div id="errorModal" class="error-modal">
+      <div class="modal-content">
+        <button id="closeModal" class="close-button">&times;</button>
+        <p>Maximum limit of products reached!</p>
+      </div>
+    </div>
+    <style>
+      /* Modal backdrop */
+      .error-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 50;
+        align-items: center;
+        justify-content: center;
+      }
 
+      /* Modal content */
+      .modal-content {
+        position: relative;
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 70%;
+        line-height: 2.7rem;
+      }
+
+      /* Close button */
+      .close-button {
+        position: absolute;
+        top: -25px;
+        right: -25px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: 'Quicksand';
+        font-weight: 500;
+        font-size: 3.5rem;
+        line-height: 13px;
+        padding: 0;
+      }
+
+      /* Modal text */
+      .modal-content p {
+        font-size: 2rem;
+        font-weight: 500;
+        color: #121212;
+        margin: 0;
+      }
+    </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const errorModal = document.getElementById('errorModal');
+        const closeModal = document.getElementById('closeModal');
+
+        // Function to show the modal
+        function showErrorModal() {
+          errorModal.style.display = 'flex'; // Show the modal
+        }
+
+        // Function to hide the modal
+        function hideErrorModal() {
+          errorModal.style.display = 'none'; // Hide the modal
+        }
+
+        // Add event listener to the close button
+        closeModal.addEventListener('click', hideErrorModal);
+
+        // Add event listener for tapping outside the modal content
+        errorModal.addEventListener('click', function (event) {
+          if (event.target === errorModal) {
+            hideErrorModal();
+          }
+        });
+      });
+    </script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         window.selectedProductIds = []; // Declare in the global scope
@@ -58,20 +138,20 @@
               console.log('Selected Products:', window.selectedProducts);
 
               selectedProductsContainer.innerHTML = `
-          <div class="product-card" data-id="${product.id}">
-            <img
-              src="${product.featured_image}"
-              alt="${product.title}"
-              class="product-card__image"
-            >
-            <div class="product-card-content">
-              <h2 class="product-card__title">${truncatedTitle}</h2>
-              <p class="product-card__price">
-                ₹${Math.floor(product.price / 100)}
-              </p>
-            </div>
-          </div>
-        `;
+                <div class="product-card" data-id="${product.id}">
+                <img
+                  src="${product.featured_image}"
+                  alt="${product.title}"
+                  class="product-card__image"
+                >
+                <div class="product-card-content">
+                  <h2 class="product-card__title">${truncatedTitle}</h2>
+                  <p class="product-card__price">
+                    ₹${Math.floor(product.price / 100)}
+                  </p>
+                </div>
+                </div>
+              `;
               document.getElementById('loadingMessage').style.display = 'none';
               selectedProductsContainer.style.display = 'flex';
               selectedProductIds.push(product.id);
@@ -113,12 +193,17 @@
                    </div>
                  `;
 
-              // Add functionality to "Add Item" button
-              // Array to store selected products
-
               // Add event listener to all add buttons
               document.querySelectorAll('.add-item-button').forEach((addButton) => {
                 addButton.addEventListener('click', function () {
+                  // Check if the maximum limit is reached
+                  if (window.selectedProducts.length >= 10) {
+                    const errorModal = document.getElementById('errorModal');
+                    errorModal.style.display = 'flex';
+
+                    return;
+                  }
+
                   // Get the parent product card element
                   const productCard = addButton.closest('.product-card');
 
@@ -142,39 +227,32 @@
 
                     console.log('Selected Products:', window.selectedProducts);
 
-                    // Update button text and style
+                    // Update the UI
+                    const selectedProductsContainer = document.querySelector(
+                      '.selected-products-container #productCardContainer'
+                    );
+                    selectedProductsContainer.innerHTML += `
+                  <div class="product-card" data-id="${productId}">
+                    <img
+                      src="${productImage}"
+                      alt="${productTitle}"
+                      class="product-card__image"
+                    >
+                    <div class="product-card-content">
+                      <h2 class="product-card__title">${productTitle}</h2>
+                      <p class="product-card__price">${productPrice}</p>
+                    </div>
+                  </div>
+                `;
+
+                    // Update button state
                     addButton.textContent = 'Added';
                     addButton.style.opacity = '0.7';
-                    addButton.disabled = true; // Optionally disable the button
+                    addButton.disabled = true;
                   }
                 });
               });
-              productCard.querySelector('.add-item-button').addEventListener('click', function () {
-                // Check if the product is already selected
-                if (!selectedProductIds.includes(product.id)) {
-                  // Add the product to the selected products container
-                  selectedProductsContainer.innerHTML += `
-          <div class="product-card" data-id="${product.id}">
-                   <img
-                     src="${featuredImage}"
-                     alt="${product.title}"
-                     class="product-card__image"
-                   >            <div class="product-card-content">
-                     <h2 class="product-card__title">${truncatedTitle}</h2>
-                     <p class="product-card__price">
-                       ₹${Math.floor(price)}
-                     </p>
-            </div>
 
-
-
-
-          </div>
-        `;
-                  // Add the product ID to the array
-                  selectedProductIds.push(product.id);
-                }
-              });
               collectionProductsContainer.appendChild(productCard);
             });
           })
@@ -1170,9 +1248,9 @@ for (let i = 0; i < 7; i++) {
       width: 100%;
     }
     .product-cards .product-card img {
-    width: 30%;
+      width: 30%;
     }
-    .address-details p{
+    .address-details p {
       text-align: left;
     }
   }

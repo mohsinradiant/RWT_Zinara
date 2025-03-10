@@ -1094,10 +1094,7 @@
 
   <script>
     function formatMoney(amount) {
-      // Format the number in Indian currency style (e.g., 1,23,456)
-      return new Intl.NumberFormat('en-IN', {
-        maximumFractionDigits: 0,
-      }).format(amount);
+      return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(amount);
     }
   
     var variantMetafields = {
@@ -1121,16 +1118,18 @@
         {% unless forloop.last %},{% endunless %}
       {% endfor %}
     };
-      console.log(variantMetafields)
+  
     function updatePriceBreakdown(variantId) {
+      console.log("updatePriceBreakdown called with variantId:", variantId);
       var priceBreakdownList = document.getElementById('price-breakdown-list');
       var selectedVariantBreakdown = variantMetafields[variantId];
   
       if (selectedVariantBreakdown) {
+        console.log("Found price breakdown for variantId:", selectedVariantBreakdown);
         priceBreakdownList.innerHTML = '';
-  
         Object.keys(selectedVariantBreakdown).forEach(function (key) {
           var item = selectedVariantBreakdown[key];
+          console.log("Processing price breakdown item:", key, item);
   
           var listItem = document.createElement('li');
           listItem.innerHTML = `
@@ -1168,10 +1167,10 @@
           priceBreakdownList.appendChild(listItem);
         });
       } else {
+        console.warn("No price breakdown available for variantId:", variantId);
         priceBreakdownList.innerHTML =
           '<li>No price breakdown available for this variant.</li>';
       }
-      console.log('updatePriceBreakdown Triggered')
     }
   
     // Get the selected variant ID from the URL or fallback to the first variant
@@ -1180,23 +1179,35 @@
       Object.keys(variantMetafields).find((id) => variantMetafields[id] !== null);
   
     if (selectedVariantId) {
+      console.log("Initial selectedVariantId:", selectedVariantId);
       updatePriceBreakdown(selectedVariantId);
-      console.log('selectedVariantId updated')
     } else {
       console.error("No valid variant metafields found.");
     }
   
-    // Add event listener for variant selection
-    document.querySelectorAll('[data-variant-id]').forEach(function (variantButton) {
-      variantButton.addEventListener('click', function () {
-        var newVariantId = this.getAttribute('data-variant-id');
+    // Add event listener to the select dropdown for variant change
+    var selectElement = document.querySelector('.select__select');
+    if (selectElement) {
+      console.log("Select element found:", selectElement);
+      selectElement.addEventListener('change', function () {
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        console.log("Option selected:", selectedOption);
+  
+        var newVariantId = selectedOption.getAttribute('data-option-value-id');
+        console.log("New variantId from selected option:", newVariantId);
+  
         if (newVariantId) {
           updatePriceBreakdown(newVariantId);
+        } else {
+          console.error("No variantId found for selected option.");
         }
       });
-    });
+    } else {
+      console.error("Select element not found.");
+    }
   
     function togglePopup() {
+      console.log("Toggle popup called.");
       document.querySelector('.price-breakdown-popup').classList.toggle('active');
       document.getElementById('overlay').classList.toggle('active');
     }

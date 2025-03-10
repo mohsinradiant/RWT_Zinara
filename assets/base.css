@@ -667,7 +667,7 @@ summary {
 
 summary .icon-caret {
   position: absolute;
-  height: 0.6rem;
+  height: 0.8rem;
   right: 1.5rem;
   top: calc(50% - 0.2rem);
 }
@@ -2583,6 +2583,8 @@ input[type='checkbox'] {
   display: block;
   position: absolute;
   background: rgba(var(--color-foreground), 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .header__icon--account shop-user-avatar {

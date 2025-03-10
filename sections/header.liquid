@@ -82,7 +82,7 @@
 
   @media screen and (min-width: 750px) {
     .list-menu__item--link {
-      padding-bottom: 0.5rem;
+      padding-bottom: 0;
       padding-top: 0.5rem;
     }
   }
@@ -326,7 +326,8 @@
         <div class="dropdown">
           <a class="header__menu-item list-menu__item link link--text focus-inset dropdown-toggle" href="{{ link.url }}">
             {{ link.title }}
-            {{- 'icon-caret.svg' | inline_asset_content -}}
+            {% comment %} {{- 'icon-caret.svg' | inline_asset_content -}} {% endcomment %}
+             <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Expand_Arrow_1.png?v=1741605528">
             </a>
           <div class="dropdown-menu">
             {% for sublink in link.links %}

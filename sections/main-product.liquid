@@ -1173,44 +1173,51 @@
       }
     }
   
-    // Get the selected variant ID from the URL or fallback to the first variant
-    var selectedVariantId =
-      new URLSearchParams(window.location.search).get('variant') ||
-      Object.keys(variantMetafields).find((id) => variantMetafields[id] !== null);
+    function initializePriceBreakdownListener() {
+      console.log("Initializing price breakdown listener...");
   
-    if (selectedVariantId) {
-      console.log("Initial selectedVariantId:", selectedVariantId);
-      updatePriceBreakdown(selectedVariantId);
-    } else {
-      console.error("No valid variant metafields found.");
+      var selectElement = document.querySelector('.select__select');
+      if (selectElement) {
+        console.log("Select element found:", selectElement);
+  
+        selectElement.addEventListener('change', function () {
+          var selectedOption = selectElement.options[selectElement.selectedIndex];
+          console.log("Option selected:", selectedOption);
+  
+          var newVariantId = selectedOption.getAttribute('data-option-value-id');
+          console.log("New variantId from selected option:", newVariantId);
+  
+          if (newVariantId) {
+            updatePriceBreakdown(newVariantId);
+          } else {
+            console.error("No variantId found for selected option.");
+          }
+        });
+      } else {
+        console.error("Select element not found.");
+      }
     }
   
-    // Add event listener to the select dropdown for variant change
-    var selectElement = document.querySelector('.select__select');
-    if (selectElement) {
-      console.log("Select element found:", selectElement);
-      selectElement.addEventListener('change', function () {
-        var selectedOption = selectElement.options[selectElement.selectedIndex];
-        console.log("Option selected:", selectedOption);
-  
-        var newVariantId = selectedOption.getAttribute('data-option-value-id');
-        console.log("New variantId from selected option:", newVariantId);
-  
-        if (newVariantId) {
-          updatePriceBreakdown(newVariantId);
-        } else {
-          console.error("No variantId found for selected option.");
+    // Monitor for DOM changes
+    var observer = new MutationObserver(function (mutationsList) {
+      for (var mutation of mutationsList) {
+        if (
+          mutation.type === 'childList' &&
+          mutation.target.classList.contains('product-form__input--dropdown')
+        ) {
+          console.log("Dropdown element changed. Reinitializing listener.");
+          initializePriceBreakdownListener();
         }
-      });
-    } else {
-      console.error("Select element not found.");
-    }
+      }
+    });
   
-    function togglePopup() {
-      console.log("Toggle popup called.");
-      document.querySelector('.price-breakdown-popup').classList.toggle('active');
-      document.getElementById('overlay').classList.toggle('active');
-    }
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+  
+    // Initial call
+    initializePriceBreakdownListener();
   </script>
 
   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>

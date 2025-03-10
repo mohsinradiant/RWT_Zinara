@@ -119,6 +119,12 @@
               // Add event listener to all add buttons
               document.querySelectorAll('.add-item-button').forEach((addButton) => {
                 addButton.addEventListener('click', function () {
+                  // Check if the maximum limit is reached
+                  if (selectedProductIds.length >= 10) {
+                    alert('Maximum limit reached');
+                    return; // Exit the function without adding the product
+                  }
+
                   // Get the parent product card element
                   const productCard = addButton.closest('.product-card');
 

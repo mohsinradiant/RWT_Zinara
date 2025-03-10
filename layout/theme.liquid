@@ -495,55 +495,62 @@
   console.log('Variant Metafields:', variantMetafields);
           
   function updatePriceBreakdown(variantId) {
-          console.log(`Updating price breakdown for variant ID: ${variantId}`);
-          var priceBreakdownList = document.getElementById('price-breakdown-list');
-          const selectedVariantBreakdown = variantMetafields[String(variantId)]; // Ensure string key match
+  console.log(`Updating price breakdown for variant ID: ${variantId}`);
+  var priceBreakdownList = document.getElementById('price-breakdown-list');
+  const selectedVariantBreakdown = variantMetafields[String(variantId)];
 
-          if (selectedVariantBreakdown) {
-          priceBreakdownList.innerHTML = ''; // Clear existing content
+  console.log("Selected Variant Breakdown:", selectedVariantBreakdown);
 
-          Object.keys(selectedVariantBreakdown).forEach(function (key) {
-          var item = selectedVariantBreakdown[key];
-          var listItem = document.createElement('li');
-          listItem.innerHTML = `
-              <div class="price_breakdown-left_container">
-              <div class="price_breakdown-left_container_top">
-                <span>${key}</span>
-                ${
-                  item.compare_at_price > 0 && item.selling_price > 0
-                    ? `<span class="price_discount">${Math.round(
-                        ((item.compare_at_price - item.selling_price) /
-                          item.compare_at_price) *
-                          100
-                      )}% off</span>`
-                    : ''
-                }
-              </div>
-              <div class="price_breakdown-left_container_bottom">
-                <p>${item.subtitle_1 || ''}</p>
-                <p>${item.subtitle_2 || ''}</p>
-              </div>
-                </div>
-                <div class="price_breakdown-right_container">
-              ${
-                item.selling_price > 0
-                  ? `<span>₹${formatMoney(item.selling_price)}</span>`
-                  : ''
-              }
-              ${
-                item.compare_at_price > 0
-                  ? `<span class="price_breakdown_compare_at_price">₹${formatMoney(item.compare_at_price)}</span>`
-                  : ''
-              }
-                </div>
-            `;
-            priceBreakdownList.appendChild(listItem);
-            });
-            } else {
-              priceBreakdownList.innerHTML =
-                '<li>No price breakdown available for this variant.</li>';
+  if (selectedVariantBreakdown) {
+    console.log("Variant breakdown found, updating the UI...");
+    priceBreakdownList.innerHTML = ''; // Clear existing content
+
+    Object.keys(selectedVariantBreakdown).forEach(function (key) {
+      var item = selectedVariantBreakdown[key];
+      console.log(`Rendering breakdown for: ${key}`, item);
+
+      var listItem = document.createElement('li');
+      listItem.innerHTML = `
+        <div class="price_breakdown-left_container">
+          <div class="price_breakdown-left_container_top">
+            <span>${key}</span>
+            ${
+              item.compare_at_price > 0 && item.selling_price > 0
+                ? `<span class="price_discount">${Math.round(
+                    ((item.compare_at_price - item.selling_price) /
+                      item.compare_at_price) *
+                      100
+                  )}% off</span>`
+                : ''
             }
+          </div>
+          <div class="price_breakdown-left_container_bottom">
+            <p>${item.subtitle_1 || ''}</p>
+            <p>${item.subtitle_2 || ''}</p>
+          </div>
+        </div>
+        <div class="price_breakdown-right_container">
+          ${
+            item.selling_price > 0
+              ? `<span>₹${formatMoney(item.selling_price)}</span>`
+              : ''
+          }
+          ${
+            item.compare_at_price > 0
+              ? `<span class="price_breakdown_compare_at_price">₹${formatMoney(item.compare_at_price)}</span>`
+              : ''
+          }
+        </div>
+      `;
+      priceBreakdownList.appendChild(listItem);
+    });
+  } else {
+    console.warn("No data found for this variant, showing fallback message.");
+    priceBreakdownList.innerHTML =
+      '<li>No price breakdown available for this variant.</li>';
   }
+}
+
           
   // Function to check the current variant in the URL
   function checkVariantInURL() {

@@ -466,6 +466,7 @@
     </script>
     {% if template == 'product' %}
       <script>
+        const urlParams = new URLSearchParams(window.location.search);
         const variantIdFromURL = urlParams.get("variant");
         function formatMoney(amount) {
           return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(amount);

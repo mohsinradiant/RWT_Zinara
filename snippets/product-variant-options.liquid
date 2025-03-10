@@ -109,7 +109,6 @@
         {% endif %}
       {% endif %}
       {{ input_dataset }}
-      data-variant-id="{{ variant.id }}"
     >
       {% if option_disabled -%}
         {{- 'products.product.value_unavailable' | t: option_value: value -}}

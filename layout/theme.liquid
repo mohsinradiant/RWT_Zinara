@@ -497,10 +497,10 @@
         function updatePriceBreakdown(variantId) {
   console.log(`Updating price breakdown for variant ID: ${variantId}`);
   var priceBreakdownList = document.getElementById('price-breakdown-list');
-  var selectedVariantBreakdown = variantMetafields[variantId];
+  const selectedVariantBreakdown = variantMetafields[String(variantId)]; // Ensure string key match
 
   if (selectedVariantBreakdown) {
-    priceBreakdownList.innerHTML = '';
+    priceBreakdownList.innerHTML = ''; // Clear existing content
 
     Object.keys(selectedVariantBreakdown).forEach(function (key) {
       var item = selectedVariantBreakdown[key];
@@ -540,9 +540,11 @@
       priceBreakdownList.appendChild(listItem);
     });
   } else {
-    priceBreakdownList.innerHTML = '<li>No price breakdown available for this variant.</li>';
+    priceBreakdownList.innerHTML =
+      '<li>No price breakdown available for this variant.</li>';
   }
 }
+
       
 // Function to check the current variant in the URL
 function checkVariantInURL() {

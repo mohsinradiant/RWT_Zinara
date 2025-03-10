@@ -512,6 +512,9 @@ for (let i = 0; i < 7; i++) {
 <script>
   // Submit Form
   document.getElementById('bookTrialTah').addEventListener('click', async () => {
+    const button = this; // Reference to the button
+    button.classList.add('loading'); // Add loading state
+    button.disabled = true; // Disable the button
     try {
       // Get selected date and time
       const activeDateBtn = document.querySelector('.date-btn.selected');
@@ -683,6 +686,9 @@ for (let i = 0; i < 7; i++) {
       }
     } catch (error) {
       console.error('Error during submission:', error);
+    } finally {
+      button.classList.remove('loading'); // Remove loading state
+      button.disabled = false; // Re-enable the button
     }
   });
 

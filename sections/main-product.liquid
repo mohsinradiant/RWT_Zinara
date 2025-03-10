@@ -1121,7 +1121,7 @@
         {% unless forloop.last %},{% endunless %}
       {% endfor %}
     };
-  
+      console.log(variantMetafields)
     function updatePriceBreakdown(variantId) {
       var priceBreakdownList = document.getElementById('price-breakdown-list');
       var selectedVariantBreakdown = variantMetafields[variantId];

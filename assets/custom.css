@@ -981,7 +981,7 @@ header .menu-drawer {
     transform: rotate(180deg) translateY(10px);
 }
 
-#HeaderDrawer-products .icon-caret {
+#HeaderDrawer-products svg {
     display: flex !important;
     position: unset !important;
     height: unset !important;

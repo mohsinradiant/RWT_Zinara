@@ -485,14 +485,14 @@ product-info media-gallery {
 product-info .product__title h1 {
     font-family: 'Quicksand';
     font-weight: 400;
-    font-size: 1.8rem;
+    font-size: 2rem;
     letter-spacing: 0;
 }
 
 product-info .price__container span {
     font-family: 'Quicksand';
     font-weight: 600;
-    font-size: 2.6rem;
+    font-size: 2.8rem;
     letter-spacing: 0;
 }
 
@@ -722,7 +722,7 @@ body.no-scroll {
     font-family: 'Quicksand';
     font-weight: 600;
     letter-spacing: 0;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     cursor: pointer;
 }
 
@@ -790,7 +790,7 @@ body.no-scroll {
     font-family: 'Quicksand';
     font-weight: 600;
     letter-spacing: 0;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
 }
 
 .price-breakdown-icon {

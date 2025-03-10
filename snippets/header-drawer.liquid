@@ -165,26 +165,33 @@
                                 {{ childlink.title | escape }}
                               </a>
                             {%- else -%}
-                              {{ childlink.title | escape }}
-                              <span class="svg-wrapper">
-                                {{- 'icon-caret.svg' | inline_asset_content -}}
-                              </span>
-                              <ul class="dropdown-menu list-menu">
-                                {%- for grandchildlink in childlink.links -%}
-                                  <li>
-                                    <a
-                                      id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
-                                      href="{{ grandchildlink.url }}"
-                                      class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
-                                      {% if grandchildlink.current %}
-                                        aria-current="page"
-                                      {% endif %}
-                                    >
-                                      {{ grandchildlink.title | escape }}
-                                    </a>
-                                  </li>
-                                {%- endfor -%}
-                              </ul>
+                              <details class="dropdown">
+                                <summary
+                                  id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
+                                  class="menu-drawer__menu-item link link--text list-menu__item focus-inset"
+                                >
+                                  {{ childlink.title | escape }}
+                                  <span class="svg-wrapper">
+                                    {{- 'icon-caret.svg' | inline_asset_content -}}
+                                  </span>
+                                </summary>
+                                <ul class="dropdown-menu list-menu">
+                                  {%- for grandchildlink in childlink.links -%}
+                                    <li>
+                                      <a
+                                        id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                        href="{{ grandchildlink.url }}"
+                                        class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                        {% if grandchildlink.current %}
+                                          aria-current="page"
+                                        {% endif %}
+                                      >
+                                        {{ grandchildlink.title | escape }}
+                                      </a>
+                                    </li>
+                                  {%- endfor -%}
+                                </ul>
+                              </details>
                             {%- endif -%}
                           </li>
                         {%- endfor -%}

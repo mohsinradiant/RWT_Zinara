@@ -212,12 +212,12 @@ slideshow-component .slideshow {
 }
 
 .c-menu3 img {
-    width: 15px;
+    width: 27px;
 }
 
 .c-menu3 .dropdown a {
     display: flex;
-    gap: 7px;
+    gap: 3px;
 }
 
 .header-drawer-and-logo {

@@ -6,6 +6,25 @@
     </div>
     <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_24.png?v=1741598569">
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const images = document.querySelectorAll('.tah-content-header_helpline-container img');
+
+      if (images.length > 0) {
+        // Handle the first image click (Go back)
+        images[0].addEventListener('click', () => {
+          window.history.back(); // Navigate to the previous page
+        });
+
+        // Handle the second image click (Dial phone number)
+        if (images[1]) {
+          images[1].addEventListener('click', () => {
+            window.location.href = 'tel:8851812814'; // Dial the phone number
+          });
+        }
+      }
+    });
+  </script>
   <div class="content-1-tah">
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>

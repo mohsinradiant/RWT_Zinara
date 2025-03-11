@@ -34,7 +34,7 @@
         <!-- Product details will be inserted here -->
       </div>
       <div class="select-time-slot-content-1-wrapper">
-        <button class="page-width" id="select-time-slot-content-1">Select Time Slot</button>
+        <button id="select-time-slot-content-1">Select Time Slot</button>
       </div>
     </div>
 
@@ -884,6 +884,12 @@ for (let i = 0; i < 7; i++) {
     font-weight: 400;
     cursor: pointer;
     font-family: 'Quicksand';
+    margin-right: 12rem;
+  }
+  @media (max-width: 1200px) {
+    #select-time-slot-content-1 {
+      margin-right: 4rem;
+    }
   }
   #productCardContainer {
     display: flex;
@@ -1241,6 +1247,9 @@ for (let i = 0; i < 7; i++) {
     background: #f2eeeb;
   }
   @media (max-width: 756px) {
+    #select-time-slot-content-1 {
+      margin-right: 0;
+    }
     .tryAtHomePopup-input_container_parent {
       flex-direction: column;
     }

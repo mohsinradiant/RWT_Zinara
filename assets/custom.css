@@ -997,6 +997,12 @@ header .menu-drawer {
     opacity: 0.6;
 }
 
+.facets-vertical .facets-wrapper {
+    position: sticky;
+    top: 14rem;
+    height: fit-content;
+}
+
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;

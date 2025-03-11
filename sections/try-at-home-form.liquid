@@ -884,6 +884,12 @@ for (let i = 0; i < 7; i++) {
     font-weight: 400;
     cursor: pointer;
     font-family: 'Quicksand';
+    margin-right: 12rem;
+  }
+  @media (max-width: 1290px) {
+    #select-time-slot-content-1 {
+      margin-right: 4rem;
+    }
   }
   #productCardContainer {
     display: flex;
@@ -908,7 +914,7 @@ for (let i = 0; i < 7; i++) {
   }
   .collection-products-container .product-card {
     display: flex;
-    width: 32%;
+    width: 24%;
     height: fit-content;
     flex-direction: column;
     justify-content: center;
@@ -1228,7 +1234,23 @@ for (let i = 0; i < 7; i++) {
     margin: 0;
     font-weight: 600;
   }
+  .select-time-slot-content-1-wrapper {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    justify-content: end;
+    align-items: center;
+    padding: 15px;
+    background: #f2eeeb;
+    z-index: 1;
+  }
   @media (max-width: 756px) {
+    #select-time-slot-content-1 {
+      margin-right: 0;
+    }
     .tryAtHomePopup-input_container_parent {
       flex-direction: column;
     }
@@ -1242,10 +1264,10 @@ for (let i = 0; i < 7; i++) {
       min-width: 88%;
     }
     .try-at-home-button-sticky {
-      width: 49%;
+      width: 100%;
     }
     .sticky-atc-container div {
-      width: 49%;
+      width: 100%;
     }
     .sticky-atc-container div .product-form__buttons {
       width: 100%;

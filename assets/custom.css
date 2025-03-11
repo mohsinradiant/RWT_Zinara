@@ -338,6 +338,12 @@ header .header__search {
     z-index: 1;
 }
 
+@media(min-width:756px) {
+    .facets-vertical .active-facets {
+        top: -4rem
+    }
+}
+
 #FacetsWrapperDesktop {
     position: relative;
 }
@@ -362,6 +368,10 @@ header .header__search {
 
 .facet-filters .select .svg-wrapper {
     right: 20px !important;
+}
+
+.product-grid-container {
+    background-color: #fff;
 }
 
 .facets-vertical .product-grid-container .grid:last-child {
@@ -581,7 +591,7 @@ product-info variant-selects img {
 
 .try-at-home-button,
 .product-form__buttons button {
-    width: 48%;
+    width: 100%;
     margin: 0;
     padding: 10px 0;
 }
@@ -997,6 +1007,14 @@ header .menu-drawer {
     opacity: 0.6;
 }
 
+@media(min-width:756px) {
+    .facets-vertical .facets-wrapper {
+        position: sticky;
+        top: 14rem;
+        height: fit-content;
+    }
+}
+
 @media(max-width:1000px) {
     .facets-vertical .active-facets {
         top: 285px;
@@ -1008,6 +1026,28 @@ header .menu-drawer {
 }
 
 @media (max-width: 756px) {
+    product-info .product__title h1 {
+        font-size: 1.4rem;
+    }
+
+    product-info .price__container span, .price--on-sale .price-item--regular {
+        font-size: 2.3rem !important;
+    }
+
+    .collapsible-content__grid .accordion h3 {
+        font-size: 1.4rem;
+    }
+
+    .collapsible-content__grid .accordion p {
+        line-height: 1.7rem;
+        font-size: 1.4rem;
+    }
+
+
+    summary .icon-caret {
+        top: calc(50% - .5rem);
+    }
+
     header .menu-drawer {
         width: 78%;
     }
@@ -1094,7 +1134,7 @@ header .menu-drawer {
     }
 
     .product-grid-container facet-filters-form form h1 {
-        font-weight: 600;
+        font-weight: 500;
         margin: 0 !important;
     }
 
@@ -1239,7 +1279,7 @@ header .menu-drawer {
     .home-try-at-home-section-left p {
         font-size: 1.2rem;
         width: 100%;
-        font-weight: 600;
+        font-weight: 400;
         line-height: 1.5rem;
     }
 
@@ -1353,7 +1393,7 @@ header .menu-drawer {
 
     .home-try-at-home-section-left .section-heading {
         margin: 0 !important;
-        font-size: 2.2rem !important;
+        font-size: 2rem !important;
     }
 
     .section-heading,

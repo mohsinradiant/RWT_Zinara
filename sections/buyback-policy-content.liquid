@@ -1,0 +1,37 @@
+<h2 class="section-heading">{{ section.settings.heading }}</h2>
+{{ section.settings.content | metafield_tag }}
+<h2 class="section-heading">{{ section.settings.heading_2 }}</h2>
+{{ section.settings.content_2 | metafield_tag }}
+
+{% schema %}
+{
+  "name": "Home About Us",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading_2",
+      "label": "Section Heading 2"
+    },
+    {
+      "type": "richtext",
+      "id": "content_2",
+      "label": "Content 2"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Buyback Policy Content"
+    }
+  ]
+}
+{% endschema %}

@@ -288,8 +288,6 @@
                       .sticky-atc-container {
                         display: flex !important;
                         justify-content: space-between;
-                        padding-left: 10px;
-                        padding-right: 6px;
                       }
                       .sticky-atc-container {
                         position: fixed;
@@ -299,8 +297,10 @@
                         z-index: 5;
                         width: 100%;
                         background-color: #f2eeeb;
-                        padding-top: 15px;
-                        padding-bottom: 15px;
+                        padding: 15px;
+                        gap: 10px;
+                        align-items: center;
+                        justify-content: center;
                       }
                       .sticky-atc-container form {
                         width: 100%;
@@ -1101,24 +1101,234 @@
     show_pickup_availability: true
   -%}
 </div>
+<!-- Try at Home Pincode Checker Popup -->
+<div id="tryAtHomeOverlay" class="try-at-home-overlay" style="display: none;">
+  <div id="tryAtHomePincodePopup" class="try-at-home-pincode-popup">
+    <button id="tryAtHomeClose" class="try-at-home-close-btn">&times;</button>
+    <h3 class="try-at-home-title">Enter pincode to check availability</h3>
+    <input
+      id="tryAtHomeZipcode"
+      type="text"
+      class="try-at-home-pincode-input"
+      placeholder="Pincode"
+      maxlength="6"
+    >
+    <button
+      id="tryAtHomeSubmitBtn"
+      type="submit"
+      class="try-at-home-pincode-button"
+    >
+      Check Availability
+    </button>
+    <div id="tryAtHomeRes" class="try-at-home-pincode-result"></div>
+  </div>
+</div>
+
+<style>
+  /* Overlay and background blur */
+  .try-at-home-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  /* Popup container */
+  .try-at-home-pincode-popup {
+    position: relative;
+    background: #f4eeeb;
+    padding: 30px 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 415px;
+    width: 90%;
+  }
+
+  /* Close button */
+  .try-at-home-close-btn {
+    position: absolute;
+    top: 37px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 4rem;
+    cursor: pointer;
+    font-weight: 500;
+    font-family: 'Quicksand';
+    line-height: 0;
+    color: #712242;
+  }
+
+  /* Title */
+  .try-at-home-title {
+    font-size: 2rem;
+    margin: 0;
+    font-weight: 500;
+    font-family: 'Playfair Display';
+    text-align: left;
+  }
+
+  /* Input field */
+  .try-at-home-pincode-input {
+    border: none;
+    color: #712242;
+    font-size: 1.7rem;
+    letter-spacing: 0;
+    font-family: 'Quicksand';
+    font-weight: 600;
+    width: 100%;
+    margin: 19px 0;
+    padding: 9px;
+    background: transparent;
+    border-bottom: solid 1px #71224230;
+  }
+
+  /* Remove up and down arrows from number inputs */
+  .try-at-home-pincode-input[type='text']::-webkit-inner-spin-button,
+  .try-at-home-pincode-input[type='text']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .try-at-home-pincode-input[type='text'] {
+    -moz-appearance: textfield; /* For Firefox */
+  }
+
+  .try-at-home-pincode-input::placeholder {
+    color: #71224280;
+    font-size: 1.7rem;
+  }
+
+  /* Submit button */
+  .try-at-home-pincode-button {
+    background: #712242;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.6rem;
+    cursor: pointer;
+    width: 100%;
+    font-family: 'Quicksand';
+    font-weight: 600;
+  }
+
+  .try-at-home-pincode-button:hover {
+    background: #71224260;
+  }
+
+  /* Result messages */
+  .try-at-home-pincode-result {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .try-at-home-pincode-result.invalid {
+    color: red;
+  }
+
+  .try-at-home-pincode-result.available {
+    color: green;
+  }
+
+  .try-at-home-pincode-result.unavailable {
+    color: orange;
+  }
+</style>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    const overlay = document.getElementById('tryAtHomeOverlay');
+    const pincodePopup = document.getElementById('tryAtHomePincodePopup');
+    const closeButton = document.getElementById('tryAtHomeClose');
+    const submitButton = document.getElementById('tryAtHomeSubmitBtn');
+    const zipcodeInput = document.getElementById('tryAtHomeZipcode');
+    const res = document.getElementById('tryAtHomeRes');
+
+    const validPincodes = ['110001', '560001', '400001']; // Example valid pincodes
+
+    // Show the popup
+    document.getElementById('tryAtHomeButton').addEventListener('click', () => {
+      overlay.style.display = 'flex';
+    });
+
+    // Close the popup when clicking the close button
+    closeButton.addEventListener('click', () => {
+      overlay.style.display = 'none';
+    });
+
+    // Close the popup when clicking outside the container
+    overlay.addEventListener('click', (e) => {
+      if (!pincodePopup.contains(e.target)) {
+        overlay.style.display = 'none';
+      }
+    });
+
+    // Handle pincode check
+    submitButton.addEventListener('click', () => {
+      const zipcode = zipcodeInput.value.trim();
+      const pincodeRegex = /^[1-9][0-9]{5}$/;
+
+      if (!pincodeRegex.test(zipcode)) {
+        res.textContent = 'Invalid Pincode';
+        res.className = 'try-at-home-pincode-result invalid';
+        return;
+      }
+
+      if (validPincodes.includes(zipcode)) {
+        res.textContent = 'Available';
+        res.className = 'try-at-home-pincode-result available';
+
+        // Redirect to the "Try at Home" URL
+        const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
+        const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(tryAtHomeUrl)}`;
+        window.location.href = loginRedirectUrl;
+      } else {
+        res.textContent = 'Pincode Not Available';
+        res.className = 'try-at-home-pincode-result unavailable';
+      }
+    });
+
+    // Restrict input to numbers only
+    zipcodeInput.addEventListener('input', (event) => {
+      event.target.value = event.target.value.replace(/[^0-9]/g, '');
+    });
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inventoryElement = document.querySelector('.product__inventory');
     const tryAtHomeButton = document.getElementById('tryAtHomeButton');
 
-    if (tryAtHomeButton) {
-      // Use Liquid to fetch the product handle
-      const productHandle = '{{ product.handle }}';
+    function updateButtonVisibility() {
+      if (inventoryElement && tryAtHomeButton) {
+        const inventoryText = inventoryElement.textContent.trim().toLowerCase();
 
-      tryAtHomeButton.addEventListener('click', function () {
-        // Redirect to the "Try at Home" page; Shopify handles login redirect automatically
-        const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle=${productHandle}`;
+        // Check if inventory text indicates availability
+        if (inventoryText.includes('in stock') && parseInt(inventoryText) > 0) {
+          tryAtHomeButton.style.display = 'flex';
+        } else {
+          tryAtHomeButton.style.display = 'none';
+        }
+      }
+    }
 
-        // Append login redirection URL
-        const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(tryAtHomeUrl)}`;
+    // Initial update
+    updateButtonVisibility();
 
-        // Redirect the user
-        window.location.href = loginRedirectUrl;
-      });
+    // Observe changes in the inventory element
+    const observer = new MutationObserver(() => {
+      updateButtonVisibility();
+    });
+
+    if (inventoryElement) {
+      observer.observe(inventoryElement, { childList: true, subtree: true });
     }
   });
 </script>
@@ -1156,10 +1366,10 @@
 <style>
   @media (max-width: 756px) {
     .try-at-home-button-sticky {
-      width: 49%;
+      width: 100%;
     }
     .sticky-atc-container div {
-      width: 49%;
+      width: 100%;
     }
     .sticky-atc-container div .product-form__buttons {
       width: 100%;

@@ -1,6 +1,5 @@
 <h2 class="section-heading">{{ section.settings.heading }}</h2>
-{% capture rendered_content %}{{ section.settings.content | metafield_tag }}{% endcapture %}
-{{ rendered_content | raw }}
+<p>{{ section.settings.content | metafield_tag }}</p>
 <h2 class="section-heading">{{ section.settings.heading_2 }}</h2>
 {{ section.settings.content_2 | metafield_tag }}
 

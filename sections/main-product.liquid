@@ -1094,50 +1094,6 @@
 </div>
 <div class="sticky-atc-container">
   <p id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</p>
-  <div id="tryAtHomePincodePopup" class="try-at-home-pincode-popup" style="display: none;">
-    <div class="try-at-home-pincode-container">
-      <div class="try-at-home-pincode-left">
-        <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Location_1.png?v=1738797670">
-        <input
-          id="tryAtHomeZipcode"
-          type="number"
-          class="try-at-home-pincode-input"
-          placeholder="Enter Pincode"
-          maxlength="6"
-        >
-      </div>
-      <button
-        id="tryAtHomeSubmitBtn"
-        type="submit"
-        class="try-at-home-pincode-button"
-      >
-        Check Availability
-      </button>
-    </div>
-    <div id="tryAtHomeRes" class="try-at-home-pincode-result"></div>
-  </div>
-  <style>
-    .try-at-home-pincode-popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-
-      padding: 20px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-    }
-    .try-at-home-pincode-result.invalid {
-      color: red;
-    }
-    .try-at-home-pincode-result.available {
-      color: green;
-    }
-    .try-at-home-pincode-result.unavailable {
-      color: orange;
-    }
-  </style>
   {%- render 'buy-buttons',
     product: product,
     product_form_id: product_form_id,
@@ -1145,6 +1101,50 @@
     show_pickup_availability: true
   -%}
 </div>
+<div id="tryAtHomePincodePopup" class="try-at-home-pincode-popup" style="display: none;">
+  <div class="try-at-home-pincode-container">
+    <div class="try-at-home-pincode-left">
+      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Location_1.png?v=1738797670">
+      <input
+        id="tryAtHomeZipcode"
+        type="number"
+        class="try-at-home-pincode-input"
+        placeholder="Enter Pincode"
+        maxlength="6"
+      >
+    </div>
+    <button
+      id="tryAtHomeSubmitBtn"
+      type="submit"
+      class="try-at-home-pincode-button"
+    >
+      Check Availability
+    </button>
+  </div>
+  <div id="tryAtHomeRes" class="try-at-home-pincode-result"></div>
+</div>
+<style>
+  .try-at-home-pincode-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  .try-at-home-pincode-result.invalid {
+    color: red;
+  }
+  .try-at-home-pincode-result.available {
+    color: green;
+  }
+  .try-at-home-pincode-result.unavailable {
+    color: orange;
+  }
+</style>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const tryAtHomeButton = document.getElementById('tryAtHomeButton');

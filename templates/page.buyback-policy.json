@@ -11,13 +11,24 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "buyback_policy_content_TA8Nxz": {
+      "type": "buyback-policy-content",
+      "settings": {
+        "heading": "Zinara BuyBack Policy",
+        "content": "<p>We offer a Lifetime Exchange & Buy-Back Policy on all purchases from ZINARA. You can return the product along with its original certificate for exchange or buy-back based on the current market value.</p><p></p><p>Deductions will be made for making charges, taxes, and a Rs. 1,000 processing fee. Additionally, if your purchase included a discount or a free gift, the corresponding value will be deducted on a pro-rata basis.</p>",
+        "heading_2": "Required Documents",
+        "content_2": ""
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "buyback_policy_content_TA8Nxz"
   ]
 }

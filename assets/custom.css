@@ -1035,9 +1035,6 @@ header .menu-drawer {
         font-size: 1.4rem;
     }
 
-    .collapsible-content__grid .icon-caret {
-        top: calc(50% - 1rem);
-    }
 
     summary .icon-caret {
         top: calc(50% - .5rem);

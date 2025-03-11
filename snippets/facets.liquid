@@ -238,6 +238,7 @@
                           href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.css"
                           rel="stylesheet"
                         >
+                        {% comment %} price-slider-container script 1 {% endcomment %}
                         <script>
                           document.addEventListener('DOMContentLoaded', function () {
                             // Show Results Button Functionality
@@ -793,14 +794,15 @@
                         href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.css"
                         rel="stylesheet"
                       >
+                      {% comment %} price-slider-container script 2 {% endcomment %}
                       <script>
                         document.addEventListener('DOMContentLoaded', function () {
                           const initializePriceSlider = () => {
                             const slider = document.getElementById('price-slider-2');
                             if (!slider || slider.noUiSlider) return; // Exit if slider is already initialized or not found
 
-                            const minInput = document.getElementById('slider-min');
-                            const maxInput = document.getElementById('slider-max');
+                            const minInput = document.getElementById('slider-min-2');
+                            const maxInput = document.getElementById('slider-max-2');
 
                             const maxPrice = Number(slider.getAttribute('data-max-price')) || 100000;
 
@@ -866,9 +868,9 @@
                           data-max-price="{{ collection.products | map: 'price' | sort | last }}"
                         ></div>
                         <div class="price-slider-values">
-                          <span>₹<span id="slider-min">0</span> </span>
+                          <span>₹<span id="slider-min-2">0</span> </span>
                           <span
-                            >₹<span id="slider-max">{{ collection.products | map: 'price' | sort | last }}</span>
+                            >₹<span id="slider-max-2">{{ collection.products | map: 'price' | sort | last }}</span>
                           </span>
                         </div>
                       </div>

@@ -367,7 +367,9 @@ header .header__search {
 .facet-filters .select .svg-wrapper {
     right: 20px !important;
 }
-
+.product-grid-container{
+    background-color: #fff;
+}
 .facets-vertical .product-grid-container .grid:last-child {
     margin-top: 40px;
 }

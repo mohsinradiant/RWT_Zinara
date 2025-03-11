@@ -337,7 +337,11 @@ header .header__search {
     align-items: baseline !important;
     z-index: 1;
 }
-
+@media(min-width:756px){
+    .facets-vertical .active-facets{
+        top:-4rem
+    }
+}
 #FacetsWrapperDesktop {
     position: relative;
 }

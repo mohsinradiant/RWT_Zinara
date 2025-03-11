@@ -1,9 +1,16 @@
 <div class="page-width buyback-policy-content-container">
-  <h2 class="section-heading">{{ section.settings.heading }}</h2>
+  <h2>{{ section.settings.heading }}</h2>
   {{ section.settings.content }}
-  <h2 class="section-heading">{{ section.settings.heading_2 }}</h2>
+  <h2>{{ section.settings.heading_2 }}</h2>
   {{ section.settings.content_2 }}
 </div>
+<style>
+  .buyback-policy-content-container h2 {
+    font-size: 3rem;
+    font-weight: 500;
+  }
+</style>
+
 {% schema %}
 {
   "name": "Home About Us",

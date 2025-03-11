@@ -1093,7 +1093,7 @@
   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
 </div>
 <div class="sticky-atc-container">
-  {% if product.selected_or_first_available_variant.available %}
+  {% if product.selected_variant.available %}
     <p id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</p>
   {% endif %}
   {%- render 'buy-buttons',

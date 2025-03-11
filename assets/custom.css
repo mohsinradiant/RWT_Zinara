@@ -1009,6 +1009,12 @@ header .menu-drawer {
         top: 14rem;
         height: fit-content;
     }
+    .collapsible-content__grid .accordion h3{
+        font-size: 1.4rem;
+    }
+    summary .icon-caret{
+        top: calc(50% - 1rem);
+    }
 }
 
 @media(max-width:1000px) {

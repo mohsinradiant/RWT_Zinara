@@ -1101,18 +1101,17 @@
     show_pickup_availability: true
   -%}
 </div>
-<div id="tryAtHomePincodePopup" class="try-at-home-pincode-popup">
-  <div class="try-at-home-pincode-container">
-    <div class="try-at-home-pincode-left">
-      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Location_1.png?v=1738797670">
-      <input
-        id="tryAtHomeZipcode"
-        type="number"
-        class="try-at-home-pincode-input"
-        placeholder="Enter Pincode"
-        maxlength="6"
-      >
-    </div>
+<div id="tryAtHomeOverlay" class="try-at-home-overlay" style="display: none;">
+  <div id="tryAtHomePincodePopup" class="try-at-home-pincode-popup">
+    <button id="tryAtHomeClose" class="try-at-home-close-btn">&times;</button>
+    <h3 class="try-at-home-title">Enter pincode to check availability</h3>
+    <input
+      id="tryAtHomeZipcode"
+      type="number"
+      class="try-at-home-pincode-input"
+      placeholder="Pincode"
+      maxlength="6"
+    >
     <button
       id="tryAtHomeSubmitBtn"
       type="submit"
@@ -1120,27 +1119,94 @@
     >
       Check Availability
     </button>
+    <div id="tryAtHomeRes" class="try-at-home-pincode-result"></div>
   </div>
-  <div id="tryAtHomeRes" class="try-at-home-pincode-result"></div>
 </div>
 <style>
-  .try-at-home-pincode-popup {
+  /* Overlay and background blur */
+  .try-at-home-overlay {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
     display: none;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
     z-index: 1000;
   }
+
+  /* Popup container */
+  .try-at-home-pincode-popup {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+  }
+
+  /* Close button */
+  .try-at-home-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  /* Title */
+  .try-at-home-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+
+  /* Input field */
+  .try-at-home-pincode-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  /* Submit button */
+  .try-at-home-pincode-button {
+    background: #5e1f50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .try-at-home-pincode-button:hover {
+    background: #4b1840;
+  }
+
+  /* Result messages */
+  .try-at-home-pincode-result {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
   .try-at-home-pincode-result.invalid {
     color: red;
   }
+
   .try-at-home-pincode-result.available {
     color: green;
   }
+
   .try-at-home-pincode-result.unavailable {
     color: orange;
   }
@@ -1149,22 +1215,26 @@
   document.addEventListener('DOMContentLoaded', function () {
     const tryAtHomeButton = document.getElementById('tryAtHomeButton');
     const pincodePopup = document.getElementById('tryAtHomePincodePopup');
-    const btn = document.getElementById('tryAtHomeSubmitBtn');
+    const overlay = document.getElementById('tryAtHomeOverlay');
+    const closeButton = document.getElementById('tryAtHomeClose');
+    const submitButton = document.getElementById('tryAtHomeSubmitBtn');
     const zipcodeInput = document.getElementById('tryAtHomeZipcode');
     const res = document.getElementById('tryAtHomeRes');
 
-    // Use Liquid to fetch the product handle
-    const productHandle = '{{ product.handle }}';
+    const validPincodes = ['110001', '560001', '400001']; // Example valid pincodes
 
-    const validPincodes = ['110001', '560001', '400001']; // Example of available pincodes
-
-    // Show the pincode popup
-    tryAtHomeButton.addEventListener('click', function () {
-      pincodePopup.style.display = 'block';
+    // Show the popup
+    tryAtHomeButton.addEventListener('click', () => {
+      overlay.style.display = 'flex';
     });
 
-    // Handle pincode availability check
-    btn.addEventListener('click', function () {
+    // Close the popup
+    closeButton.addEventListener('click', () => {
+      overlay.style.display = 'none';
+    });
+
+    // Handle pincode check
+    submitButton.addEventListener('click', () => {
       const zipcode = zipcodeInput.value.trim();
       const pincodeRegex = /^[1-9][0-9]{5}$/;
 
@@ -1179,7 +1249,7 @@
         res.className = 'try-at-home-pincode-result available';
 
         // Redirect to the "Try at Home" URL
-        const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle=${productHandle}`;
+        const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
         const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(tryAtHomeUrl)}`;
         window.location.href = loginRedirectUrl;
       } else {

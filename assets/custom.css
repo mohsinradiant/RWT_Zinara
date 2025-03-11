@@ -1035,8 +1035,12 @@ header .menu-drawer {
         font-size: 1.4rem;
     }
 
-    summary .icon-caret {
+    .collapsible-content__grid .icon-caret {
         top: calc(50% - 1rem);
+    }
+
+    summary .icon-caret {
+        top: calc(50% - .5rem);
     }
 
     header .menu-drawer {
@@ -1125,7 +1129,7 @@ header .menu-drawer {
     }
 
     .product-grid-container facet-filters-form form h1 {
-        font-weight: 600;
+        font-weight: 500;
         margin: 0 !important;
     }
 

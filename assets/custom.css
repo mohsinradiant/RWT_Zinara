@@ -581,7 +581,7 @@ product-info variant-selects img {
 
 .try-at-home-button,
 .product-form__buttons button {
-    width: 48%;
+    width: 100%;
     margin: 0;
     padding: 10px 0;
 }

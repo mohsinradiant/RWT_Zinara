@@ -1030,6 +1030,11 @@ header .menu-drawer {
         font-size: 1.4rem;
     }
 
+    .collapsible-content__grid .accordion p {
+        line-height: 1.7rem;
+        font-size: 1.4rem;
+    }
+
     summary .icon-caret {
         top: calc(50% - 1rem);
     }

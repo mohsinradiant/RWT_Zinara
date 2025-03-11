@@ -1094,6 +1094,49 @@
 </div>
 <div class="sticky-atc-container">
   <p id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</p>
+  <div id="tryAtHomePincodePopup" class="try-at-home-pincode-popup" style="display: none;">
+    <div class="try-at-home-pincode-container">
+      <div class="try-at-home-pincode-left">
+        <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Location_1.png?v=1738797670">
+        <input
+          id="tryAtHomeZipcode"
+          type="number"
+          class="try-at-home-pincode-input"
+          placeholder="Enter Pincode"
+          maxlength="6"
+        >
+      </div>
+      <button
+        id="tryAtHomeSubmitBtn"
+        type="submit"
+        class="try-at-home-pincode-button"
+      >
+        Check Availability
+      </button>
+    </div>
+    <div id="tryAtHomeRes" class="try-at-home-pincode-result"></div>
+  </div>
+  <style>
+    .try-at-home-pincode-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    .try-at-home-pincode-result.invalid {
+      color: red;
+    }
+    .try-at-home-pincode-result.available {
+      color: green;
+    }
+    .try-at-home-pincode-result.unavailable {
+      color: orange;
+    }
+  </style>
   {%- render 'buy-buttons',
     product: product,
     product_form_id: product_form_id,
@@ -1104,22 +1147,50 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const tryAtHomeButton = document.getElementById('tryAtHomeButton');
+    const pincodePopup = document.getElementById('tryAtHomePincodePopup');
+    const btn = document.getElementById('tryAtHomeSubmitBtn');
+    const zipcodeInput = document.getElementById('tryAtHomeZipcode');
+    const res = document.getElementById('tryAtHomeRes');
 
-    if (tryAtHomeButton) {
-      // Use Liquid to fetch the product handle
-      const productHandle = '{{ product.handle }}';
+    // Use Liquid to fetch the product handle
+    const productHandle = '{{ product.handle }}';
 
-      tryAtHomeButton.addEventListener('click', function () {
-        // Redirect to the "Try at Home" page; Shopify handles login redirect automatically
+    const validPincodes = ['110001', '560001', '400001']; // Example of available pincodes
+
+    // Show the pincode popup
+    tryAtHomeButton.addEventListener('click', function () {
+      pincodePopup.style.display = 'block';
+    });
+
+    // Handle pincode availability check
+    btn.addEventListener('click', function () {
+      const zipcode = zipcodeInput.value.trim();
+      const pincodeRegex = /^[1-9][0-9]{5}$/;
+
+      if (!pincodeRegex.test(zipcode)) {
+        res.textContent = 'Invalid Pincode';
+        res.className = 'try-at-home-pincode-result invalid';
+        return;
+      }
+
+      if (validPincodes.includes(zipcode)) {
+        res.textContent = 'Available';
+        res.className = 'try-at-home-pincode-result available';
+
+        // Redirect to the "Try at Home" URL
         const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle=${productHandle}`;
-
-        // Append login redirection URL
         const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(tryAtHomeUrl)}`;
-
-        // Redirect the user
         window.location.href = loginRedirectUrl;
-      });
-    }
+      } else {
+        res.textContent = 'Pincode Not Available';
+        res.className = 'try-at-home-pincode-result unavailable';
+      }
+    });
+
+    // Restrict input to numbers only
+    zipcodeInput.addEventListener('input', (event) => {
+      event.target.value = event.target.value.replace(/[^0-9]/g, '');
+    });
   });
 </script>
 <script>

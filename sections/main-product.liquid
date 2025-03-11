@@ -1101,13 +1101,14 @@
     show_pickup_availability: true
   -%}
 </div>
+<!-- Try at Home Pincode Checker Popup -->
 <div id="tryAtHomeOverlay" class="try-at-home-overlay" style="display: none;">
   <div id="tryAtHomePincodePopup" class="try-at-home-pincode-popup">
     <button id="tryAtHomeClose" class="try-at-home-close-btn">&times;</button>
     <h3 class="try-at-home-title">Enter pincode to check availability</h3>
     <input
       id="tryAtHomeZipcode"
-      type="number"
+      type="text"
       class="try-at-home-pincode-input"
       placeholder="Pincode"
       maxlength="6"
@@ -1122,6 +1123,7 @@
     <div id="tryAtHomeRes" class="try-at-home-pincode-result"></div>
   </div>
 </div>
+
 <style>
   /* Overlay and background blur */
   .try-at-home-overlay {
@@ -1140,6 +1142,7 @@
 
   /* Popup container */
   .try-at-home-pincode-popup {
+    position: relative;
     background: #f4eeeb;
     padding: 20px;
     border-radius: 8px;
@@ -1158,6 +1161,7 @@
     border: none;
     font-size: 24px;
     cursor: pointer;
+    font-weight: bold;
   }
 
   /* Title */
@@ -1184,6 +1188,16 @@
     border-bottom: solid 1px #71224230;
   }
 
+  /* Remove up and down arrows from number inputs */
+  .try-at-home-pincode-input[type='text']::-webkit-inner-spin-button,
+  .try-at-home-pincode-input[type='text']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .try-at-home-pincode-input[type='text'] {
+    -moz-appearance: textfield; /* For Firefox */
+  }
+
   .try-at-home-pincode-input::placeholder {
     color: #71224280;
     font-size: 1.7rem;
@@ -1196,9 +1210,11 @@
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 1.6rem;
     cursor: pointer;
     width: 100%;
+    font-family: 'Quicksand';
+    font-weight: 600;
   }
 
   .try-at-home-pincode-button:hover {
@@ -1223,11 +1239,11 @@
     color: orange;
   }
 </style>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const tryAtHomeButton = document.getElementById('tryAtHomeButton');
-    const pincodePopup = document.getElementById('tryAtHomePincodePopup');
     const overlay = document.getElementById('tryAtHomeOverlay');
+    const pincodePopup = document.getElementById('tryAtHomePincodePopup');
     const closeButton = document.getElementById('tryAtHomeClose');
     const submitButton = document.getElementById('tryAtHomeSubmitBtn');
     const zipcodeInput = document.getElementById('tryAtHomeZipcode');
@@ -1236,13 +1252,20 @@
     const validPincodes = ['110001', '560001', '400001']; // Example valid pincodes
 
     // Show the popup
-    tryAtHomeButton.addEventListener('click', () => {
+    document.getElementById('tryAtHomeButton').addEventListener('click', () => {
       overlay.style.display = 'flex';
     });
 
-    // Close the popup
+    // Close the popup when clicking the close button
     closeButton.addEventListener('click', () => {
       overlay.style.display = 'none';
+    });
+
+    // Close the popup when clicking outside the container
+    overlay.addEventListener('click', (e) => {
+      if (!pincodePopup.contains(e.target)) {
+        overlay.style.display = 'none';
+      }
     });
 
     // Handle pincode check
@@ -1276,6 +1299,7 @@
     });
   });
 </script>
+
 <script>
   function togglePopup() {
     document.querySelector('.price-breakdown-popup').classList.toggle('active');

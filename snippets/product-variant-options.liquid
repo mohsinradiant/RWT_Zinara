@@ -99,7 +99,7 @@
     <option
       id="{{ input_id }}"
       value="{{ value | escape }}"
-      {% if value.selected %}
+      {% if value.selected or option.inventory_quantity > 0 %}
         selected="selected"
       {% endif %}
       {% if swatch_value and picker_type == 'swatch_dropdown' %}
@@ -110,11 +110,11 @@
       {% endif %}
       {{ input_dataset }}
     >
-      {% if option_disabled -%}
-        {{- 'products.product.value_unavailable' | t: option_value: value -}}
-      {%- else -%}
+      {% if option_disabled %}
+        {{ 'products.product.value_unavailable' | t: option_value: value }}
+      {% else %}
         <span class="Variant-type-label">{{ option.name }}</span>: {{ value }}
-      {%- endif %}
+      {% endif %}
     </option>
   {%- endif -%}
 {%- endfor -%}

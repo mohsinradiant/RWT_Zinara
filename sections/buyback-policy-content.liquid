@@ -5,7 +5,7 @@
   {{ section.settings.content_2 }}
 </div>
 <div class="buyback-cta-container">
-  <button id="select-time-slot-content-1">Select Time Slot</button>
+  <button id="buyback-cta-button">Select Time Slot</button>
 </div>
 <style>
   .buyback-policy-content-container {
@@ -44,7 +44,26 @@
     background: #f2eeeb;
     z-index: 1;
   }
+  #buyback-cta-button {
+    background: #712242;
+    color: #fff;
+    font-size: 2.2rem;
+    padding: 10px 40px;
+    border: none;
+    font-weight: 400;
+    cursor: pointer;
+    font-family: 'Quicksand';
+    margin-right: 12rem;
+  }
+  @media (max-width: 1290px) {
+    #buyback-cta-button {
+      margin-right: 4rem;
+    }
+  }
   @media (max-width: 756px) {
+    #buyback-cta-button {
+      margin-right: 0;
+    }
     .buyback-cta-container {
       position: fixed;
       bottom: 0;

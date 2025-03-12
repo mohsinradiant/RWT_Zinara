@@ -818,7 +818,7 @@ body.no-scroll {
     width: fit-content;
     height: 0;
     overflow: hidden;
-    transition: all ease-in .3s;
+    transition: height ease-in .3s;
 }
 
 .price_breakdown-left_container {

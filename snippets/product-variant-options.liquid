@@ -99,7 +99,7 @@
     <option
       id="{{ input_id }}"
       value="{{ value | escape }}"
-      {% if value.selected or option.inventory_quantity > 0 %}
+      {% if value.selected and option.inventory_quantity > 0 %}
         selected="selected"
       {% endif %}
       {% if swatch_value and picker_type == 'swatch_dropdown' %}

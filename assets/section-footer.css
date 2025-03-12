@@ -160,7 +160,9 @@
     font-size: calc(var(--font-heading-scale) * 1.8rem);
   }
 }
-
+.footer-block__heading{
+  font-weight: 500;
+}
 .footer__list-social:empty,
 .footer-block--newsletter:empty {
   display: none;

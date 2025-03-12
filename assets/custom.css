@@ -823,7 +823,7 @@ body.no-scroll {
 
 .price-breakdown-popup.active {
     max-height: 1000px;
-    margin: 20px 0;
+    margin: 8px 0 15px;
 }
 
 .price_breakdown-left_container {

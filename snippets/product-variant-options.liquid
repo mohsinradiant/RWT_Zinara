@@ -99,7 +99,8 @@
     <option
       id="{{ input_id }}"
       value="{{ value | escape }}"
-      {% if value.selected and option.inventory_quantity > 0 %}
+      data-in-stock="{{ option.inventory_quantity > 0 }}"
+      {% if value.selected %}
         selected="selected"
       {% endif %}
       {% if swatch_value and picker_type == 'swatch_dropdown' %}
@@ -116,5 +117,27 @@
         <span class="Variant-type-label">{{ option.name }}</span>: {{ value }}
       {% endif %}
     </option>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const selectElement = document.querySelector('#Option-template--24203645845688__main-1');
+        if (selectElement) {
+          const options = selectElement.querySelectorAll('option');
+          let firstAvailableOption = null;
+
+          options.forEach((option) => {
+            const isOptionInStock = option.getAttribute('data-in-stock') === 'true'; // Check data-in-stock attribute
+            if (isOptionInStock && !firstAvailableOption) {
+              firstAvailableOption = option;
+            }
+          });
+
+          if (firstAvailableOption) {
+            firstAvailableOption.selected = true;
+            selectElement.value = firstAvailableOption.value; // Ensure the select element updates
+          }
+        }
+      });
+    </script>
   {%- endif -%}
 {%- endfor -%}

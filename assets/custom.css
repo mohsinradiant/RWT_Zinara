@@ -811,13 +811,13 @@ body.no-scroll {
 
 .price-breakdown-popup {
     background: #f2eeeb;
-    padding: 20px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     transition: transform 0.3s ease-in-out;
     z-index: 1000;
     width: fit-content;
     height: 0;
+    overflow: hidden;
 }
 
 .price_breakdown-left_container {
@@ -933,6 +933,7 @@ body.no-scroll {
 
 .price-breakdown-popup.active {
     height: fit-content;
+    padding: 20px;
 }
 
 .price-breakdown-list .price_discount {

@@ -11,13 +11,21 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "video_trial_form_7JRYCt": {
+      "type": "video-trial-form",
+      "settings": {
+        "collection_handle": ""
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "video_trial_form_7JRYCt"
   ]
 }

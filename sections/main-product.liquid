@@ -1253,11 +1253,13 @@
     const productFormButtons = document.querySelector('.product-form__buttons');
 
     const validPincodes = ['110001', '560001', '400001']; // Example valid pincodes
+    let lastClickedButton = null; // Tracks the last clicked button
 
-    // Utility function to toggle popups
+    // Show popup and track the last clicked button
     function togglePopup(buttonId) {
       document.getElementById(buttonId).addEventListener('click', () => {
         overlay.style.display = 'flex';
+        lastClickedButton = buttonId;
       });
 
       closeButton.addEventListener('click', () => {
@@ -1271,7 +1273,7 @@
       });
     }
 
-    // Utility function for pincode validation and redirection
+    // Handle pincode validation and redirection
     function handlePincodeCheck() {
       submitButton.addEventListener('click', () => {
         const zipcode = zipcodeInput.value.trim();
@@ -1300,12 +1302,13 @@
         }
       });
 
+      // Restrict input to numbers only
       zipcodeInput.addEventListener('input', (event) => {
         event.target.value = event.target.value.replace(/[^0-9]/g, '');
       });
     }
 
-    // Utility function for button visibility based on inventory
+    // Update button visibility based on inventory status
     function updateButtonVisibility(buttonId, showOnStock) {
       const button = document.getElementById(buttonId);
 
@@ -1320,7 +1323,7 @@
       }
     }
 
-    // Utility function to move buttons
+    // Move button inside the form on larger screens
     function moveButton(buttonId) {
       const button = document.getElementById(buttonId);
 
@@ -1330,7 +1333,7 @@
       }
     }
 
-    // Handle dynamic updates
+    // Observe changes in inventory to dynamically update button visibility
     function observeInventoryChanges(buttonId, showOnStock) {
       const observer = new MutationObserver(() => {
         updateButtonVisibility(buttonId, showOnStock);
@@ -1341,7 +1344,7 @@
       }
     }
 
-    // Initialize scripts for both buttons
+    // Initialize functionality for a button
     function initializeButton(buttonId, showOnStock) {
       togglePopup(buttonId);
       updateButtonVisibility(buttonId, showOnStock);
@@ -1355,15 +1358,15 @@
         }
       });
 
-      // Clear interval after successful move
+      // Stop moving after ensuring the button is repositioned
       setTimeout(() => clearInterval(intervalId), 3000);
     }
 
-    // Initialize for both buttons
+    // Initialize both buttons
     initializeButton('tryAtHomeButton', true);
     initializeButton('videoTrialButton', false);
 
-    // Common functionality
+    // Initialize common functionality
     handlePincodeCheck();
   });
 </script>

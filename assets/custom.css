@@ -830,7 +830,7 @@ body.no-scroll {
     display: flex;
     flex-direction: column;
     justify-content: start;
-    width: 240px;
+    width: 51%;
     align-items: start;
 }
 
@@ -916,7 +916,7 @@ body.no-scroll {
 .price_breakdown-right_container {
     display: flex;
     gap: 10px;
-    width: fit-content;
+    width: 44%;
 }
 
 .price-breakdown-total {
@@ -1054,7 +1054,6 @@ header .menu-drawer {
     }
 
     .price_breakdown-right_container {
-        width: 44%;
         flex-wrap: wrap;
         row-gap: 0;
     }
@@ -1069,10 +1068,6 @@ header .menu-drawer {
 
     .price-breakdown-list li {
         gap: 15px;
-    }
-
-    .price_breakdown-left_container {
-        width: 51%;
     }
 
     .price-breakdown-list .price-breakdown-total span:nth-of-type(1) {

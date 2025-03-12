@@ -126,7 +126,71 @@
                     >
                   </div>
                 </div>
+                <div class="price-breakdown-popup" id="popup">
+                  {% assign selected_variant_id = request.query.variant %}
+                  {% assign selected_variant = product.variants | where: 'id', selected_variant_id | first %}
+                  {% if selected_variant == null %}
+                    {% assign selected_variant = product.variants.first %}
+                  {% endif %}
+                  <ul class="price-breakdown-list" id="price-breakdown-list">
+                    {% if selected_variant.metafields.content.price_breakdown %}
+                      {% for item in selected_variant.metafields.content.price_breakdown.value %}
+                        <li>
+                          <div class="price_breakdown-left_container">
+                            <div class="price_breakdown-left_container_top">
+                              <span>{{ item.title }}</span>
 
+                              {% if item.compare_at_price and item.selling_price %}
+                                {% assign compare_at_price = item.compare_at_price.value | times: 1.0 %}
+                                {% assign selling_price = item.selling_price.value | times: 1.0 %}
+                                {% assign price_difference = compare_at_price | minus: selling_price %}
+                                {% assign percentage_difference = price_difference
+                                  | divided_by: compare_at_price
+                                  | times: 100.0
+                                  | round
+                                %}
+                                {% if percentage_difference > 0 %}
+                                  <span class="price_discount">{{ percentage_difference }}% off</span>
+                                {% endif %}
+                              {% endif %}
+                            </div>
+                            <div class="price_breakdown-left_container_bottom">
+                              <p>{{ item.subtitle_1 }}</p>
+                              <p>{{ item.subtitle_2 }}</p>
+                            </div>
+                          </div>
+                          <div class="price_breakdown-right_container">
+                            {% if item.selling_price %}
+                              <span>₹{{ item.selling_price.value | money_without_trailing_zeros }}</span>
+                            {% endif %}
+                            {% if item.compare_at_price
+                              and item.compare_at_price != 0
+                              and item.compare_at_price != null
+                            %}
+                              <span class="price_breakdown_compare_at_price">
+                                ₹{{ item.compare_at_price.value | money_without_trailing_zeros }}
+                              </span>
+                            {% endif %}
+                          </div>
+                        </li>
+                      {% endfor %}
+
+                      <li class="price-breakdown-total">
+                        <span>Total Cost</span>
+                        <span>₹{{ selected_variant.price | divided_by: 100 }}</span>
+                      </li>
+                    {% else %}
+                      <li>No price breakdown available for this variant.</li>
+                    {% endif %}
+                  </ul>
+                  <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
+                </div>
+                <script>
+                  function togglePopup() {
+                    document.querySelector('.price-breakdown-popup').classList.toggle('active');
+                    document.getElementById('overlay').classList.toggle('active');
+                  }
+                </script>
                 {%- if product.quantity_price_breaks_configured? -%}
                   <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
                     <span>{{ 'products.product.volume_pricing.note' | t }}</span>
@@ -244,40 +308,43 @@
                       .product__info-container .product__info-container-price-container {
                         order: 2;
                       }
-                      .product__info-container .product-features-badges-container {
+                      .product__info-container .price-breakdown-popup {
                         order: 3;
                       }
-                      .product__info-container .product__description-container {
+                      .product__info-container .product-features-badges-container {
                         order: 4;
+                      }
+                      .product__info-container .product__description-container {
+                        order: 5;
                         margin-top: 1.2rem;
                       }
                       .product__info-container variant-selects {
-                        order: 5;
+                        order: 6;
                         overflow-x: auto;
                         flex-wrap: nowrap;
                         width: 100%;
                         gap: 13px;
                       }
                       .product__info-container .product__inventory {
-                        order: 6;
+                        order: 7;
                         margin-top: 0;
                       }
                       .product__info-container .product-form__input--dropdown {
                         flex: unset;
                       }
                       .product__info-container .sizing-guide {
-                        order: 7;
+                        order: 8;
                         line-height: 1.7rem;
                       }
                       .product__info-container .pincode-availability-checker-container {
-                        order: 8;
+                        order: 9;
                         margin: 0;
                       }
                       .product__info-container .pincode-checker-result {
-                        order: 9;
+                        order: 10;
                       }
                       .product__info-container .expected-delivery-date {
-                        order: 10;
+                        order: 11;
                         margin-bottom: 0;
                       }
                       .shopify-section .product-page-details-container .section-heading {
@@ -1035,65 +1102,10 @@
     </script>
   </div>
 </product-info>
-<div class="price-breakdown-overlay" id="overlay" onclick="togglePopup()"></div>
-<div class="price-breakdown-popup" id="popup">
-  {% assign selected_variant_id = request.query.variant %}
-  {% assign selected_variant = product.variants | where: 'id', selected_variant_id | first %}
-  {% if selected_variant == null %}
-    {% assign selected_variant = product.variants.first %}
-  {% endif %}
-  <ul class="price-breakdown-list" id="price-breakdown-list">
-    {% if selected_variant.metafields.content.price_breakdown %}
-      {% for item in selected_variant.metafields.content.price_breakdown.value %}
-        <li>
-          <div class="price_breakdown-left_container">
-            <div class="price_breakdown-left_container_top">
-              <span>{{ item.title }}</span>
 
-              {% if item.compare_at_price and item.selling_price %}
-                {% assign compare_at_price = item.compare_at_price.value | times: 1.0 %}
-                {% assign selling_price = item.selling_price.value | times: 1.0 %}
-                {% assign price_difference = compare_at_price | minus: selling_price %}
-                {% assign percentage_difference = price_difference
-                  | divided_by: compare_at_price
-                  | times: 100.0
-                  | round
-                %}
-                {% if percentage_difference > 0 %}
-                  <span class="price_discount">{{ percentage_difference }}% off</span>
-                {% endif %}
-              {% endif %}
-            </div>
-            <div class="price_breakdown-left_container_bottom">
-              <p>{{ item.subtitle_1 }}</p>
-              <p>{{ item.subtitle_2 }}</p>
-            </div>
-          </div>
-          <div class="price_breakdown-right_container">
-            {% if item.selling_price %}
-              <span>₹{{ item.selling_price.value | money_without_trailing_zeros }}</span>
-            {% endif %}
-            {% if item.compare_at_price and item.compare_at_price != 0 and item.compare_at_price != null %}
-              <span class="price_breakdown_compare_at_price">
-                ₹{{ item.compare_at_price.value | money_without_trailing_zeros }}
-              </span>
-            {% endif %}
-          </div>
-        </li>
-      {% endfor %}
-
-      <li class="price-breakdown-total">
-        <span>Total Cost</span>
-        <span>₹{{ selected_variant.price | divided_by: 100 }}</span>
-      </li>
-    {% else %}
-      <li>No price breakdown available for this variant.</li>
-    {% endif %}
-  </ul>
-  <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
-</div>
 <div class="sticky-atc-container">
   <p id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</p>
+  <p id="videoTrialButton" class="try-at-home-button try-at-home-button-sticky">Video Trial</p>
   {%- render 'buy-buttons',
     product: product,
     product_form_id: product_form_id,
@@ -1241,124 +1253,134 @@
   }
 </style>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.getElementById('tryAtHomeOverlay');
     const pincodePopup = document.getElementById('tryAtHomePincodePopup');
     const closeButton = document.getElementById('tryAtHomeClose');
     const submitButton = document.getElementById('tryAtHomeSubmitBtn');
     const zipcodeInput = document.getElementById('tryAtHomeZipcode');
     const res = document.getElementById('tryAtHomeRes');
+    const inventoryElement = document.querySelector('.product__inventory');
+    const productFormButtons = document.querySelector('.product-form__buttons');
 
     const validPincodes = ['110001', '560001', '400001']; // Example valid pincodes
+    let lastClickedButton = null; // Tracks the last clicked button
 
-    // Show the popup
-    document.getElementById('tryAtHomeButton').addEventListener('click', () => {
-      overlay.style.display = 'flex';
-    });
+    function togglePopup(buttonId) {
+      document.getElementById(buttonId).addEventListener('click', () => {
+        overlay.style.display = 'flex';
+        lastClickedButton = buttonId;
+      });
 
-    // Close the popup when clicking the close button
-    closeButton.addEventListener('click', () => {
-      overlay.style.display = 'none';
-    });
-
-    // Close the popup when clicking outside the container
-    overlay.addEventListener('click', (e) => {
-      if (!pincodePopup.contains(e.target)) {
+      closeButton.addEventListener('click', () => {
         overlay.style.display = 'none';
-      }
-    });
+      });
 
-    // Handle pincode check
-    submitButton.addEventListener('click', () => {
-      const zipcode = zipcodeInput.value.trim();
-      const pincodeRegex = /^[1-9][0-9]{5}$/;
+      overlay.addEventListener('click', (e) => {
+        if (!pincodePopup.contains(e.target)) {
+          overlay.style.display = 'none';
+        }
+      });
+    }
 
-      if (!pincodeRegex.test(zipcode)) {
-        res.textContent = 'Invalid Pincode';
-        res.className = 'try-at-home-pincode-result invalid';
-        return;
-      }
+    // Handle pincode validation and redirection
+    function handlePincodeCheck() {
+      submitButton.addEventListener('click', () => {
+        const zipcode = zipcodeInput.value.trim();
+        const pincodeRegex = /^[1-9][0-9]{5}$/;
 
-      if (validPincodes.includes(zipcode)) {
-        res.textContent = 'Available';
-        res.className = 'try-at-home-pincode-result available';
+        if (!pincodeRegex.test(zipcode)) {
+          res.textContent = 'Invalid Pincode';
+          res.className = 'try-at-home-pincode-result invalid';
+          return;
+        }
 
-        // Redirect to the "Try at Home" URL
-        const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
-        const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(tryAtHomeUrl)}`;
-        window.location.href = loginRedirectUrl;
-      } else {
-        res.textContent = 'Pincode Not Available';
-        res.className = 'try-at-home-pincode-result unavailable';
-      }
-    });
+        if (validPincodes.includes(zipcode)) {
+          res.textContent = 'Available';
+          res.className = 'try-at-home-pincode-result available';
 
-    // Restrict input to numbers only
-    zipcodeInput.addEventListener('input', (event) => {
-      event.target.value = event.target.value.replace(/[^0-9]/g, '');
-    });
-  });
-</script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const inventoryElement = document.querySelector('.product__inventory');
-    const tryAtHomeButton = document.getElementById('tryAtHomeButton');
+          // Redirect based on the last clicked button
+          const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
+          const videoTrialUrl = `/pages/video-trial?view=video-trial&product_handle={{ product.handle }}`;
+          const redirectUrl = lastClickedButton === 'videoTrialButton' ? videoTrialUrl : tryAtHomeUrl;
 
-    function updateButtonVisibility() {
-      if (inventoryElement && tryAtHomeButton) {
+          const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(redirectUrl)}`;
+          window.location.href = loginRedirectUrl;
+        } else {
+          res.textContent = 'Pincode Not Available';
+          res.className = 'try-at-home-pincode-result unavailable';
+        }
+      });
+
+      // Restrict input to numbers only
+      zipcodeInput.addEventListener('input', (event) => {
+        event.target.value = event.target.value.replace(/[^0-9]/g, '');
+      });
+    }
+
+    // Update button visibility based on inventory status
+    function updateButtonVisibility(buttonId, showOnStock) {
+      const button = document.getElementById(buttonId);
+
+      if (inventoryElement && button) {
         const inventoryText = inventoryElement.textContent.trim().toLowerCase();
 
-        // Check if inventory text indicates availability
         if (inventoryText.includes('in stock') && parseInt(inventoryText) > 0) {
-          tryAtHomeButton.style.display = 'flex';
+          button.style.display = showOnStock ? 'flex' : 'none';
         } else {
-          tryAtHomeButton.style.display = 'none';
+          button.style.display = showOnStock ? 'none' : 'flex';
         }
       }
     }
 
-    // Initial update
-    updateButtonVisibility();
+    // Move button inside the form on larger screens
+    function moveButton(buttonId) {
+      const button = document.getElementById(buttonId);
 
-    // Observe changes in the inventory element
-    const observer = new MutationObserver(() => {
-      updateButtonVisibility();
-    });
-
-    if (inventoryElement) {
-      observer.observe(inventoryElement, { childList: true, subtree: true });
+      if (window.innerWidth > 756 && button && productFormButtons) {
+        productFormButtons.insertAdjacentElement('afterbegin', button);
+        console.log(`#${buttonId} successfully moved into .product-form__buttons`);
+      }
     }
+
+    // Observe changes in inventory to dynamically update button visibility
+    function observeInventoryChanges(buttonId, showOnStock) {
+      const observer = new MutationObserver(() => {
+        updateButtonVisibility(buttonId, showOnStock);
+      });
+
+      if (inventoryElement) {
+        observer.observe(inventoryElement, { childList: true, subtree: true });
+      }
+    }
+
+    // Initialize functionality for a button
+    function initializeButton(buttonId, showOnStock) {
+      togglePopup(buttonId);
+      updateButtonVisibility(buttonId, showOnStock);
+      observeInventoryChanges(buttonId, showOnStock);
+
+      const intervalId = setInterval(() => moveButton(buttonId), 100);
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 756) {
+          moveButton(buttonId);
+        }
+      });
+
+      // Stop moving after ensuring the button is repositioned
+      setTimeout(() => clearInterval(intervalId), 3000);
+    }
+
+    // Initialize both buttons
+    initializeButton('tryAtHomeButton', true);
+    initializeButton('videoTrialButton', false);
+
+    // Initialize common functionality
+    handlePincodeCheck();
   });
 </script>
-<script>
-  function togglePopup() {
-    document.querySelector('.price-breakdown-popup').classList.toggle('active');
-    document.getElementById('overlay').classList.toggle('active');
-  }
-</script>
-<script>
-  function moveTryAtHomeButton() {
-    const tryAtHomeButton = document.querySelector('#tryAtHomeButton');
-    const productFormButtons = document.querySelector('.product-form__buttons');
 
-    // Check viewport width and elements before moving the button
-    if (window.innerWidth > 756 && tryAtHomeButton && productFormButtons) {
-      productFormButtons.insertAdjacentElement('afterbegin', tryAtHomeButton);
-      console.log('#tryAtHomeButton successfully moved into .product-form__buttons');
-      clearInterval(checkElementsInterval); // Stop the interval
-    }
-  }
-
-  // Continuously check for the elements in the DOM
-  const checkElementsInterval = setInterval(moveTryAtHomeButton, 100);
-
-  // Optional: Add a listener to handle resizing dynamically
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 756) {
-      moveTryAtHomeButton();
-    }
-  });
-</script>
 <style>
   @media (max-width: 756px) {
     .try-at-home-button-sticky {

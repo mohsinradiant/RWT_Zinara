@@ -160,7 +160,9 @@
     font-size: calc(var(--font-heading-scale) * 1.8rem);
   }
 }
-
+.footer-block__heading{
+  font-weight: 500;
+}
 .footer__list-social:empty,
 .footer-block--newsletter:empty {
   display: none;
@@ -338,8 +340,11 @@
 .footer-block__details-content .list-menu__item--link,
 .copyright__content a {
   color: rgba(var(--color-foreground), 0.75);
+  font-weight: 400;
 }
-
+.footer-block__brand-info p{
+  font-weight: 400;
+}
 .footer-block__details-content .list-menu__item--active {
   transition: text-decoration-thickness var(--duration-short) ease;
   color: rgb(var(--color-foreground));

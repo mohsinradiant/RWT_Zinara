@@ -810,24 +810,27 @@ body.no-scroll {
 }
 
 .price-breakdown-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
     background: #f2eeeb;
-    padding: 20px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
-    transition: transform 0.3s ease-in-out;
     z-index: 1000;
-    width: fit-content;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height ease-in .3s, margin ease-in .3s;
+    margin: 0;
+}
+
+.price-breakdown-popup.active {
+    max-height: 1000px;
+    margin: 8px 0 15px;
 }
 
 .price_breakdown-left_container {
     display: flex;
     flex-direction: column;
     justify-content: start;
-    width: 240px;
+    width: 51%;
     align-items: start;
 }
 
@@ -854,6 +857,7 @@ body.no-scroll {
     display: flex;
     gap: 11px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .price_breakdown-left_container_bottom {
@@ -866,7 +870,7 @@ body.no-scroll {
 }
 
 .price_breakdown-left_container_bottom p {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 400;
     letter-spacing: 0;
     font-family: 'Quicksand';
@@ -878,17 +882,20 @@ body.no-scroll {
 .price-breakdown-list {
     list-style: none;
     padding: 0;
-    margin-top: 0;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
     display: flex;
     flex-direction: column;
     gap: 18px;
+    width: calc(100% - 40px);
 }
 
 .price-breakdown-list li {
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     text-wrap: nowrap;
-    gap: 70px;
+    gap: 0;
     color: #171717;
     width: 100%;
 }
@@ -896,7 +903,7 @@ body.no-scroll {
 .price-breakdown-list span {
     font-family: 'Quicksand';
     font-weight: 500;
-    font-size: 2rem;
+    font-size: 1.7rem;
     letter-spacing: 0;
     color: #171717;
 }
@@ -910,7 +917,7 @@ body.no-scroll {
 .price_breakdown-right_container {
     display: flex;
     gap: 10px;
-    width: fit-content;
+    width: 44%;
 }
 
 .price-breakdown-total {
@@ -921,7 +928,7 @@ body.no-scroll {
 }
 
 .price-breakdown-close-btn {
-    margin-top: 10px;
+    margin: 10px 20px 20px;
     cursor: pointer;
     color: #fff;
     font-family: 'Quicksand';
@@ -930,33 +937,15 @@ body.no-scroll {
     font-size: 1.5rem;
     background: #610C27;
     padding: .6rem 3rem;
-    width: 100%;
+    width: calc(100% - 40px);
     text-align: center;
-}
-
-.price-breakdown-popup.active {
-    transform: translate(-50%, -50%) scale(1);
-}
-
-.price-breakdown-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    z-index: 999;
-}
-
-.price-breakdown-overlay.active {
-    display: block;
 }
 
 .price-breakdown-list .price_discount {
     background: #eae3e1;
     padding: .9rem 1.1rem;
-    line-height: 2.3rem;
+    line-height: 1.4rem;
+    font-size: 1.3rem;
 }
 
 .mobile_collection-sort {
@@ -1030,7 +1019,8 @@ header .menu-drawer {
         font-size: 1.4rem;
     }
 
-    product-info .price__container span, .price--on-sale .price-item--regular {
+    product-info .price__container span,
+    .price--on-sale .price-item--regular {
         font-size: 2.3rem !important;
     }
 
@@ -1066,7 +1056,6 @@ header .menu-drawer {
     }
 
     .price_breakdown-right_container {
-        width: 160px;
         flex-wrap: wrap;
         row-gap: 0;
     }
@@ -1077,14 +1066,6 @@ header .menu-drawer {
 
     .price-breakdown-list .price-breakdown-total span {
         font-size: 2.1rem;
-    }
-
-    .price-breakdown-list li {
-        gap: 15px;
-    }
-
-    .price_breakdown-left_container {
-        width: 155px;
     }
 
     .price-breakdown-list .price-breakdown-total span:nth-of-type(1) {

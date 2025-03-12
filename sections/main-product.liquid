@@ -126,6 +126,66 @@
                     >
                   </div>
                 </div>
+                <div class="price-breakdown-overlay" id="overlay" onclick="togglePopup()"></div>
+                <div class="price-breakdown-popup" id="popup">
+                  {% assign selected_variant_id = request.query.variant %}
+                  {% assign selected_variant = product.variants | where: 'id', selected_variant_id | first %}
+                  {% if selected_variant == null %}
+                    {% assign selected_variant = product.variants.first %}
+                  {% endif %}
+                  <ul class="price-breakdown-list" id="price-breakdown-list">
+                    {% if selected_variant.metafields.content.price_breakdown %}
+                      {% for item in selected_variant.metafields.content.price_breakdown.value %}
+                        <li>
+                          <div class="price_breakdown-left_container">
+                            <div class="price_breakdown-left_container_top">
+                              <span>{{ item.title }}</span>
+
+                              {% if item.compare_at_price and item.selling_price %}
+                                {% assign compare_at_price = item.compare_at_price.value | times: 1.0 %}
+                                {% assign selling_price = item.selling_price.value | times: 1.0 %}
+                                {% assign price_difference = compare_at_price | minus: selling_price %}
+                                {% assign percentage_difference = price_difference
+                                  | divided_by: compare_at_price
+                                  | times: 100.0
+                                  | round
+                                %}
+                                {% if percentage_difference > 0 %}
+                                  <span class="price_discount">{{ percentage_difference }}% off</span>
+                                {% endif %}
+                              {% endif %}
+                            </div>
+                            <div class="price_breakdown-left_container_bottom">
+                              <p>{{ item.subtitle_1 }}</p>
+                              <p>{{ item.subtitle_2 }}</p>
+                            </div>
+                          </div>
+                          <div class="price_breakdown-right_container">
+                            {% if item.selling_price %}
+                              <span>₹{{ item.selling_price.value | money_without_trailing_zeros }}</span>
+                            {% endif %}
+                            {% if item.compare_at_price
+                              and item.compare_at_price != 0
+                              and item.compare_at_price != null
+                            %}
+                              <span class="price_breakdown_compare_at_price">
+                                ₹{{ item.compare_at_price.value | money_without_trailing_zeros }}
+                              </span>
+                            {% endif %}
+                          </div>
+                        </li>
+                      {% endfor %}
+
+                      <li class="price-breakdown-total">
+                        <span>Total Cost</span>
+                        <span>₹{{ selected_variant.price | divided_by: 100 }}</span>
+                      </li>
+                    {% else %}
+                      <li>No price breakdown available for this variant.</li>
+                    {% endif %}
+                  </ul>
+                  <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
+                </div>
                 <script>
                   function togglePopup() {
                     document.querySelector('.price-breakdown-popup').classList.toggle('active');
@@ -1040,63 +1100,7 @@
     </script>
   </div>
 </product-info>
-<div class="price-breakdown-overlay" id="overlay" onclick="togglePopup()"></div>
-<div class="price-breakdown-popup" id="popup">
-  {% assign selected_variant_id = request.query.variant %}
-  {% assign selected_variant = product.variants | where: 'id', selected_variant_id | first %}
-  {% if selected_variant == null %}
-    {% assign selected_variant = product.variants.first %}
-  {% endif %}
-  <ul class="price-breakdown-list" id="price-breakdown-list">
-    {% if selected_variant.metafields.content.price_breakdown %}
-      {% for item in selected_variant.metafields.content.price_breakdown.value %}
-        <li>
-          <div class="price_breakdown-left_container">
-            <div class="price_breakdown-left_container_top">
-              <span>{{ item.title }}</span>
 
-              {% if item.compare_at_price and item.selling_price %}
-                {% assign compare_at_price = item.compare_at_price.value | times: 1.0 %}
-                {% assign selling_price = item.selling_price.value | times: 1.0 %}
-                {% assign price_difference = compare_at_price | minus: selling_price %}
-                {% assign percentage_difference = price_difference
-                  | divided_by: compare_at_price
-                  | times: 100.0
-                  | round
-                %}
-                {% if percentage_difference > 0 %}
-                  <span class="price_discount">{{ percentage_difference }}% off</span>
-                {% endif %}
-              {% endif %}
-            </div>
-            <div class="price_breakdown-left_container_bottom">
-              <p>{{ item.subtitle_1 }}</p>
-              <p>{{ item.subtitle_2 }}</p>
-            </div>
-          </div>
-          <div class="price_breakdown-right_container">
-            {% if item.selling_price %}
-              <span>₹{{ item.selling_price.value | money_without_trailing_zeros }}</span>
-            {% endif %}
-            {% if item.compare_at_price and item.compare_at_price != 0 and item.compare_at_price != null %}
-              <span class="price_breakdown_compare_at_price">
-                ₹{{ item.compare_at_price.value | money_without_trailing_zeros }}
-              </span>
-            {% endif %}
-          </div>
-        </li>
-      {% endfor %}
-
-      <li class="price-breakdown-total">
-        <span>Total Cost</span>
-        <span>₹{{ selected_variant.price | divided_by: 100 }}</span>
-      </li>
-    {% else %}
-      <li>No price breakdown available for this variant.</li>
-    {% endif %}
-  </ul>
-  <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
-</div>
 <div class="sticky-atc-container">
   <p id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</p>
   <p id="videoTrialButton" class="try-at-home-button try-at-home-button-sticky">Video Trial</p>

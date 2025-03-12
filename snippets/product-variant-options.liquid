@@ -99,7 +99,7 @@
     <option
       id="{{ input_id }}"
       value="{{ value | escape }}"
-      data-in-stock="{{ option.inventory_quantity > 0 }}"
+      data-in-stock="{% if option.inventory_quantity > 0 %}true{% else %}false{% endif %}"
       {% if value.selected %}
         selected="selected"
       {% endif %}

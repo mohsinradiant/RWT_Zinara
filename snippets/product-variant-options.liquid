@@ -99,7 +99,6 @@
     <option
       id="{{ input_id }}"
       value="{{ value | escape }}"
-      data-in-stock="{% if option.inventory_quantity > 0 %}true{% else %}false{% endif %}"
       {% if value.selected %}
         selected="selected"
       {% endif %}
@@ -111,33 +110,11 @@
       {% endif %}
       {{ input_dataset }}
     >
-      {% if option_disabled %}
-        {{ 'products.product.value_unavailable' | t: option_value: value }}
-      {% else %}
+      {% if option_disabled -%}
+        {{- 'products.product.value_unavailable' | t: option_value: value -}}
+      {%- else -%}
         <span class="Variant-type-label">{{ option.name }}</span>: {{ value }}
-      {% endif %}
+      {%- endif %}
     </option>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const selectElement = document.querySelector('#Option-template--24203645845688__main-1');
-        if (selectElement) {
-          const options = selectElement.querySelectorAll('option');
-          let firstAvailableOption = null;
-
-          options.forEach((option) => {
-            const isOptionInStock = option.getAttribute('data-in-stock') === 'true'; // Check data-in-stock attribute
-            if (isOptionInStock && !firstAvailableOption) {
-              firstAvailableOption = option;
-            }
-          });
-
-          if (firstAvailableOption) {
-            firstAvailableOption.selected = true;
-            selectElement.value = firstAvailableOption.value; // Ensure the select element updates
-          }
-        }
-      });
-    </script>
   {%- endif -%}
 {%- endfor -%}

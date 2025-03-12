@@ -815,13 +815,13 @@ body.no-scroll {
     border-radius: 8px;
     z-index: 1000;
     width: fit-content;
-    height: 0;
+    max-height: 0;
     overflow: hidden;
-    transition: height ease-in .3s;
+    transition: max-height ease-in .3s;
 }
 
 .price-breakdown-popup.active {
-    height: fit-content;
+    max-height: 1000px;
     padding: 20px;
 }
 

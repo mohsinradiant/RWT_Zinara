@@ -126,7 +126,12 @@
                     >
                   </div>
                 </div>
-
+                <script>
+                  function togglePopup() {
+                    document.querySelector('.price-breakdown-popup').classList.toggle('active');
+                    document.getElementById('overlay').classList.toggle('active');
+                  }
+                </script>
                 {%- if product.quantity_price_breaks_configured? -%}
                   <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
                     <span>{{ 'products.product.volume_pricing.note' | t }}</span>
@@ -1255,7 +1260,6 @@
     const validPincodes = ['110001', '560001', '400001']; // Example valid pincodes
     let lastClickedButton = null; // Tracks the last clicked button
 
-    // Show popup and track the last clicked button
     function togglePopup(buttonId) {
       document.getElementById(buttonId).addEventListener('click', () => {
         overlay.style.display = 'flex';

@@ -4,6 +4,9 @@
   <h2>{{ section.settings.heading_2 }}</h2>
   {{ section.settings.content_2 }}
 </div>
+<div class="buyback-cta-container">
+  <button id="select-time-slot-content-1">Select Time Slot</button>
+</div>
 <style>
   .buyback-policy-content-container {
     color: #000;
@@ -27,6 +30,38 @@
     font-family: 'Quicksand';
     font-weight: 500;
     font-size: 1.8rem;
+  }
+  .buyback-cta-container {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    justify-content: end;
+    align-items: center;
+    padding: 15px;
+    background: #f2eeeb;
+    z-index: 1;
+  }
+  @media (max-width: 756px) {
+    .buyback-cta-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: #f9f7f9;
+      z-index: 10;
+    }
+    .buyback-cta-container button {
+      width: 100%;
+      display: flex;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      margin-top: 0;
+    }
   }
 </style>
 

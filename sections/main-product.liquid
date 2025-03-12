@@ -1242,246 +1242,128 @@
   }
 </style>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.getElementById('tryAtHomeOverlay');
     const pincodePopup = document.getElementById('tryAtHomePincodePopup');
     const closeButton = document.getElementById('tryAtHomeClose');
     const submitButton = document.getElementById('tryAtHomeSubmitBtn');
     const zipcodeInput = document.getElementById('tryAtHomeZipcode');
     const res = document.getElementById('tryAtHomeRes');
+    const inventoryElement = document.querySelector('.product__inventory');
+    const productFormButtons = document.querySelector('.product-form__buttons');
 
     const validPincodes = ['110001', '560001', '400001']; // Example valid pincodes
 
-    // Show the popup
-    document.getElementById('tryAtHomeButton').addEventListener('click', () => {
-      overlay.style.display = 'flex';
-    });
+    // Utility function to toggle popups
+    function togglePopup(buttonId) {
+      document.getElementById(buttonId).addEventListener('click', () => {
+        overlay.style.display = 'flex';
+      });
 
-    // Close the popup when clicking the close button
-    closeButton.addEventListener('click', () => {
-      overlay.style.display = 'none';
-    });
-
-    // Close the popup when clicking outside the container
-    overlay.addEventListener('click', (e) => {
-      if (!pincodePopup.contains(e.target)) {
+      closeButton.addEventListener('click', () => {
         overlay.style.display = 'none';
-      }
-    });
+      });
 
-    // Handle pincode check
-    submitButton.addEventListener('click', () => {
-      const zipcode = zipcodeInput.value.trim();
-      const pincodeRegex = /^[1-9][0-9]{5}$/;
+      overlay.addEventListener('click', (e) => {
+        if (!pincodePopup.contains(e.target)) {
+          overlay.style.display = 'none';
+        }
+      });
+    }
 
-      if (!pincodeRegex.test(zipcode)) {
-        res.textContent = 'Invalid Pincode';
-        res.className = 'try-at-home-pincode-result invalid';
-        return;
-      }
+    // Utility function for pincode validation and redirection
+    function handlePincodeCheck() {
+      submitButton.addEventListener('click', () => {
+        const zipcode = zipcodeInput.value.trim();
+        const pincodeRegex = /^[1-9][0-9]{5}$/;
 
-      if (validPincodes.includes(zipcode)) {
-        res.textContent = 'Available';
-        res.className = 'try-at-home-pincode-result available';
+        if (!pincodeRegex.test(zipcode)) {
+          res.textContent = 'Invalid Pincode';
+          res.className = 'try-at-home-pincode-result invalid';
+          return;
+        }
 
-        // Redirect to the "Try at Home" URL
-        const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
-        const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(tryAtHomeUrl)}`;
-        window.location.href = loginRedirectUrl;
-      } else {
-        res.textContent = 'Pincode Not Available';
-        res.className = 'try-at-home-pincode-result unavailable';
-      }
-    });
+        if (validPincodes.includes(zipcode)) {
+          res.textContent = 'Available';
+          res.className = 'try-at-home-pincode-result available';
 
-    // Restrict input to numbers only
-    zipcodeInput.addEventListener('input', (event) => {
-      event.target.value = event.target.value.replace(/[^0-9]/g, '');
-    });
-  });
-</script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const inventoryElement = document.querySelector('.product__inventory');
-    const tryAtHomeButton = document.getElementById('tryAtHomeButton');
+          // Redirect to the "Try at Home" URL
+          const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
+          const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(tryAtHomeUrl)}`;
+          window.location.href = loginRedirectUrl;
+        } else {
+          res.textContent = 'Pincode Not Available';
+          res.className = 'try-at-home-pincode-result unavailable';
+        }
+      });
 
-    function updateButtonVisibility() {
-      if (inventoryElement && tryAtHomeButton) {
+      zipcodeInput.addEventListener('input', (event) => {
+        event.target.value = event.target.value.replace(/[^0-9]/g, '');
+      });
+    }
+
+    // Utility function for button visibility based on inventory
+    function updateButtonVisibility(buttonId, showOnStock) {
+      const button = document.getElementById(buttonId);
+
+      if (inventoryElement && button) {
         const inventoryText = inventoryElement.textContent.trim().toLowerCase();
 
-        // Check if inventory text indicates availability
         if (inventoryText.includes('in stock') && parseInt(inventoryText) > 0) {
-          tryAtHomeButton.style.display = 'flex';
+          button.style.display = showOnStock ? 'flex' : 'none';
         } else {
-          tryAtHomeButton.style.display = 'none';
+          button.style.display = showOnStock ? 'none' : 'flex';
         }
       }
     }
 
-    // Initial update
-    updateButtonVisibility();
+    // Utility function to move buttons
+    function moveButton(buttonId) {
+      const button = document.getElementById(buttonId);
 
-    // Observe changes in the inventory element
-    const observer = new MutationObserver(() => {
-      updateButtonVisibility();
-    });
-
-    if (inventoryElement) {
-      observer.observe(inventoryElement, { childList: true, subtree: true });
-    }
-  });
-</script>
-<script>
-  function togglePopup() {
-    document.querySelector('.price-breakdown-popup').classList.toggle('active');
-    document.getElementById('overlay').classList.toggle('active');
-  }
-</script>
-<script>
-  function moveTryAtHomeButton() {
-    const tryAtHomeButton = document.querySelector('#tryAtHomeButton');
-    const productFormButtons = document.querySelector('.product-form__buttons');
-
-    // Check viewport width and elements before moving the button
-    if (window.innerWidth > 756 && tryAtHomeButton && productFormButtons) {
-      productFormButtons.insertAdjacentElement('afterbegin', tryAtHomeButton);
-      console.log('#tryAtHomeButton successfully moved into .product-form__buttons');
-      clearInterval(checkElementsInterval); // Stop the interval
-    }
-  }
-
-  // Continuously check for the elements in the DOM
-  const checkElementsInterval = setInterval(moveTryAtHomeButton, 100);
-
-  // Optional: Add a listener to handle resizing dynamically
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 756) {
-      moveTryAtHomeButton();
-    }
-  });
-</script>
-
-{% comment %} Vidoe Trial Button Scripts Start{% endcomment %}
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const overlay = document.getElementById('tryAtHomeOverlay');
-    const pincodePopup = document.getElementById('tryAtHomePincodePopup');
-    const closeButton = document.getElementById('tryAtHomeClose');
-    const submitButton = document.getElementById('tryAtHomeSubmitBtn');
-    const zipcodeInput = document.getElementById('tryAtHomeZipcode');
-    const res = document.getElementById('tryAtHomeRes');
-
-    const validPincodes = ['110001', '560001', '400001']; // Example valid pincodes
-
-    // Show the popup
-    document.getElementById('videoTrialButton').addEventListener('click', () => {
-      overlay.style.display = 'flex';
-    });
-
-    // Close the popup when clicking the close button
-    closeButton.addEventListener('click', () => {
-      overlay.style.display = 'none';
-    });
-
-    // Close the popup when clicking outside the container
-    overlay.addEventListener('click', (e) => {
-      if (!pincodePopup.contains(e.target)) {
-        overlay.style.display = 'none';
+      if (window.innerWidth > 756 && button && productFormButtons) {
+        productFormButtons.insertAdjacentElement('afterbegin', button);
+        console.log(`#${buttonId} successfully moved into .product-form__buttons`);
       }
-    });
+    }
 
-    // Handle pincode check
-    submitButton.addEventListener('click', () => {
-      const zipcode = zipcodeInput.value.trim();
-      const pincodeRegex = /^[1-9][0-9]{5}$/;
+    // Handle dynamic updates
+    function observeInventoryChanges(buttonId, showOnStock) {
+      const observer = new MutationObserver(() => {
+        updateButtonVisibility(buttonId, showOnStock);
+      });
 
-      if (!pincodeRegex.test(zipcode)) {
-        res.textContent = 'Invalid Pincode';
-        res.className = 'try-at-home-pincode-result invalid';
-        return;
+      if (inventoryElement) {
+        observer.observe(inventoryElement, { childList: true, subtree: true });
       }
+    }
 
-      if (validPincodes.includes(zipcode)) {
-        res.textContent = 'Available';
-        res.className = 'try-at-home-pincode-result available';
+    // Initialize scripts for both buttons
+    function initializeButton(buttonId, showOnStock) {
+      togglePopup(buttonId);
+      updateButtonVisibility(buttonId, showOnStock);
+      observeInventoryChanges(buttonId, showOnStock);
 
-        // Redirect to the "Try at Home" URL
-        const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
-        const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(tryAtHomeUrl)}`;
-        window.location.href = loginRedirectUrl;
-      } else {
-        res.textContent = 'Pincode Not Available';
-        res.className = 'try-at-home-pincode-result unavailable';
-      }
-    });
+      const intervalId = setInterval(() => moveButton(buttonId), 100);
 
-    // Restrict input to numbers only
-    zipcodeInput.addEventListener('input', (event) => {
-      event.target.value = event.target.value.replace(/[^0-9]/g, '');
-    });
-  });
-</script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const inventoryElement = document.querySelector('.product__inventory');
-    const videoTrialButton = document.getElementById('videoTrialButton');
-
-    function updateButtonVisibility() {
-      if (inventoryElement && videoTrialButton) {
-        const inventoryText = inventoryElement.textContent.trim().toLowerCase();
-
-        // Check if inventory text indicates availability
-        if (inventoryText.includes('in stock') && parseInt(inventoryText) > 0) {
-          videoTrialButton.style.display = 'none';
-        } else {
-          videoTrialButton.style.display = 'flex';
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 756) {
+          moveButton(buttonId);
         }
-      }
+      });
+
+      // Clear interval after successful move
+      setTimeout(() => clearInterval(intervalId), 3000);
     }
 
-    // Initial update
-    updateButtonVisibility();
+    // Initialize for both buttons
+    initializeButton('tryAtHomeButton', true);
+    initializeButton('videoTrialButton', false);
 
-    // Observe changes in the inventory element
-    const observer = new MutationObserver(() => {
-      updateButtonVisibility();
-    });
-
-    if (inventoryElement) {
-      observer.observe(inventoryElement, { childList: true, subtree: true });
-    }
+    // Common functionality
+    handlePincodeCheck();
   });
 </script>
-<script>
-  function togglePopup() {
-    document.querySelector('.price-breakdown-popup').classList.toggle('active');
-    document.getElementById('overlay').classList.toggle('active');
-  }
-</script>
-<script>
-  function movevideoTrialButton() {
-    const videoTrialButton = document.querySelector('#videoTrialButton');
-    const productFormButtons = document.querySelector('.product-form__buttons');
-
-    // Check viewport width and elements before moving the button
-    if (window.innerWidth > 756 && videoTrialButton && productFormButtons) {
-      productFormButtons.insertAdjacentElement('afterbegin', videoTrialButton);
-      console.log('#videoTrialButton successfully moved into .product-form__buttons');
-      clearInterval(checkElementsInterval); // Stop the interval
-    }
-  }
-
-  // Continuously check for the elements in the DOM
-  const checkElementsInterval = setInterval(movevideoTrialButton, 100);
-
-  // Optional: Add a listener to handle resizing dynamically
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 756) {
-      movevideoTrialButton();
-    }
-  });
-</script>
-{% comment %} Vidoe Trial Button Scripts End{% endcomment %}
 
 <style>
   @media (max-width: 756px) {

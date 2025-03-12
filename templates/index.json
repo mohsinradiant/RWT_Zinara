@@ -177,8 +177,8 @@
         "tab_xLqmkC": {
           "type": "tab",
           "settings": {
-            "text": "Proposal",
-            "image": "shopify://shop_images/image_46_2.png",
+            "text": "Everyday Wear",
+            "image": "shopify://shop_images/Daily_Hustle_5.png",
             "collection": "rings"
           }
         },
@@ -186,23 +186,23 @@
           "type": "tab",
           "settings": {
             "text": "Engagement",
-            "image": "shopify://shop_images/image_46_2.png",
+            "image": "shopify://shop_images/Engagement_2.png",
             "collection": "rings"
           }
         },
         "tab_wgzCbP": {
           "type": "tab",
           "settings": {
-            "text": "Daily Wear",
-            "image": "shopify://shop_images/image_46_2.png",
+            "text": "Office Wear",
+            "image": "shopify://shop_images/Daily_Hustle_4.png",
             "collection": "rings"
           }
         },
         "tab_6eXazx": {
           "type": "tab",
           "settings": {
-            "text": "Office Wear",
-            "image": "shopify://shop_images/image_46_2.png",
+            "text": "Gifting",
+            "image": "shopify://shop_images/22.png",
             "collection": "rings"
           }
         }

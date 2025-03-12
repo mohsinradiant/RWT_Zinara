@@ -885,6 +885,7 @@ body.no-scroll {
     display: flex;
     flex-direction: column;
     gap: 18px;
+    width: calc(100% - 40px);
 }
 
 .price-breakdown-list li {
@@ -933,7 +934,7 @@ body.no-scroll {
     font-size: 1.5rem;
     background: #610C27;
     padding: .6rem 3rem;
-    width: 100%;
+    width: calc(100% - 40px);
     text-align: center;
 }
 

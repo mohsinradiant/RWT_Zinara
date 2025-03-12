@@ -340,7 +340,9 @@
   color: rgba(var(--color-foreground), 0.75);
   font-weight: 400;
 }
-
+.footer-block__brand-info p{
+  font-weight: 400;
+}
 .footer-block__details-content .list-menu__item--active {
   transition: text-decoration-thickness var(--duration-short) ease;
   color: rgb(var(--color-foreground));

@@ -822,7 +822,6 @@ body.no-scroll {
 
 .price-breakdown-popup.active {
     max-height: 1000px;
-    padding: 20px;
 }
 
 .price_breakdown-left_container {
@@ -881,6 +880,8 @@ body.no-scroll {
     list-style: none;
     padding: 0;
     margin-top: 0;
+    margin-left: 20px;
+    margin-right: 20px;
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -924,6 +925,7 @@ body.no-scroll {
 
 .price-breakdown-close-btn {
     margin-top: 10px;
+    margin-bottom: 20px;
     cursor: pointer;
     color: #fff;
     font-family: 'Quicksand';

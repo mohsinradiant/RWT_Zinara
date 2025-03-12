@@ -1094,6 +1094,7 @@
 </div>
 <div class="sticky-atc-container">
   <p id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</p>
+  <p id="videoTrialButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</p>
   {%- render 'buy-buttons',
     product: product,
     product_form_id: product_form_id,
@@ -1359,6 +1360,129 @@
     }
   });
 </script>
+
+{% comment %} Vidoe Trial Button Scripts Start{% endcomment %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const overlay = document.getElementById('tryAtHomeOverlay');
+    const pincodePopup = document.getElementById('tryAtHomePincodePopup');
+    const closeButton = document.getElementById('tryAtHomeClose');
+    const submitButton = document.getElementById('tryAtHomeSubmitBtn');
+    const zipcodeInput = document.getElementById('tryAtHomeZipcode');
+    const res = document.getElementById('tryAtHomeRes');
+
+    const validPincodes = ['110001', '560001', '400001']; // Example valid pincodes
+
+    // Show the popup
+    document.getElementById('videoTrialButton').addEventListener('click', () => {
+      overlay.style.display = 'flex';
+    });
+
+    // Close the popup when clicking the close button
+    closeButton.addEventListener('click', () => {
+      overlay.style.display = 'none';
+    });
+
+    // Close the popup when clicking outside the container
+    overlay.addEventListener('click', (e) => {
+      if (!pincodePopup.contains(e.target)) {
+        overlay.style.display = 'none';
+      }
+    });
+
+    // Handle pincode check
+    submitButton.addEventListener('click', () => {
+      const zipcode = zipcodeInput.value.trim();
+      const pincodeRegex = /^[1-9][0-9]{5}$/;
+
+      if (!pincodeRegex.test(zipcode)) {
+        res.textContent = 'Invalid Pincode';
+        res.className = 'try-at-home-pincode-result invalid';
+        return;
+      }
+
+      if (validPincodes.includes(zipcode)) {
+        res.textContent = 'Available';
+        res.className = 'try-at-home-pincode-result available';
+
+        // Redirect to the "Try at Home" URL
+        const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
+        const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(tryAtHomeUrl)}`;
+        window.location.href = loginRedirectUrl;
+      } else {
+        res.textContent = 'Pincode Not Available';
+        res.className = 'try-at-home-pincode-result unavailable';
+      }
+    });
+
+    // Restrict input to numbers only
+    zipcodeInput.addEventListener('input', (event) => {
+      event.target.value = event.target.value.replace(/[^0-9]/g, '');
+    });
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inventoryElement = document.querySelector('.product__inventory');
+    const videoTrialButton = document.getElementById('videoTrialButton');
+
+    function updateButtonVisibility() {
+      if (inventoryElement && videoTrialButton) {
+        const inventoryText = inventoryElement.textContent.trim().toLowerCase();
+
+        // Check if inventory text indicates availability
+        if (inventoryText.includes('in stock') && parseInt(inventoryText) > 0) {
+          videoTrialButton.style.display = 'none';
+        } else {
+          videoTrialButton.style.display = 'flex';
+        }
+      }
+    }
+
+    // Initial update
+    updateButtonVisibility();
+
+    // Observe changes in the inventory element
+    const observer = new MutationObserver(() => {
+      updateButtonVisibility();
+    });
+
+    if (inventoryElement) {
+      observer.observe(inventoryElement, { childList: true, subtree: true });
+    }
+  });
+</script>
+<script>
+  function togglePopup() {
+    document.querySelector('.price-breakdown-popup').classList.toggle('active');
+    document.getElementById('overlay').classList.toggle('active');
+  }
+</script>
+<script>
+  function movevideoTrialButton() {
+    const videoTrialButton = document.querySelector('#videoTrialButton');
+    const productFormButtons = document.querySelector('.product-form__buttons');
+
+    // Check viewport width and elements before moving the button
+    if (window.innerWidth > 756 && videoTrialButton && productFormButtons) {
+      productFormButtons.insertAdjacentElement('afterbegin', videoTrialButton);
+      console.log('#videoTrialButton successfully moved into .product-form__buttons');
+      clearInterval(checkElementsInterval); // Stop the interval
+    }
+  }
+
+  // Continuously check for the elements in the DOM
+  const checkElementsInterval = setInterval(movevideoTrialButton, 100);
+
+  // Optional: Add a listener to handle resizing dynamically
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 756) {
+      movevideoTrialButton();
+    }
+  });
+</script>
+{% comment %} Vidoe Trial Button Scripts End{% endcomment %}
+
 <style>
   @media (max-width: 756px) {
     .try-at-home-button-sticky {

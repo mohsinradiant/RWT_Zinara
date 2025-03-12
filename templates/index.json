@@ -177,7 +177,7 @@
         "tab_xLqmkC": {
           "type": "tab",
           "settings": {
-            "text": "Everyday Wear",
+            "text": "Daily Hustle",
             "image": "shopify://shop_images/Daily_Hustle_5.png",
             "collection": "rings"
           }
@@ -193,8 +193,8 @@
         "tab_wgzCbP": {
           "type": "tab",
           "settings": {
-            "text": "Office Wear",
-            "image": "shopify://shop_images/Daily_Hustle_4.png",
+            "text": "Social Events",
+            "image": "shopify://shop_images/Social_Event.png",
             "collection": "rings"
           }
         },

@@ -293,7 +293,7 @@
         "image_picker_wrD7jz": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "image": "shopify://shop_images/1_edf63dba-5488-4fc4-b720-f2a99a3d63ee.png",
             "alt_text": "Carousel Image",
             "url": "shopify://collections/earrings"
           }
@@ -301,7 +301,7 @@
         "image_picker_gtLymc": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "image": "shopify://shop_images/2_e9bab10f-ea1a-4d7e-a9dd-4795cc5beb75.png",
             "alt_text": "Carousel Image",
             "url": ""
           }
@@ -309,13 +309,14 @@
         "image_picker_zN3d8M": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
+            "image": "shopify://shop_images/3_9f0b10c9-384c-4c2e-b008-c5e178a7b107.png",
             "alt_text": "Carousel Image",
             "url": ""
           }
         },
         "image_picker_8FC4jK": {
           "type": "image_picker",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Daily_Wear_Image.png",
             "alt_text": "Carousel Image",
@@ -324,6 +325,7 @@
         },
         "image_picker_rwCCJA": {
           "type": "image_picker",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Daily_Wear_Image.png",
             "alt_text": "Carousel Image",

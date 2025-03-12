@@ -7,6 +7,16 @@
 <div class="buyback-cta-container">
   <button id="buyback-cta-button">Claim BuyBack</button>
 </div>
+<script>
+  document.getElementById('buyback-cta-button').addEventListener('click', function () {
+    const phoneNumber = '8851812814';
+    const message = encodeURIComponent('Hi');
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+
+    // Redirect to WhatsApp
+    window.location.href = whatsappUrl;
+  });
+</script>
 <style>
   .buyback-policy-content-container {
     color: #000;

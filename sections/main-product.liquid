@@ -126,7 +126,6 @@
                     >
                   </div>
                 </div>
-                <div class="price-breakdown-overlay" id="overlay" onclick="togglePopup()"></div>
                 <div class="price-breakdown-popup" id="popup">
                   {% assign selected_variant_id = request.query.variant %}
                   {% assign selected_variant = product.variants | where: 'id', selected_variant_id | first %}

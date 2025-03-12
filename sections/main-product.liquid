@@ -1123,7 +1123,6 @@
     <div id="tryAtHomeRes" class="try-at-home-pincode-result"></div>
   </div>
 </div>
-
 <style>
   /* Overlay and background blur */
   .try-at-home-overlay {
@@ -1241,7 +1240,6 @@
     color: orange;
   }
 </style>
-
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const overlay = document.getElementById('tryAtHomeOverlay');
@@ -1338,7 +1336,6 @@
     document.getElementById('overlay').classList.toggle('active');
   }
 </script>
-
 <script>
   function moveTryAtHomeButton() {
     const tryAtHomeButton = document.querySelector('#tryAtHomeButton');
@@ -1362,7 +1359,6 @@
     }
   });
 </script>
-
 <style>
   @media (max-width: 756px) {
     .try-at-home-button-sticky {
@@ -1379,6 +1375,29 @@
     }
   }
 </style>
+{%- comment -%}
+  If the product first varaiant inventory is 0 then find the variant with inventory and load the product page
+{%- endcomment -%}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign availableVariantId = '' -%}
+{%- assign availableVariantFound = false -%}
+
+{%- if current_variant.inventory_quantity <= 0 -%}
+  {%- for variant in product.variants -%}
+    {%- if variant.inventory_quantity > 0 and availableVariantId == '' -%}
+      {%- assign availableVariantId = variant.id -%}
+      {%- assign availableVariantFound = true -%}
+      {% break %}
+    {%- endif -%}
+  {%- endfor -%}
+{% endif %}
+
+{% if availableVariantFound %}
+  <script>
+    window.location.href = '/products/{{ product.handle }}?variant={{ availableVariantId }}';
+  </script>
+{% endif %}
 {% schema %}
 {
   "name": "t:sections.main-product.name",

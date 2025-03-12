@@ -1054,7 +1054,7 @@ header .menu-drawer {
     }
 
     .price_breakdown-right_container {
-        width: 160px;
+        width: 44%;
         flex-wrap: wrap;
         row-gap: 0;
     }
@@ -1072,7 +1072,7 @@ header .menu-drawer {
     }
 
     .price_breakdown-left_container {
-        width: 155px;
+        width: 51%;
     }
 
     .price-breakdown-list .price-breakdown-total span:nth-of-type(1) {

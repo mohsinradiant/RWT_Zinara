@@ -32,6 +32,7 @@
     },
     "about_us_founder_xNUK9n": {
       "type": "about-us-founder",
+      "disabled": true,
       "settings": {
         "founder_richtext": "<p>afasfasafafasasdas</p>"
       }

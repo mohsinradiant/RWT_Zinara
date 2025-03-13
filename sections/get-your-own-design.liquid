@@ -1,4 +1,31 @@
 <div class="page-width own-design-container">
+  <div class="own-design-header-container">
+    <div>
+      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Expand_Arrow.png?v=1741598491">
+      <p>Get your Own Design</p>
+    </div>
+    <button>WhatsApp Us</button>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const images = document.querySelectorAll('.own-design-header-container img');
+
+      if (images.length > 0) {
+        // Handle the first image click (Go back)
+        images[0].addEventListener('click', () => {
+          window.history.back(); // Navigate to the previous page
+        });
+
+        // Handle the second image click (Dial phone number)
+        if (images[1]) {
+          images[1].addEventListener('click', () => {
+            window.location.href = 'tel:8851812814'; // Dial the phone number
+          });
+        }
+      }
+    });
+  </script>
+
   <h2 class="section-heading">{{ section.settings.heading }}</h2>
   <div class="own-design-images-container">
     <div class="own-design-image">

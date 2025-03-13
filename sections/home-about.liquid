@@ -2,9 +2,9 @@
   <h2 class="section-heading">{{ section.settings.heading }}</h2>
   <div class="home-about-us">
     <div class="home-about-us-left">
-      <img src="{{ section.settings.image | img_url: 'medium' }}" class="large-image">
-      <img class="home-about-us-left_small_image" src="{{ section.settings.image_2 | img_url: 'medium' }}">
-      <img class="home-about-us-left_small_image" src="{{ section.settings.image_3 | img_url: 'medium' }}">
+      <img src="{{ section.settings.image | image_url }}" class="large-image">
+      <img class="home-about-us-left_small_image" src="{{ section.settings.image_2 | image_url }}">
+      <img class="home-about-us-left_small_image" src="{{ section.settings.image_3 | image_url }}">
     </div>
     <div class="home-about-us-right">
       <p>{{ section.settings.content }}</p>

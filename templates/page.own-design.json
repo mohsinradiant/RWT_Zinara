@@ -16,9 +16,17 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "get_your_own_design_AWdJ3W": {
+      "type": "get-your-own-design",
+      "settings": {
+        "heading": "How it works",
+        "heading_2": "Pick your own:"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "get_your_own_design_AWdJ3W"
   ]
 }

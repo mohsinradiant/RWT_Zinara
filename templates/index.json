@@ -177,15 +177,15 @@
         "tab_xLqmkC": {
           "type": "tab",
           "settings": {
-            "text": "The Daily Hustle Edit",
-            "image": "shopify://shop_images/3_977655cb-8540-4002-95f3-286ac3ac8277.png",
+            "text": "Daily Hustle",
+            "image": "shopify://shop_images/Daily_Hustle_5.png",
             "collection": "rings"
           }
         },
         "tab_KtkDJe": {
           "type": "tab",
           "settings": {
-            "text": "Engagement Edit",
+            "text": "Engagement",
             "image": "shopify://shop_images/Engagement_2.png",
             "collection": "rings"
           }
@@ -193,7 +193,7 @@
         "tab_wgzCbP": {
           "type": "tab",
           "settings": {
-            "text": "Glamour Edit",
+            "text": "Social Events",
             "image": "shopify://shop_images/Social_Event.png",
             "collection": "rings"
           }
@@ -201,7 +201,7 @@
         "tab_6eXazx": {
           "type": "tab",
           "settings": {
-            "text": "Gifting with Zinara",
+            "text": "Gifting",
             "image": "shopify://shop_images/22.png",
             "collection": "rings"
           }

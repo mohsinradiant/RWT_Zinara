@@ -16,9 +16,29 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "about_us_content_aiaKHJ": {
+      "type": "about-us-content",
+      "settings": {}
+    },
+    "about_us_founder_xNUK9n": {
+      "type": "about-us-founder",
+      "settings": {
+        "founder_richtext": "<p>afasfasafafasasdas</p>"
+      }
+    },
+    "about_us_banner_9iaR9M": {
+      "type": "about-us-banner",
+      "settings": {
+        "heading": "Our Story",
+        "subheading": "STUNNING, STYLISH AND WITHIN REACH"
+      }
     }
   },
   "order": [
-    "main"
+    "about_us_banner_9iaR9M",
+    "main",
+    "about_us_content_aiaKHJ",
+    "about_us_founder_xNUK9n"
   ]
 }

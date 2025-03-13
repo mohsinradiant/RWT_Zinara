@@ -9,17 +9,16 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const images = document.querySelectorAll('.own-design-header-container img');
+      const button = document.querySelector('.own-design-header-container button');
 
       if (images.length > 0) {
-        // Handle the first image click (Go back)
         images[0].addEventListener('click', () => {
-          window.history.back(); // Navigate to the previous page
+          window.history.back();
         });
 
-        // Handle the second image click (Dial phone number)
-        if (images[1]) {
-          images[1].addEventListener('click', () => {
-            window.location.href = 'tel:8851812814'; // Dial the phone number
+        if (button) {
+          button.addEventListener('click', () => {
+            window.location.href = 'tel:8851812814';
           });
         }
       }

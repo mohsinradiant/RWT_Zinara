@@ -370,12 +370,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-9ndCyUa8j4Hr1IsJ0HmrJwlOp0MsJ2l7z73e6eow5WjENKNzjvn5n24gftP1LwBf"
-      crossorigin="anonymous"
-    >
+    <link rel="stylesheet" href="{{ 'bootstrap.min.css' | asset_url }}">
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
@@ -625,10 +620,7 @@
         })();
       </script>
     {% endif %}
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76A2a1VnzKf91tqfW3qn5wSBO0p2BOhJOp6GYlgYF0VxOk2zYtStF5cw69pBXhz"
-      crossorigin="anonymous"
-    ></script>
+    <script src="{{ 'jquery-3.7.1.min.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'bootstrap.bundle.min.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>

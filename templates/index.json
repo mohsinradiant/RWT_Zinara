@@ -185,7 +185,7 @@
         "tab_KtkDJe": {
           "type": "tab",
           "settings": {
-            "text": "Engagement Rings",
+            "text": "Engagement Edit",
             "image": "shopify://shop_images/Engagement_2.png",
             "collection": "rings"
           }
@@ -193,7 +193,7 @@
         "tab_wgzCbP": {
           "type": "tab",
           "settings": {
-            "text": "Social Events",
+            "text": "Glamour Edit",
             "image": "shopify://shop_images/Social_Event.png",
             "collection": "rings"
           }

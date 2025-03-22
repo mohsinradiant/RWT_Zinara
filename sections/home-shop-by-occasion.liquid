@@ -5,7 +5,7 @@
       <div class="occasion-tab-content" id="{{ block.id }}">
         <a href="{{ collections[block.settings.collection].url }}">
           <div class="image-container">
-            <img src="{{ block.settings.image | img_url: 'medium' }}" alt="{{ block.settings.text }}">
+            <img src="{{ block.settings.image | image_url }}" alt="{{ block.settings.text }}">
             <p>{{ block.settings.text }}</p>
           </div>
         </a>

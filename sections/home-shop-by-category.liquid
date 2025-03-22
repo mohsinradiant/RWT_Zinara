@@ -22,7 +22,7 @@
                   {% if associated_tab == tab_title %}
                     <div class="category-item">
                       <a href="{{ collections[item.settings.collection].url }}">
-                        <img src="{{ item.settings.image | img_url: 'medium' }}" alt="{{ item.settings.text }}">
+                        <img src="{{ item.settings.image | image_url }}" alt="{{ item.settings.text }}">
                         <p>{{ item.settings.text }}</p>
                       </a>
                     </div>

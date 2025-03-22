@@ -15,7 +15,7 @@
         "slide_BLKkdp": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/2.png",
+            "image": "shopify://shop_images/Black_Banner.jpg",
             "image_mobile": "shopify://shop_images/2_503662eb-2b33-4832-b9e5-a1df6986dde0.png",
             "heading": "Image slide",
             "heading_size": "h1",
@@ -34,7 +34,7 @@
         "slide_ByegG4": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/1.png",
+            "image": "shopify://shop_images/Efforttessly_Banner.jpg",
             "image_mobile": "shopify://shop_images/1_764a3beb-23ff-46a0-a29d-922d04cf6f5c.png",
             "heading": "Image slide",
             "heading_size": "h1",
@@ -348,7 +348,7 @@
         "heading": "Get your own design",
         "sub-heading": "Have another design in mind? Something from a website or a magazine perhaps?",
         "button-1": "Start Designing",
-        "url-1": "",
+        "url-1": "/pages/get-your-own-design?view=own-design",
         "image": "shopify://shop_images/Design_Own_Web.png"
       }
     },
@@ -426,9 +426,9 @@
       "type": "home-about",
       "settings": {
         "heading": "About Us",
-        "image": "shopify://shop_images/image_51.png",
-        "image_2": "shopify://shop_images/image_52_1.png",
-        "image_3": "shopify://shop_images/image_53.png",
+        "image": "shopify://shop_images/DSC04434.jpg",
+        "image_2": "shopify://shop_images/IMG_1928.jpg",
+        "image_3": "shopify://shop_images/IMG_1860-Edit.jpg",
         "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius."
       }
     },

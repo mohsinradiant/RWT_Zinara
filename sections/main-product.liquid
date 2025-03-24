@@ -1418,51 +1418,13 @@
       {% break %}
     {%- endif -%}
   {%- endfor -%}
-{%- endif -%}
+{% endif %}
 
 {% if availableVariantFound %}
   <script>
-    // Only redirect once on initial load
-    if (!sessionStorage.getItem('variant_redirected')) {
-      console.log('Redirecting to available variant:', '{{ availableVariantId }}');
-      sessionStorage.setItem('variant_redirected', 'true');
-      window.location.href = '/products/{{ product.handle }}?variant={{ availableVariantId }}';
-    }
+    window.location.href = '/products/{{ product.handle }}?variant={{ availableVariantId }}';
   </script>
 {% endif %}
-
-<script>
-  (function () {
-    let lastUrl = window.location.href;
-
-    const reloadOnVariantChange = () => {
-      const currentUrl = window.location.href;
-
-      if (currentUrl !== lastUrl) {
-        console.log('URL changed, reloading...');
-        lastUrl = currentUrl;
-        sessionStorage.setItem('variant_redirected', 'true'); // Stop further auto-redirects
-        window.location.reload(); // Reload the page when the URL changes
-      }
-    };
-
-    // Listen for Shopify's history changes
-    const originalPushState = history.pushState;
-    const originalReplaceState = history.replaceState;
-
-    history.pushState = function (...args) {
-      originalPushState.apply(this, args);
-      reloadOnVariantChange();
-    };
-
-    history.replaceState = function (...args) {
-      originalReplaceState.apply(this, args);
-      reloadOnVariantChange();
-    };
-
-    window.addEventListener('popstate', reloadOnVariantChange); // Handles back/forward button
-  })();
-</script>
 
 {% schema %}
 {

@@ -1422,8 +1422,13 @@
 
 {% if availableVariantFound %}
   <script>
-    // Fastest way to reload the page with the new variant
-    window.location.replace('/products/{{ product.handle }}?variant={{ availableVariantId }}');
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('Attempting to redirect to available variant:', '{{ availableVariantId }}');
+
+      setTimeout(() => {
+        window.location.replace('/products/{{ product.handle }}?variant={{ availableVariantId }}');
+      }, 50); // Small delay to ensure Shopify processes the variant switch
+    });
   </script>
 {% endif %}
 

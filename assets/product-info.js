@@ -164,19 +164,19 @@ if (!customElements.get('product-info')) {
       handleUpdateProductInfo(productUrl) {
         return (html) => {
           const variant = this.getSelectedVariant(html);
-
+      
           this.pickupAvailability?.update(variant);
           this.updateOptionValues(html);
           this.updateURL(productUrl, variant?.id);
           this.updateVariantInputs(variant?.id);
-
+      
           if (!variant) {
             this.setUnavailable();
             return;
           }
-
+      
           this.updateMedia(html, variant?.featured_media?.id);
-
+      
           const updateSourceFromDestination = (id, shouldHide = (source) => false) => {
             const source = html.getElementById(`${id}-${this.sectionId}`);
             const destination = this.querySelector(`#${id}-${this.dataset.section}`);
@@ -185,38 +185,38 @@ if (!customElements.get('product-info')) {
               destination.classList.toggle('hidden', shouldHide(source));
             }
           };
-
+      
           updateSourceFromDestination('price');
           updateSourceFromDestination('Sku', ({ classList }) => classList.contains('hidden'));
           updateSourceFromDestination('Inventory', ({ innerText }) => innerText === '');
           updateSourceFromDestination('Volume');
           updateSourceFromDestination('Price-Per-Item', ({ classList }) => classList.contains('hidden'));
-
+      
           this.updateQuantityRules(this.sectionId, html);
           this.querySelector(`#Quantity-Rules-${this.dataset.section}`)?.classList.remove('hidden');
           this.querySelector(`#Volume-Note-${this.dataset.section}`)?.classList.remove('hidden');
-
+      
           this.productForm?.toggleSubmitButton(
             html.getElementById(`ProductSubmitButton-${this.sectionId}`)?.hasAttribute('disabled') ?? true,
             window.variantStrings.soldOut
           );
-
+      
           // ✅ Update price breakdown popup
           const priceBreakdownSource = html.querySelector('.price-breakdown-popup');
           const priceBreakdownDestination = this.querySelector('.price-breakdown-popup');
           if (priceBreakdownSource && priceBreakdownDestination) {
             priceBreakdownDestination.innerHTML = priceBreakdownSource.innerHTML;
           }
-
-          // ✅ Update product details parent
+      
+          // ✅ Update product details parent (using document instead of `this`)
           const productDetailsSource = html.querySelectorAll('.product-page-details-parent');
-          const productDetailsDestination = this.querySelectorAll('.product-page-details-parent');
+          const productDetailsDestination = document.querySelectorAll('.product-page-details-parent');
           if (productDetailsSource.length === productDetailsDestination.length) {
             productDetailsSource.forEach((source, index) => {
               productDetailsDestination[index].innerHTML = source.innerHTML;
             });
           }
-
+      
           publish(PUB_SUB_EVENTS.variantChange, {
             data: {
               sectionId: this.sectionId,
@@ -226,7 +226,7 @@ if (!customElements.get('product-info')) {
           });
         };
       }
-
+      
 
       updateVariantInputs(variantId) {
         this.querySelectorAll(

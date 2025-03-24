@@ -208,13 +208,6 @@ if (!customElements.get('product-info')) {
             priceBreakdownDestination.innerHTML = priceBreakdownSource.innerHTML;
           }
       
-          // ✅ Force hard reload when variant changes
-          const currentVariantId = new URL(window.location.href).searchParams.get('variant');
-          if (variant?.id && currentVariantId != variant.id) {
-            console.log(`Reloading for variant ID: ${variant.id}`);
-            window.location.href = `${productUrl}?variant=${variant.id}`; // Forces full reload
-          }
-      
           publish(PUB_SUB_EVENTS.variantChange, {
             data: {
               sectionId: this.sectionId,
@@ -224,7 +217,6 @@ if (!customElements.get('product-info')) {
           });
         };
       }
-      
       
 
       updateVariantInputs(variantId) {

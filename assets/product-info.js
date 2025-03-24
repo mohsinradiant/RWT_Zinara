@@ -202,11 +202,11 @@ if (!customElements.get('product-info')) {
           );
       
           // ✅ Update price breakdown popup
-          const priceBreakdownSource = html.querySelector('.price-breakdown-popup');
-          const priceBreakdownDestination = this.querySelector('.price-breakdown-popup');
-          if (priceBreakdownSource && priceBreakdownDestination) {
-            priceBreakdownDestination.innerHTML = priceBreakdownSource.innerHTML;
-          }
+          // const priceBreakdownSource = html.querySelector('.price-breakdown-popup');
+          // const priceBreakdownDestination = this.querySelector('.price-breakdown-popup');
+          // if (priceBreakdownSource && priceBreakdownDestination) {
+          //   priceBreakdownDestination.innerHTML = priceBreakdownSource.innerHTML;
+          // }
       
           publish(PUB_SUB_EVENTS.variantChange, {
             data: {

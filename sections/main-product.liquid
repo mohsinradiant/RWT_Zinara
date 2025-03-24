@@ -1422,9 +1422,45 @@
 
 {% if availableVariantFound %}
   <script>
-    window.location.href = '/products/{{ product.handle }}?variant={{ availableVariantId }}';
+    if (!sessionStorage.getItem('redirectedToAvailableVariant')) {
+      sessionStorage.setItem('redirectedToAvailableVariant', 'true');
+      window.location.href = '/products/{{ product.handle }}?variant={{ availableVariantId }}';
+    }
   </script>
 {% endif %}
+
+<script>
+  (function () {
+    let lastUrl = window.location.href;
+
+    const reloadOnVariantChange = () => {
+      const currentUrl = window.location.href;
+
+      if (currentUrl !== lastUrl) {
+        console.log('URL changed, reloading...');
+        lastUrl = currentUrl;
+        sessionStorage.removeItem('redirectedToAvailableVariant'); // ✅ Remove the session flag on manual change
+        window.location.reload(); // ✅ Force full reload
+      }
+    };
+
+    // Listen for Shopify's history changes
+    const originalPushState = history.pushState;
+    const originalReplaceState = history.replaceState;
+
+    history.pushState = function (...args) {
+      originalPushState.apply(this, args);
+      reloadOnVariantChange();
+    };
+
+    history.replaceState = function (...args) {
+      originalReplaceState.apply(this, args);
+      reloadOnVariantChange();
+    };
+
+    window.addEventListener('popstate', reloadOnVariantChange); // ✅ Handles back/forward button
+  })();
+</script>
 
 {% schema %}
 {

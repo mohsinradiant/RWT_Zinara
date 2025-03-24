@@ -1422,7 +1422,7 @@
 
 {% if availableVariantFound %}
   <script>
-    // window.location.href = '/products/{{ product.handle }}?variant={{ availableVariantId }}';
+    window.location.href = '/products/{{ product.handle }}?variant={{ availableVariantId }}';
   </script>
 {% endif %}
 {% schema %}

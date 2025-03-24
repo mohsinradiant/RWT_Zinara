@@ -1418,16 +1418,21 @@
       {% break %}
     {%- endif -%}
   {%- endfor -%}
-{% endif %}
+{%- endif -%}
 
 {% if availableVariantFound %}
   <script>
-    window.location.href = '/products/{{ product.handle }}?variant={{ availableVariantId }}';
+    // Only load available variant script if it hasn’t run already
+    if (!sessionStorage.getItem('variant_redirected')) {
+      console.log('Redirecting to available variant:', '{{ availableVariantId }}');
+      sessionStorage.setItem('variant_redirected', 'true');
+      window.location.href = '/products/{{ product.handle }}?variant={{ availableVariantId }}';
+    }
   </script>
 {% endif %}
+
 <script>
   (function () {
-    // Save the current URL to compare later
     let lastUrl = window.location.href;
 
     const reloadOnVariantChange = () => {
@@ -1436,7 +1441,7 @@
       if (currentUrl !== lastUrl) {
         console.log('URL changed, reloading...');
         lastUrl = currentUrl;
-        window.location.reload(); // Reload the page when the URL changes
+        window.location.reload();
       }
     };
 
@@ -1454,9 +1459,10 @@
       reloadOnVariantChange();
     };
 
-    window.addEventListener('popstate', reloadOnVariantChange); // Handles back/forward button
+    window.addEventListener('popstate', reloadOnVariantChange);
   })();
 </script>
+
 {% schema %}
 {
   "name": "t:sections.main-product.name",

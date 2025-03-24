@@ -208,11 +208,13 @@ if (!customElements.get('product-info')) {
             priceBreakdownDestination.innerHTML = priceBreakdownSource.innerHTML;
           }
       
-          // ✅ Update product details parent (target the container directly)
-          const productDetailsContainerSource = html.querySelector('.product-page-details-list-container');
-          const productDetailsContainerDestination = document.querySelector('.product-page-details-list-container');
-          if (productDetailsContainerSource && productDetailsContainerDestination) {
-            productDetailsContainerDestination.innerHTML = productDetailsContainerSource.innerHTML;
+          // ✅ Update product details parent
+          const productDetailsSource = html.querySelectorAll('.product-page-details-parent');
+          const productDetailsDestination = this.querySelectorAll('.product-page-details-parent');
+          if (productDetailsSource.length === productDetailsDestination.length) {
+            productDetailsSource.forEach((source, index) => {
+              productDetailsDestination[index].innerHTML = source.innerHTML;
+            });
           }
       
           publish(PUB_SUB_EVENTS.variantChange, {

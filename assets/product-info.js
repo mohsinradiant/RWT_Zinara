@@ -208,15 +208,6 @@ if (!customElements.get('product-info')) {
             priceBreakdownDestination.innerHTML = priceBreakdownSource.innerHTML;
           }
       
-          // ✅ Update product details parent
-          const productDetailsSource = html.querySelectorAll('.product-page-details-parent');
-          const productDetailsDestination = this.querySelectorAll('.product-page-details-parent');
-          if (productDetailsSource.length === productDetailsDestination.length) {
-            productDetailsSource.forEach((source, index) => {
-              productDetailsDestination[index].innerHTML = source.innerHTML;
-            });
-          }
-      
           publish(PUB_SUB_EVENTS.variantChange, {
             data: {
               sectionId: this.sectionId,

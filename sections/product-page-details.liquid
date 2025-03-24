@@ -3,13 +3,13 @@
     <h2 class="page-width section-heading">{{ section.settings.heading }}</h2>
     <div class="page-width product-page-details-parent">
       <div class="product-page-details-parent-child product-page-details-parent-child_1">
-        {% for list_1 in product.metafields.content.product_details_list_1.value %}
+        {% for list_1 in variant.metafields.content.product_details_list_1_json.value %}
           <div class="product-page-details-list-container">
             <p class="product-page-details-list_heading">{{ list_1.heading }}</p>
-            {% for list-item_1 in list_1.product_details_item.value %}
+            {% for list_item_1 in list_1.items %}
               <div class="product-page-details-list-parent">
-                <p class="product-page-details-list_title">{{ list-item_1.title }}</p>
-                <p class="product-page-details-list_content">{{ list-item_1.content }}</p>
+                <p class="product-page-details-list_title">{{ list_item_1.label }}</p>
+                <p class="product-page-details-list_content">{{ list_item_1.value }}</p>
               </div>
             {% endfor %}
           </div>

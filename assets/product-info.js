@@ -161,55 +161,55 @@ if (!customElements.get('product-info')) {
         }
       }
 
-      handleUpdateProductInfo(productUrl) {
-        return (html) => {
-          const variant = this.getSelectedVariant(html);
+      // handleUpdateProductInfo(productUrl) {
+      //   return (html) => {
+      //     const variant = this.getSelectedVariant(html);
 
-          this.pickupAvailability?.update(variant);
-          this.updateOptionValues(html);
-          this.updateURL(productUrl, variant?.id);
-          this.updateVariantInputs(variant?.id);
+      //     this.pickupAvailability?.update(variant);
+      //     this.updateOptionValues(html);
+      //     this.updateURL(productUrl, variant?.id);
+      //     this.updateVariantInputs(variant?.id);
 
-          if (!variant) {
-            this.setUnavailable();
-            return;
-          }
+      //     if (!variant) {
+      //       this.setUnavailable();
+      //       return;
+      //     }
 
-          this.updateMedia(html, variant?.featured_media?.id);
+      //     this.updateMedia(html, variant?.featured_media?.id);
 
-          const updateSourceFromDestination = (id, shouldHide = (source) => false) => {
-            const source = html.getElementById(`${id}-${this.sectionId}`);
-            const destination = this.querySelector(`#${id}-${this.dataset.section}`);
-            if (source && destination) {
-              destination.innerHTML = source.innerHTML;
-              destination.classList.toggle('hidden', shouldHide(source));
-            }
-          };
+      //     const updateSourceFromDestination = (id, shouldHide = (source) => false) => {
+      //       const source = html.getElementById(`${id}-${this.sectionId}`);
+      //       const destination = this.querySelector(`#${id}-${this.dataset.section}`);
+      //       if (source && destination) {
+      //         destination.innerHTML = source.innerHTML;
+      //         destination.classList.toggle('hidden', shouldHide(source));
+      //       }
+      //     };
 
-          updateSourceFromDestination('price');
-          updateSourceFromDestination('Sku', ({ classList }) => classList.contains('hidden'));
-          updateSourceFromDestination('Inventory', ({ innerText }) => innerText === '');
-          updateSourceFromDestination('Volume');
-          updateSourceFromDestination('Price-Per-Item', ({ classList }) => classList.contains('hidden'));
+      //     updateSourceFromDestination('price');
+      //     updateSourceFromDestination('Sku', ({ classList }) => classList.contains('hidden'));
+      //     updateSourceFromDestination('Inventory', ({ innerText }) => innerText === '');
+      //     updateSourceFromDestination('Volume');
+      //     updateSourceFromDestination('Price-Per-Item', ({ classList }) => classList.contains('hidden'));
 
-          this.updateQuantityRules(this.sectionId, html);
-          this.querySelector(`#Quantity-Rules-${this.dataset.section}`)?.classList.remove('hidden');
-          this.querySelector(`#Volume-Note-${this.dataset.section}`)?.classList.remove('hidden');
+      //     this.updateQuantityRules(this.sectionId, html);
+      //     this.querySelector(`#Quantity-Rules-${this.dataset.section}`)?.classList.remove('hidden');
+      //     this.querySelector(`#Volume-Note-${this.dataset.section}`)?.classList.remove('hidden');
 
-          this.productForm?.toggleSubmitButton(
-            html.getElementById(`ProductSubmitButton-${this.sectionId}`)?.hasAttribute('disabled') ?? true,
-            window.variantStrings.soldOut
-          );
+      //     this.productForm?.toggleSubmitButton(
+      //       html.getElementById(`ProductSubmitButton-${this.sectionId}`)?.hasAttribute('disabled') ?? true,
+      //       window.variantStrings.soldOut
+      //     );
 
-          publish(PUB_SUB_EVENTS.variantChange, {
-            data: {
-              sectionId: this.sectionId,
-              html,
-              variant,
-            },
-          });
-        };
-      }
+      //     publish(PUB_SUB_EVENTS.variantChange, {
+      //       data: {
+      //         sectionId: this.sectionId,
+      //         html,
+      //         variant,
+      //       },
+      //     });
+      //   };
+      // }
 
       updateVariantInputs(variantId) {
         this.querySelectorAll(

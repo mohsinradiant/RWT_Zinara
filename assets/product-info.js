@@ -208,6 +208,18 @@ if (!customElements.get('product-info')) {
             priceBreakdownDestination.innerHTML = priceBreakdownSource.innerHTML;
           }
       
+          // ✅ Reload page if the variant ID in the URL changes
+          const currentVariantId = new URL(window.location.href).searchParams.get('variant');
+          if (variant?.id && currentVariantId != variant.id) {
+            if (!sessionStorage.getItem('variant_redirected')) {
+              console.log(`Reloading for variant ID: ${variant.id}`);
+              sessionStorage.setItem('variant_redirected', 'true');
+              window.location.href = `${productUrl}?variant=${variant.id}`;
+            }
+          } else {
+            sessionStorage.removeItem('variant_redirected'); // Reset if no reload needed
+          }
+      
           publish(PUB_SUB_EVENTS.variantChange, {
             data: {
               sectionId: this.sectionId,
@@ -217,6 +229,7 @@ if (!customElements.get('product-info')) {
           });
         };
       }
+      
       
 
       updateVariantInputs(variantId) {

@@ -132,17 +132,18 @@
                   {% if selected_variant == null %}
                     {% assign selected_variant = product.variants.first %}
                   {% endif %}
+
                   <ul class="price-breakdown-list" id="price-breakdown-list">
-                    {% if selected_variant.metafields.content.price_breakdown %}
-                      {% for item in selected_variant.metafields.content.price_breakdown.value %}
+                    {% if selected_variant.metafields.content.price_breakdown_json %}
+                      {% for item in selected_variant.metafields.content.price_breakdown_json.value %}
                         <li>
                           <div class="price_breakdown-left_container">
                             <div class="price_breakdown-left_container_top">
                               <span>{{ item.title }}</span>
 
                               {% if item.compare_at_price and item.selling_price %}
-                                {% assign compare_at_price = item.compare_at_price.value | times: 1.0 %}
-                                {% assign selling_price = item.selling_price.value | times: 1.0 %}
+                                {% assign compare_at_price = item.compare_at_price | times: 1.0 %}
+                                {% assign selling_price = item.selling_price | times: 1.0 %}
                                 {% assign price_difference = compare_at_price | minus: selling_price %}
                                 {% assign percentage_difference = price_difference
                                   | divided_by: compare_at_price
@@ -161,14 +162,14 @@
                           </div>
                           <div class="price_breakdown-right_container">
                             {% if item.selling_price %}
-                              <span>₹{{ item.selling_price.value | money_without_trailing_zeros }}</span>
+                              <span>₹{{ item.selling_price | money_without_trailing_zeros }}</span>
                             {% endif %}
                             {% if item.compare_at_price
                               and item.compare_at_price != 0
                               and item.compare_at_price != null
                             %}
                               <span class="price_breakdown_compare_at_price">
-                                ₹{{ item.compare_at_price.value | money_without_trailing_zeros }}
+                                ₹{{ item.compare_at_price | money_without_trailing_zeros }}
                               </span>
                             {% endif %}
                           </div>
@@ -183,8 +184,10 @@
                       <li>No price breakdown available for this variant.</li>
                     {% endif %}
                   </ul>
+
                   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
                 </div>
+
                 <script>
                   function togglePopup() {
                     document.querySelector('.price-breakdown-popup').classList.toggle('active');

@@ -716,7 +716,7 @@ body.no-scroll {
 .pincode-availability-left input {
     border: none;
     color: #712242;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     letter-spacing: 0;
     font-family: 'Quicksand';
     font-weight: 400;
@@ -724,7 +724,7 @@ body.no-scroll {
 
 .pincode-availability-left input::placeholder {
     color: #71224280;
-    font-size: 1.7rem;
+    font-size: 1.4rem;
 }
 
 .pincode-availability-checker-container button {

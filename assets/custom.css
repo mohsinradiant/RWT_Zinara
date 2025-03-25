@@ -718,7 +718,7 @@ body.no-scroll {
     font-size: 1.7rem;
     letter-spacing: 0;
     font-family: 'Quicksand';
-    font-weight: 600;
+    font-weight: 400;
 }
 
 .pincode-availability-left input::placeholder {

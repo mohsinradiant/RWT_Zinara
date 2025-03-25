@@ -813,8 +813,8 @@ body.no-scroll {
 }
 
 .price-breakdown-popup {
-    background: #f2eeeb;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    background: #F4EEEB;
+    /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); */
     border-radius: 8px;
     z-index: 1000;
     width: 100%;

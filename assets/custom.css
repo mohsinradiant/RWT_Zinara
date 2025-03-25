@@ -700,11 +700,12 @@ body.no-scroll {
 
 .pincode-availability-left {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: 4px;
     border-bottom: solid 1px #71224230;
     padding-bottom: 7px;
+    width: 60%;
 }
 
 .pincode-availability-left img {

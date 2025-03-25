@@ -931,9 +931,9 @@ body.no-scroll {
 }
 
 .remove-item-button img {
-    width: 22px;
-    height: auto;
-    border-radius: 0;
+    width: 22px !important;
+    height: auto !important;
+    border-radius: 0 !important;
 }
 
 .remove-item-button {

@@ -1109,15 +1109,15 @@
 </product-info>
 
 <div class="sticky-atc-container">
-  {% assign has_available_variant = false %}
+  {% assign has_stock = false %}
   {% for variant in product.variants %}
-    {% if variant.available %}
-      {% assign has_available_variant = true %}
+    {% if variant.inventory_quantity > 0 %}
+      {% assign has_stock = true %}
       {% break %}
     {% endif %}
   {% endfor %}
 
-  {% if product.available %}
+  {% if has_stock %}
     <p id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</p>
     <p id="videoTrialButton" class="try-at-home-button try-at-home-button-sticky">Video Trial</p>
   {% endif %}

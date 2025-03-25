@@ -94,7 +94,8 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 }
 
 .page-width.drawer-menu {
-  max-width: 100%;
+  /* max-width: 100%; */
+  justify-content: space-between;
 }
 
 .page-width-desktop {
@@ -112,7 +113,7 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
     padding: 0 5rem;
   }
 
-  .header.page-width,
+  /* .header.page-width, */
   .utility-bar__grid.page-width {
     padding-left: 3.2rem;
     padding-right: 3.2rem;

@@ -167,6 +167,7 @@
     },
     "pdp_image_carousel_76BdGX": {
       "type": "pdp-image-carousel",
+      "disabled": true,
       "settings": {}
     },
     "1738792743f5d3661f": {

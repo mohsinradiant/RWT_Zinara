@@ -132,17 +132,18 @@
                   {% if selected_variant == null %}
                     {% assign selected_variant = product.variants.first %}
                   {% endif %}
+
                   <ul class="price-breakdown-list" id="price-breakdown-list">
-                    {% if selected_variant.metafields.content.price_breakdown %}
-                      {% for item in selected_variant.metafields.content.price_breakdown.value %}
+                    {% if product.selected_variant.metafields.content.price_breakdown_json %}
+                      {% for item in product.selected_variant.metafields.content.price_breakdown_json.value %}
                         <li>
                           <div class="price_breakdown-left_container">
                             <div class="price_breakdown-left_container_top">
                               <span>{{ item.title }}</span>
 
                               {% if item.compare_at_price and item.selling_price %}
-                                {% assign compare_at_price = item.compare_at_price.value | times: 1.0 %}
-                                {% assign selling_price = item.selling_price.value | times: 1.0 %}
+                                {% assign compare_at_price = item.compare_at_price | times: 1.0 %}
+                                {% assign selling_price = item.selling_price | times: 1.0 %}
                                 {% assign price_difference = compare_at_price | minus: selling_price %}
                                 {% assign percentage_difference = price_difference
                                   | divided_by: compare_at_price
@@ -161,14 +162,16 @@
                           </div>
                           <div class="price_breakdown-right_container">
                             {% if item.selling_price %}
-                              <span>₹{{ item.selling_price.value | money_without_trailing_zeros }}</span>
+                              <span
+                                >₹{{ item.selling_price | money_without_trailing_zeros | times: 100 | remove: '.0' -}}
+                              </span>
                             {% endif %}
                             {% if item.compare_at_price
                               and item.compare_at_price != 0
                               and item.compare_at_price != null
                             %}
                               <span class="price_breakdown_compare_at_price">
-                                ₹{{ item.compare_at_price.value | money_without_trailing_zeros }}
+                                ₹{{ item.compare_at_price | money_without_trailing_zeros | times: 100 | remove: '.0' }}
                               </span>
                             {% endif %}
                           </div>
@@ -177,14 +180,16 @@
 
                       <li class="price-breakdown-total">
                         <span>Total Cost</span>
-                        <span>₹{{ selected_variant.price | divided_by: 100 }}</span>
+                        <span>₹{{ product.selected_variant.price | divided_by: 100 }}</span>
                       </li>
                     {% else %}
                       <li>No price breakdown available for this variant.</li>
                     {% endif %}
                   </ul>
+
                   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
                 </div>
+
                 <script>
                   function togglePopup() {
                     document.querySelector('.price-breakdown-popup').classList.toggle('active');
@@ -1104,8 +1109,19 @@
 </product-info>
 
 <div class="sticky-atc-container">
-  <p id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</p>
-  <p id="videoTrialButton" class="try-at-home-button try-at-home-button-sticky">Video Trial</p>
+  {% assign has_stock = false %}
+  {% for variant in product.variants %}
+    {% if variant.inventory_quantity > 0 %}
+      {% assign has_stock = true %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+
+  {% if has_stock %}
+    <p id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</p>
+    {% comment %} <p id="videoTrialButton" class="try-at-home-button try-at-home-button-sticky">Video Trial</p> {% endcomment %}
+  {% endif %}
+
   {%- render 'buy-buttons',
     product: product,
     product_form_id: product_form_id,
@@ -1295,28 +1311,25 @@
           return;
         }
 
+        const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
+        const videoTrialUrl = `/pages/video-trial?view=video-trial&product_handle={{ product.handle }}`;
+
         if (validPincodes.includes(zipcode)) {
           res.textContent = 'Available';
           res.className = 'try-at-home-pincode-result available';
-
-          // Redirect based on the last clicked button
-          const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
-          const videoTrialUrl = `/pages/video-trial?view=video-trial&product_handle={{ product.handle }}`;
-          const redirectUrl = lastClickedButton === 'videoTrialButton' ? videoTrialUrl : tryAtHomeUrl;
-
-          const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(redirectUrl)}`;
-          window.location.href = loginRedirectUrl;
+          window.location.href = tryAtHomeUrl;
         } else {
           res.textContent = 'Pincode Not Available';
           res.className = 'try-at-home-pincode-result unavailable';
+          window.location.href = videoTrialUrl;
         }
       });
-
-      // Restrict input to numbers only
-      zipcodeInput.addEventListener('input', (event) => {
-        event.target.value = event.target.value.replace(/[^0-9]/g, '');
-      });
     }
+
+    // Restrict input to numbers only
+    zipcodeInput.addEventListener('input', (event) => {
+      event.target.value = event.target.value.replace(/[^0-9]/g, '');
+    });
 
     // Update button visibility based on inventory status
     function updateButtonVisibility(buttonId, showOnStock) {
@@ -1325,11 +1338,11 @@
       if (inventoryElement && button) {
         const inventoryText = inventoryElement.textContent.trim().toLowerCase();
 
-        if (inventoryText.includes('in stock') && parseInt(inventoryText) > 0) {
-          button.style.display = showOnStock ? 'flex' : 'none';
-        } else {
-          button.style.display = showOnStock ? 'none' : 'flex';
-        }
+        // if (inventoryText.includes('in stock') && parseInt(inventoryText) > 0) {
+        //   button.style.display = showOnStock ? 'flex' : 'none';
+        // } else {
+        //   button.style.display = showOnStock ? 'none' : 'flex';
+        // }
       }
     }
 
@@ -1374,7 +1387,6 @@
 
     // Initialize both buttons
     initializeButton('tryAtHomeButton', true);
-    initializeButton('videoTrialButton', false);
 
     // Initialize common functionality
     handlePincodeCheck();
@@ -1417,9 +1429,51 @@
 
 {% if availableVariantFound %}
   <script>
-    // window.location.href = '/products/{{ product.handle }}?variant={{ availableVariantId }}';
+    if (
+      !sessionStorage.getItem('redirectedToAvailableVariant') &&
+      !window.location.search.includes('manual_variant_change=true')
+    ) {
+      sessionStorage.setItem('redirectedToAvailableVariant', 'true');
+      window.location.href = '/products/{{ product.handle }}?variant={{ availableVariantId }}';
+    }
   </script>
 {% endif %}
+
+<script>
+  (function () {
+    let lastUrl = window.location.href;
+
+    const reloadOnVariantChange = () => {
+      const currentUrl = window.location.href;
+
+      if (currentUrl !== lastUrl) {
+        console.log('URL changed, reloading...');
+        lastUrl = currentUrl;
+        sessionStorage.removeItem('redirectedToAvailableVariant'); // ✅ Remove session flag after manual change
+        window.location.href = currentUrl.includes('?')
+          ? currentUrl + '&manual_variant_change=true'
+          : currentUrl + '?manual_variant_change=true'; // ✅ Add flag to prevent automatic redirection
+      }
+    };
+
+    // Listen for Shopify's history changes
+    const originalPushState = history.pushState;
+    const originalReplaceState = history.replaceState;
+
+    history.pushState = function (...args) {
+      originalPushState.apply(this, args);
+      reloadOnVariantChange();
+    };
+
+    history.replaceState = function (...args) {
+      originalReplaceState.apply(this, args);
+      reloadOnVariantChange();
+    };
+
+    window.addEventListener('popstate', reloadOnVariantChange); // ✅ Handles back/forward button
+  })();
+</script>
+
 {% schema %}
 {
   "name": "t:sections.main-product.name",

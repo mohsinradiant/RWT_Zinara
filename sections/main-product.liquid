@@ -1311,27 +1311,25 @@
           return;
         }
 
+        const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
+        const videoTrialUrl = `/pages/video-trial?view=video-trial&product_handle={{ product.handle }}`;
+
         if (validPincodes.includes(zipcode)) {
           res.textContent = 'Available';
           res.className = 'try-at-home-pincode-result available';
-
-          // Redirect based on the last clicked button
-          const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
-          const videoTrialUrl = `/pages/video-trial?view=video-trial&product_handle={{ product.handle }}`;
-
-          const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(redirectUrl)}`;
-          window.location.href = loginRedirectUrl;
+          window.location.href = tryAtHomeUrl;
         } else {
           res.textContent = 'Pincode Not Available';
           res.className = 'try-at-home-pincode-result unavailable';
+          window.location.href = videoTrialUrl;
         }
       });
-
-      // Restrict input to numbers only
-      zipcodeInput.addEventListener('input', (event) => {
-        event.target.value = event.target.value.replace(/[^0-9]/g, '');
-      });
     }
+
+    // Restrict input to numbers only
+    zipcodeInput.addEventListener('input', (event) => {
+      event.target.value = event.target.value.replace(/[^0-9]/g, '');
+    });
 
     // Update button visibility based on inventory status
     function updateButtonVisibility(buttonId, showOnStock) {

@@ -1119,7 +1119,7 @@
 
   {% if has_stock %}
     <p id="tryAtHomeButton" class="try-at-home-button try-at-home-button-sticky">Try at Home</p>
-    <p id="videoTrialButton" class="try-at-home-button try-at-home-button-sticky">Video Trial</p>
+    {% comment %} <p id="videoTrialButton" class="try-at-home-button try-at-home-button-sticky">Video Trial</p> {% endcomment %}
   {% endif %}
 
   {%- render 'buy-buttons',
@@ -1318,7 +1318,6 @@
           // Redirect based on the last clicked button
           const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
           const videoTrialUrl = `/pages/video-trial?view=video-trial&product_handle={{ product.handle }}`;
-          const redirectUrl = lastClickedButton === 'videoTrialButton' ? videoTrialUrl : tryAtHomeUrl;
 
           const loginRedirectUrl = `/account/login?return_url=${encodeURIComponent(redirectUrl)}`;
           window.location.href = loginRedirectUrl;
@@ -1341,11 +1340,11 @@
       if (inventoryElement && button) {
         const inventoryText = inventoryElement.textContent.trim().toLowerCase();
 
-        if (inventoryText.includes('in stock') && parseInt(inventoryText) > 0) {
-          button.style.display = showOnStock ? 'flex' : 'none';
-        } else {
-          button.style.display = showOnStock ? 'none' : 'flex';
-        }
+        // if (inventoryText.includes('in stock') && parseInt(inventoryText) > 0) {
+        //   button.style.display = showOnStock ? 'flex' : 'none';
+        // } else {
+        //   button.style.display = showOnStock ? 'none' : 'flex';
+        // }
       }
     }
 
@@ -1390,7 +1389,6 @@
 
     // Initialize both buttons
     initializeButton('tryAtHomeButton', true);
-    initializeButton('videoTrialButton', false);
 
     // Initialize common functionality
     handlePincodeCheck();

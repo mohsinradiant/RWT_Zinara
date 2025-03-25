@@ -942,6 +942,8 @@ body.no-scroll {
     padding: 0;
     margin: 0;
     cursor: pointer;
+    position: absolute;
+    right: 15px;
 }
 
 .price-breakdown-close-btn {

@@ -930,6 +930,12 @@ body.no-scroll {
     padding-top: 5px;
 }
 
+.remove-item-button img {
+    width: 22px;
+    height: auto;
+    border-radius: 0;
+}
+
 .price-breakdown-close-btn {
     margin: 10px 20px 20px;
     cursor: pointer;

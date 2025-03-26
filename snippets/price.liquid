@@ -27,7 +27,7 @@
   assign price_max = product.price_max
   assign available = target.available | default: false
 
-  assign money_compare_at_price = compare_at_price | divided_by: 100 | floor
+  assign money_compare_at_price = compare_at_price | money_without_currency | remove: '.00' | remove: '.10' | remove: '.20' | remove: '.30' | remove: '.40' | remove: '.50' | remove: '.60' | remove: '.70' | remove: '.80' | remove: '.90'
   assign money_price = price | money_without_currency | remove: '.00' | remove: '.10' | remove: '.20' | remove: '.30' | remove: '.40' | remove: '.50' | remove: '.60' | remove: '.70' | remove: '.80' | remove: '.90'
   assign money_price_min = price_min | divided_by: 100 | floor
   assign money_price_max = price_max | divided_by: 100 | floor
@@ -79,7 +79,7 @@
                   {% if settings.currency_code_enabled %}
                     {{ money_compare_at_price | money_with_currency }}
                   {% else %}
-                    {{ money_compare_at_price }}
+                    {{ money_compare_at_price | money }}
                   {% endif %}
                 </s>
               </span>

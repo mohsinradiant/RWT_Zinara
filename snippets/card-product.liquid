@@ -143,14 +143,14 @@
               </span>
             {%- endif -%}
 
-            {% if card_product.tags contains 'hometrialbadge' %}
+            {%- if card_product.available and card_product.tags contains 'hometrialbadge' -%}
               <span
                 id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
                 class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
               >
                 Home Trial Available
               </span>
-            {% endif %}
+            {%- endif -%}
           </div>
         </div>
       </div>

@@ -25,6 +25,7 @@
       }
     });
   </script>
+
   <div class="content-1-tah">
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>
@@ -127,10 +128,9 @@
     </script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        window.selectedProductIds = []; // Declare in the global scope
+        window.selectedProductIds = [];
         const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
 
-        // Function to get query parameter value
         function getQueryParam(param) {
           const params = new URLSearchParams(window.location.search);
           return params.get(param);
@@ -147,6 +147,7 @@
             .then((product) => {
               const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 40) + '...' : product.title;
               window.selectedProducts = [];
+
               const formattedProduct = {
                 id: product.id.toString(),
                 image: `https:${product.featured_image}`,
@@ -157,32 +158,47 @@
               window.selectedProducts.push(formattedProduct);
               selectedProductIds.push(product.id);
 
-              // Add product to the container
               selectedProductsContainer.innerHTML = `
             <div class="product-card" data-id="${product.id}">
               <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
               <div class="product-card-content">
                 <h2 class="product-card__title">${truncatedTitle}</h2>
                 <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
-                <button class="remove-item-button"><img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181"></button>
+                <button class="remove-item-button">
+                  <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181">
+                </button>
               </div>
             </div>
           `;
+
               document.getElementById('loadingMessage').style.display = 'none';
               selectedProductsContainer.style.display = 'flex';
+              document.querySelector('.selected-products-container').style.display = 'flex';
+              document.querySelector('.content-1-tah-sub_heading').style.display = 'inline-block';
+              document.querySelector('.content-1-tah .section-heading').style.display = 'block';
 
-              // Attach event listener to remove button
               attachRemoveEvent();
             })
             .catch((error) => {
               console.error(error);
               document.getElementById('loadingMessage').textContent = 'Product not found or invalid handle provided.';
+              hideSelectedProductSection();
             });
         } else {
           document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
+          hideSelectedProductSection();
         }
 
-        // Fetch collection products
+        function hideSelectedProductSection() {
+          const selectedContainer = document.querySelector('.selected-products-container');
+          const subHeading = document.querySelector('.content-1-tah-sub_heading');
+          const headings = document.querySelectorAll('.content-1-tah .section-heading');
+
+          if (selectedContainer) selectedContainer.style.display = 'none';
+          if (subHeading) subHeading.style.display = 'none';
+          if (headings.length > 0) headings[0].style.display = 'none';
+        }
+
         fetch(`/collections/{{ section.settings.collection_handle }}/products.json`)
           .then((response) => response.json())
           .then((data) => {
@@ -225,24 +241,23 @@
 
                   selectedProductIds.push(productId);
 
-                  // Update UI - Add to the container
                   selectedProductsContainer.innerHTML += `
                 <div class="product-card" data-id="${productId}">
                   <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
                   <div class="product-card-content">
                     <h2 class="product-card__title">${truncatedTitle}</h2>
                     <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
-                <button class="remove-item-button"><img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181"></button>
+                    <button class="remove-item-button">
+                      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181">
+                    </button>
                   </div>
                 </div>
               `;
 
-                  // Update button state
                   this.textContent = 'Added';
                   this.style.opacity = '0.7';
                   this.disabled = true;
 
-                  // Attach event listener to new remove button
                   attachRemoveEvent();
                 }
               });
@@ -252,27 +267,22 @@
           })
           .catch((error) => console.error('Error fetching collection products:', error));
 
-        // Function to attach remove event to all remove buttons
         function attachRemoveEvent() {
           document.querySelectorAll('.remove-item-button').forEach((removeButton) => {
-            removeButton.removeEventListener('click', handleRemoveEvent); // Avoid duplicate listeners
+            removeButton.removeEventListener('click', handleRemoveEvent);
             removeButton.addEventListener('click', handleRemoveEvent);
           });
         }
 
-        // Handle remove event
         function handleRemoveEvent(event) {
           const productCard = event.target.closest('.product-card');
           const productId = productCard.getAttribute('data-id');
 
-          // Remove product from the selected list
           window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
           selectedProductIds = selectedProductIds.filter((id) => id !== productId);
 
-          // Remove product card from the container
           productCard.remove();
 
-          // Re-enable the "Add" button for the removed product
           const addButton = document.querySelector(`.product-card[data-id="${productId}"] .add-item-button`);
           if (addButton) {
             addButton.textContent = '+ Add';
@@ -280,6 +290,30 @@
             addButton.disabled = false;
           }
         }
+
+        // 🔁 MutationObserver to control display toggling
+        const observer = new MutationObserver(() => {
+          const container = document.querySelector('.selected-products-container');
+          const container_child = document.getElementById('productCardContainer');
+          const subHeading = document.querySelector('.content-1-tah-sub_heading');
+          const sectionHeading = document.querySelector('.content-1-tah .section-heading');
+
+          const hasProducts = selectedProductsContainer.children.length > 0;
+
+          if (hasProducts) {
+            container?.style.setProperty('display', 'flex');
+            container_child?.classList.add('display_flex_important');
+            subHeading?.style.setProperty('display', 'block');
+            sectionHeading?.style.setProperty('display', 'block');
+          } else {
+            container?.style.setProperty('display', 'none');
+            container_child?.classList.remove('display_flex_important');
+            subHeading?.style.setProperty('display', 'none');
+            sectionHeading?.style.setProperty('display', 'none');
+          }
+        });
+
+        observer.observe(selectedProductsContainer, { childList: true });
       });
     </script>
   </div>
@@ -362,6 +396,9 @@
   </div>
 {% endcomment %}
 <style>
+  .display_flex_important {
+    display: flex !important;
+  }
   .tah-content-header_helpline-container {
     display: flex;
     width: 100%;

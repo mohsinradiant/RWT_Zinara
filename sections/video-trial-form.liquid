@@ -310,6 +310,27 @@
           }
         }
       });
+      // Observe changes in #productCardContainer and toggle visibility
+      const observer = new MutationObserver(() => {
+        const container = document.querySelector('.selected-products-container');
+        const subHeading = document.querySelector('.content-1-tah-sub_heading');
+        const sectionHeading = document.querySelector('.content-1-tah .section-heading');
+
+        const hasProducts = selectedProductsContainer.children.length > 0;
+
+        if (hasProducts) {
+          if (container) container.style.display = 'flex';
+          if (subHeading) subHeading.style.display = 'block';
+          if (sectionHeading) sectionHeading.style.display = 'block';
+        } else {
+          if (container) container.style.display = 'none';
+          if (subHeading) subHeading.style.display = 'none';
+          if (sectionHeading) sectionHeading.style.display = 'none';
+        }
+      });
+
+      // Start observing the product card container
+      observer.observe(selectedProductsContainer, { childList: true });
     </script>
   </div>
 

@@ -180,17 +180,8 @@
               hideSelectedProductSection();
             });
         } else {
-          console.warn('⚠️ No product_handle in URL');
-
-          // But defer the UI message until after DOM is fully loaded and user hasn't added anything
-          setTimeout(() => {
-            if (window.selectedProducts.length === 0) {
-              document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
-              hideSelectedProductSection();
-            } else {
-              console.log('✅ Skipped hiding section because product(s) were added manually');
-            }
-          }, 500);
+          document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
+          hideSelectedProductSection();
         }
 
         function hideSelectedProductSection() {

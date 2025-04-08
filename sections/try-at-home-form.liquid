@@ -25,23 +25,7 @@
       }
     });
   </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const productCardContainer = document.getElementById('productCardContainer');
-      const productCards = productCardContainer.querySelectorAll('.product-card');
 
-      if (productCards.length === 0) {
-        document.querySelector('.selected-products-container').style.display = 'none';
-        document.querySelector('.content-1-tah-sub_heading').style.display = 'none';
-
-        // Hides the first section-heading (for "Selected Products")
-        const headings = document.querySelectorAll('.content-1-tah .section-heading');
-        if (headings.length > 0) {
-          headings[0].style.display = 'none';
-        }
-      }
-    });
-  </script>
   <div class="content-1-tah">
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>
@@ -176,27 +160,45 @@
 
               // Add product to the container
               selectedProductsContainer.innerHTML = `
-            <div class="product-card" data-id="${product.id}">
-              <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
-              <div class="product-card-content">
-                <h2 class="product-card__title">${truncatedTitle}</h2>
-                <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
-                <button class="remove-item-button"><img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181"></button>
-              </div>
-            </div>
-          `;
+        <div class="product-card" data-id="${product.id}">
+          <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
+          <div class="product-card-content">
+            <h2 class="product-card__title">${truncatedTitle}</h2>
+            <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
+            <button class="remove-item-button"><img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181"></button>
+          </div>
+        </div>
+      `;
+
               document.getElementById('loadingMessage').style.display = 'none';
               selectedProductsContainer.style.display = 'flex';
 
-              // Attach event listener to remove button
+              // Show associated content (just in case it was hidden before)
+              document.querySelector('.selected-products-container').style.display = 'block';
+              document.querySelector('.content-1-tah-sub_heading').style.display = 'inline-block';
+
+              const headings = document.querySelectorAll('.content-1-tah .section-heading');
+              if (headings.length > 0) headings[0].style.display = 'block';
+
               attachRemoveEvent();
             })
             .catch((error) => {
               console.error(error);
               document.getElementById('loadingMessage').textContent = 'Product not found or invalid handle provided.';
+              hideSelectedProductSection(); // ⬅️ Hides if fetch fails
             });
         } else {
           document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
+          hideSelectedProductSection(); // ⬅️ Hides if no handle
+        }
+
+        // 🔽 Utility function to hide elements
+        function hideSelectedProductSection() {
+          document.querySelector('.selected-products-container').style.display = 'none';
+          document.querySelector('.content-1-tah-sub_heading').style.display = 'none';
+
+          const headings = document.querySelectorAll('.content-1-tah .section-heading');
+          if (headings.length > 0) headings[0].style.display = 'none';
         }
 
         // Fetch collection products

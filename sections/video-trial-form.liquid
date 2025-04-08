@@ -159,15 +159,15 @@
 
               // Add product to the container
               selectedProductsContainer.innerHTML = `
-            <div class="product-card" data-id="${product.id}">
-              <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
-              <div class="product-card-content">
-                <h2 class="product-card__title">${truncatedTitle}</h2>
-                <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
-                <button class="remove-item-button"><img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181"></button>
-              </div>
-            </div>
-          `;
+        <div class="product-card" data-id="${product.id}">
+          <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
+          <div class="product-card-content">
+            <h2 class="product-card__title">${truncatedTitle}</h2>
+            <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
+            <button class="remove-item-button"><img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181"></button>
+          </div>
+        </div>
+      `;
               document.getElementById('loadingMessage').style.display = 'none';
               selectedProductsContainer.style.display = 'flex';
 
@@ -177,9 +177,38 @@
             .catch((error) => {
               console.error(error);
               document.getElementById('loadingMessage').textContent = 'Product not found or invalid handle provided.';
+              hideSelectedProductSection();
             });
         } else {
           document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
+          hideSelectedProductSection();
+        }
+
+        function hideSelectedProductSection() {
+          const selectedContainer = document.querySelector('.selected-products-container');
+          const subHeading = document.querySelector('.content-1-tah-sub_heading');
+          const headings = document.querySelectorAll('.content-1-tah .section-heading');
+
+          if (selectedContainer) {
+            selectedContainer.style.display = 'none';
+            console.log('✅ .selected-products-container hidden');
+          } else {
+            console.warn('⚠️ .selected-products-container not found');
+          }
+
+          if (subHeading) {
+            subHeading.style.display = 'none';
+            console.log('✅ .content-1-tah-sub_heading hidden');
+          } else {
+            console.warn('⚠️ .content-1-tah-sub_heading not found');
+          }
+
+          if (headings.length > 0) {
+            headings[0].style.display = 'none';
+            console.log('✅ First .section-heading hidden');
+          } else {
+            console.warn('⚠️ No .section-heading elements found in .content-1-tah');
+          }
         }
 
         // Fetch collection products

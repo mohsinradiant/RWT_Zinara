@@ -312,6 +312,7 @@
       });
       const observer = new MutationObserver(() => {
         const container = document.querySelector('.selected-products-container');
+        const container_child = document.querySelector('.selected-products-container #productCardContainer');
         const subHeading = document.querySelector('.content-1-tah-sub_heading');
         const sectionHeading = document.querySelector('.content-1-tah .section-heading');
 
@@ -319,10 +320,12 @@
 
         if (hasProducts) {
           container?.style.setProperty('display', 'flex');
+          container_child?.style.setProperty('display', 'flex');
           subHeading?.style.setProperty('display', 'block');
           sectionHeading?.style.setProperty('display', 'block');
         } else {
           container?.style.setProperty('display', 'none');
+          container_child?.style.setProperty('display', 'none');
           subHeading?.style.setProperty('display', 'none');
           sectionHeading?.style.setProperty('display', 'none');
         }

@@ -134,7 +134,7 @@
                   {% endif %}
 
                   <ul class="price-breakdown-list" id="price-breakdown-list">
-                    {% if product.selected_variant.metafields.content.price_breakdown_json %}
+                    {% if product.selected_variant.metafields.content.price_breakdown_json != null %}
                       {% for item in product.selected_variant.metafields.content.price_breakdown_json.value %}
                         <li>
                           <div class="price_breakdown-left_container">

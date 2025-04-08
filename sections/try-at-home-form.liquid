@@ -28,15 +28,17 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const productCardContainer = document.getElementById('productCardContainer');
+      const productCards = productCardContainer.querySelectorAll('.product-card');
 
-      // Check if the container is hidden OR truly empty
-      const isHidden = window.getComputedStyle(productCardContainer).display === 'none';
-      const isEmpty = productCardContainer.children.length === 0;
-
-      if (isHidden || isEmpty) {
+      if (productCards.length === 0) {
         document.querySelector('.selected-products-container').style.display = 'none';
         document.querySelector('.content-1-tah-sub_heading').style.display = 'none';
-        document.querySelector('.content-1-tah .section-heading').style.display = 'none';
+
+        // Hides the first section-heading (for "Selected Products")
+        const headings = document.querySelectorAll('.content-1-tah .section-heading');
+        if (headings.length > 0) {
+          headings[0].style.display = 'none';
+        }
       }
     });
   </script>

@@ -127,13 +127,31 @@
     </script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        window.selectedProductIds = []; // Declare in the global scope
-        const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
+        window.selectedProductIds = [];
+        window.selectedProducts = [];
 
-        // Function to get query parameter value
+        const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
+        const selectedContainer = document.querySelector('.selected-products-container');
+        const subHeading = document.querySelector('.content-1-tah-sub_heading');
+        const sectionHeading = document.querySelector('.content-1-tah .section-heading');
+        const loadingMessage = document.getElementById('loadingMessage');
+
         function getQueryParam(param) {
           const params = new URLSearchParams(window.location.search);
           return params.get(param);
+        }
+
+        function showSelectedProductSection() {
+          if (selectedContainer) selectedContainer.style.display = 'flex';
+          if (subHeading) subHeading.style.display = 'block';
+          if (sectionHeading) sectionHeading.style.display = 'block';
+          if (loadingMessage) loadingMessage.style.display = 'none';
+        }
+
+        function hideSelectedProductSection() {
+          if (selectedContainer) selectedContainer.style.display = 'none';
+          if (subHeading) subHeading.style.display = 'none';
+          if (sectionHeading) sectionHeading.style.display = 'none';
         }
 
         const productHandle = getQueryParam('product_handle');
@@ -146,7 +164,6 @@
             })
             .then((product) => {
               const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 40) + '...' : product.title;
-              window.selectedProducts = [];
               const formattedProduct = {
                 id: product.id.toString(),
                 image: `https:${product.featured_image}`,
@@ -157,7 +174,6 @@
               window.selectedProducts.push(formattedProduct);
               selectedProductIds.push(product.id);
 
-              // Add product to the container
               selectedProductsContainer.innerHTML = `
             <div class="product-card" data-id="${product.id}">
               <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
@@ -168,47 +184,19 @@
               </div>
             </div>
           `;
-              document.getElementById('loadingMessage').style.display = 'none';
-              selectedProductsContainer.style.display = 'flex';
 
-              // Attach event listener to remove button
+              showSelectedProductSection();
               attachRemoveEvent();
             })
             .catch((error) => {
               console.error(error);
-              document.getElementById('loadingMessage').textContent = 'Product not found or invalid handle provided.';
+              loadingMessage.textContent = 'Product not found or invalid handle provided.';
               hideSelectedProductSection();
             });
         } else {
-          document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
+          console.warn('⚠️ No product_handle in URL');
           hideSelectedProductSection();
-        }
-
-        function hideSelectedProductSection() {
-          const selectedContainer = document.querySelector('.selected-products-container');
-          const subHeading = document.querySelector('.content-1-tah-sub_heading');
-          const headings = document.querySelectorAll('.content-1-tah .section-heading');
-
-          if (selectedContainer) {
-            selectedContainer.style.display = 'none';
-            console.log('✅ .selected-products-container hidden');
-          } else {
-            console.warn('⚠️ .selected-products-container not found');
-          }
-
-          if (subHeading) {
-            subHeading.style.display = 'none';
-            console.log('✅ .content-1-tah-sub_heading hidden');
-          } else {
-            console.warn('⚠️ .content-1-tah-sub_heading not found');
-          }
-
-          if (headings.length > 0) {
-            headings[0].style.display = 'none';
-            console.log('✅ First .section-heading hidden');
-          } else {
-            console.warn('⚠️ No .section-heading elements found in .content-1-tah');
-          }
+          loadingMessage.textContent = 'No product handle provided in the URL.';
         }
 
         // Fetch collection products
@@ -237,12 +225,6 @@
               productCard.querySelector('.add-item-button').addEventListener('click', function () {
                 console.log('🟡 Add button clicked for:', product.id);
 
-                // ✅ Check if selectedProducts exists
-                if (!window.selectedProducts) {
-                  window.selectedProducts = [];
-                  console.warn('⚠️ selectedProducts was undefined. Initialized.');
-                }
-
                 if (window.selectedProducts.length >= 10) {
                   const errorModal = document.getElementById('errorModal');
                   errorModal.style.display = 'flex';
@@ -255,6 +237,7 @@
 
                 if (!isProductAdded) {
                   console.log('✅ Adding product to list:', productId);
+
                   window.selectedProducts.push({
                     id: productId,
                     image: featuredImage,
@@ -264,23 +247,20 @@
 
                   selectedProductIds.push(productId);
 
-                  // ✅ Unhide the hidden section
-                  document.querySelector('.selected-products-container').style.display = 'flex';
-                  document.querySelector('.content-1-tah-sub_heading').style.display = 'block';
-                  const sectionHeading = document.querySelector('.content-1-tah .section-heading');
-                  if (sectionHeading) sectionHeading.style.display = 'block';
+                  // Show section if previously hidden
+                  showSelectedProductSection();
 
-                  // Append product card
+                  // Append new card
                   selectedProductsContainer.innerHTML += `
-      <div class="product-card" data-id="${productId}">
-        <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
-        <div class="product-card-content">
-          <h2 class="product-card__title">${truncatedTitle}</h2>
-          <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
-          <button class="remove-item-button"><img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181"></button>
-        </div>
-      </div>
-    `;
+                <div class="product-card" data-id="${productId}">
+                  <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+                  <div class="product-card-content">
+                    <h2 class="product-card__title">${truncatedTitle}</h2>
+                    <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
+                    <button class="remove-item-button"><img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181"></button>
+                  </div>
+                </div>
+              `;
 
                   this.textContent = 'Added';
                   this.style.opacity = '0.7';
@@ -297,32 +277,36 @@
           })
           .catch((error) => console.error('Error fetching collection products:', error));
 
-        // Function to attach remove event to all remove buttons
+        // Attach remove event to all remove buttons
         function attachRemoveEvent() {
           document.querySelectorAll('.remove-item-button').forEach((removeButton) => {
-            removeButton.removeEventListener('click', handleRemoveEvent); // Avoid duplicate listeners
+            removeButton.removeEventListener('click', handleRemoveEvent); // avoid duplicates
             removeButton.addEventListener('click', handleRemoveEvent);
           });
         }
 
-        // Handle remove event
         function handleRemoveEvent(event) {
           const productCard = event.target.closest('.product-card');
           const productId = productCard.getAttribute('data-id');
 
-          // Remove product from the selected list
           window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
           selectedProductIds = selectedProductIds.filter((id) => id !== productId);
 
-          // Remove product card from the container
           productCard.remove();
 
-          // Re-enable the "Add" button for the removed product
+          // Re-enable Add button for that product
           const addButton = document.querySelector(`.product-card[data-id="${productId}"] .add-item-button`);
           if (addButton) {
             addButton.textContent = '+ Add';
             addButton.style.opacity = '1';
             addButton.disabled = false;
+          }
+
+          // Optional: hide section if no products left
+          if (window.selectedProducts.length === 0) {
+            hideSelectedProductSection();
+            loadingMessage.textContent = 'No products selected yet.';
+            loadingMessage.style.display = 'block';
           }
         }
       });

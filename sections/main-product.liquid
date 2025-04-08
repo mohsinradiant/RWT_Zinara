@@ -137,7 +137,7 @@
                     {% if product.selected_or_first_available_variant.metafields.content.price_breakdown_json.value
                         != null
                     %}
-                      {% for item in product.selected_variant.metafields.content.price_breakdown_json.value %}
+                      {% for item in product.selected_or_first_available_variant.metafields.content.price_breakdown_json.value %}
                         <li>
                           <div class="price_breakdown-left_container">
                             <div class="price_breakdown-left_container_top">
@@ -182,7 +182,7 @@
 
                       <li class="price-breakdown-total">
                         <span>Total Cost</span>
-                        <span>₹{{ product.selected_variant.price | divided_by: 100 }}</span>
+                        <span>₹{{ product.selected_or_first_available_variant.price | divided_by: 100 }}</span>
                       </li>
                     {% else %}
                       <li>No price breakdown available for this variant.</li>

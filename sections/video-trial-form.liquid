@@ -320,18 +320,18 @@
 
         if (hasProducts) {
           container?.style.setProperty('display', 'flex');
-          container_child?.style.setProperty('display', 'flex');
+          container_child?.classList.add('display_flex_important');
           subHeading?.style.setProperty('display', 'block');
           sectionHeading?.style.setProperty('display', 'block');
         } else {
           container?.style.setProperty('display', 'none');
-          container_child?.style.setProperty('display', 'none');
+          container_child?.classList.remove('display_flex_important');
           subHeading?.style.setProperty('display', 'none');
           sectionHeading?.style.setProperty('display', 'none');
         }
       });
 
-      // Start observing product card container for changes
+      // Start observing the container
       observer.observe(selectedProductsContainer, { childList: true });
     </script>
   </div>

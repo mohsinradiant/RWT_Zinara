@@ -390,6 +390,268 @@
       tabindex="-1"
     >
       {{ content_for_layout }}
+      <div id="tryAtHomeOverlay_2" class="try-at-home-overlay" style="display: none;">
+        <div id="tryAtHomePincodePopup_2" class="try-at-home-pincode-popup">
+          <button id="tryAtHomeClose_2" class="try-at-home-close-btn">&times;</button>
+          <h3 class="try-at-home-title">Enter pincode to check availability</h3>
+          <input
+            id="tryAtHomeZipcode_2"
+            type="text"
+            class="try-at-home-pincode-input"
+            placeholder="Pincode"
+            maxlength="6"
+          >
+          <button
+            id="tryAtHomeSubmitBtn_2"
+            type="submit"
+            class="try-at-home-pincode-button"
+          >
+            Check Availability
+          </button>
+          <div id="tryAtHomeRes_2" class="try-at-home-pincode-result"></div>
+        </div>
+      </div>
+      <style>
+        /* Overlay and background blur */
+        .try-at-home-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(8px);
+          display: none;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+        }
+
+        /* Popup container */
+        .try-at-home-pincode-popup {
+          position: relative;
+          background: #f4eeeb;
+          padding: 30px 15px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+          text-align: center;
+          max-width: 415px;
+          width: 90%;
+        }
+
+        /* Close button */
+        .try-at-home-close-btn {
+          position: absolute;
+          top: 37px;
+          right: 10px;
+          background: none;
+          border: none;
+          font-size: 4rem;
+          cursor: pointer;
+          font-weight: 500;
+          font-family: 'Quicksand';
+          line-height: 0;
+          color: #712242;
+        }
+
+        /* Title */
+        .try-at-home-title {
+          font-size: 2rem;
+          margin: 0;
+          font-weight: 500;
+          font-family: 'Playfair Display';
+          text-align: left;
+        }
+
+        /* Input field */
+        .try-at-home-pincode-input {
+          border: none;
+          color: #712242;
+          font-size: 1.7rem;
+          letter-spacing: 0;
+          font-family: 'Quicksand';
+          font-weight: 600;
+          width: 100%;
+          margin: 19px 0;
+          padding: 9px;
+          background: transparent;
+          border-bottom: solid 1px #71224230;
+        }
+
+        /* Remove up and down arrows from number inputs */
+        .try-at-home-pincode-input[type='text']::-webkit-inner-spin-button,
+        .try-at-home-pincode-input[type='text']::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        .try-at-home-pincode-input[type='text'] {
+          -moz-appearance: textfield; /* For Firefox */
+        }
+
+        .try-at-home-pincode-input::placeholder {
+          color: #71224280;
+          font-size: 1.7rem;
+        }
+
+        /* Submit button */
+        .try-at-home-pincode-button {
+          background: #712242;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 4px;
+          font-size: 1.6rem;
+          cursor: pointer;
+          width: 100%;
+          font-family: 'Quicksand';
+          font-weight: 600;
+        }
+
+        .try-at-home-pincode-button:hover {
+          background: #71224260;
+        }
+
+        /* Result messages */
+        .try-at-home-pincode-result {
+          margin-top: 10px;
+          font-size: 14px;
+        }
+
+        .try-at-home-pincode-result.invalid {
+          color: red;
+        }
+
+        .try-at-home-pincode-result.available {
+          color: green;
+        }
+
+        .try-at-home-pincode-result.unavailable {
+          color: orange;
+        }
+      </style>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const overlay = document.getElementById('tryAtHomeOverlay_2');
+          const pincodePopup = document.getElementById('tryAtHomePincodePopup_2');
+          const closeButton = document.getElementById('tryAtHomeClose_2');
+          const submitButton = document.getElementById('tryAtHomeSubmitBtn_2');
+          const zipcodeInput = document.getElementById('tryAtHomeZipcode_2');
+          const res = document.getElementById('tryAtHomeRes_2');
+          const inventoryElement = document.querySelector('.product__inventory');
+          const productFormButtons = document.querySelector('.product-form__buttons');
+
+          const validPincodes = ['110001', '560001', '400001']; // Example valid pincodes
+          let lastClickedButton = null; // Tracks the last clicked button
+
+          function togglePopup(buttonId) {
+            document.getElementById(buttonId).addEventListener('click', () => {
+              overlay.style.display = 'flex';
+              lastClickedButton = buttonId;
+            });
+
+            closeButton.addEventListener('click', () => {
+              overlay.style.display = 'none';
+            });
+
+            overlay.addEventListener('click', (e) => {
+              if (!pincodePopup.contains(e.target)) {
+                overlay.style.display = 'none';
+              }
+            });
+          }
+
+          // Handle pincode validation and redirection
+          function handlePincodeCheck() {
+            submitButton.addEventListener('click', () => {
+              const zipcode = zipcodeInput.value.trim();
+              const pincodeRegex = /^[1-9][0-9]{5}$/;
+
+              if (!pincodeRegex.test(zipcode)) {
+                res.textContent = 'Invalid Pincode';
+                res.className = 'try-at-home-pincode-result invalid';
+                return;
+              }
+
+              const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
+              const videoTrialUrl = `/pages/video-trial?view=video-trial&product_handle={{ product.handle }}`;
+
+              if (validPincodes.includes(zipcode)) {
+                res.textContent = 'Available';
+                res.className = 'try-at-home-pincode-result available';
+                window.location.href = tryAtHomeUrl;
+              } else {
+                res.textContent = 'Pincode Not Available';
+                res.className = 'try-at-home-pincode-result unavailable';
+                window.location.href = videoTrialUrl;
+              }
+            });
+          }
+
+          // Restrict input to numbers only
+          zipcodeInput.addEventListener('input', (event) => {
+            event.target.value = event.target.value.replace(/[^0-9]/g, '');
+          });
+
+          // Update button visibility based on inventory status
+          function updateButtonVisibility(buttonId, showOnStock) {
+            const button = document.getElementById(buttonId);
+
+            if (inventoryElement && button) {
+              const inventoryText = inventoryElement.textContent.trim().toLowerCase();
+
+              // if (inventoryText.includes('in stock') && parseInt(inventoryText) > 0) {
+              //   button.style.display = showOnStock ? 'flex' : 'none';
+              // } else {
+              //   button.style.display = showOnStock ? 'none' : 'flex';
+              // }
+            }
+          }
+
+          // Move button inside the form on larger screens
+          function moveButton(buttonId) {
+            const button = document.getElementById(buttonId);
+
+            if (window.innerWidth > 756 && button && productFormButtons) {
+              productFormButtons.insertAdjacentElement('afterbegin', button);
+              console.log(`#${buttonId} successfully moved into .product-form__buttons`);
+            }
+          }
+
+          // Observe changes in inventory to dynamically update button visibility
+          function observeInventoryChanges(buttonId, showOnStock) {
+            const observer = new MutationObserver(() => {
+              updateButtonVisibility(buttonId, showOnStock);
+            });
+
+            if (inventoryElement) {
+              observer.observe(inventoryElement, { childList: true, subtree: true });
+            }
+          }
+
+          // Initialize functionality for a button
+          function initializeButton(buttonId, showOnStock) {
+            togglePopup(buttonId);
+            updateButtonVisibility(buttonId, showOnStock);
+            observeInventoryChanges(buttonId, showOnStock);
+
+            const intervalId = setInterval(() => moveButton(buttonId), 100);
+
+            window.addEventListener('resize', () => {
+              if (window.innerWidth > 756) {
+                moveButton(buttonId);
+              }
+            });
+
+            // Stop moving after ensuring the button is repositioned
+            setTimeout(() => clearInterval(intervalId), 3000);
+          }
+
+          // Initialize both buttons
+          initializeButton('tryAtHomeButton', true);
+
+          // Initialize common functionality
+          handlePincodeCheck();
+        });
+      </script>
     </main>
 
     {% sections 'footer-group' %}

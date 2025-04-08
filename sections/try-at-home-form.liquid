@@ -194,11 +194,30 @@
 
         // 🔽 Utility function to hide elements
         function hideSelectedProductSection() {
-          document.querySelector('.selected-products-container').style.display = 'none';
-          document.querySelector('.content-1-tah-sub_heading').style.display = 'none';
-
+          const selectedContainer = document.querySelector('.selected-products-container');
+          const subHeading = document.querySelector('.content-1-tah-sub_heading');
           const headings = document.querySelectorAll('.content-1-tah .section-heading');
-          if (headings.length > 0) headings[0].style.display = 'none';
+
+          if (selectedContainer) {
+            selectedContainer.style.display = 'none';
+            console.log('✅ .selected-products-container hidden');
+          } else {
+            console.warn('⚠️ .selected-products-container not found');
+          }
+
+          if (subHeading) {
+            subHeading.style.display = 'none';
+            console.log('✅ .content-1-tah-sub_heading hidden');
+          } else {
+            console.warn('⚠️ .content-1-tah-sub_heading not found');
+          }
+
+          if (headings.length > 0) {
+            headings[0].style.display = 'none';
+            console.log('✅ First .section-heading hidden');
+          } else {
+            console.warn('⚠️ No .section-heading elements found in .content-1-tah');
+          }
         }
 
         // Fetch collection products

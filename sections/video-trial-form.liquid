@@ -159,15 +159,15 @@
 
               // Add product to the container
               selectedProductsContainer.innerHTML = `
-        <div class="product-card" data-id="${product.id}">
-          <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
-          <div class="product-card-content">
-            <h2 class="product-card__title">${truncatedTitle}</h2>
-            <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
-            <button class="remove-item-button"><img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181"></button>
-          </div>
-        </div>
-      `;
+            <div class="product-card" data-id="${product.id}">
+              <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
+              <div class="product-card-content">
+                <h2 class="product-card__title">${truncatedTitle}</h2>
+                <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
+                <button class="remove-item-button"><img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181"></button>
+              </div>
+            </div>
+          `;
               document.getElementById('loadingMessage').style.display = 'none';
               selectedProductsContainer.style.display = 'flex';
 
@@ -235,9 +235,18 @@
           `;
 
               productCard.querySelector('.add-item-button').addEventListener('click', function () {
+                console.log('🟡 Add button clicked for:', product.id);
+
+                // ✅ Check if selectedProducts exists
+                if (!window.selectedProducts) {
+                  window.selectedProducts = [];
+                  console.warn('⚠️ selectedProducts was undefined. Initialized.');
+                }
+
                 if (window.selectedProducts.length >= 10) {
                   const errorModal = document.getElementById('errorModal');
                   errorModal.style.display = 'flex';
+                  console.warn('❌ Max limit reached');
                   return;
                 }
 
@@ -245,6 +254,7 @@
                 const isProductAdded = window.selectedProducts.some((p) => p.id === productId);
 
                 if (!isProductAdded) {
+                  console.log('✅ Adding product to list:', productId);
                   window.selectedProducts.push({
                     id: productId,
                     image: featuredImage,
@@ -254,25 +264,31 @@
 
                   selectedProductIds.push(productId);
 
-                  // Update UI - Add to the container
-                  selectedProductsContainer.innerHTML += `
-                <div class="product-card" data-id="${productId}">
-                  <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
-                  <div class="product-card-content">
-                    <h2 class="product-card__title">${truncatedTitle}</h2>
-                    <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
-                <button class="remove-item-button"><img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181"></button>
-                  </div>
-                </div>
-              `;
+                  // ✅ Unhide the hidden section
+                  document.querySelector('.selected-products-container').style.display = 'flex';
+                  document.querySelector('.content-1-tah-sub_heading').style.display = 'block';
+                  const sectionHeading = document.querySelector('.content-1-tah .section-heading');
+                  if (sectionHeading) sectionHeading.style.display = 'block';
 
-                  // Update button state
+                  // Append product card
+                  selectedProductsContainer.innerHTML += `
+      <div class="product-card" data-id="${productId}">
+        <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+        <div class="product-card-content">
+          <h2 class="product-card__title">${truncatedTitle}</h2>
+          <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
+          <button class="remove-item-button"><img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181"></button>
+        </div>
+      </div>
+    `;
+
                   this.textContent = 'Added';
                   this.style.opacity = '0.7';
                   this.disabled = true;
 
-                  // Attach event listener to new remove button
                   attachRemoveEvent();
+                } else {
+                  console.log('⚠️ Product already added:', productId);
                 }
               });
 

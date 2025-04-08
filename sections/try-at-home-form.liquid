@@ -25,6 +25,21 @@
       }
     });
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const productCardContainer = document.getElementById('productCardContainer');
+
+      // Check if the container is hidden OR truly empty
+      const isHidden = window.getComputedStyle(productCardContainer).display === 'none';
+      const isEmpty = productCardContainer.children.length === 0;
+
+      if (isHidden || isEmpty) {
+        document.querySelector('.selected-products-container').style.display = 'none';
+        document.querySelector('.content-1-tah-sub_heading').style.display = 'none';
+        document.querySelector('.content-1-tah .section-heading').style.display = 'none';
+      }
+    });
+  </script>
   <div class="content-1-tah">
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>

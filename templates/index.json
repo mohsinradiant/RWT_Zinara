@@ -15,8 +15,6 @@
         "slide_BLKkdp": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Black_Banner.jpg",
-            "image_mobile": "shopify://shop_images/2_503662eb-2b33-4832-b9e5-a1df6986dde0.png",
             "heading": "Image slide",
             "heading_size": "h1",
             "subheading": "Tell your brand's story through images",
@@ -34,8 +32,6 @@
         "slide_ByegG4": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Efforttessly_Banner.jpg",
-            "image_mobile": "shopify://shop_images/1_764a3beb-23ff-46a0-a29d-922d04cf6f5c.png",
             "heading": "Image slide",
             "heading_size": "h1",
             "subheading": "Tell your brand's story through images",
@@ -53,8 +49,6 @@
         "slide_eATNGz": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/3.png",
-            "image_mobile": "shopify://shop_images/3_53472535-ecfd-4723-8562-f272e99fc1a3.png",
             "heading": "Image slide",
             "heading_size": "h1",
             "subheading": "Tell your brand's story through images",
@@ -123,7 +117,6 @@
           "type": "category_item",
           "settings": {
             "collection": "rings",
-            "image": "shopify://shop_images/Engagement_Rings_Image.png",
             "text": "View All Rings",
             "associated_tab": "Rings"
           }
@@ -132,7 +125,6 @@
           "type": "category_item",
           "settings": {
             "collection": "rings",
-            "image": "shopify://shop_images/Engagement_Rings_Image.png",
             "text": "Engagement Rings",
             "associated_tab": "Rings"
           }
@@ -141,7 +133,6 @@
           "type": "category_item",
           "settings": {
             "collection": "rings",
-            "image": "shopify://shop_images/Engagement_Rings_Image.png",
             "text": "Daily Wear Rings",
             "associated_tab": "Rings"
           }
@@ -150,7 +141,6 @@
           "type": "category_item",
           "settings": {
             "collection": "rings",
-            "image": "shopify://shop_images/Engagement_Rings_Image.png",
             "text": "Eternity Rings",
             "associated_tab": "Rings"
           }
@@ -178,7 +168,6 @@
           "type": "tab",
           "settings": {
             "text": "Daily Hustle",
-            "image": "shopify://shop_images/Daily_Hustle_5.png",
             "collection": "rings"
           }
         },
@@ -186,7 +175,6 @@
           "type": "tab",
           "settings": {
             "text": "Engagement",
-            "image": "shopify://shop_images/Engagement_2.png",
             "collection": "rings"
           }
         },
@@ -194,7 +182,6 @@
           "type": "tab",
           "settings": {
             "text": "Social Events",
-            "image": "shopify://shop_images/Social_Event.png",
             "collection": "rings"
           }
         },
@@ -202,7 +189,6 @@
           "type": "tab",
           "settings": {
             "text": "Gifting",
-            "image": "shopify://shop_images/22.png",
             "collection": "rings"
           }
         }
@@ -224,7 +210,7 @@
           "type": "tab",
           "settings": {
             "text": "Lifetime Buy-Back & Exchange",
-            "image": "shopify://shop_images/Vector_18.png"
+            "image": "shopify://shop_images/Vector.png"
           }
         },
         "tab_iJWKPH": {
@@ -238,14 +224,14 @@
           "type": "tab",
           "settings": {
             "text": "BIS Hallmarked Gold",
-            "image": "shopify://shop_images/Certificate_1.png"
+            "image": "shopify://shop_images/Certificate-1.png"
           }
         },
         "tab_MM97Qt": {
           "type": "tab",
           "settings": {
             "text": "Try at Home",
-            "image": "shopify://shop_images/Vector_17.png"
+            "image": "shopify://shop_images/Vector-1.png"
           }
         },
         "tab_wb9CEG": {
@@ -283,8 +269,7 @@
         "button-1": "Try at Home",
         "url-1": "shopify://collections/rings",
         "button-2": "Video Call",
-        "url-2": "shopify://collections/rings",
-        "image": "shopify://shop_images/Try_at_Home_Web.png"
+        "url-2": "shopify://collections/rings"
       }
     },
     "home_image_gallery_carousel_73c7Ep": {
@@ -293,7 +278,6 @@
         "image_picker_wrD7jz": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/1_edf63dba-5488-4fc4-b720-f2a99a3d63ee.png",
             "alt_text": "Carousel Image",
             "url": "shopify://collections/earrings"
           }
@@ -301,7 +285,6 @@
         "image_picker_gtLymc": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/2_e9bab10f-ea1a-4d7e-a9dd-4795cc5beb75.png",
             "alt_text": "Carousel Image",
             "url": ""
           }
@@ -309,7 +292,6 @@
         "image_picker_zN3d8M": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/3_9f0b10c9-384c-4c2e-b008-c5e178a7b107.png",
             "alt_text": "Carousel Image",
             "url": ""
           }
@@ -318,7 +300,6 @@
           "type": "image_picker",
           "disabled": true,
           "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
             "alt_text": "Carousel Image",
             "url": ""
           }
@@ -327,7 +308,6 @@
           "type": "image_picker",
           "disabled": true,
           "settings": {
-            "image": "shopify://shop_images/Daily_Wear_Image.png",
             "alt_text": "Carousel Image",
             "url": ""
           }
@@ -348,8 +328,7 @@
         "heading": "Get your own design",
         "sub-heading": "Have another design in mind? Something from a website or a magazine perhaps?",
         "button-1": "Start Designing",
-        "url-1": "/pages/get-your-own-design?view=own-design",
-        "image": "shopify://shop_images/Design_Own_Web.png"
+        "url-1": "/pages/get-your-own-design?view=own-design"
       }
     },
     "home_testimonials_iX3QWY": {
@@ -358,7 +337,6 @@
         "image_picker_D9xDnB": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",
             "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
@@ -367,7 +345,6 @@
         "image_picker_hQmWqT": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",
             "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
@@ -376,7 +353,6 @@
         "image_picker_pey7c8": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",
             "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
@@ -385,7 +361,6 @@
         "image_picker_nKRGwE": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",
             "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
@@ -394,7 +369,6 @@
         "image_picker_VfkVjb": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",
             "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
@@ -403,7 +377,6 @@
         "image_picker_kpwbdb": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",
             "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
@@ -426,9 +399,6 @@
       "type": "home-about",
       "settings": {
         "heading": "About Us",
-        "image": "shopify://shop_images/DSC04434.jpg",
-        "image_2": "shopify://shop_images/IMG_1928.jpg",
-        "image_3": "shopify://shop_images/IMG_1860-Edit.jpg",
         "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius."
       }
     },

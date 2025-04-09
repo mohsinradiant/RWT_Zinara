@@ -286,178 +286,6 @@
                     </div>
                     <button class="toggle-btn-desc">Read more</button>
                   </div>
-
-                  <style>
-                    .truncated-text {
-                      display: none;
-                    }
-                    .toggle-btn-desc {
-                      padding: 0;
-                      background: none;
-                      border: none;
-                      color: #612342;
-                      cursor: pointer;
-                      font-size: 14px;
-                      display: none;
-                    }
-                    .sticky-atc-container {
-                      display: none;
-                    }
-                    .sticky-atc-container div {
-                      width: 100%;
-                    }
-                    @media (max-width: 756px) {
-                      .product__info-container {
-                        display: flex;
-                        flex-direction: column;
-                      }
-                      .product__info-container .product__title {
-                        order: 1;
-                      }
-                      .product__info-container .product__info-container-price-container {
-                        order: 2;
-                      }
-                      .product__info-container .price-breakdown-popup {
-                        order: 3;
-                      }
-                      .product__info-container .product-features-badges-container {
-                        order: 4;
-                      }
-                      .product__info-container .product__description-container {
-                        order: 5;
-                        margin-top: 1.2rem;
-                      }
-                      .product__info-container variant-selects {
-                        order: 6;
-                        overflow-x: auto;
-                        flex-wrap: nowrap;
-                        width: 100%;
-                        gap: 13px;
-                      }
-                      .product__info-container .product__inventory {
-                        order: 7;
-                        margin-top: 0;
-                      }
-                      .product__info-container .product-form__input--dropdown {
-                        flex: unset;
-                      }
-                      .product__info-container .sizing-guide {
-                        order: 8;
-                        line-height: 1.7rem;
-                      }
-                      .product__info-container .pincode-availability-checker-container {
-                        order: 9;
-                        margin: 0;
-                      }
-                      .product__info-container .pincode-checker-result {
-                        order: 10;
-                      }
-                      .product__info-container .expected-delivery-date {
-                        order: 11;
-                        margin-bottom: 0;
-                      }
-                      .shopify-section .product-page-details-container .section-heading {
-                        margin-top: 30px !important;
-                        margin-bottom: 20px !important;
-                      }
-                      .sticky-atc-container div product-form,
-                      .sticky-atc-container {
-                        display: flex !important;
-                        justify-content: space-between;
-                      }
-                      .sticky-atc-container {
-                        position: fixed;
-                        bottom: 0;
-                        left: 0;
-                        right: 0;
-                        z-index: 5;
-                        width: 100%;
-                        background-color: #f2eeeb;
-                        padding: 15px;
-                        gap: 10px;
-                        align-items: center;
-                        justify-content: center;
-                      }
-                      .sticky-atc-container form {
-                        width: 100%;
-                        margin: 0 auto;
-                      }
-                      .product__info-container product-form {
-                        display: none;
-                      }
-
-                      .section_heading_with_button .section-heading {
-                        font-size: 2rem !important;
-                        font-weight: 600 !important;
-                        margin-bottom: 0 !important;
-                        margin: 0;
-                        color: black;
-                        letter-spacing: 0;
-                        font-family: 'Quicksand';
-                      }
-                      .home-benefits-container-parent {
-                        background-color: #f2eeeb;
-                        padding-top: 10px;
-                        padding-bottom: 21px;
-                        margin-top: 30px !important;
-                      }
-                      .zinara-benefits-content img {
-                        opacity: 0.5;
-                        width: 21px !important;
-                      }
-                      .home-benefits-container {
-                        justify-content: start !important;
-                      }
-                      .zinara-benefits-content {
-                        flex-direction: row !important;
-                        gap: 13px;
-                        min-width: fit-content;
-                        background: #eae3e1;
-                        padding: 10px 15px;
-                      }
-                      .pdp-try-at-home-section-container {
-                        margin-top: 30px !important;
-                        margin-bottom: 30px !important;
-                      }
-                      .home-testimonials-container {
-                        margin-bottom: 3px !important;
-                      }
-                      .gradient .related-products {
-                        margin-bottom: 30px !important;
-                      }
-                      .shopify-section .pdp-try-at-home-section-container {
-                        padding: 15px 0 30px !important;
-                        margin: 0 !important;
-                      }
-                      .zinara-benefits-content p {
-                        text-wrap: nowrap;
-                        font-size: 1.5rem !important;
-                        line-height: 2rem !important;
-                        margin: 0 !important;
-                      }
-                      .product__info-container .product-form__input .select {
-                        width: fit-content;
-                      }
-                      .product__info-container .product__description {
-                        width: fit-content;
-                      }
-                      .toggle-btn-desc {
-                        display: flex;
-                      }
-                      .full-text {
-                        display: none;
-                      }
-                      .truncated-text {
-                        display: inline;
-                      }
-                      .product__description-container {
-                        display: flex;
-                        flex-wrap: wrap;
-                        align-items: center;
-                      }
-                    }
-                  </style>
-
                   <script>
                     document.addEventListener('DOMContentLoaded', function () {
                       const description = document.querySelector('.full-text');
@@ -1050,6 +878,176 @@
                 </p>
             {%- endcase -%}
           {%- endfor -%}
+          <style>
+            .truncated-text {
+              display: none;
+            }
+            .toggle-btn-desc {
+              padding: 0;
+              background: none;
+              border: none;
+              color: #612342;
+              cursor: pointer;
+              font-size: 14px;
+              display: none;
+            }
+            .sticky-atc-container {
+              display: none;
+            }
+            .sticky-atc-container div {
+              width: 100%;
+            }
+            @media (max-width: 756px) {
+              .product__info-container {
+                display: flex;
+                flex-direction: column;
+              }
+              .product__info-container .product__title {
+                order: 1;
+              }
+              .product__info-container .product__info-container-price-container {
+                order: 2;
+              }
+              .product__info-container .price-breakdown-popup {
+                order: 3;
+              }
+              .product__info-container .product-features-badges-container {
+                order: 4;
+              }
+              .product__info-container .product__description-container {
+                order: 5;
+                margin-top: 1.2rem;
+              }
+              .product__info-container variant-selects {
+                order: 6;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                width: 100%;
+                gap: 13px;
+              }
+              .product__info-container .product__inventory {
+                order: 7;
+                margin-top: 0;
+              }
+              .product__info-container .product-form__input--dropdown {
+                flex: unset;
+              }
+              .product__info-container .sizing-guide {
+                order: 8;
+                line-height: 1.7rem;
+              }
+              .product__info-container .pincode-availability-checker-container {
+                order: 9;
+                margin: 0;
+              }
+              .product__info-container .pincode-checker-result {
+                order: 10;
+              }
+              .product__info-container .expected-delivery-date {
+                order: 11;
+                margin-bottom: 0;
+              }
+              .shopify-section .product-page-details-container .section-heading {
+                margin-top: 30px !important;
+                margin-bottom: 20px !important;
+              }
+              .sticky-atc-container div product-form,
+              .sticky-atc-container {
+                display: flex !important;
+                justify-content: space-between;
+              }
+              .sticky-atc-container {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 5;
+                width: 100%;
+                background-color: #f2eeeb;
+                padding: 15px;
+                gap: 10px;
+                align-items: center;
+                justify-content: center;
+              }
+              .sticky-atc-container form {
+                width: 100%;
+                margin: 0 auto;
+              }
+              .product__info-container product-form {
+                display: none;
+              }
+
+              .section_heading_with_button .section-heading {
+                font-size: 2rem !important;
+                font-weight: 600 !important;
+                margin-bottom: 0 !important;
+                margin: 0;
+                color: black;
+                letter-spacing: 0;
+                font-family: 'Quicksand';
+              }
+              .home-benefits-container-parent {
+                background-color: #f2eeeb;
+                padding-top: 10px;
+                padding-bottom: 21px;
+                margin-top: 30px !important;
+              }
+              .zinara-benefits-content img {
+                opacity: 0.5;
+                width: 21px !important;
+              }
+              .home-benefits-container {
+                justify-content: start !important;
+              }
+              .zinara-benefits-content {
+                flex-direction: row !important;
+                gap: 13px;
+                min-width: fit-content;
+                background: #eae3e1;
+                padding: 10px 15px;
+              }
+              .pdp-try-at-home-section-container {
+                margin-top: 30px !important;
+                margin-bottom: 30px !important;
+              }
+              .home-testimonials-container {
+                margin-bottom: 3px !important;
+              }
+              .gradient .related-products {
+                margin-bottom: 30px !important;
+              }
+              .shopify-section .pdp-try-at-home-section-container {
+                padding: 15px 0 30px !important;
+                margin: 0 !important;
+              }
+              .zinara-benefits-content p {
+                text-wrap: nowrap;
+                font-size: 1.5rem !important;
+                line-height: 2rem !important;
+                margin: 0 !important;
+              }
+              .product__info-container .product-form__input .select {
+                width: fit-content;
+              }
+              .product__info-container .product__description {
+                width: fit-content;
+              }
+              .toggle-btn-desc {
+                display: flex;
+              }
+              .full-text {
+                display: none;
+              }
+              .truncated-text {
+                display: inline;
+              }
+              .product__description-container {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+              }
+            }
+          </style>
           <a href="{{ product.url }}" class="link product__view-details animate-arrow">
             {{ 'products.product.view_full_details' | t }}
             {{- 'icon-arrow.svg' | inline_asset_content -}}

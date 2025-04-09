@@ -114,7 +114,7 @@
           "type": "tab",
           "settings": {
             "text": "Lifetime Buy-Back & Exchange",
-            "image": "shopify://shop_images/Vector_18.png"
+            "image": "shopify://shop_images/Vector.png"
           }
         },
         "tab_AYEEN8": {
@@ -128,14 +128,14 @@
           "type": "tab",
           "settings": {
             "text": "BIS Hallmarked Gold",
-            "image": "shopify://shop_images/Certificate_1.png"
+            "image": "shopify://shop_images/Certificate-1.png"
           }
         },
         "tab_7JNEYz": {
           "type": "tab",
           "settings": {
             "text": "Try at Home",
-            "image": "shopify://shop_images/Vector_17.png"
+            "image": "shopify://shop_images/Vector-1.png"
           }
         },
         "tab_qjzXCB": {
@@ -193,8 +193,7 @@
         "button-1": "Start Designing",
         "url-1": "",
         "button-2": "",
-        "url-2": "",
-        "image": "shopify://shop_images/image_50.png"
+        "url-2": ""
       }
     },
     "related-products": {
@@ -221,7 +220,6 @@
         "image_picker_RjQtQF": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",
             "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
@@ -230,7 +228,6 @@
         "image_picker_kWR7cr": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",
             "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
@@ -239,7 +236,6 @@
         "image_picker_VJyX7G": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",
             "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
@@ -248,7 +244,6 @@
         "image_picker_KRQyPm": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",
             "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
@@ -257,7 +252,6 @@
         "image_picker_GMhzVb": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",
             "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
@@ -266,7 +260,6 @@
         "image_picker_RhqVm9": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",
             "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
@@ -275,7 +268,6 @@
         "image_picker_YFEd7Y": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/DSC02204.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",
             "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"

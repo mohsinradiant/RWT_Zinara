@@ -1047,6 +1047,7 @@ header .menu-drawer {
 }
 .wishlist-cart, .wishlist-advanced-option .wsh_qty span{
     background: #610C27 !important;
+    color: #fff !important;
 
 }
 @media (max-width: 756px) {

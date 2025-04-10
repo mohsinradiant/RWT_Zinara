@@ -15,8 +15,8 @@
         "slide_BLKkdp": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/1.png",
-            "image_mobile": "shopify://shop_images/2.png",
+            "image": "shopify://shop_images/Black_Banner.jpg",
+            "image_mobile": "shopify://shop_images/Diamonds_Mobile_Banner.png",
             "heading": "Image slide",
             "heading_size": "h1",
             "subheading": "Tell your brand's story through images",

@@ -1063,6 +1063,14 @@ header .menu-drawer {
     width: 33% !important;
 }
 
+.sewp-header a {
+    color: #121212;
+}
+
+.sewp-close svg {
+    fill: #121212;
+}
+
 @media (max-width: 756px) {
     product-info .product__title h1 {
         font-size: 1.4rem;

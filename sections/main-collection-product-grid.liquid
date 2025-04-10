@@ -160,6 +160,21 @@
                 </div>
               </div>
             </div>
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                const sortSelect = document.getElementById('SortBy');
+
+                if (sortSelect) {
+                  sortSelect.addEventListener('change', function () {
+                    const selectedSort = this.value;
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('sort_by', selectedSort);
+                    window.location.href = url.toString(); // This forces a reload
+                  });
+                }
+              });
+            </script>
+
             <style>
               .desktop-sorting-collection {
                 display: flex;

@@ -1067,7 +1067,7 @@ header .menu-drawer {
     color: #121212 !important;
 }
 
-.sewp-close svg {
+.sewp-close svg, .sewp-close svg path {
     fill: #121212 !important;
     color: #121212 !important;
 }

@@ -1038,18 +1038,21 @@ header .menu-drawer {
 }
 
 .sewp-header {
-    background: #610C27 !important;
+    background: #F4EEEB !important;
 }
 
 .wishlist-heading {
     font-family: 'Quicksand';
     font-weight: 500;
 }
-.wishlist-cart, .wishlist-advanced-option .wsh_qty span{
+
+.wishlist-cart,
+.wishlist-advanced-option .wsh_qty span {
     background: #610C27 !important;
     color: #fff !important;
 
 }
+
 @media (max-width: 756px) {
     product-info .product__title h1 {
         font-size: 1.4rem;

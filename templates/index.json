@@ -292,6 +292,7 @@
         "image_picker_gtLymc": {
           "type": "image_picker",
           "settings": {
+            "image": "shopify://shop_images/3_b3797103-01e6-4362-9009-d829ddfd2060.png",
             "alt_text": "Carousel Image",
             "url": ""
           }

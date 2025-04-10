@@ -132,36 +132,44 @@
               {{ 'products.facets.product_count_simple' | t: count: collection.products_count }}
               {{- collection.title | escape -}}
             </h1>
-            {% comment %}
-              <div class="facet-filters sorting caption">
-                <div class="facet-filters__field">
-                  <div class="select">
-                    {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
-                    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Sorting_Arrows.png?v=1737014590">
-                    <select
-                      name="sort_by"
-                      class="facet-filters__sort select__select caption-large"
-                      id="SortBy"
-                      aria-describedby="a11y-refresh-page-message"
-                    >
-                      {%- for option in collection.sort_options -%}
-                        <option
-                          value="{{ option.value | escape }}"
-                          {% if option.value == sort_by %}
-                            selected="selected"
-                          {% endif %}
-                        >
-                          Sort: {{ option.name | escape }}
-                        </option>
-                      {%- endfor -%}
-                    </select>
-                    <span class="svg-wrapper">
-                      {{- 'icon-caret.svg' | inline_asset_content -}}
-                    </span>
-                  </div>
+            <div class="desktop-sorting-collection facet-filters sorting caption">
+              <div class="facet-filters__field">
+                <div class="select">
+                  {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+                  <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Sorting_Arrows.png?v=1744268179">
+                  <select
+                    name="sort_by"
+                    class="facet-filters__sort select__select caption-large"
+                    id="SortBy"
+                    aria-describedby="a11y-refresh-page-message"
+                  >
+                    {%- for option in collection.sort_options -%}
+                      <option
+                        value="{{ option.value | escape }}"
+                        {% if option.value == sort_by %}
+                          selected="selected"
+                        {% endif %}
+                      >
+                        Sort: {{ option.name | escape }}
+                      </option>
+                    {%- endfor -%}
+                  </select>
+                  <span class="svg-wrapper">
+                    {{- 'icon-caret.svg' | inline_asset_content -}}
+                  </span>
                 </div>
               </div>
-            {% endcomment %}
+            </div>
+            <style>
+              .desktop-sorting-collection {
+                display: flex;
+              }
+              @media (max-width: 756px) {
+                .desktop-sorting-collection {
+                  display: none !important;
+                }
+              }
+            </style>
             {% comment %}
               <div class="product-count-vertical light" role="status">
                                               <h2 class="product-count__text text-body">

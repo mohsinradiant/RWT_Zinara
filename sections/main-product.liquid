@@ -806,8 +806,12 @@
                     Check Availability
                   </button>
                 </div>
+
                 <div id="res" class="pincode-checker-result"></div>
-                <p class="expected-delivery-date">Get it delivered by: <span id="delivery-date"></span></p>
+
+                <p class="expected-delivery-date" style="display: none;">
+                  Get it delivered by: <span id="delivery-date"></span>
+                </p>
 
                 <script>
                   document.addEventListener('DOMContentLoaded', () => {
@@ -815,46 +819,59 @@
                     const zipcodeInput = document.getElementById('zipcode');
                     const res = document.getElementById('res');
                     const deliveryDateSpan = document.getElementById('delivery-date');
+                    const deliveryDateParagraph = document.querySelector('.expected-delivery-date');
 
-                    // Calculate the date 15 days from today
-                    function getDateAfter15Days() {
+                    // Map of pin codes with custom delivery days (you can edit/add more here)
+                    const pincodeDeliveryDays = {
+                      110001: 3,
+                      110002: 4,
+                      560001: 5,
+                      400001: 2,
+                    };
+
+                    // Calculate delivery date (customDays + 10)
+                    function getCustomDeliveryDate(daysToAdd) {
                       const today = new Date();
-                      const deliveryDate = new Date(today);
-                      deliveryDate.setDate(today.getDate() + 15); // Add 15 days
+                      today.setDate(today.getDate() + daysToAdd);
 
-                      // Format the date as "DD Month, YYYY"
                       const options = { day: 'numeric', month: 'long', year: 'numeric' };
-                      return deliveryDate.toLocaleDateString('en-US', options);
+                      return today.toLocaleDateString('en-US', options);
                     }
 
-                    // Set the delivery date in the span
-                    deliveryDateSpan.textContent = getDateAfter15Days();
-
-                    // Restrict input to numbers only
+                    // Restrict to numbers only
                     zipcodeInput.addEventListener('input', (event) => {
                       event.target.value = event.target.value.replace(/[^0-9]/g, '');
                     });
 
-                    // Validate and check availability
+                    // Validate and show result
                     btn.addEventListener('click', () => {
                       const zipcode = zipcodeInput.value.trim();
-
                       const pincodeRegex = /^[1-9][0-9]{5}$/;
 
                       if (pincodeRegex.test(zipcode)) {
-                        console.log('true');
-                        res.textContent = 'Available';
-                        res.className = 'pincode-checker-result available';
+                        if (zipcode in pincodeDeliveryDays) {
+                          const totalDays = pincodeDeliveryDays[zipcode] + 10;
+                          const finalDate = getCustomDeliveryDate(totalDays);
+
+                          res.textContent = 'Available';
+                          res.className = 'pincode-checker-result available';
+
+                          deliveryDateSpan.textContent = finalDate;
+                          deliveryDateParagraph.style.display = 'block';
+                        } else {
+                          res.textContent = 'Pincode not serviceable';
+                          res.className = 'pincode-checker-result invalid';
+                          deliveryDateParagraph.style.display = 'none';
+                        }
                       } else {
-                        console.log('false');
                         res.textContent = 'Invalid Pincode';
                         res.className = 'pincode-checker-result invalid';
+                        deliveryDateParagraph.style.display = 'none';
                       }
-
-                      // zipcodeInput.value = '';
                     });
                   });
                 </script>
+
               {%- when 'inventory-indicator' -%}
                 <p
                   class="product__inventory{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.inventory_management != 'shopify' %} visibility-hidden{% endif %}"

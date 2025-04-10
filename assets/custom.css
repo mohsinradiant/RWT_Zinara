@@ -1069,6 +1069,7 @@ header .menu-drawer {
 
 .sewp-close svg {
     fill: #121212 !important;
+    color: #121212 !important;
 }
 
 @media (max-width: 756px) {

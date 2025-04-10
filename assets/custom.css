@@ -1036,9 +1036,16 @@ header .menu-drawer {
 .desktop-sorting-collection {
     display: flex;
 }
-.sewp-header{
+
+.sewp-header {
     background: #610C27 !important;
 }
+
+.wishlist-heading {
+    font-family: 'Quicksand';
+    font-weight: 500;
+}
+
 @media (max-width: 756px) {
     product-info .product__title h1 {
         font-size: 1.4rem;

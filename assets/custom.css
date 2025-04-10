@@ -1033,7 +1033,15 @@ header .menu-drawer {
     }
 }
 
+.desktop-sorting-collection {
+    display: flex;
+}
+
 @media (max-width: 756px) {
+    .desktop-sorting-collection {
+        display: none;
+    }
+
     product-info .product__title h1 {
         font-size: 1.4rem;
     }

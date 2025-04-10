@@ -1041,6 +1041,12 @@ header .menu-drawer {
     background: #F4EEEB !important;
 }
 
+.wh-pro-meta a,
+.wihslist-meta h3 a,
+.ws_gridmeta h4 a {
+    font-family: 'Quicksand';
+}
+
 .wishlist-heading {
     font-family: 'Quicksand';
     font-weight: 500;
@@ -1051,6 +1057,10 @@ header .menu-drawer {
     background: #610C27 !important;
     color: #fff !important;
 
+}
+
+.wishlist-column {
+    width: 33% !important;
 }
 
 @media (max-width: 756px) {

@@ -1038,18 +1038,40 @@ header .menu-drawer {
 }
 
 .sewp-header {
-    background: #610C27 !important;
+    background: #F4EEEB !important;
+}
+
+.wh-pro-meta a,
+.wihslist-meta h3 a,
+.ws_gridmeta h4 a {
+    font-family: 'Quicksand';
 }
 
 .wishlist-heading {
     font-family: 'Quicksand';
     font-weight: 500;
 }
-.wishlist-cart, .wishlist-advanced-option .wsh_qty span{
+
+.wishlist-cart,
+.wishlist-advanced-option .wsh_qty span {
     background: #610C27 !important;
     color: #fff !important;
 
 }
+
+.wishlist-column {
+    width: 33% !important;
+}
+
+.sewp-header a {
+    color: #121212 !important;
+}
+
+.sewp-close svg, .sewp-close svg path {
+    fill: #121212 !important;
+    color: #121212 !important;
+}
+
 @media (max-width: 756px) {
     product-info .product__title h1 {
         font-size: 1.4rem;

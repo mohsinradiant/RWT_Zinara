@@ -1064,11 +1064,11 @@ header .menu-drawer {
 }
 
 .sewp-header a {
-    color: #121212;
+    color: #121212 !important;
 }
 
 .sewp-close svg {
-    fill: #121212;
+    fill: #121212 !important;
 }
 
 @media (max-width: 756px) {

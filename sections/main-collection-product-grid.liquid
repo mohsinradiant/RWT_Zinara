@@ -132,7 +132,7 @@
               {{ 'products.facets.product_count_simple' | t: count: collection.products_count }}
               {{- collection.title | escape -}}
             </h1>
-            <div class="facet-filters sorting caption">
+            <div class="desktop-sorting-collection facet-filters sorting caption">
               <div class="facet-filters__field">
                 <div class="select">
                   {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}

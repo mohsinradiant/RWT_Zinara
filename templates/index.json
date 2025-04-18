@@ -132,6 +132,7 @@
           "type": "category_item",
           "settings": {
             "collection": "rings",
+            "image": "shopify://shop_images/daily_rings_72845c24-9f44-4eda-8ed4-6b511ba9e993.png",
             "text": "Daily Wear Rings",
             "associated_tab": "Rings"
           }

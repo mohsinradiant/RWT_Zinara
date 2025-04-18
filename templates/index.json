@@ -168,6 +168,7 @@
           "type": "category_item",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/dangler_earrings.png",
             "text": "Drops and Danglers",
             "associated_tab": "earrings"
           }

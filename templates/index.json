@@ -222,6 +222,7 @@
           "type": "category_item",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/daily_bracelet.png",
             "text": "Daily Wear Bracelets",
             "associated_tab": "bracelets"
           }

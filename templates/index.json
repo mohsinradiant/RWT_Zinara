@@ -231,6 +231,7 @@
           "type": "category_item",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/solitaire_bracelet.png",
             "text": "Solitaire Bracelets",
             "associated_tab": "bracelets"
           }

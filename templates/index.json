@@ -204,6 +204,7 @@
           "type": "category_item",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/statement_pendant.png",
             "text": "Statement Pendants",
             "associated_tab": "pendants"
           }

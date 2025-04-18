@@ -124,7 +124,7 @@
           "settings": {
             "collection": "rings",
             "image": "shopify://shop_images/all_rings_c5fffa42-b6b4-407f-882a-4d981ae44871.png",
-            "text": "All Rings",
+            "text": "Solitaire Rings",
             "associated_tab": "Rings"
           }
         },
@@ -151,14 +151,6 @@
             "collection": "rings",
             "image": "shopify://shop_images/eternity_rings.png",
             "text": "Eternity Rings",
-            "associated_tab": "Rings"
-          }
-        },
-        "category_item_ghrQF7": {
-          "type": "category_item",
-          "settings": {
-            "collection": "",
-            "text": "Solitaire Rings",
             "associated_tab": "Rings"
           }
         },
@@ -293,7 +285,6 @@
         "category_item_LC3t6F",
         "category_item_GUPLzn",
         "category_item_xqWnqU",
-        "category_item_ghrQF7",
         "category_item_YFWa4B",
         "category_item_rcUxAD",
         "category_item_VNApYD",

@@ -155,14 +155,6 @@
             "associated_tab": "Rings"
           }
         },
-        "category_item_YFWa4B": {
-          "type": "category_item",
-          "settings": {
-            "collection": "",
-            "text": "All Earrings",
-            "associated_tab": "earrings"
-          }
-        },
         "category_item_rcUxAD": {
           "type": "category_item",
           "settings": {
@@ -227,14 +219,6 @@
             "associated_tab": "pendants"
           }
         },
-        "category_item_YYV6A9": {
-          "type": "category_item",
-          "settings": {
-            "collection": "",
-            "text": "All Bracelets",
-            "associated_tab": "bracelets"
-          }
-        },
         "category_item_eqWHMY": {
           "type": "category_item",
           "settings": {
@@ -249,14 +233,6 @@
             "collection": "",
             "text": "Solitaire Bracelets",
             "associated_tab": "bracelets"
-          }
-        },
-        "category_item_79hymg": {
-          "type": "category_item",
-          "settings": {
-            "collection": "",
-            "text": "All Necklaces",
-            "associated_tab": "necklaces"
           }
         },
         "category_item_wEgt9k": {
@@ -286,7 +262,6 @@
         "category_item_LC3t6F",
         "category_item_GUPLzn",
         "category_item_xqWnqU",
-        "category_item_YFWa4B",
         "category_item_rcUxAD",
         "category_item_VNApYD",
         "category_item_YH4BgR",
@@ -295,10 +270,8 @@
         "category_item_CBxgmw",
         "category_item_pHU3iR",
         "category_item_NAryA4",
-        "category_item_YYV6A9",
         "category_item_eqWHMY",
         "category_item_ahHa9n",
-        "category_item_79hymg",
         "category_item_wEgt9k",
         "category_item_zX4pyY"
       ],

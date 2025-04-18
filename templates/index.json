@@ -127,19 +127,19 @@
             "associated_tab": "Rings"
           }
         },
-        "category_item_GUPLzn": {
-          "type": "category_item",
-          "settings": {
-            "collection": "rings",
-            "text": "Engagement Rings",
-            "associated_tab": "Rings"
-          }
-        },
         "category_item_LC3t6F": {
           "type": "category_item",
           "settings": {
             "collection": "rings",
             "text": "Daily Wear Rings",
+            "associated_tab": "Rings"
+          }
+        },
+        "category_item_GUPLzn": {
+          "type": "category_item",
+          "settings": {
+            "collection": "rings",
+            "text": "Engagement Rings",
             "associated_tab": "Rings"
           }
         },
@@ -150,6 +150,38 @@
             "text": "Eternity Rings",
             "associated_tab": "Rings"
           }
+        },
+        "category_item_YFWa4B": {
+          "type": "category_item",
+          "settings": {
+            "collection": "",
+            "text": "All Earrings",
+            "associated_tab": "earrings"
+          }
+        },
+        "category_item_rcUxAD": {
+          "type": "category_item",
+          "settings": {
+            "collection": "",
+            "text": "Studs",
+            "associated_tab": "earrings"
+          }
+        },
+        "category_item_VNApYD": {
+          "type": "category_item",
+          "settings": {
+            "collection": "",
+            "text": "Drops and Danglers",
+            "associated_tab": "earrings"
+          }
+        },
+        "category_item_YH4BgR": {
+          "type": "category_item",
+          "settings": {
+            "collection": "",
+            "text": "Hoops",
+            "associated_tab": "earrings"
+          }
         }
       },
       "block_order": [
@@ -159,9 +191,13 @@
         "tab_qyCRW7",
         "tab_6iK7P8",
         "category_item_UnpUTB",
-        "category_item_GUPLzn",
         "category_item_LC3t6F",
-        "category_item_xqWnqU"
+        "category_item_GUPLzn",
+        "category_item_xqWnqU",
+        "category_item_YFWa4B",
+        "category_item_rcUxAD",
+        "category_item_VNApYD",
+        "category_item_YH4BgR"
       ],
       "settings": {
         "heading": "Shop by Category"

@@ -186,6 +186,7 @@
           "type": "category_item",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/solitaire_earrings.png",
             "text": "Solitaire Earrings",
             "associated_tab": "earrings"
           }

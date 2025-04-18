@@ -21,9 +21,7 @@
       "type": "about-us-banner",
       "settings": {
         "heading": "Our Story",
-        "subheading": "STUNNING, STYLISH AND WITHIN REACH",
-        "bg_image": "shopify://shop_images/2.png",
-        "bg_image_mobile": "shopify://shop_images/2_503662eb-2b33-4832-b9e5-a1df6986dde0.png"
+        "subheading": ""
       }
     },
     "about_us_content_aiaKHJ": {

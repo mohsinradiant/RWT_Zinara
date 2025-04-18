@@ -123,6 +123,7 @@
           "type": "category_item",
           "settings": {
             "collection": "rings",
+            "image": "shopify://shop_images/all_rings_c5fffa42-b6b4-407f-882a-4d981ae44871.png",
             "text": "All Rings",
             "associated_tab": "Rings"
           }
@@ -139,6 +140,7 @@
           "type": "category_item",
           "settings": {
             "collection": "rings",
+            "image": "shopify://shop_images/engagement_rings.png",
             "text": "Engagement Rings",
             "associated_tab": "Rings"
           }
@@ -147,6 +149,7 @@
           "type": "category_item",
           "settings": {
             "collection": "rings",
+            "image": "shopify://shop_images/eternity_rings.png",
             "text": "Eternity Rings",
             "associated_tab": "Rings"
           }

@@ -191,18 +191,11 @@
             "associated_tab": "earrings"
           }
         },
-        "category_item_CtRyDk": {
-          "type": "category_item",
-          "settings": {
-            "collection": "",
-            "text": "All Pendants",
-            "associated_tab": "pendants"
-          }
-        },
         "category_item_CBxgmw": {
           "type": "category_item",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/daily_pendant.png",
             "text": "Daily Wear Pendants",
             "associated_tab": "pendants"
           }
@@ -270,7 +263,6 @@
         "category_item_VNApYD",
         "category_item_YH4BgR",
         "category_item_hcLkcD",
-        "category_item_CtRyDk",
         "category_item_CBxgmw",
         "category_item_pHU3iR",
         "category_item_NAryA4",

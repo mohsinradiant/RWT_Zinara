@@ -565,36 +565,90 @@
         "collapsible_row_3dqmmT": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "heading": "What are lab grown diamonds?",
             "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "row_content": "<p>A lab grown diamond is a diamond that is produced in a controlled laboratory environment and advanced technological processes that replicate the natural conditions under which diamonds form in the Earth's mantle. Lab grown diamonds are chemically, physically, and optically identical to natural diamonds. They have reduced environmental and ethical concerns associated with diamond mining.</p>",
             "page": ""
           }
         },
         "collapsible_row_BajYeE": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "heading": "Are lab grown diamonds real?",
             "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "row_content": "<p>Yes, lab grown diamonds are real diamonds. Any diamond is classified as diamond based on its chemical composition and crystalline structure. Lab grown diamonds have the same chemical composition, physical properties, and crystal structure as natural diamonds. Hence, they are real diamonds.</p>",
             "page": ""
           }
         },
         "collapsible_row_TenACw": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "heading": "Can you tell the difference between lab grown diamonds and natural diamonds?",
             "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "row_content": "<p>Lab grown diamonds appear identical to natural diamonds and can’t be distinguished by the naked eye and with standard microscopic tools. Trained jewellers and experts can’t also tell the difference between them. They can only be distinguished from natural diamonds using specialized equipment that can detect the specific growth patterns and inclusions characteristic of their synthetic origin</p>",
             "page": ""
           }
         },
         "collapsible_row_hNK4me": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "heading": "Are lab grown diamonds graded and certified?",
             "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "row_content": "<p>Yes, lab grown diamonds are graded and certified by the same gemological laboratories that evaluate natural diamonds. Renowned organizations like GIA, IGI, and SGL provide these certifications. The grading process for lab grown diamonds is identical to that for natural diamonds, ensuring transparency and quality assurance. All lab grown diamonds used in jewellery offered by ZINARA are graded and certified by these laboratory organizations.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_nbL6Lf": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Where does ZINARA deliver orders?",
+            "icon": "none",
+            "row_content": "<p>Currently, we deliver to select cities within India. To check if we deliver to your area, please enter your pincode or city on the product page. We apologize if delivery services are unavailable in your region. Be assured, we’re working to get our services in our city as well.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_dVg8qh": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are there shipping charges?",
+            "icon": "none",
+            "row_content": "<p>Shipping within India is free. For details on return shipping charges, please refer to the <strong>Shipping Policy </strong>section.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_tqtBeb": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Is ID proof required for delivery?",
+            "icon": "none",
+            "row_content": "<p>Some logistics partners may request ID proof, especially for high-value shipments, to ensure secure delivery.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_FKXNFF": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do I need to provide a PAN Card?",
+            "icon": "none",
+            "row_content": "<p>Orders exceeding Rs 2 lakhs require PAN card verification. The billing name must match the PAN card for verification.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_yYT7tg": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What payment options are available?",
+            "icon": "none",
+            "row_content": "<p>Payment methods include credit cards, debit cards, net banking, international cards, and cash on delivery.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_tNEUwn": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I request a live consultation to assist my shopping process?",
+            "icon": "none",
+            "row_content": "<p>Yes, you can request a consultation by writing to <a href=\"mailto:admin@zinara.in\"><span style=\"text-decoration:underline\">admin@zinara.in </span></a>or calling at +91-9782473744. Our team will assist you regarding all queries related to your purchase.</p>",
             "page": ""
           }
         }
@@ -603,7 +657,13 @@
         "collapsible_row_3dqmmT",
         "collapsible_row_BajYeE",
         "collapsible_row_TenACw",
-        "collapsible_row_hNK4me"
+        "collapsible_row_hNK4me",
+        "collapsible_row_nbL6Lf",
+        "collapsible_row_dVg8qh",
+        "collapsible_row_tqtBeb",
+        "collapsible_row_FKXNFF",
+        "collapsible_row_yYT7tg",
+        "collapsible_row_tNEUwn"
       ],
       "settings": {
         "caption": "",

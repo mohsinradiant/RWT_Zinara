@@ -797,14 +797,12 @@
 
                       <script>
                         document.addEventListener('DOMContentLoaded', function () {
-                          const initializePriceSlider = () => {
+                          const initializePriceSlider = (maxPrice) => {
                             const slider = document.getElementById('price-slider-2');
-                            if (!slider || slider.noUiSlider) return; // Exit if slider is already initialized or not found
+                            if (!slider || slider.noUiSlider) return;
 
                             const minInput = document.getElementById('slider-min-2');
                             const maxInput = document.getElementById('slider-max-2');
-
-                            const maxPrice = parseFloat(slider.getAttribute('data-max-price')) || 100000;
 
                             const urlParams = new URLSearchParams(window.location.search);
                             const appliedMinPrice = urlParams.get('filter.v.price.gte') || 0;
@@ -838,47 +836,39 @@
                             });
                           };
 
-                          // Initialize slider on page load
-                          initializePriceSlider();
+                          const fetchMaxPrice = () => {
+                            const collectionHandle = '{{ collection.handle }}'; // Get collection handle
+                            const productsUrl = `/collections/${collectionHandle}/products.json?limit=250`;
+                            let maxPrice = 0;
 
-                          // Add buttons for predefined price ranges
-                          const presetButtonsContainer = document.getElementById('price-filter-buttons');
-                          const ranges = [
-                            { min: 0, max: 10000 },
-                            { min: 10000, max: 20000 },
-                            { min: 20000, max: 50000 },
-                          ];
+                            fetch(productsUrl)
+                              .then((response) => response.json())
+                              .then((data) => {
+                                if (data && data.products) {
+                                  maxPrice = Math.max(
+                                    ...data.products.map((product) =>
+                                      Math.max(...product.variants.map((variant) => variant.price))
+                                    )
+                                  );
+                                  initializePriceSlider(maxPrice);
+                                }
+                              })
+                              .catch((error) => {
+                                console.error('Error fetching products:', error);
+                                initializePriceSlider(100000); // Fallback max price
+                              });
+                          };
 
-                          ranges.forEach((range) => {
-                            const button = document.createElement('button');
-                            button.textContent = `₹${range.min.toLocaleString('en-IN')} - ₹${range.max.toLocaleString(
-                              'en-IN'
-                            )}`;
-                            button.addEventListener('click', () => {
-                              const newUrl = new URL(window.location.href);
-                              newUrl.searchParams.set('filter.v.price.gte', range.min);
-                              newUrl.searchParams.set('filter.v.price.lte', range.max);
-                              window.location.href = newUrl.href;
-                            });
-                            presetButtonsContainer.appendChild(button);
-                          });
+                          fetchMaxPrice();
                         });
                       </script>
 
                       <div id="price-slider-container-2">
-                        <div
-                          id="price-slider-2"
-                          data-max-price="{{ collection.products | map: 'price' | sort: 'price' | last }}"
-                        ></div>
+                        <div id="price-slider-2"></div>
                         <div class="price-slider-values">
                           <span>₹<span id="slider-min-2">0</span></span>
-                          <span
-                            >₹<span id="slider-max-2">
-                              {{- collection.products | map: 'price' | sort | last -}}
-                            </span></span
-                          >
+                          <span>₹<span id="slider-max-2">Loading...</span></span>
                         </div>
-                        <div id="price-filter-buttons" style="margin-top: 10px; display: flex; gap: 10px;"></div>
                       </div>
                     </div>
                   </details>

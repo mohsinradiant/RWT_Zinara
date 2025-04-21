@@ -1025,11 +1025,6 @@ header .menu-drawer {
         height: fit-content;
     }
 }
-@media(max-width:756px) {
-    .product-grid {
-      margin-top: 87px !important;
-    }
-  }
 
 @media(max-width:1000px) {
     .facets-vertical .active-facets {

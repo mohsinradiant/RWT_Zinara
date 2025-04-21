@@ -698,6 +698,7 @@ for (let i = 0; i < 7; i++) {
 
         const formattedDate = date.toLocaleDateString(); // e.g., "3/5/2025"
         const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // e.g., "10:30 PM"
+        const bookingSuccessContent = document.currentScript.getAttribute('data-booking-success-content');
 
         content3.innerHTML = `
               <div class="trial-booked-header">
@@ -711,7 +712,7 @@ for (let i = 0; i < 7; i++) {
                 <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
                 <p><strong>Booked Time Slot:</strong> ${formattedDate} | ${formattedTime}</p>
               </div>
-              <p class="trial_booked_bottom_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis.</p>
+              <p class="trial_booked_bottom_text">${bookingSuccessContent}</p>
             `;
         // <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
         //   <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
@@ -1344,6 +1345,11 @@ for (let i = 0; i < 7; i++) {
       "type": "collection",
       "id": "collection_handle",
       "label": "Select a Collection"
+    },
+    {
+      "type" : "text",
+      "id" : "booking_successful_content",
+      "label" : "Booking Successful Content"
     }
   ],
   "blocks": [],

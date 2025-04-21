@@ -875,7 +875,7 @@ body.no-scroll {
 }
 
 .price_breakdown-left_container_bottom p {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 400;
     letter-spacing: 0;
     font-family: 'Quicksand';
@@ -908,7 +908,7 @@ body.no-scroll {
 .price-breakdown-list span {
     font-family: 'Quicksand';
     font-weight: 500;
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     letter-spacing: 0;
     color: #171717;
 }

@@ -3085,12 +3085,6 @@ details-disclosure>details {
     }
   }
 
-  @media(max-width:756px) {
-    .product-grid {
-      margin-top: 87px;
-    }
-  }
-
   .grid--gapless .grid__item {
     padding-left: 0;
     padding-bottom: 0;

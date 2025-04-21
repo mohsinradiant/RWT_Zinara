@@ -36,17 +36,19 @@
 <style>
   .home-benefits-container {
     display: flex;
-    justify-content: space-between;
-    align-items: start;
-    overflow-x: auto;
+    gap: 20px; /* Ensures consistent spacing between items */
+    align-items: center;
+    overflow: hidden; /* Hides overflow for seamless scrolling */
+    width: 100%; /* Full width for the scrolling container */
   }
 
   .zinara-benefits-content {
-    width: 17%;
+    flex: 0 0 17%; /* Ensures each block takes up 17% of the container width */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
   }
 
   .zinara-benefits-content img {
@@ -54,17 +56,17 @@
     height: auto;
     aspect-ratio: 1/1;
     display: block;
-    border-radius: 0;
+    border-radius: 0; /* Keeps image styling consistent */
   }
 
   .zinara-benefits-content p {
-    margin: 10px 0 0;
-    text-align: center;
+    margin-top: 10px; /* Simplifies margin shorthand */
     font-weight: 600;
     line-height: 2rem;
     font-size: 1.2rem;
     letter-spacing: 0;
   }
+
   .section_heading_with_button {
     display: flex;
     justify-content: space-between;
@@ -80,9 +82,23 @@
     text-decoration: underline;
     cursor: pointer;
   }
+
   @media (max-width: 756px) {
+    .zinara-benefits-content {
+      flex: 0 0 39%; /* Adjusts block size for smaller screens */
+    }
+
     .zinara-benefits-content img {
-      width: 39%;
+      width: 50%; /* Larger image size for better visibility on mobile */
+    }
+
+    .zinara-benefits-content p {
+      font-size: 1rem; /* Slightly smaller text for better fit */
+    }
+
+    .section_heading_with_button {
+      flex-direction: column; /* Adjust layout for smaller screens */
+      align-items: flex-start;
     }
   }
 </style>

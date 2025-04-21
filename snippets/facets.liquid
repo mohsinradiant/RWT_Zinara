@@ -900,7 +900,7 @@
                           name="ready_to_ship"
                           value="in_stock"
                           id="filter-in-stock"
-                          {% if 'in_stock' in filter.active_values %}
+                          {% if filter.active_values contains 'in_stock' %}
                             checked
                           {% endif %}
                         >
@@ -914,7 +914,7 @@
                           name="ready_to_ship"
                           value="out_of_stock"
                           id="filter-out-of-stock"
-                          {% if 'out_of_stock' in filter.active_values %}
+                          {% if filter.active_values contains 'out_of_stock' %}
                             checked
                           {% endif %}
                         >

@@ -241,60 +241,6 @@
                         {% comment %} price-slider-container script 1 {% endcomment %}
                         <script>
                           document.addEventListener('DOMContentLoaded', function () {
-                            // Show Results Button Functionality
-                            const showResultsButton = document.getElementById('bottom-buton-2');
-                            showResultsButton.addEventListener('click', function () {
-                              const newUrl = new URL(window.location.href);
-                              console.log('Show Results clicked. Initial URL:', newUrl.href);
-
-                              // Handle price slider
-                              const slider = document.getElementById('price-slider');
-                              if (slider && slider.noUiSlider) {
-                                const values = slider.noUiSlider.get();
-                                const minPrice = parseInt(values[0].replace(/,/g, ''), 10);
-                                const maxPrice = parseInt(values[1].replace(/,/g, ''), 10);
-                                const maxPriceLimit = parseInt(slider.getAttribute('data-max-price'), 10);
-
-                                if (minPrice > 0 || maxPrice < maxPriceLimit) {
-                                  newUrl.searchParams.set('filter.v.price.gte', minPrice);
-                                  newUrl.searchParams.set('filter.v.price.lte', maxPrice);
-                                  console.log('Price slider values added:', { minPrice, maxPrice });
-                                } else {
-                                  // Remove price filters if at default range
-                                  newUrl.searchParams.delete('filter.v.price.gte');
-                                  newUrl.searchParams.delete('filter.v.price.lte');
-                                  console.log('Price slider cleared.');
-                                }
-                              } else {
-                                console.log('Price slider not found or not initialized.');
-                              }
-
-                              // Remove unchecked filters
-                              const uncheckedFilters = document.querySelectorAll(
-                                'input[type="checkbox"]:not(:checked), input[type="radio"]:not(:checked)'
-                              );
-                              uncheckedFilters.forEach((filter) => {
-                                const paramName = filter.name;
-                                const paramValue = filter.value;
-
-                                const existingValues = newUrl.searchParams.getAll(paramName);
-                                newUrl.searchParams.delete(paramName);
-
-                                // Re-add the ones that aren't the unchecked filter's value
-                                existingValues.forEach((value) => {
-                                  if (value !== paramValue) {
-                                    newUrl.searchParams.append(paramName, value);
-                                  }
-                                });
-
-                                console.log('Removed unchecked filter:', { paramName, paramValue });
-                              });
-
-                              // Navigate to the updated URL
-                              console.log('Redirecting to new URL:', newUrl.href);
-                              window.location.href = newUrl.href;
-                            });
-
                             // Initialize Price Slider Functionality
                             const initializePriceSlider = () => {
                               const slider = document.getElementById('price-slider');
@@ -396,6 +342,60 @@
                                 console.log('Updated URL:', currentUrl.href);
                               });
                             });
+
+                            // Show Results Button Functionality
+                            const showResultsButton = document.getElementById('bottom-buton-2');
+                            showResultsButton.addEventListener('click', function () {
+                              const newUrl = new URL(window.location.href);
+                              console.log('Show Results clicked. Initial URL:', newUrl.href);
+
+                              // Handle price slider
+                              const slider = document.getElementById('price-slider');
+                              if (slider && slider.noUiSlider) {
+                                const values = slider.noUiSlider.get();
+                                const minPrice = parseInt(values[0].replace(/,/g, ''), 10);
+                                const maxPrice = parseInt(values[1].replace(/,/g, ''), 10);
+                                const maxPriceLimit = parseInt(slider.getAttribute('data-max-price'), 10);
+
+                                if (minPrice > 0 || maxPrice < maxPriceLimit) {
+                                  newUrl.searchParams.set('filter.v.price.gte', minPrice);
+                                  newUrl.searchParams.set('filter.v.price.lte', maxPrice);
+                                  console.log('Price slider values added:', { minPrice, maxPrice });
+                                } else {
+                                  // Remove price filters if at default range
+                                  newUrl.searchParams.delete('filter.v.price.gte');
+                                  newUrl.searchParams.delete('filter.v.price.lte');
+                                  console.log('Price slider cleared.');
+                                }
+                              } else {
+                                console.log('Price slider not found or not initialized.');
+                              }
+
+                              // Remove unchecked filters
+                              const uncheckedFilters = document.querySelectorAll(
+                                'input[type="checkbox"]:not(:checked), input[type="radio"]:not(:checked)'
+                              );
+                              uncheckedFilters.forEach((filter) => {
+                                const paramName = filter.name;
+                                const paramValue = filter.value;
+
+                                const existingValues = newUrl.searchParams.getAll(paramName);
+                                newUrl.searchParams.delete(paramName);
+
+                                // Re-add the ones that aren't the unchecked filter's value
+                                existingValues.forEach((value) => {
+                                  if (value !== paramValue) {
+                                    newUrl.searchParams.append(paramName, value);
+                                  }
+                                });
+
+                                console.log('Removed unchecked filter:', { paramName, paramValue });
+                              });
+
+                              // Navigate to the updated URL
+                              console.log('Redirecting to new URL:', newUrl.href);
+                              window.location.href = newUrl.href;
+                            });
                           });
                         </script>
 
@@ -416,8 +416,8 @@
                                   | divided_by: 100
                                   | default: 200000
                                 -}}
-                              </span>
-                            </span>
+                              </span></span
+                            >
                           </div>
                         </div>
                     {% endcase %}

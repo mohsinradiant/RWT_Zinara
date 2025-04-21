@@ -851,16 +851,8 @@
                   <span class="facets__summary-label">
                     Ready to Ship
                     {% if filter_type == 'vertical' %}
-                      {% assign count_in_stock = 0 %}
-                      {% for product in collection.products %}
-                        {% if product.inventory_quantity > 0 %}
-                          {% assign count_in_stock = count_in_stock | plus: 1 %}
-                        {% endif %}
-                      {% endfor %}
-
-                      <!-- Display the count of in-stock products -->
-                      <span class="facets__selected{% if count_in_stock == 0 %} hidden{% endif %}">
-                        ({{ count_in_stock }})
+                      <span class="facets__selected{% if filter.active_values.size == 0 %} hidden{% endif %}">
+                        ({{ filter.active_values.size }})
                       </span>
                     {% endif %}
                   </span>

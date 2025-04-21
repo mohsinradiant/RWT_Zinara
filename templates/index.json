@@ -497,16 +497,8 @@
           "type": "image_picker",
           "settings": {
             "alt_text": "testimonialcarousel Image",
-            "name": "Kartik Rao",
-            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
-          }
-        },
-        "image_picker_kpwbdb": {
-          "type": "image_picker",
-          "settings": {
-            "alt_text": "testimonialcarousel Image",
-            "name": "Kartik Rao",
-            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+            "name": "A",
+            "review": "“I found the perfect pendant at Zinara—it’s simple, elegant, and beautifully made. It looks premium, but was still within my budget. I’ve been wearing it almost every day!”"
           }
         }
       },
@@ -515,8 +507,7 @@
         "image_picker_hQmWqT",
         "image_picker_pey7c8",
         "image_picker_nKRGwE",
-        "image_picker_VfkVjb",
-        "image_picker_kpwbdb"
+        "image_picker_VfkVjb"
       ],
       "settings": {
         "heading": "Testimonials"

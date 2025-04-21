@@ -769,7 +769,9 @@ body.no-scroll {
     font-family: 'Quicksand';
     letter-spacing: 0;
 }
-
+.facets .disclosure-has-popup[open]>summary+*{
+    padding: 2rem 3.3rem 2rem 2rem;
+}
 .product--thumbnail_slider .slider-buttons {
     position: absolute;
     bottom: 10px;

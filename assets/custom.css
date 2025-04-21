@@ -1027,7 +1027,7 @@ header .menu-drawer {
 }
 @media(max-width:756px) {
     .product-grid {
-      margin-top: 87px;
+      margin-top: 87px !important;
     }
   }
 

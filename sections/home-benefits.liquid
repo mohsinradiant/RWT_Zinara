@@ -12,7 +12,27 @@
     {% endfor %}
   </div>
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Select the container with the blocks
+    const benefitsContainer = document.querySelector('.home-benefits-container');
 
+    // Clone the content to enable seamless looping
+    const blocks = benefitsContainer.innerHTML;
+    benefitsContainer.innerHTML += blocks;
+
+    // Get the total width of all blocks
+    const totalWidth = benefitsContainer.scrollWidth / 2;
+
+    // Animate the blocks
+    gsap.to('.home-benefits-container', {
+      x: `-${totalWidth}px`,
+      ease: 'none',
+      duration: 30, // Adjust duration for speed
+      repeat: -1,
+    });
+  });
+</script>
 <style>
   .home-benefits-container {
     display: flex;

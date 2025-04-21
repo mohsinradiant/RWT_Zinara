@@ -837,7 +837,7 @@
                           };
 
                           const fetchMaxPrice = () => {
-                            const collectionHandle = '{{ collection.handle }}'; // Get collection handle
+                            const collectionHandle = '{{ collection.handle }}';
                             const productsUrl = `/collections/${collectionHandle}/products.json?limit=250`;
                             let maxPrice = 0;
 
@@ -869,7 +869,27 @@
                           <span>₹<span id="slider-min-2">0</span></span>
                           <span>₹<span id="slider-max-2">Loading...</span></span>
                         </div>
+                        <div class="price-buttons">
+                          <button class="price-button" data-min="0" data-max="10000">₹0 - ₹10,000</button>
+                          <button class="price-button" data-min="10000" data-max="20000">₹10,000 - ₹20,000</button>
+                          <button class="price-button" data-min="20000" data-max="50000">₹20,000 - ₹50,000</button>
+                          <button class="price-button" data-min="50000" data-max="100000">₹50,000 - ₹1,00,000</button>
+                          <button class="price-button" data-min="100000" data-max="Infinity">₹1,00,000+</button>
+                        </div>
                       </div>
+
+                      <script>
+                        document.addEventListener('click', function (e) {
+                          if (e.target.classList.contains('price-button')) {
+                            const minPrice = e.target.getAttribute('data-min');
+                            const maxPrice = e.target.getAttribute('data-max');
+                            const newUrl = new URL(window.location.href);
+                            newUrl.searchParams.set('filter.v.price.gte', minPrice);
+                            newUrl.searchParams.set('filter.v.price.lte', maxPrice);
+                            window.location.href = newUrl.href;
+                          }
+                        });
+                      </script>
                     </div>
                   </details>
               {% endcase %}

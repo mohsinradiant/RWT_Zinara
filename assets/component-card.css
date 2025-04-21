@@ -279,6 +279,8 @@
 .card__badge.top {
   align-self: flex-start;
   grid-row-start: 1;
+  display: flex;
+  gap: 5px;
 }
 
 .card__badge.right {

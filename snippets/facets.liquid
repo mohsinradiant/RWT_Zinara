@@ -838,66 +838,6 @@
                   </details>
               {% endcase %}
             {%- endfor -%}
-
-            <details
-              id="Details-ReadyToShip-{{ section.id }}"
-              class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
-              data-index="{{ forloop.index }}"
-            >
-              <summary
-                class="facets__summary caption-large focus-offset"
-                aria-label="Ready to Ship"
-              >
-                <div>
-                  <span class="facets__summary-label"> Ready to Ship </span>
-                  {{- 'icon-caret.svg' | inline_asset_content -}}
-                </div>
-              </summary>
-
-              <div
-                id="Facet-ReadyToShip-{{ section.id }}"
-                class="parent-display {% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %}"
-              >
-                <fieldset class="facets-wrap parent-wrap {% if filter_type == 'vertical' %} facets-wrap-vertical{% endif %}">
-                  <legend class="visually-hidden">Ready to Ship</legend>
-
-                  <ul class="list-unstyled facets__list" role="list">
-                    {% assign in_stock_count = collection.products | where: 'inventory_quantity', '>', 0 | size %}
-                    {% assign out_of_stock_count = collection.products | where: 'inventory_quantity', '<=', 0 | size %}
-
-                    <!-- In Stock Option -->
-                    <li class="list-menu__item facets__item">
-                      <label for="Filter-InStock" class="facets__label">
-                        <input
-                          type="checkbox"
-                          name="inventory_status"
-                          value="in_stock"
-                          id="Filter-InStock"
-                        >
-                        <span class="facet-checkbox__text">
-                          <span class="facet-checkbox__text-label">In Stock</span> ({{ in_stock_count }})
-                        </span>
-                      </label>
-                    </li>
-
-                    <!-- Out of Stock Option -->
-                    <li class="list-menu__item facets__item">
-                      <label for="Filter-OutOfStock" class="facets__label">
-                        <input
-                          type="checkbox"
-                          name="inventory_status"
-                          value="out_of_stock"
-                          id="Filter-OutOfStock"
-                        >
-                        <span class="facet-checkbox__text">
-                          <span class="facet-checkbox__text-label">Out of Stock</span> ({{ out_of_stock_count }})
-                        </span>
-                      </label>
-                    </li>
-                  </ul>
-                </fieldset>
-              </div>
-            </details>
           </div>
           {% comment %} Pills after filtes on filter type horizontal {% endcomment %}
           {%- if filter_type == 'horizontal' -%}

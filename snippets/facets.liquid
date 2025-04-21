@@ -867,10 +867,10 @@
                               const maxPrice = e.target.getAttribute('data-max');
 
                               // Construct the updated URL with the parameters
-                              const newUrl = `${window.location.origin}${window.location.pathname}?filter.v.price.gte=${minPrice}&filter.v.price.lte=${maxPrice}`;
+                              const newUrlPrice = `${window.location.origin}${window.location.pathname}?filter.v.price.gte=${minPrice}&filter.v.price.lte=${maxPrice}`;
                               console.log('newUrl for price buttons: ' + newUrl);
                               // Redirect to the updated URL
-                              window.location.href = newUrl;
+                              window.location.href = newUrlPrice;
                             }
                           });
                         });

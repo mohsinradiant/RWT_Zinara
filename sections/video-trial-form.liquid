@@ -552,7 +552,9 @@ for (let i = 0; i < 7; i++) {
     });
   });
 </script>
-
+<script>
+  const bookingSuccessContent = '{{ section.settings.booking_successful_content | escape }}';
+</script>
 <script>
   // Submit Form
   document.getElementById('bookTrialTah').addEventListener('click', async () => {
@@ -698,7 +700,6 @@ for (let i = 0; i < 7; i++) {
 
         const formattedDate = date.toLocaleDateString(); // e.g., "3/5/2025"
         const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // e.g., "10:30 PM"
-        const bookingSuccessContent = document.currentScript.getAttribute('data-booking-success-content');
 
         content3.innerHTML = `
               <div class="trial-booked-header">
@@ -1347,9 +1348,9 @@ for (let i = 0; i < 7; i++) {
       "label": "Select a Collection"
     },
     {
-      "type" : "text",
-      "id" : "booking_successful_content",
-      "label" : "Booking Successful Content"
+      "type": "text",
+      "id": "booking_successful_content",
+      "label": "Booking Successful Content"
     }
   ],
   "blocks": [],

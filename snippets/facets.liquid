@@ -887,42 +887,7 @@
                     </facet-remove>
                   </div>
                 {% endif %}
-                <fieldset class="facets-wrap parent-wrap {% if filter_type == 'vertical' %} facets-wrap-vertical{% endif %}">
-                  <legend class="visually-hidden">Ready to Ship</legend>
-                  <ul
-                    class="{{ visual_layout_class }}{% if filter_type == 'vertical' %} facets__list--vertical{% else %} facets__list{% endif %} list-unstyled"
-                    role="list"
-                  >
-                    <li class="list-menu__item facets__item">
-                      <label for="filter-in-stock" class="facets__label facet-checkbox">
-                        <input
-                          type="checkbox"
-                          name="ready_to_ship"
-                          value="in_stock"
-                          id="filter-in-stock"
-                          {% if filter.active_values contains 'in_stock' %}
-                            checked
-                          {% endif %}
-                        >
-                        <span class="facet-checkbox__text"> In Stock </span>
-                      </label>
-                    </li>
-                    <li class="list-menu__item facets__item">
-                      <label for="filter-out-of-stock" class="facets__label facet-checkbox">
-                        <input
-                          type="checkbox"
-                          name="ready_to_ship"
-                          value="out_of_stock"
-                          id="filter-out-of-stock"
-                          {% if filter.active_values contains 'out_of_stock' %}
-                            checked
-                          {% endif %}
-                        >
-                        <span class="facet-checkbox__text"> Out of Stock </span>
-                      </label>
-                    </li>
-                  </ul>
-                </fieldset>
+
                 {% if filter.values.size > show_more_number and filter_type == 'vertical' %}
                   <show-more-button>
                     <button

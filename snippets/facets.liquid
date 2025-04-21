@@ -784,7 +784,7 @@
                     </summary>
                     <div
                       id="Facet-{{ forloop.index }}-{{ section.id }}"
-                      class="{% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %} facets__summary "
+                      class="{% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %} facets__summary"
                     >
                       <script
                         defer
@@ -860,6 +860,25 @@
                           };
 
                           fetchMaxPrice();
+
+                          document.addEventListener('click', function (e) {
+                            if (e.target.classList.contains('price-button')) {
+                              const minPrice = e.target.getAttribute('data-min');
+                              const maxPrice = e.target.getAttribute('data-max');
+                              const newUrl = new URL(window.location.href);
+
+                              if (minPrice) {
+                                newUrl.searchParams.set('filter.v.price.gte', minPrice);
+                              }
+                              if (maxPrice && maxPrice !== 'Infinity') {
+                                newUrl.searchParams.set('filter.v.price.lte', maxPrice);
+                              } else {
+                                newUrl.searchParams.delete('filter.v.price.lte');
+                              }
+
+                              window.location.href = newUrl.href;
+                            }
+                          });
                         });
                       </script>
 
@@ -877,19 +896,6 @@
                           <button class="price-button" data-min="100000" data-max="Infinity">₹1,00,000+</button>
                         </div>
                       </div>
-
-                      <script>
-                        document.addEventListener('click', function (e) {
-                          if (e.target.classList.contains('price-button')) {
-                            const minPrice = e.target.getAttribute('data-min');
-                            const maxPrice = e.target.getAttribute('data-max');
-                            const newUrl = new URL(window.location.href);
-                            newUrl.searchParams.set('filter.v.price.gte', minPrice);
-                            newUrl.searchParams.set('filter.v.price.lte', maxPrice);
-                            window.location.href = newUrl.href;
-                          }
-                        });
-                      </script>
                     </div>
                   </details>
               {% endcase %}

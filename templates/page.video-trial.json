@@ -23,10 +23,17 @@
         "collection_handle": "all-products",
         "booking_successful_content": "ascasdAXSAS"
       }
+    },
+    "tah_how_it_works_AY4bKd": {
+      "type": "tah-how-it-works",
+      "settings": {
+        "heading": "How it works"
+      }
     }
   },
   "order": [
     "main",
+    "tah_how_it_works_AY4bKd",
     "video_trial_form_7JRYCt"
   ]
 }

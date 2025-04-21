@@ -229,219 +229,56 @@
                           </ul>
                         </fieldset>
                       {% when 'price_range' %}
-                        <span>{{ filter.label | escape }}</span>
-                        <script
-                          defer
-                          src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.js"
-                        ></script>
-                        <link
-                          href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.css"
-                          rel="stylesheet"
+                        <details
+                          id="Details-Mobile-{{ filter.param_name | escape }}-{{ section.id }}"
+                          class="mobile-facets__details js-filter"
+                          data-index="mobile-{{ forloop.index }}"
                         >
-
-                        <script>
-                          document.addEventListener('DOMContentLoaded', function () {
-                            // Show Results Button Functionality
-                            const showResultsButton = document.getElementById('bottom-buton-2');
-                            showResultsButton.addEventListener('click', function () {
-                              const newUrl = new URL(window.location.href);
-                              console.log('Show Results clicked. Initial URL:', newUrl.href);
-
-                              // Handle price slider
-                              const slider = document.getElementById('price-slider');
-                              if (slider && slider.noUiSlider) {
-                                const values = slider.noUiSlider.get();
-                                const minPrice = parseInt(values[0].replace(/,/g, ''), 10);
-                                const maxPrice = parseInt(values[1].replace(/,/g, ''), 10);
-                                const maxPriceLimit = parseInt(slider.getAttribute('data-max-price'), 10);
-
-                                if (minPrice > 0 || maxPrice < maxPriceLimit) {
-                                  newUrl.searchParams.set('filter.v.price.gte', minPrice);
-                                  newUrl.searchParams.set('filter.v.price.lte', maxPrice);
-                                  console.log('Price slider values added:', { minPrice, maxPrice });
-                                } else {
-                                  // Remove price filters if at default range
-                                  newUrl.searchParams.delete('filter.v.price.gte');
-                                  newUrl.searchParams.delete('filter.v.price.lte');
-                                  console.log('Price slider cleared.');
-                                }
-                              } else {
-                                console.log('Price slider not found or not initialized.');
-                              }
-
-                              // Remove unchecked filters
-                              const uncheckedFilters = document.querySelectorAll(
-                                'input[type="checkbox"]:not(:checked), input[type="radio"]:not(:checked)'
-                              );
-                              uncheckedFilters.forEach((filter) => {
-                                const paramName = filter.name;
-                                const paramValue = filter.value;
-
-                                const existingValues = newUrl.searchParams.getAll(paramName);
-                                newUrl.searchParams.delete(paramName);
-
-                                // Re-add the ones that aren't the unchecked filter's value
-                                existingValues.forEach((value) => {
-                                  if (value !== paramValue) {
-                                    newUrl.searchParams.append(paramName, value);
-                                  }
-                                });
-
-                                console.log('Removed unchecked filter:', { paramName, paramValue });
-                              });
-
-                              // Navigate to the updated URL
-                              console.log('Redirecting to new URL:', newUrl.href);
-                              window.location.href = newUrl.href;
-                            });
-
-                            // Initialize Price Slider Functionality
-                            const initializePriceSlider = () => {
-                              const slider = document.getElementById('price-slider');
-                              if (!slider || slider.noUiSlider) {
-                                console.log('Slider not found or already initialized.');
-                                return;
-                              }
-
-                              const minInput = document.getElementById('slider-min');
-                              const maxInput = document.getElementById('slider-max');
-                              const maxPrice = Number(slider.getAttribute('data-max-price')) || 100000;
-
-                              const urlParams = new URLSearchParams(window.location.search);
-                              const appliedMinPrice = urlParams.get('filter.v.price.gte') || 0;
-                              const appliedMaxPrice = urlParams.get('filter.v.price.lte') || maxPrice;
-
-                              console.log('Initializing price slider with:', { appliedMinPrice, appliedMaxPrice });
-
-                              noUiSlider.create(slider, {
-                                start: [Number(appliedMinPrice), Number(appliedMaxPrice)],
-                                connect: true,
-                                range: {
-                                  min: 0,
-                                  max: maxPrice,
-                                },
-                                format: {
-                                  to: function (value) {
-                                    return Math.round(value).toLocaleString('en-IN');
-                                  },
-                                  from: function (value) {
-                                    return Number(value.replace(/,/g, ''));
-                                  },
-                                },
-                              });
-
-                              slider.noUiSlider.on('update', function (values) {
-                                minInput.textContent = values[0];
-                                maxInput.textContent = values[1];
-                                console.log('Price slider updated:', { min: values[0], max: values[1] });
-                              });
-
-                              // Set the background color for the connected range
-                              const connect = slider.querySelector('.noUi-connect');
-                              if (connect) {
-                                connect.style.backgroundColor = '#610c27';
-                              }
-                            };
-
-                            initializePriceSlider();
-
-                            // Observe DOM changes to reinitialize slider
-                            const observer = new MutationObserver(() => {
-                              console.log('DOM changed, reinitializing price slider...');
-                              initializePriceSlider();
-                            });
-
-                            const sliderContainer = document.getElementById('price-slider-container');
-                            if (sliderContainer) {
-                              observer.observe(sliderContainer, {
-                                childList: true,
-                                subtree: true,
-                              });
-                            } else {
-                              console.log('Price slider container not found for observation.');
-                            }
-
-                            // Handle dynamic checkbox filter changes
-                            const filterInputs = document.querySelectorAll('.facets__label input[type="checkbox"]');
-                            filterInputs.forEach((input) => {
-                              input.addEventListener('change', function () {
-                                const currentUrl = new URL(window.location.href);
-                                const paramName = this.name;
-                                const paramValue = this.value;
-
-                                if (this.checked) {
-                                  // Add the filter to the URL only if it doesn't already exist
-                                  const existingValues = currentUrl.searchParams.getAll(paramName);
-                                  if (!existingValues.includes(paramValue)) {
-                                    currentUrl.searchParams.append(paramName, paramValue);
-                                    console.log(`Filter added: ${paramName}=${paramValue}`);
-                                  }
-                                } else {
-                                  // Remove the filter from the URL
-                                  const existingValues = currentUrl.searchParams.getAll(paramName);
-                                  currentUrl.searchParams.delete(paramName);
-
-                                  // Re-add the remaining filters that are not this unchecked value
-                                  existingValues.forEach((value) => {
-                                    if (value !== paramValue) {
-                                      currentUrl.searchParams.append(paramName, value);
-                                    }
-                                  });
-
-                                  console.log(`Filter removed: ${paramName}=${paramValue}`);
-                                }
-
-                                // Update the browser URL without reloading the page
-                                window.history.replaceState(null, '', currentUrl.href);
-                                console.log('Updated URL:', currentUrl.href);
-                              });
-                            });
-
-                            // Add Price Filter Buttons
-                            const priceButtons = document.querySelectorAll('.price-button');
-                            priceButtons.forEach((button) => {
-                              button.addEventListener('click', function () {
-                                const minPrice = button.getAttribute('data-min');
-                                const maxPrice = button.getAttribute('data-max');
-
-                                // Construct the updated URL with the parameters
-                                const newUrl = `${window.location.origin}${window.location.pathname}?filter.v.price.gte=${minPrice}&filter.v.price.lte=${maxPrice}`;
-                                console.log('newUrl for price buttons: ' + newUrl);
-                                // Redirect to the updated URL
-                                window.location.href = newUrl;
-                              });
-                            });
-                          });
-                        </script>
-
-                        <div id="price-slider-container">
+                          <summary class="mobile-facets__summary focus-inset">
+                            <div>
+                              <span>{{ filter.label | escape }}</span>
+                              <span class="mobile-facets__arrow">
+                                {{- 'icon-arrow.svg' | inline_asset_content -}}
+                              </span>
+                            </div>
+                          </summary>
                           <div
-                            id="price-slider"
-                            data-max-price="{{ collection.products | map: 'price' | sort | last | divided_by: 100 | default: 200000 }}"
-                          ></div>
-                          <div class="price-slider-values">
-                            <span>₹<span id="slider-min">0</span> </span>
-                            <span
-                              >₹<span id="slider-max">
-                                {{-
-                                  collection.products
-                                  | map: 'price'
-                                  | sort
-                                  | last
-                                  | divided_by: 100
-                                  | default: 200000
-                                -}}
-                              </span></span
+                            id="FacetMobile-{{ forloop.index }}-{{ section.id }}"
+                            class="mobile-facets__submenu gradient"
+                          >
+                            <button
+                              class="mobile-facets__close-button link link--text focus-inset"
+                              aria-expanded="true"
+                              type="button"
                             >
+                              {{- 'icon-arrow.svg' | inline_asset_content -}}
+                              {{ filter.label | escape }}
+                            </button>
+
+                            {%- assign max_price_amount = filter.range_max | money | strip_html | escape -%}
+                            <p class="mobile-facets__info">
+                              {{ 'products.facets.max_price' | t: price: max_price_amount }}
+                            </p>
+
+                            <price-range class="facets__price">
+                              {% render 'price-facet', filter: filter, id_prefix: 'Mobile-Filter-' %}
+                            </price-range>
+                            <div class="mobile-facets__footer">
+                              <facet-remove class="mobile-facets__clear-wrapper">
+                                <a href="{{ filter.url_to_remove }}" class="mobile-facets__clear underlined-link">
+                                  {{- 'products.facets.clear' | t -}}
+                                </a>
+                              </facet-remove>
+                              <button
+                                type="button"
+                                class="button button--primary"
+                                onclick="this.closest('.mobile-facets__wrapper').querySelector('summary').click()"
+                              >
+                                {{ 'products.facets.apply' | t }}
+                              </button>
+                            </div>
                           </div>
-                          <div class="price-buttons">
-                            <button class="price-button" data-min="0" data-max="10000">₹0 - ₹10,000</button>
-                            <button class="price-button" data-min="10000" data-max="20000">₹10,000 - ₹20,000</button>
-                            <button class="price-button" data-min="20000" data-max="50000">₹20,000 - ₹50,000</button>
-                            <button class="price-button" data-min="50000" data-max="100000">₹50,000 - ₹1,00,000</button>
-                            <button class="price-button" data-min="100000" data-max="Infinity">₹1,00,000+</button>
-                          </div>
-                        </div>
+                        </details>
                     {% endcase %}
                   </div>
                 {%- endfor -%}

@@ -863,14 +863,17 @@
 
                           document.addEventListener('click', function (e) {
                             if (e.target.classList.contains('price-button')) {
+                              e.preventDefault(); // Prevent default behavior like form submission or link redirection
+
                               const minPrice = e.target.getAttribute('data-min');
                               const maxPrice = e.target.getAttribute('data-max');
 
                               // Construct the updated URL with the parameters
-                              const newUrlPrice = `${window.location.origin}${window.location.pathname}?filter.v.price.gte=${minPrice}&filter.v.price.lte=${maxPrice}`;
+                              const newUrl = `${window.location.origin}${window.location.pathname}?filter.v.price.gte=${minPrice}&filter.v.price.lte=${maxPrice}`;
                               console.log('newUrl for price buttons: ' + newUrl);
+
                               // Redirect to the updated URL
-                              window.location.href = newUrlPrice;
+                              window.location.href = newUrl;
                             }
                           });
                         });

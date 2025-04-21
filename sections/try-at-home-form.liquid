@@ -173,7 +173,7 @@
             </div>
           `;
 
-              document.getElementById('loadingMessage').style.display = 'none';
+              // document.getElementById('loadingMessage').style.display = 'none';
               selectedProductsContainer.style.display = 'flex';
               document.querySelector('.selected-products-container').style.display = 'flex';
               document.querySelector('.content-1-tah-sub_heading').style.display = 'inline-block';
@@ -183,11 +183,11 @@
             })
             .catch((error) => {
               console.error(error);
-              document.getElementById('loadingMessage').textContent = 'Product not found or invalid handle provided.';
+              // document.getElementById('loadingMessage').textContent = 'Product not found or invalid handle provided.';
               hideSelectedProductSection();
             });
         } else {
-          document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
+          // document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
           hideSelectedProductSection();
         }
 

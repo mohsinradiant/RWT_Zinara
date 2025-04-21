@@ -2586,6 +2586,7 @@ input[type='checkbox'] {
   background: rgba(var(--color-foreground), 0.5);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  display: none;
 }
 
 .header__icon--account shop-user-avatar {

@@ -850,11 +850,11 @@
               >
                 <div>
                   <span class="facets__summary-label">
-                    Ready to Ship
+                    In Stock / Out of Stock
                     {%- if filter_type == 'vertical' -%}
                       <span class="facets__selected{% if filter.active_values.size == 0 %} hidden{% endif %}">
-                        ({{ filter.active_values.size }})</span
-                      >
+                        ({{ filter.active_values.size }})
+                      </span>
                     {%- endif -%}
                   </span>
                   {%- if filter_type == 'vertical' and filter.operator == 'AND' -%}
@@ -865,6 +865,7 @@
                   {{- 'icon-caret.svg' | inline_asset_content -}}
                 </div>
               </summary>
+
               <div
                 id="Facet-{{ forloop.index }}-{{ section.id }}"
                 class="parent-display {% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %}"
@@ -888,100 +889,70 @@
                     </facet-remove>
                   </div>
                 {%- endif -%}
+
                 <fieldset class="facets-wrap parent-wrap {% if filter_type == 'vertical' %} facets-wrap-vertical{% endif %}">
                   <legend class="visually-hidden">{{ filter.label | escape }}</legend>
-                  {%- liquid
-                    assign sorted_values = filter.values
-                    # Keep the selected values grouped together when operator is AND
-                    if filter.operator == 'AND'
-                      assign active_filter_values = filter.values | where: 'active', true
-                      assign inactive_filter_values = filter.values | where: 'active', false
-                      assign sorted_values = active_filter_values | concat: inactive_filter_values
-                    endif
-                  -%}
+
                   <ul
                     class="{{ visual_layout_class }}{% if filter_type == 'vertical' %} facets__list--vertical{% else %} facets__list{% endif %} list-unstyled"
                     role="list"
                   >
-                    {%- for value in sorted_values -%}
+                    {%- for value in filter.values -%}
                       {% liquid
                         assign input_id = 'Filter-' | append: filter.param_name | escape | append: '-' | append: forloop.index
                         assign is_disabled = false
-                        if value.count == 0 and value.active == false
-                          assign is_disabled = true
+                        assign stock_status = 'out_of_stock'  # Default to out_of_stock
+                        # Check inventory status (this part depends on how inventory is structured in your theme)
+                        if value.inventory > 0
+                          assign stock_status = 'in_stock'
                         endif
                       %}
                       {%- capture label_class -%}
                     facets__label facet-checkbox{% if is_disabled %} disabled{% endif %}{% if value.active %} active{% endif %}
                     {%- endcapture -%}
+
                       {%- capture text_value -%}
-                      <span class="facet-checkbox__text" aria-hidden="true">
-                        <span class="facet-checkbox__text-label">{{- value.label | escape }}</span> ({{- value.count -}})
-                      </span>
-                      <span class="visually-hidden">
-                        {{- value.label | escape }} (
-                        {%- if value.count == 1 -%}
-                          {{- 'products.facets.product_count_simple.one' | t: count: value.count -}}
-                        {%- else -%}
-                          {{- 'products.facets.product_count_simple.other' | t: count: value.count -}}
-                        {%- endif -%}
-                        )
-                      </span>
+                    <span class="facet-checkbox__text" aria-hidden="true">
+                      <span class="facet-checkbox__text-label">{{- value.label | escape }}</span> ({{- value.count -}})
+                    </span>
+                    <span class="visually-hidden">
+                      {{- value.label | escape }} (
+                      {%- if value.count == 1 -%}
+                        {{- 'products.facets.product_count_simple.one' | t: count: value.count -}}
+                      {%- else -%}
+                        {{- 'products.facets.product_count_simple.other' | t: count: value.count -}}
+                      {%- endif -%}
+                      )
+                    </span>
                     {%- endcapture -%}
+
                       <li class="list-menu__item facets__item{% if forloop.index > show_more_number and filter_type == 'vertical' %} show-more-item hidden{% endif %}">
-                        {%- if presentation == 'swatch' -%}
-                          <div class="{{ label_class }}">
-                            <div class="swatch-input-wrapper">
-                              {% render 'swatch-input',
-                                id: input_id,
-                                type: 'checkbox',
-                                name: value.param_name,
-                                value: value.value,
-                                product_form_id: 'FacetFiltersForm',
-                                swatch: value.swatch,
-                                checked: value.active,
-                                disabled: is_disabled
-                              %}
+                        <label for="{{ input_id }}" class="{{ label_class }}">
+                          <input
+                            type="checkbox"
+                            name="{{ value.param_name }}"
+                            value="{{ value.value }}"
+                            id="{{ input_id }}"
+                            {% if value.active %}
+                              checked
+                            {% endif %}
+                            {% if is_disabled %}
+                              disabled
+                            {% endif %}
+                          >
+
+                          {%- if stock_status == 'in_stock' -%}
+                            <div class="facets__stock-status in-stock">
+                              {{ 'In Stock' | t }}
                             </div>
+                          {%- else -%}
+                            <div class="facets__stock-status out-of-stock">
+                              {{ 'Out of Stock' | t }}
+                            </div>
+                          {%- endif -%}
 
-                            {{ text_value }}
-                          </div>
-                        {%- else -%}
-                          <label for="{{ input_id }}" class="{{ label_class }}">
-                            <input
-                              type="checkbox"
-                              name="{{ value.param_name }}"
-                              value="{{ value.value }}"
-                              id="{{ input_id }}"
-                              {% if value.active %}
-                                checked
-                              {% endif %}
-                              {% if is_disabled %}
-                                disabled
-                              {% endif %}
-                            >
-
-                            {%- if presentation == 'image' -%}
-                              <div class="facets__image-wrapper">
-                                {%- if value.image -%}
-                                  {{
-                                    value.image
-                                    | image_url: width: 300
-                                    | image_tag: class: 'facets__image', alt: value.alt
-                                  }}
-                                {%- endif -%}
-                              </div>
-                            {%- else -%}
-                              {{- 'square.svg' | inline_asset_content -}}
-
-                              <div class="svg-wrapper">
-                                {{- 'icon-checkmark.svg' | inline_asset_content -}}
-                              </div>
-                            {%- endif -%}
-
-                            {{ text_value }}
-                          </label>
-                        {%- endif -%}
+                          {{ text_value }}
+                        </label>
                       </li>
                     {%- endfor -%}
                   </ul>

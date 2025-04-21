@@ -134,7 +134,7 @@
               </span>
             {%- endif -%}
 
-            {%- if card_product.inventory > 0 -%}
+            {%- if card_product.inventory_quantity > 0 -%}
               <span
                 id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
                 class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"

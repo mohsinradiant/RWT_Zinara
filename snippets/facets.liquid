@@ -865,23 +865,12 @@
                             if (e.target.classList.contains('price-button')) {
                               const minPrice = e.target.getAttribute('data-min');
                               const maxPrice = e.target.getAttribute('data-max');
-                              const newUrl = new URL(window.location.href);
 
-                              // Ensure the values exist before adding them to the URL
-                              if (minPrice !== null && minPrice !== '') {
-                                newUrl.searchParams.set('filter.v.price.gte', minPrice);
-                              } else {
-                                newUrl.searchParams.delete('filter.v.price.gte');
-                              }
-
-                              if (maxPrice !== null && maxPrice !== '' && maxPrice !== 'Infinity') {
-                                newUrl.searchParams.set('filter.v.price.lte', maxPrice);
-                              } else {
-                                newUrl.searchParams.delete('filter.v.price.lte');
-                              }
+                              // Construct the updated URL with the parameters
+                              const newUrl = `${window.location.origin}${window.location.pathname}?filter.v.price.gte=${minPrice}&filter.v.price.lte=${maxPrice}`;
 
                               // Redirect to the updated URL
-                              window.location.href = newUrl.href;
+                              window.location.href = newUrl;
                             }
                           });
                         });

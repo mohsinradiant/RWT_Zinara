@@ -798,11 +798,11 @@
                       <script>
                         document.addEventListener('DOMContentLoaded', function () {
                           const initializePriceSlider = (maxPrice) => {
-                            const slider = document.getElementById('price-slider-2');
+                            const slider = document.getElementById('price-slider');
                             if (!slider || slider.noUiSlider) return;
 
-                            const minInput = document.getElementById('slider-min-2');
-                            const maxInput = document.getElementById('slider-max-2');
+                            const minInput = document.getElementById('slider-min');
+                            const maxInput = document.getElementById('slider-max');
 
                             const urlParams = new URLSearchParams(window.location.search);
                             const appliedMinPrice = urlParams.get('filter.v.price.gte') || 0;
@@ -836,59 +836,81 @@
                             });
                           };
 
-                          const fetchMaxPrice = () => {
+                          const generatePriceButtons = (ranges) => {
+                            const buttonContainer = document.querySelector('.price-buttons');
+                            if (!buttonContainer) return;
+
+                            buttonContainer.innerHTML = ''; // Clear existing buttons
+
+                            ranges.forEach(([min, max]) => {
+                              const button = document.createElement('button');
+                              button.classList.add('price-button');
+                              button.setAttribute('data-min', min);
+                              button.setAttribute('data-max', max !== Infinity ? max : 'Infinity');
+                              button.textContent =
+                                max !== Infinity
+                                  ? `₹${min.toLocaleString('en-IN')} - ₹${max.toLocaleString('en-IN')}`
+                                  : `₹${min.toLocaleString('en-IN')}+`;
+
+                              button.addEventListener('click', () => {
+                                const newUrl = new URL(window.location.href);
+                                newUrl.searchParams.set('filter.v.price.gte', min);
+                                newUrl.searchParams.set('filter.v.price.lte', max !== Infinity ? max : 999999);
+                                window.location.href = newUrl.href;
+                              });
+
+                              buttonContainer.appendChild(button);
+                            });
+                          };
+
+                          const fetchMaxPriceAndGenerateButtons = () => {
                             const collectionHandle = '{{ collection.handle }}';
                             const productsUrl = `/collections/${collectionHandle}/products.json?limit=250`;
-                            let maxPrice = 0;
 
                             fetch(productsUrl)
                               .then((response) => response.json())
                               .then((data) => {
-                                if (data && data.products) {
-                                  maxPrice = Math.max(
-                                    ...data.products.map((product) =>
-                                      Math.max(...product.variants.map((variant) => variant.price))
-                                    )
-                                  );
-                                  initializePriceSlider(maxPrice);
-                                }
+                                const maxPrice =
+                                  data?.products?.reduce((max, product) => {
+                                    return Math.max(max, ...product.variants.map((variant) => variant.price));
+                                  }, 0) || 100000;
+
+                                initializePriceSlider(maxPrice);
+
+                                // Generate range buttons dynamically
+                                const ranges = [
+                                  [0, 10000],
+                                  [10000, 20000],
+                                  [20000, 50000],
+                                  [50000, 100000],
+                                  [100000, Infinity],
+                                ];
+                                generatePriceButtons(ranges);
                               })
                               .catch((error) => {
                                 console.error('Error fetching products:', error);
-                                initializePriceSlider(100000); // Fallback max price
+                                initializePriceSlider(100000);
+                                generatePriceButtons([
+                                  [0, 10000],
+                                  [10000, 20000],
+                                  [20000, 50000],
+                                  [50000, 100000],
+                                  [100000, Infinity],
+                                ]); // Fallback ranges
                               });
                           };
 
-                          fetchMaxPrice();
-
-                          document.addEventListener('click', function (e) {
-                            if (e.target.classList.contains('price-button')) {
-                              const minPrice = e.target.getAttribute('data-min');
-                              const maxPrice = e.target.getAttribute('data-max');
-
-                              // Construct the updated URL with the parameters
-                              const newUrl = `${window.location.origin}${window.location.pathname}?filter.v.price.gte=${minPrice}&filter.v.price.lte=${maxPrice}`;
-
-                              // Redirect to the updated URL
-                              window.location.href = newUrl;
-                            }
-                          });
+                          fetchMaxPriceAndGenerateButtons();
                         });
                       </script>
 
-                      <div id="price-slider-container-2">
-                        <div id="price-slider-2"></div>
+                      <div id="price-slider-container">
+                        <div id="price-slider"></div>
                         <div class="price-slider-values">
-                          <span>₹<span id="slider-min-2">0</span></span>
-                          <span>₹<span id="slider-max-2">Loading...</span></span>
+                          <span>₹<span id="slider-min">0</span></span>
+                          <span>₹<span id="slider-max">Loading...</span></span>
                         </div>
-                        <div class="price-buttons">
-                          <button class="price-button" data-min="0" data-max="10000">₹0 - ₹10,000</button>
-                          <button class="price-button" data-min="10000" data-max="20000">₹10,000 - ₹20,000</button>
-                          <button class="price-button" data-min="20000" data-max="50000">₹20,000 - ₹50,000</button>
-                          <button class="price-button" data-min="50000" data-max="100000">₹50,000 - ₹1,00,000</button>
-                          <button class="price-button" data-min="100000" data-max="Infinity">₹1,00,000+</button>
-                        </div>
+                        <div class="price-buttons"></div>
                       </div>
                     </div>
                   </details>

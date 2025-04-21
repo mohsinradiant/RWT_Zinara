@@ -115,6 +115,7 @@
         },
         "tab_6iK7P8": {
           "type": "tab",
+          "disabled": true,
           "settings": {
             "tab_title": "Necklaces"
           }
@@ -238,6 +239,7 @@
         },
         "category_item_wEgt9k": {
           "type": "category_item",
+          "disabled": true,
           "settings": {
             "collection": "",
             "image": "shopify://shop_images/daily_necklace_0c97cf1f-2601-4e6f-ae76-9e0996a662d1.png",

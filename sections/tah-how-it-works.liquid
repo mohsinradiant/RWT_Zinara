@@ -1,10 +1,14 @@
 <div class="page-width tah-how-it-works-container">
   <div class="tah-content-header_helpline-container">
     <div>
-      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Expand_Arrow.png?v=1741598491">
-      <p>Try at Home</p>
+      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Expand_Arrow_2.png?v=1745235024">
+      {% if page.handle == 'try-at-home' %}
+        <p>Try at Home</p>
+      {% elsif page.handle == 'video-trial' %}
+        <p>Video Trial</p>
+      {% endif %}
     </div>
-    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_24.png?v=1741598569">
+    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Filter_Icon_Container.png?v=1745235101">
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -35,7 +39,7 @@
     <p>A Zinara professional will come to your home</p>
   </div>
   <div class="tah-how-it-works">
-    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector-2.png?v=1741243196">
+    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_27.png?v=1745235144">
     <p>Own your favourite designs</p>
   </div>
 </div>
@@ -45,6 +49,7 @@
     width: 100%;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 3rem;
   }
   .tah-content-header_helpline-container div {
     display: flex;

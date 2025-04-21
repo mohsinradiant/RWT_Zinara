@@ -157,7 +157,7 @@
                 <h2 class="product-card__title">${truncatedTitle}</h2>
                 <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
                 <button class="remove-item-button">
-                  <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181">
+                  <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
                 </button>
               </div>
             </div>
@@ -248,7 +248,7 @@
                     <h2 class="product-card__title">${truncatedTitle}</h2>
                     <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
                     <button class="remove-item-button">
-                      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1742888181">
+                      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
                     </button>
                   </div>
                 </div>
@@ -552,7 +552,9 @@ for (let i = 0; i < 7; i++) {
     });
   });
 </script>
-
+<script>
+  const bookingSuccessContent = '{{ section.settings.booking_successful_content | escape }}';
+</script>
 <script>
   // Submit Form
   document.getElementById('bookTrialTah').addEventListener('click', async () => {
@@ -701,7 +703,7 @@ for (let i = 0; i < 7; i++) {
 
         content3.innerHTML = `
               <div class="trial-booked-header">
-                <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1741202752">
+                <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1745235582">
                 <h3>Trial Booked</h3>
               </div>
               <div class="product-cards">
@@ -711,7 +713,7 @@ for (let i = 0; i < 7; i++) {
                 <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
                 <p><strong>Booked Time Slot:</strong> ${formattedDate} | ${formattedTime}</p>
               </div>
-              <p class="trial_booked_bottom_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis.</p>
+              <p class="trial_booked_bottom_text">${bookingSuccessContent}</p>
             `;
         // <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
         //   <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
@@ -908,6 +910,7 @@ for (let i = 0; i < 7; i++) {
     flex-wrap: wrap;
     justify-content: start;
     gap: 1.3%;
+    row-gap: 20px;
   }
   .selected-products-container .product-card h2,
   .selected-products-container .product-card p,
@@ -924,7 +927,7 @@ for (let i = 0; i < 7; i++) {
   .add-item-button {
     background: #712242;
     color: #fff;
-    font-size: 2.2rem;
+    font-size: 1.6rem;
     width: 100%;
     border: none;
     padding: 10px 0;
@@ -937,7 +940,7 @@ for (let i = 0; i < 7; i++) {
   }
   .add-item-button span {
     font-weight: 500;
-    font-size: 2.7rem;
+    font-size: 2rem;
     line-height: 0;
   }
   .collection-products-container .product-card h2 {
@@ -979,9 +982,11 @@ for (let i = 0; i < 7; i++) {
     padding: 15px 0 0;
     width: 100%;
   }
-  .selected-products-container,
-  .collection-products-container {
+  .selected-products-container {
     margin: 30px 0;
+  }
+  .collection-products-container {
+    margin: 0;
   }
   .selected-products-container {
     display: flex;
@@ -991,7 +996,7 @@ for (let i = 0; i < 7; i++) {
     align-items: end;
   }
   .content-1-tah .section-heading {
-    margin-bottom: 0 !important;
+    margin-bottom: 20px !important;
   }
   .content-1-tah-sub_heading {
     background-color: #610c270d;
@@ -1005,7 +1010,7 @@ for (let i = 0; i < 7; i++) {
     width: 100%;
     display: flex;
     flex-direction: column;
-    margin-top: 50px;
+    margin-top: 3rem;
   }
   #ajax_tah_succ_submit_popup_container {
     position: fixed;
@@ -1341,6 +1346,11 @@ for (let i = 0; i < 7; i++) {
       "type": "collection",
       "id": "collection_handle",
       "label": "Select a Collection"
+    },
+    {
+      "type": "text",
+      "id": "booking_successful_content",
+      "label": "Booking Successful Content"
     }
   ],
   "blocks": [],

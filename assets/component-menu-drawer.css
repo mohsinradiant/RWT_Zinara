@@ -1,5 +1,6 @@
 .header__icon--menu {
   position: initial;
+  z-index: 4;
 }
 
 .js menu-drawer>details>summary::before,
@@ -84,7 +85,7 @@ details[open].menu-opening>.menu-drawer__submenu {
 }
 
 .menu-drawer__navigation {
-  padding: 3rem 0;
+  padding: 7rem 0 3rem;
 }
 
 .menu-drawer__inner-submenu {

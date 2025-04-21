@@ -1468,25 +1468,37 @@
     const filterItems = document.querySelectorAll('.list-menu__item.facets__item');
 
     filterItems.forEach(function (item) {
-      item.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent default behavior
+        item.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default behavior
 
-        // Get the current URL and update it with the filter parameters
-        let currentUrl = new URL(window.location.href);
-        let paramName = item.querySelector('input[type="checkbox"]').name;
-        let paramValue = item.querySelector('input[type="checkbox"]').value;
+            // Get the current URL
+            let currentUrl = new URL(window.location.href);
 
-        if (item.querySelector('input[type="checkbox"]').checked) {
-          // If checked, remove the parameter
-          currentUrl.searchParams.delete(paramName);
-        } else {
-          // If unchecked, add/update the parameter
-          currentUrl.searchParams.set(paramName, paramValue);
-        }
+            // Find the input checkbox within the clicked item
+            let checkbox = item.querySelector('input[type="checkbox"]');
+            let paramName = checkbox.name;
+            let paramValue = checkbox.value;
 
-        // Refresh the page with the updated URL
-        window.location.href = currentUrl.toString();
-      });
+            // Check if the checkbox is currently checked
+            if (checkbox.checked) {
+                // If already checked, remove the parameter from the URL
+                const currentValues = currentUrl.searchParams.getAll(paramName);
+                currentUrl.searchParams.delete(paramName);
+
+                // Add back all values except the one being unchecked
+                currentValues.forEach(value => {
+                    if (value !== paramValue) {
+                        currentUrl.searchParams.append(paramName, value);
+                    }
+                });
+            } else {
+                // If unchecked, add the parameter to the URL
+                currentUrl.searchParams.append(paramName, paramValue);
+            }
+
+            // Refresh the page with the updated URL
+            window.location.href = currentUrl.toString();
+        });
     });
-  });
+});
 </script>

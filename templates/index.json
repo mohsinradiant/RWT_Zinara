@@ -477,14 +477,6 @@
             "review": "“From sketch to final piece, the custom design process with Zinara was seamless. The final ring looked like something out of a dream—so elegant and well-crafted. Plus, it didn’t break the bank. I’m definitely coming back for more!”"
           }
         },
-        "image_picker_pey7c8": {
-          "type": "image_picker",
-          "settings": {
-            "alt_text": "testimonialcarousel Image",
-            "name": "Kumkum",
-            "review": "“I’ve always found diamond jewellery overwhelming—either too flashy or too expensive. Zinara changed that. I got a beautiful pair of earrings that I wear every day. The quality, the elegance, and the service—everything was just perfect.”"
-          }
-        },
         "image_picker_nKRGwE": {
           "type": "image_picker",
           "settings": {
@@ -501,6 +493,14 @@
             "review": "“I found the perfect ring at Zinara—it’s simple, elegant, and beautifully made. It looks premium, but was still within my budget. I’ve been wearing it almost every day!”"
           }
         },
+        "image_picker_pey7c8": {
+          "type": "image_picker",
+          "settings": {
+            "alt_text": "testimonialcarousel Image",
+            "name": "Kumkum",
+            "review": "“I’ve always found diamond jewellery overwhelming—either too flashy or too expensive. Zinara changed that. I got a beautiful pair of earrings that I wear every day. The quality, the elegance, and the service—everything was just perfect.”"
+          }
+        },
         "image_picker_Ue9JrQ": {
           "type": "image_picker",
           "settings": {
@@ -513,9 +513,9 @@
       "block_order": [
         "image_picker_D9xDnB",
         "image_picker_hQmWqT",
-        "image_picker_pey7c8",
         "image_picker_nKRGwE",
         "image_picker_VfkVjb",
+        "image_picker_pey7c8",
         "image_picker_Ue9JrQ"
       ],
       "settings": {

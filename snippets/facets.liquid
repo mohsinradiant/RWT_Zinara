@@ -338,8 +338,8 @@
                         <div id="price-slider-container-1">
                           <div id="price-slider-1"></div>
                           <div class="price-slider-values">
-                            <span>₹<span id="slider-min-1">0</span></span>
-                            <span>₹<span id="slider-max-1">Loading...</span></span>
+                            <span><span id="slider-min-1">0</span></span>
+                            <span><span id="slider-max-1">Loading...</span></span>
                           </div>
                           <div class="price-buttons">
                             <button class="price-button" data-min="0" data-max="10000">₹0 - ₹10,000</button>
@@ -1468,37 +1468,37 @@
     const filterItems = document.querySelectorAll('.list-menu__item.facets__item');
 
     filterItems.forEach(function (item) {
-        item.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent default behavior
+      item.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default behavior
 
-            // Get the current URL
-            let currentUrl = new URL(window.location.href);
+        // Get the current URL
+        let currentUrl = new URL(window.location.href);
 
-            // Find the input checkbox within the clicked item
-            let checkbox = item.querySelector('input[type="checkbox"]');
-            let paramName = checkbox.name;
-            let paramValue = checkbox.value;
+        // Find the input checkbox within the clicked item
+        let checkbox = item.querySelector('input[type="checkbox"]');
+        let paramName = checkbox.name;
+        let paramValue = checkbox.value;
 
-            // Check if the checkbox is currently checked
-            if (checkbox.checked) {
-                // If already checked, remove the parameter from the URL
-                const currentValues = currentUrl.searchParams.getAll(paramName);
-                currentUrl.searchParams.delete(paramName);
+        // Check if the checkbox is currently checked
+        if (checkbox.checked) {
+          // If already checked, remove the parameter from the URL
+          const currentValues = currentUrl.searchParams.getAll(paramName);
+          currentUrl.searchParams.delete(paramName);
 
-                // Add back all values except the one being unchecked
-                currentValues.forEach(value => {
-                    if (value !== paramValue) {
-                        currentUrl.searchParams.append(paramName, value);
-                    }
-                });
-            } else {
-                // If unchecked, add the parameter to the URL
-                currentUrl.searchParams.append(paramName, paramValue);
+          // Add back all values except the one being unchecked
+          currentValues.forEach((value) => {
+            if (value !== paramValue) {
+              currentUrl.searchParams.append(paramName, value);
             }
+          });
+        } else {
+          // If unchecked, add the parameter to the URL
+          currentUrl.searchParams.append(paramName, paramValue);
+        }
 
-            // Refresh the page with the updated URL
-            window.location.href = currentUrl.toString();
-        });
+        // Refresh the page with the updated URL
+        window.location.href = currentUrl.toString();
+      });
     });
-});
+  });
 </script>

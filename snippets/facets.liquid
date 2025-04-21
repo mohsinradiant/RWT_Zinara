@@ -902,7 +902,6 @@
                         assign input_id = 'Filter-' | append: filter.param_name | escape | append: '-' | append: forloop.index
                         assign is_disabled = false
                         assign stock_status = 'out_of_stock'  # Default to out_of_stock
-                        # Check inventory status (this part depends on how inventory is structured in your theme)
                         if value.inventory > 0
                           assign stock_status = 'in_stock'
                         endif

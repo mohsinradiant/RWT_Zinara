@@ -17,16 +17,16 @@
         "padding_bottom": 28
       }
     },
-    "try_at_home_form_HNyDbd": {
-      "type": "try-at-home-form",
-      "settings": {
-        "collection_handle": "all-products"
-      }
-    },
     "tah_how_it_works_wDjmf6": {
       "type": "tah-how-it-works",
       "settings": {
         "heading": "How it works"
+      }
+    },
+    "try_at_home_form_HNyDbd": {
+      "type": "try-at-home-form",
+      "settings": {
+        "collection_handle": "all-products"
       }
     },
     "collapsible_content_jyRkPa": {
@@ -93,8 +93,8 @@
   },
   "order": [
     "main",
-    "try_at_home_form_HNyDbd",
     "tah_how_it_works_wDjmf6",
+    "try_at_home_form_HNyDbd",
     "collapsible_content_jyRkPa"
   ]
 }

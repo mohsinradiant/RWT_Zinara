@@ -3086,7 +3086,7 @@ details-disclosure>details {
   }
 
   @media(max-width:756px) {
-    .grid {
+    .product-grid {
       margin-top: 87px;
     }
   }

@@ -838,6 +838,37 @@
                   </details>
               {% endcase %}
             {%- endfor -%}
+            <span class="facets__summary-label"> Ready to Ship </span>
+            <fieldset class="facets-wrap parent-wrap {% if filter_type == 'vertical' %} facets-wrap-vertical{% endif %}">
+              <legend class="visually-hidden">Ready to Ship</legend>
+              <ul
+                class="{{ visual_layout_class }}{% if filter_type == 'vertical' %} facets__list--vertical{% else %} facets__list{% endif %} list-unstyled"
+                role="list"
+              >
+                <li class="list-menu__item facets__item">
+                  <label for="in-stock-checkbox" class="facets__label">
+                    <input
+                      type="checkbox"
+                      id="in-stock-checkbox"
+                      name="filter.ready_to_ship"
+                      value="in-stock"
+                    >
+                    In Stock
+                  </label>
+                </li>
+                <li class="list-menu__item facets__item">
+                  <label for="out-of-stock-checkbox" class="facets__label">
+                    <input
+                      type="checkbox"
+                      id="out-of-stock-checkbox"
+                      name="filter.ready_to_ship"
+                      value="out-of-stock"
+                    >
+                    Out of Stock
+                  </label>
+                </li>
+              </ul>
+            </fieldset>
           </div>
           {% comment %} Pills after filtes on filter type horizontal {% endcomment %}
           {%- if filter_type == 'horizontal' -%}

@@ -20,7 +20,8 @@
     "video_trial_form_7JRYCt": {
       "type": "video-trial-form",
       "settings": {
-        "collection_handle": "all-products"
+        "collection_handle": "all-products",
+        "booking_successful_content": "ascasdAXSAS"
       }
     }
   },

@@ -26,7 +26,8 @@
     "try_at_home_form_HNyDbd": {
       "type": "try-at-home-form",
       "settings": {
-        "collection_handle": "all-products"
+        "collection_handle": "all-products",
+        "booking_successful_content": "DSFDSVSV"
       }
     },
     "collapsible_content_jyRkPa": {

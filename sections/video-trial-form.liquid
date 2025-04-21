@@ -134,7 +134,7 @@
         const selectedContainer = document.querySelector('.selected-products-container');
         const subHeading = document.querySelector('.content-1-tah-sub_heading');
         const sectionHeading = document.querySelector('.content-1-tah .section-heading');
-        const loadingMessage = document.getElementById('loadingMessage');
+        // const loadingMessage = document.getElementById('loadingMessage');
 
         function getQueryParam(param) {
           const params = new URLSearchParams(window.location.search);
@@ -146,7 +146,7 @@
           selectedProductsContainer?.classList.add('display_flex_important');
           subHeading?.style.setProperty('display', 'block');
           sectionHeading?.style.setProperty('display', 'block');
-          loadingMessage?.style.setProperty('display', 'none');
+          // loadingMessage?.style.setProperty('display', 'none');
         }
 
         function hideSelectedProductSection() {
@@ -194,13 +194,13 @@
             })
             .catch((error) => {
               console.error(error);
-              loadingMessage.textContent = 'Product not found or invalid handle provided.';
+              // loadingMessage.textContent = 'Product not found or invalid handle provided.';
               hideSelectedProductSection();
             });
         } else {
           console.warn('⚠️ No product_handle in URL');
           hideSelectedProductSection();
-          loadingMessage.textContent = 'No product handle provided in the URL.';
+          // loadingMessage.textContent = 'No product handle provided in the URL.';
         }
 
         // MutationObserver to toggle visibility
@@ -212,14 +212,14 @@
             selectedProductsContainer?.classList.add('display_flex_important');
             subHeading?.style.setProperty('display', 'block');
             sectionHeading?.style.setProperty('display', 'block');
-            loadingMessage?.style.setProperty('display', 'none');
+            // loadingMessage?.style.setProperty('display', 'none');
           } else {
             selectedContainer?.style.setProperty('display', 'none');
             selectedProductsContainer?.classList.remove('display_flex_important');
             subHeading?.style.setProperty('display', 'none');
             sectionHeading?.style.setProperty('display', 'none');
-            loadingMessage?.style.setProperty('display', 'block');
-            loadingMessage.textContent = 'No products selected yet.';
+            // loadingMessage?.style.setProperty('display', 'block');
+            // loadingMessage.textContent = 'No products selected yet.';
           }
         });
 

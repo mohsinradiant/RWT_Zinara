@@ -1345,12 +1345,12 @@ header .menu-drawer {
     }
 
     .category-tab-button {
-        font-size: 2rem !important;
+        font-size: 1.8rem !important;
         padding: 10px 20px;
     }
 
     .category-items-row p {
-        font-size: 1.35rem !important;
+        font-size: 1.4rem !important;
         line-height: 2rem;
     }
 

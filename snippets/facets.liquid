@@ -772,20 +772,21 @@
                   </details>
                 {% when 'price_range' %}
                   <details
-                    id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
-                    class="{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %} js-filter"
-                    data-index="{{ forloop.index }}"
+                    id="Details-price-filter"
+                    class="facets__disclosure-vertical js-filter"
+                    data-index="1"
                   >
                     <summary class="facets__summary caption-large focus-offset">
                       <div>
-                        <span>{{ filter.label | escape }}</span>
+                        <span>Price Filter</span>
                         {{- 'icon-caret.svg' | inline_asset_content -}}
                       </div>
                     </summary>
                     <div
-                      id="Facet-{{ forloop.index }}-{{ section.id }}"
-                      class="{% if filter_type == 'horizontal' %}facets__display{% else %}facets__display-vertical{% endif %} facets__summary"
+                      id="Facet-price-filter"
+                      class="facets__display-vertical facets__summary"
                     >
+                      <!-- External dependencies -->
                       <script
                         defer
                         src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.js"
@@ -795,14 +796,15 @@
                         rel="stylesheet"
                       >
 
+                      <!-- Price Slider Script -->
                       <script>
                         document.addEventListener('DOMContentLoaded', function () {
-                          const initializePriceSlider = (maxPrice) => {
-                            const slider = document.getElementById('price-slider-2');
+                          const initializePriceSlider = (maxPrice = 100000) => {
+                            const slider = document.getElementById('price-slider');
                             if (!slider || slider.noUiSlider) return;
 
-                            const minInput = document.getElementById('slider-min-2');
-                            const maxInput = document.getElementById('slider-max-2');
+                            const minInput = document.getElementById('slider-min');
+                            const maxInput = document.getElementById('slider-max');
 
                             const urlParams = new URLSearchParams(window.location.search);
                             const appliedMinPrice = urlParams.get('filter.v.price.gte') || 0;
@@ -829,33 +831,27 @@
                             slider.noUiSlider.on('change', function (values) {
                               const minPrice = values[0];
                               const maxPrice = values[1];
-                              const newUrl = new URL(window.location.href);
-                              newUrl.searchParams.set('filter.v.price.gte', minPrice);
-                              newUrl.searchParams.set('filter.v.price.lte', maxPrice);
-                              window.location.href = newUrl.href;
+                              const newUrl = `${window.location.origin}${window.location.pathname}?filter.v.price.gte=${minPrice}&filter.v.price.lte=${maxPrice}`;
+                              window.location.href = newUrl;
                             });
                           };
 
                           const fetchMaxPrice = () => {
                             const collectionHandle = '{{ collection.handle }}';
                             const productsUrl = `/collections/${collectionHandle}/products.json?limit=250`;
-                            let maxPrice = 0;
 
                             fetch(productsUrl)
                               .then((response) => response.json())
                               .then((data) => {
-                                if (data && data.products) {
-                                  maxPrice = Math.max(
-                                    ...data.products.map((product) =>
-                                      Math.max(...product.variants.map((variant) => variant.price))
-                                    )
-                                  );
-                                  initializePriceSlider(maxPrice);
-                                }
+                                const maxPrice =
+                                  data?.products?.reduce((max, product) => {
+                                    return Math.max(max, ...product.variants.map((variant) => variant.price));
+                                  }, 0) || 100000;
+                                initializePriceSlider(maxPrice);
                               })
                               .catch((error) => {
                                 console.error('Error fetching products:', error);
-                                initializePriceSlider(100000); // Fallback max price
+                                initializePriceSlider(); // Use fallback max price
                               });
                           };
 
@@ -863,24 +859,25 @@
 
                           document.addEventListener('click', function (e) {
                             if (e.target.classList.contains('price-button')) {
-                              const minPrice = e.target.getAttribute('data-min');
-                              const maxPrice = e.target.getAttribute('data-max');
+                              const minPrice = e.target.getAttribute('data-min') || 0;
+                              const maxPrice =
+                                e.target.getAttribute('data-max') === 'Infinity'
+                                  ? 999999
+                                  : e.target.getAttribute('data-max');
 
-                              // Construct the updated URL with the parameters
                               const newUrl = `${window.location.origin}${window.location.pathname}?filter.v.price.gte=${minPrice}&filter.v.price.lte=${maxPrice}`;
-
-                              // Redirect to the updated URL
                               window.location.href = newUrl;
                             }
                           });
                         });
                       </script>
 
-                      <div id="price-slider-container-2">
-                        <div id="price-slider-2"></div>
+                      <!-- Price Slider UI -->
+                      <div id="price-slider-container">
+                        <div id="price-slider"></div>
                         <div class="price-slider-values">
-                          <span>₹<span id="slider-min-2">0</span></span>
-                          <span>₹<span id="slider-max-2">Loading...</span></span>
+                          <span>₹<span id="slider-min">0</span></span>
+                          <span>₹<span id="slider-max">Loading...</span></span>
                         </div>
                         <div class="price-buttons">
                           <button class="price-button" data-min="0" data-max="10000">₹0 - ₹10,000</button>

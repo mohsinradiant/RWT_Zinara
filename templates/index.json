@@ -240,12 +240,14 @@
           "type": "category_item",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/daily_necklace.png",
             "text": "Daily Wear Necklace",
             "associated_tab": "necklaces"
           }
         },
         "category_item_zX4pyY": {
           "type": "category_item",
+          "disabled": true,
           "settings": {
             "collection": "",
             "text": "Statement Necklaces",

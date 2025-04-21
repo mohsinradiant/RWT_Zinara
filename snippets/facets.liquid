@@ -1462,3 +1462,31 @@
     </facet-filters-form>
   {%- endif -%}
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Select all filter items
+    const filterItems = document.querySelectorAll('.list-menu__item.facets__item');
+
+    filterItems.forEach(function (item) {
+      item.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default behavior
+
+        // Get the current URL and update it with the filter parameters
+        let currentUrl = new URL(window.location.href);
+        let paramName = item.querySelector('input[type="checkbox"]').name;
+        let paramValue = item.querySelector('input[type="checkbox"]').value;
+
+        if (item.querySelector('input[type="checkbox"]').checked) {
+          // If checked, remove the parameter
+          currentUrl.searchParams.delete(paramName);
+        } else {
+          // If unchecked, add/update the parameter
+          currentUrl.searchParams.set(paramName, paramValue);
+        }
+
+        // Refresh the page with the updated URL
+        window.location.href = currentUrl.toString();
+      });
+    });
+  });
+</script>

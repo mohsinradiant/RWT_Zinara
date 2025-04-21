@@ -27,7 +27,7 @@
       "type": "try-at-home-form",
       "settings": {
         "collection_handle": "all-products",
-        "booking_successful_content": "DSFDSVSV"
+        "booking_successful_content": "Thank you for booking your trial! Our representative will call you before arriving"
       }
     },
     "collapsible_content_jyRkPa": {

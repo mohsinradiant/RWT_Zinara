@@ -30,7 +30,7 @@
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>
     <div class="selected-products-container">
-      <p id="loadingMessage">Loading product...</p>
+      {% comment %} <p id="loadingMessage">Loading product...</p> {% endcomment %}
       <div id="productCardContainer" style="display: none;">
         <!-- Product details will be inserted here -->
       </div>
@@ -187,7 +187,7 @@
               hideSelectedProductSection();
             });
         } else {
-          // document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
+          document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
           hideSelectedProductSection();
         }
 

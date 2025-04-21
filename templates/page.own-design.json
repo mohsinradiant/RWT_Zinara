@@ -30,36 +30,63 @@
         "collapsible_row_iDjHMk": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "heading": "What types of jewellery can I customize with Zinara?",
             "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "row_content": "<p>You can customize rings, earrings, pendants, bracelets, and more. Whether you're designing an engagement ring or a gift for yourself, our team will work with you to bring your idea to life.</p>",
             "page": ""
           }
         },
         "collapsible_row_DTBRay": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "heading": "How does the customization process work?",
             "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "row_content": "<p>It's simple! Share your inspiration—whether it's a sketch, a reference image, or just an idea. Our design experts will get in touch to understand your vision and create digital renders or CAD models for your approval before we craft the final piece.</p>",
             "page": ""
           }
         },
         "collapsible_row_4cjhmy": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "heading": "How long does it take to create a custom piece?",
             "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "row_content": "<p>Typically, it takes <strong>2 to 4 weeks</strong> from design finalization to delivery. If you have a specific timeline, let us know—we’ll do our best to meet it.</p>",
             "page": ""
           }
         },
         "collapsible_row_eaYBL3": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "heading": "Can I choose the metal and diamond size/shape for my design?",
             "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "row_content": "<p>Absolutely. You can select from 14k or 18k gold (in yellow, white, or rose), platinum, and lab-grown diamonds of your preferred size, cut, and quality.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_HBQT3j": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Will my custom jewellery be certified?",
+            "icon": "none",
+            "row_content": "<p>Yes, all custom pieces using lab-grown diamonds will come with <strong>IGI certification</strong> and a lifetime buyback and authenticity guarantee from Zinara. In addition to this gold will be hallmarked from BIS</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_9BEFaU": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What is the payment structure for custom jewellery orders?",
+            "icon": "none",
+            "row_content": "<p>We require a 50% advance payment to begin the design and production process. The remaining 50% is payable at the time of dispatch or delivery.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_LeL6RC": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How do I get started?",
+            "icon": "none",
+            "row_content": "<p>Click the <strong>“Whatsapp Us”</strong> button and message us directly. Our team will schedule a quick consultation to kick off your custom journey.</p>",
             "page": ""
           }
         }
@@ -68,7 +95,10 @@
         "collapsible_row_iDjHMk",
         "collapsible_row_DTBRay",
         "collapsible_row_4cjhmy",
-        "collapsible_row_eaYBL3"
+        "collapsible_row_eaYBL3",
+        "collapsible_row_HBQT3j",
+        "collapsible_row_9BEFaU",
+        "collapsible_row_LeL6RC"
       ],
       "settings": {
         "caption": "",

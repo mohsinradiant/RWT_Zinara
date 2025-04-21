@@ -238,7 +238,7 @@
                           href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.0/nouislider.min.css"
                           rel="stylesheet"
                         >
-                        {% comment %} price-slider-container script 1 {% endcomment %}
+
                         <script>
                           document.addEventListener('DOMContentLoaded', function () {
                             // Show Results Button Functionality
@@ -396,6 +396,21 @@
                                 console.log('Updated URL:', currentUrl.href);
                               });
                             });
+
+                            // Add Price Filter Buttons
+                            const priceButtons = document.querySelectorAll('.price-button');
+                            priceButtons.forEach((button) => {
+                              button.addEventListener('click', function () {
+                                const minPrice = button.getAttribute('data-min');
+                                const maxPrice = button.getAttribute('data-max');
+
+                                // Construct the updated URL with the parameters
+                                const newUrl = `${window.location.origin}${window.location.pathname}?filter.v.price.gte=${minPrice}&filter.v.price.lte=${maxPrice}`;
+                                console.log('newUrl for price buttons: ' + newUrl);
+                                // Redirect to the updated URL
+                                window.location.href = newUrl;
+                              });
+                            });
                           });
                         </script>
 
@@ -416,8 +431,15 @@
                                   | divided_by: 100
                                   | default: 200000
                                 -}}
-                              </span>
-                            </span>
+                              </span></span
+                            >
+                          </div>
+                          <div class="price-buttons">
+                            <button class="price-button" data-min="0" data-max="10000">₹0 - ₹10,000</button>
+                            <button class="price-button" data-min="10000" data-max="20000">₹10,000 - ₹20,000</button>
+                            <button class="price-button" data-min="20000" data-max="50000">₹20,000 - ₹50,000</button>
+                            <button class="price-button" data-min="50000" data-max="100000">₹50,000 - ₹1,00,000</button>
+                            <button class="price-button" data-min="100000" data-max="Infinity">₹1,00,000+</button>
                           </div>
                         </div>
                     {% endcase %}

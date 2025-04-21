@@ -158,7 +158,7 @@ slideshow-component .slideshow {
 }
 
 .home-try-at-home-section-left p {
-    font-size: 2.4rem;
+    font-size: 2rem;
     margin: 0;
     color: #000;
     line-height: 3rem;
@@ -397,7 +397,7 @@ header .header__search {
     font-family: "Quicksand", sans-serif !important;
     font-weight: 500;
     letter-spacing: 0;
-    font-size: 2.2rem;
+    font-size: 2rem;
 }
 
 .collapsible-content__grid .accordion p {
@@ -405,7 +405,7 @@ header .header__search {
     font-weight: 400;
     letter-spacing: 0;
     line-height: 2rem;
-    font-size: 1.7rem;
+    font-size: 1.6rem;
 }
 
 .collection-hero__text-wrapper {
@@ -480,7 +480,7 @@ header .header__search {
     text-decoration: none;
     color: #610c27;
     padding: 12px 60px;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     transition: all ease-in 0.3s;
     cursor: pointer;
 }
@@ -497,14 +497,14 @@ product-info media-gallery {
 product-info .product__title h1 {
     font-family: 'Quicksand';
     font-weight: 400;
-    font-size: 2rem;
+    font-size: 1.6rem;
     letter-spacing: 0;
 }
 
 product-info .price__container span {
     font-family: 'Quicksand';
     font-weight: 600;
-    font-size: 2.8rem;
+    font-size: 2.4rem;
     letter-spacing: 0;
 }
 
@@ -764,12 +764,14 @@ body.no-scroll {
 }
 
 .product-card-wrapper .card__content .full-unstyled-link {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 400;
     font-family: 'Quicksand';
     letter-spacing: 0;
 }
-
+.facets .disclosure-has-popup[open]>summary+*{
+    padding: 2rem 3.3rem 2rem 2rem;
+}
 .product--thumbnail_slider .slider-buttons {
     position: absolute;
     bottom: 10px;
@@ -853,7 +855,7 @@ body.no-scroll {
 }
 
 .price-breakdown-list .price-breakdown-total span {
-    font-size: 2.4rem;
+    font-size: 1.6rem;
 }
 
 .price_breakdown-left_container_top {
@@ -873,7 +875,7 @@ body.no-scroll {
 }
 
 .price_breakdown-left_container_bottom p {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 400;
     letter-spacing: 0;
     font-family: 'Quicksand';
@@ -906,7 +908,7 @@ body.no-scroll {
 .price-breakdown-list span {
     font-family: 'Quicksand';
     font-weight: 500;
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     letter-spacing: 0;
     color: #171717;
 }
@@ -920,6 +922,7 @@ body.no-scroll {
 .price_breakdown-right_container {
     display: flex;
     gap: 10px;
+    justify-content: end;
     width: 44%;
 }
 
@@ -953,7 +956,7 @@ body.no-scroll {
     font-family: 'Quicksand';
     font-weight: 500;
     letter-spacing: 0;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     background: #610C27;
     padding: .4rem 3rem;
     width: calc(100% - 40px);
@@ -1342,7 +1345,7 @@ header .menu-drawer {
     }
 
     .category-tab-button {
-        font-size: 1.9rem !important;
+        font-size: 2rem !important;
         padding: 10px 20px;
     }
 

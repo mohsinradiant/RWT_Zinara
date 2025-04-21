@@ -1,5 +1,5 @@
-<section class="page-width home-benefits-container-parent">
-  <div class="section_heading_with_button">
+<section class="home-benefits-container-parent">
+  <div class="page-width section_heading_with_button">
     <h2 class="section-heading">{{ section.settings.heading }}</h2>
     {% comment %} <p>View All</p> {% endcomment %}
   </div>
@@ -12,21 +12,43 @@
     {% endfor %}
   </div>
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Select the container with the blocks
+    const benefitsContainer = document.querySelector('.home-benefits-container');
 
+    // Clone the content to enable seamless looping
+    const blocks = benefitsContainer.innerHTML;
+    benefitsContainer.innerHTML += blocks;
+
+    // Get the total width of all blocks
+    const totalWidth = benefitsContainer.scrollWidth / 2;
+
+    // Animate the blocks
+    gsap.to('.home-benefits-container', {
+      x: `-${totalWidth}px`,
+      ease: 'none',
+      duration: 30, // Adjust duration for speed
+      repeat: -1,
+    });
+  });
+</script>
 <style>
   .home-benefits-container {
     display: flex;
-    justify-content: space-between;
-    align-items: start;
-    overflow-x: auto;
+    gap: 20px; /* Ensures consistent spacing between items */
+    align-items: center;
+    width: 100%; /* Full width for the scrolling container */
   }
 
   .zinara-benefits-content {
-    width: 17%;
+    min-width: 180px; /* Ensures each block takes up 17% of the container width */
+    width: 180px; /* Ensures each block takes up 17% of the container width */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
   }
 
   .zinara-benefits-content img {
@@ -34,17 +56,17 @@
     height: auto;
     aspect-ratio: 1/1;
     display: block;
-    border-radius: 0;
+    border-radius: 0; /* Keeps image styling consistent */
   }
 
   .zinara-benefits-content p {
-    margin: 10px 0 0;
-    text-align: center;
+    margin-top: 10px; /* Simplifies margin shorthand */
     font-weight: 600;
     line-height: 2rem;
     font-size: 1.2rem;
     letter-spacing: 0;
   }
+
   .section_heading_with_button {
     display: flex;
     justify-content: space-between;
@@ -52,6 +74,7 @@
   }
 
   .home-benefits-container-parent {
+    overflow: hidden; /* Hides overflow for seamless scrolling */
     margin-top: 50px;
   }
 
@@ -60,9 +83,23 @@
     text-decoration: underline;
     cursor: pointer;
   }
+
   @media (max-width: 756px) {
+    .zinara-benefits-content {
+      flex: 0 0 39%; /* Adjusts block size for smaller screens */
+    }
+
     .zinara-benefits-content img {
-      width: 39%;
+      width: 50%; /* Larger image size for better visibility on mobile */
+    }
+
+    .zinara-benefits-content p {
+      font-size: 1rem; /* Slightly smaller text for better fit */
+    }
+
+    .section_heading_with_button {
+      flex-direction: column; /* Adjust layout for smaller screens */
+      align-items: flex-start;
     }
   }
 </style>

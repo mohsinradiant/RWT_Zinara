@@ -1,35 +1,9 @@
 <div class="page-width popup-content-tah">
-  <div class="tah-content-header_helpline-container">
-    <div>
-      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Expand_Arrow.png?v=1741598491">
-      <p>Book Video Trial</p>
-    </div>
-    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_24.png?v=1741598569">
-  </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const images = document.querySelectorAll('.tah-content-header_helpline-container img');
-
-      if (images.length > 0) {
-        // Handle the first image click (Go back)
-        images[0].addEventListener('click', () => {
-          window.history.back(); // Navigate to the previous page
-        });
-
-        // Handle the second image click (Dial phone number)
-        if (images[1]) {
-          images[1].addEventListener('click', () => {
-            window.location.href = 'tel:8851812814'; // Dial the phone number
-          });
-        }
-      }
-    });
-  </script>
   <div class="content-1-tah">
     <h2 class="section-heading">Selected Products</h2>
     <span class="content-1-tah-sub_heading">Great Choice!</span>
     <div class="selected-products-container">
-      <p id="loadingMessage">Loading product...</p>
+      {% comment %} <p id="loadingMessage">Loading product...</p> {% endcomment %}
       <div id="productCardContainer" style="display: none;">
         <!-- Product details will be inserted here -->
       </div>
@@ -134,7 +108,7 @@
         const selectedContainer = document.querySelector('.selected-products-container');
         const subHeading = document.querySelector('.content-1-tah-sub_heading');
         const sectionHeading = document.querySelector('.content-1-tah .section-heading');
-        const loadingMessage = document.getElementById('loadingMessage');
+        // const loadingMessage = document.getElementById('loadingMessage');
 
         function getQueryParam(param) {
           const params = new URLSearchParams(window.location.search);
@@ -146,7 +120,7 @@
           selectedProductsContainer?.classList.add('display_flex_important');
           subHeading?.style.setProperty('display', 'block');
           sectionHeading?.style.setProperty('display', 'block');
-          loadingMessage?.style.setProperty('display', 'none');
+          // loadingMessage?.style.setProperty('display', 'none');
         }
 
         function hideSelectedProductSection() {
@@ -194,13 +168,13 @@
             })
             .catch((error) => {
               console.error(error);
-              loadingMessage.textContent = 'Product not found or invalid handle provided.';
+              // loadingMessage.textContent = 'Product not found or invalid handle provided.';
               hideSelectedProductSection();
             });
         } else {
           console.warn('⚠️ No product_handle in URL');
           hideSelectedProductSection();
-          loadingMessage.textContent = 'No product handle provided in the URL.';
+          // loadingMessage.textContent = 'No product handle provided in the URL.';
         }
 
         // MutationObserver to toggle visibility
@@ -212,14 +186,14 @@
             selectedProductsContainer?.classList.add('display_flex_important');
             subHeading?.style.setProperty('display', 'block');
             sectionHeading?.style.setProperty('display', 'block');
-            loadingMessage?.style.setProperty('display', 'none');
+            // loadingMessage?.style.setProperty('display', 'none');
           } else {
             selectedContainer?.style.setProperty('display', 'none');
             selectedProductsContainer?.classList.remove('display_flex_important');
             subHeading?.style.setProperty('display', 'none');
             sectionHeading?.style.setProperty('display', 'none');
-            loadingMessage?.style.setProperty('display', 'block');
-            loadingMessage.textContent = 'No products selected yet.';
+            // loadingMessage?.style.setProperty('display', 'block');
+            // loadingMessage.textContent = 'No products selected yet.';
           }
         });
 
@@ -401,31 +375,7 @@
   .display_flex_important {
     display: flex !important;
   }
-  .tah-content-header_helpline-container {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .tah-content-header_helpline-container div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-  }
-  .tah-content-header_helpline-container img {
-    width: 25px;
-    height: auto;
-    aspect-ratio: 1 / 1;
-    cursor: pointer;
-  }
-  .tah-content-header_helpline-container p {
-    font-family: 'Quicksand';
-    color: #171717;
-    font-size: 3rem;
-    margin: 0 0 0 15px;
-    font-weight: 500;
-  }
+
   .loading {
     pointer-events: none;
     opacity: 0.6;
@@ -455,13 +405,6 @@
     }
   }
   @media (max-width: 756px) {
-    .tah-content-header_helpline-container p {
-      font-size: 2.2rem;
-      margin: 0 0 0 10px;
-    }
-    .tah-content-header_helpline-container img {
-      width: 20px;
-    }
     .content-1-tah,
     .content-2-tah,
     .content-3-tah {
@@ -963,7 +906,8 @@ for (let i = 0; i < 7; i++) {
   #collectionProducts {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: start;
+    gap: 1.3%;
   }
   .selected-products-container .product-card h2,
   .selected-products-container .product-card p,
@@ -999,7 +943,7 @@ for (let i = 0; i < 7; i++) {
   .collection-products-container .product-card h2 {
     font-family: 'Quicksand';
     font-weight: 400;
-    font-size: 2rem;
+    font-size: 1.4rem;
   }
   .selected-products-container .product-card p {
     font-size: 2.3rem;

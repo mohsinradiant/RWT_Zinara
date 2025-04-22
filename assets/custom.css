@@ -1100,7 +1100,11 @@ header .menu-drawer {
     /* Checkbox background */
     cursor: not-allowed;
 }
-
+@media(max-width:756px){
+    .filter-rts-button input{
+        margin: -3px 0 -3px 10px;
+    }
+}
 .filter-rts-button input::after {
     content: "";
     position: absolute;

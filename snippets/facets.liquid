@@ -1515,7 +1515,6 @@
 {% comment %} Diamond shape script {% endcomment %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Select all the facet items with the metafield content
     const facetItems = document.querySelectorAll('.list-menu__item.facets__item');
 
     facetItems.forEach((item) => {
@@ -1530,31 +1529,48 @@
           // Get the parent `<ul>` element
           const parentUl = item.parentElement;
 
-          // Loop through each value and duplicate the `<li>`
+          // Loop through each value and create unique `<li>` elements
           values.forEach((value, index) => {
-            const clonedLi = item.cloneNode(true);
+            const newLi = document.createElement('li');
+            newLi.className = item.className;
 
-            // Update the `id`, `value`, and label text
-            const clonedInput = clonedLi.querySelector('input');
-            const clonedLabelText = clonedLi.querySelector('.facet-checkbox__text-label');
+            // Create a new `<label>` element
+            const newLabel = item.querySelector('label').cloneNode(true);
 
-            if (clonedInput) {
-              clonedInput.value = value;
-              clonedInput.id = `${input.id}-${index + 1}`;
+            // Update input attributes
+            const newInput = newLabel.querySelector('input');
+            newInput.value = value;
+            newInput.id = `${input.id}-${index + 1}`;
+            newInput.name = input.name;
+
+            // Update label text
+            const newLabelText = newLabel.querySelector('.facet-checkbox__text-label');
+            newLabelText.textContent = value;
+
+            // Update visually hidden text (if necessary)
+            const visuallyHiddenText = newLabel.querySelector('.visually-hidden');
+            if (visuallyHiddenText) {
+              visuallyHiddenText.textContent = `${value}`;
             }
 
-            if (clonedLabelText) {
-              clonedLabelText.textContent = value;
-            }
+            // Append the updated label to the new `<li>`
+            newLi.appendChild(newLabel);
 
-            // Append the cloned `<li>` to the parent `<ul>`
-            parentUl.appendChild(clonedLi);
+            // Add click listener to update the URL
+            newInput.addEventListener('change', function () {
+              const urlParams = new URLSearchParams(window.location.search);
+              urlParams.set('filter', value); // Set the filter parameter
+              window.location.search = urlParams.toString(); // Update the URL
+            });
+
+            // Append the new `<li>` to the parent `<ul>`
+            parentUl.appendChild(newLi);
           });
 
-          // Remove the original item (optional)
+          // Remove the original `<li>` to prevent duplicates
           parentUl.removeChild(item);
         } catch (error) {
-          console.error('Failed to parse JSON value for facet:', error);
+          console.error('Error processing facet item:', error);
         }
       }
     });

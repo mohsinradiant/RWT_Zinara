@@ -537,7 +537,7 @@
                   return;
                 }
 
-                // Store previous page only if not on /collections/ready-to-ship
+                // Save current page in sessionStorage only if not the target page
                 if (currentUrl !== '/collections/ready-to-ship') {
                   sessionStorage.setItem('previousUrl', window.location.href);
                   console.log('Stored previousUrl:', window.location.href);
@@ -548,23 +548,15 @@
                   );
                 }
 
-                // Set checkbox based on current page
+                // Set checkbox state
                 checkbox.checked = currentUrl === '/collections/ready-to-ship';
                 console.log('Checkbox checked state:', checkbox.checked);
 
-                // Prevent anchor navigation even if clicked directly
-                filterAnchor.addEventListener('click', function (event) {
-                  console.log('Anchor clicked!');
+                // Single handler for both anchor and checkbox
+                function handleClick(event) {
                   event.preventDefault();
                   event.stopPropagation();
-                });
-
-                // Handle checkbox click separately
-                checkbox.addEventListener('click', function (event) {
-                  event.preventDefault(); // prevent default checkbox click
-                  event.stopPropagation(); // stop anchor or other bubbling
-
-                  console.log('Checkbox clicked!');
+                  console.log('Filter clicked!');
 
                   const previousUrl = sessionStorage.getItem('previousUrl') || '/';
                   console.log('Target previousUrl:', previousUrl);
@@ -582,7 +574,11 @@
                     sessionStorage.setItem('previousUrl', window.location.href);
                     window.location.href = '/collections/ready-to-ship';
                   }
-                });
+                }
+
+                // Apply same logic to both the anchor and the checkbox
+                filterAnchor.addEventListener('click', handleClick);
+                checkbox.addEventListener('click', handleClick);
               });
             </script>
 

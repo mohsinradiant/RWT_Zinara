@@ -22,7 +22,8 @@
     console.log('Is Products Page:', isProductsPage);
     console.log('Viewport Width:', viewportWidth);
 
-    if (!isProductsPage && viewportWidth > 756) {
+    // ✅ Final condition: skip ONLY on mobile product pages.
+    if (!(isProductsPage && viewportWidth <= 756)) {
       const benefitsContainer = document.querySelector('.home-benefits-container');
 
       if (!benefitsContainer) {
@@ -98,7 +99,7 @@
         }
       }
     } else {
-      console.log('💡 Animation skipped: either on product page or viewport too small.');
+      console.log('💡 Animation skipped: Product page on mobile device.');
     }
   });
 </script>

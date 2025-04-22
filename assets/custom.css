@@ -1546,20 +1546,20 @@ header .menu-drawer {
     }
 
 
-    .image-carousel a {
+    .image-carousel img {
         width: 75% !important;
         scroll-snap-align: start;
     }
 
-    .image-carousel a {
+    .image-carousel img {
         padding-left: 10px;
     }
 
-    .image-carousel a:nth-last-of-type(1) {
+    .image-carousel img:nth-last-of-type(1) {
         padding-right: 10px;
     }
 
-    .image-carousel a:not(.active) {
+    .image-carousel img:not(.active) {
         opacity: 1 !important;
         transform: scale(1) !important;
     }

@@ -1318,12 +1318,7 @@
       });
     }
 
-    // Check if the user is logged in
-    function isLoggedIn() {
-      return typeof customerId !== 'undefined' && customerId !== null && customerId !== '';
-    }
-
-    // Handle pincode validation and login/redirection
+    // Handle pincode validation and redirection
     function handlePincodeCheck() {
       submitButton.addEventListener('click', () => {
         const zipcode = zipcodeInput.value.trim();
@@ -1338,15 +1333,6 @@
         const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
         const videoTrialUrl = `/pages/video-trial?view=video-trial&product_handle={{ product.handle }}`;
 
-        // If user is not logged in, redirect to login page first
-        if (!isLoggedIn()) {
-          const currentUrl = validPincodes.includes(zipcode) ? tryAtHomeUrl : videoTrialUrl;
-          const loginUrl = `/account/login?return_to=${encodeURIComponent(currentUrl)}`;
-          window.location.href = loginUrl;
-          return;
-        }
-
-        // If logged in, proceed with redirection
         if (validPincodes.includes(zipcode)) {
           res.textContent = 'Available';
           res.className = 'try-at-home-pincode-result available';
@@ -1370,7 +1356,12 @@
 
       if (inventoryElement && button) {
         const inventoryText = inventoryElement.textContent.trim().toLowerCase();
-        // Functionality remains commented as per original script
+
+        // if (inventoryText.includes('in stock') && parseInt(inventoryText) > 0) {
+        //   button.style.display = showOnStock ? 'flex' : 'none';
+        // } else {
+        //   button.style.display = showOnStock ? 'none' : 'flex';
+        // }
       }
     }
 

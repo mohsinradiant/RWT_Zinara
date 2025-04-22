@@ -1087,13 +1087,15 @@ header .menu-drawer {
 @media(max-width:756px) {
     .filter-rts-button {
         background: #f2eeeb;
-        color: #610C27;
+        color: #610C27 !important;
         text-wrap: nowrap !important;
         font-size: 1.4rem;
         letter-spacing: 0;
         margin: 0;
         font-family: 'Quicksand';
         font-weight: 700;
+        align-items: center;
+        padding: 10px 15px !important;
     }
 }
 

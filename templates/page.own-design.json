@@ -19,6 +19,37 @@
     },
     "get_your_own_design_AWdJ3W": {
       "type": "get-your-own-design",
+      "blocks": {
+        "image_block_2_pyJEGb": {
+          "type": "image-block-2",
+          "settings": {
+            "image": "shopify://shop_images/ZNB11_WG4_06548295-a85a-4d42-be74-d4d70113cec5.png",
+            "heading": "asfasd",
+            "description": "asdasdas"
+          }
+        },
+        "image_block_2_KRdhQp": {
+          "type": "image-block-2",
+          "settings": {
+            "image": "shopify://shop_images/ZNB11_RG3_5cbb1574-95f8-4955-9ffa-2cc822421354.png",
+            "heading": "dasdasd",
+            "description": "asdasda"
+          }
+        },
+        "image_block_2_HJdYp4": {
+          "type": "image-block-2",
+          "settings": {
+            "image": "shopify://shop_images/ZNB11_RG3_5cbb1574-95f8-4955-9ffa-2cc822421354.png",
+            "heading": "bxcbxcvx",
+            "description": "xcvzxvcx"
+          }
+        }
+      },
+      "block_order": [
+        "image_block_2_pyJEGb",
+        "image_block_2_KRdhQp",
+        "image_block_2_HJdYp4"
+      ],
       "settings": {
         "heading": "How it works",
         "heading_2": "Pick your own:"

@@ -1088,6 +1088,7 @@ header .menu-drawer {
 }
 .filter-rts-button input{
     pointer-events: none;
+    background: transparent;
 }
 @media(max-width:756px) {
     .filter-rts-button {

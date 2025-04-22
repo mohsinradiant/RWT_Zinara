@@ -391,6 +391,7 @@ header .header__search {
 
 #FacetsWrapperDesktop details:first-of-type {
     border-top: none !important;
+    margin-top: 13px;
 }
 
 .collapsible-content__grid .accordion h3 {

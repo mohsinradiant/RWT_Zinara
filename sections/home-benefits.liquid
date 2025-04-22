@@ -14,49 +14,91 @@
 </section>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM fully loaded.');
+
     const isProductsPage = document.body.classList.contains('template-product');
     const viewportWidth = window.innerWidth;
+
+    console.log('Is Products Page:', isProductsPage);
+    console.log('Viewport Width:', viewportWidth);
 
     if (!isProductsPage && viewportWidth > 756) {
       const benefitsContainer = document.querySelector('.home-benefits-container');
 
-      // Make sure images are fully loaded before cloning and animating
+      if (!benefitsContainer) {
+        console.log('❌ Benefits container not found.');
+        return;
+      }
+
+      console.log('✅ Benefits container found.');
+
       const images = benefitsContainer.querySelectorAll('img');
       let loadedImages = 0;
 
+      console.log(`🖼️ Found ${images.length} images.`);
+
       if (images.length === 0) {
+        console.log('⚠️ No images found, starting animation immediately.');
         startAnimation();
       } else {
         images.forEach((img) => {
           if (img.complete) {
             loadedImages++;
-            if (loadedImages === images.length) startAnimation();
+            console.log(`✅ Image already loaded (${loadedImages}/${images.length})`);
+
+            if (loadedImages === images.length) {
+              console.log('🎉 All images loaded, starting animation.');
+              startAnimation();
+            }
           } else {
             img.addEventListener('load', () => {
               loadedImages++;
-              if (loadedImages === images.length) startAnimation();
+              console.log(`✅ Image loaded (${loadedImages}/${images.length})`);
+
+              if (loadedImages === images.length) {
+                console.log('🎉 All images loaded, starting animation.');
+                startAnimation();
+              }
             });
+
             img.addEventListener('error', () => {
               loadedImages++;
-              if (loadedImages === images.length) startAnimation();
+              console.log(`⚠️ Image failed to load (${loadedImages}/${images.length})`);
+
+              if (loadedImages === images.length) {
+                console.log('🎉 All images attempted (loaded or failed), starting animation.');
+                startAnimation();
+              }
             });
           }
         });
       }
 
       function startAnimation() {
+        console.log('🚀 Starting animation...');
+
         const blocks = benefitsContainer.innerHTML;
         benefitsContainer.innerHTML += blocks;
 
         const totalWidth = benefitsContainer.scrollWidth / 2;
 
-        gsap.to('.home-benefits-container', {
-          x: `-${totalWidth}px`,
-          ease: 'none',
-          duration: 30, // Adjust duration for speed
-          repeat: -1,
-        });
+        console.log('Total Scroll Width (half):', totalWidth);
+
+        if (totalWidth > 0) {
+          gsap.to('.home-benefits-container', {
+            x: `-${totalWidth}px`,
+            ease: 'none',
+            duration: 30, // Adjust duration for speed
+            repeat: -1,
+          });
+
+          console.log('✅ GSAP animation started.');
+        } else {
+          console.log('❌ totalWidth is 0 — animation skipped.');
+        }
       }
+    } else {
+      console.log('💡 Animation skipped: either on product page or viewport too small.');
     }
   });
 </script>

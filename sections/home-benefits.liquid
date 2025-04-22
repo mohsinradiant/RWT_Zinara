@@ -110,7 +110,14 @@
     }
   }
 </style>
-
+{% if template == 'product' %}
+  <style>
+    .zinara-benefits-content {
+      min-width: fit-content !important;
+      margin: 15px 15px 0;
+    }
+  </style>
+{% endif %}
 {% schema %}
 {
   "name": "Zinara Benefits",

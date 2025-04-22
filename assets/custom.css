@@ -1111,7 +1111,7 @@ header .menu-drawer {
 }
 
 .filter-rts-button input:checked::after {
-    border-color: #ff5722; /* Desired tick color */
+    border-color: #610C27; /* Desired tick color */
     transform: translate(-50%, -50%) rotate(45deg) scale(1); /* Make tick visible */
 }
 @media(max-width:756px) {

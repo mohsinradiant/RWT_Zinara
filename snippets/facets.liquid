@@ -522,31 +522,31 @@
 
             <script>
               document.addEventListener('DOMContentLoaded', function () {
-                const currentUrl = window.location.pathname; // Get the current path
+                const currentUrl = window.location.pathname;
                 const filterAnchor = document.querySelector('.filter-rts-button');
-                const checkbox = filterAnchor.querySelector('.filter-checkbox');
+                if (!filterAnchor) return;
 
-                // Store the referrer URL in a variable
-                let previousUrl =
-                  document.referrer && document.referrer !== window.location.href ? document.referrer : '/';
-                console.log('previousUrl: ' + previousUrl);
-                // Set the checkbox state based on the current URL
-                if (currentUrl === '/collections/ready-to-ship') {
-                  checkbox.checked = true; // Check the checkbox if URL matches
-                } else {
-                  checkbox.checked = false; // Ensure it's unchecked otherwise
+                const checkbox = filterAnchor.querySelector('.filter-checkbox');
+                if (!checkbox) return;
+
+                // Save the current page as the previous page before navigating away
+                if (currentUrl !== '/collections/ready-to-ship') {
+                  sessionStorage.setItem('previousUrl', window.location.href);
                 }
 
-                // Add an event listener to handle checkbox clicks
+                // Restore the checkbox state based on the current URL
+                checkbox.checked = currentUrl === '/collections/ready-to-ship';
+
+                // Handle checkbox click
                 checkbox.addEventListener('click', function (event) {
-                  event.stopPropagation(); // Prevent triggering the parent anchor tag
-                  event.preventDefault(); // Prevent default anchor behavior
+                  event.stopPropagation();
+                  event.preventDefault();
 
                   if (currentUrl === '/collections/ready-to-ship') {
-                    // Navigate to the previously stored URL
-                    window.location.href = previousUrl;
+                    const backUrl = sessionStorage.getItem('previousUrl') || '/';
+                    window.location.href = backUrl;
                   } else {
-                    // Navigate to "/collections/ready-to-ship"
+                    sessionStorage.setItem('previousUrl', window.location.href);
                     window.location.href = '/collections/ready-to-ship';
                   }
                 });

@@ -1496,8 +1496,8 @@
           currentUrl.searchParams.append(paramName, paramValue);
         }
 
-        // Refresh the page with the updated URL
-        window.location.href = currentUrl.toString();
+        // Reload the page with the updated URL
+        window.location.href = currentUrl.toString(); // This reloads the page with the updated URL
       });
     });
   });

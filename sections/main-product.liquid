@@ -1340,8 +1340,13 @@
 
         // If user is not logged in, redirect to login page first
         if (!isLoggedIn()) {
-          const currentUrl = validPincodes.includes(zipcode) ? tryAtHomeUrl : videoTrialUrl;
-          const loginUrl = `/account/login?return_to=${encodeURIComponent(currentUrl)}`;
+          // Save the intended redirection URL based on pincode validation
+          const targetUrl = validPincodes.includes(zipcode) ? tryAtHomeUrl : videoTrialUrl;
+
+          // Construct the login URL with the correct return_to parameter
+          const loginUrl = `/account/login?return_to=${encodeURIComponent(targetUrl)}`;
+
+          // Redirect the user to the login page
           window.location.href = loginUrl;
           return;
         }

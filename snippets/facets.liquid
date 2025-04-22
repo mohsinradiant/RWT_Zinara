@@ -522,17 +522,59 @@
 
             <script>
               document.addEventListener('DOMContentLoaded', function () {
-                const currentUrl = window.location.pathname; // Get the current path
-                const filterAnchor = document.querySelector('.filter-rts-button');
-                const checkbox = filterAnchor.querySelector('.filter-checkbox');
+                const currentUrl = window.location.pathname;
+                console.log('Current URL:', currentUrl);
 
-                if (currentUrl === '/collections/ready-to-ship') {
-                  checkbox.checked = true; // Check the checkbox if URL matches
-                } else {
-                  checkbox.checked = false; // Ensure it's unchecked otherwise
+                const filterAnchor = document.querySelector('.filter-rts-button');
+                if (!filterAnchor) {
+                  console.log('No .filter-rts-button found.');
+                  return;
                 }
+
+                const checkbox = filterAnchor.querySelector('.filter-checkbox');
+                if (!checkbox) {
+                  console.log('No .filter-checkbox found inside the button.');
+                  return;
+                }
+
+                if (currentUrl !== '/collections/ready-to-ship') {
+                  sessionStorage.setItem('previousUrl', window.location.href);
+                  console.log('Stored previousUrl:', window.location.href);
+                } else {
+                  console.log(
+                    'On /collections/ready-to-ship, previousUrl remains:',
+                    sessionStorage.getItem('previousUrl')
+                  );
+                }
+
+                checkbox.checked = currentUrl === '/collections/ready-to-ship';
+                console.log('Checkbox checked state:', checkbox.checked);
+
+                checkbox.addEventListener('click', function (event) {
+                  event.stopPropagation();
+                  event.preventDefault();
+
+                  console.log('Checkbox clicked!');
+
+                  if (currentUrl === '/collections/ready-to-ship') {
+                    const backUrl = sessionStorage.getItem('previousUrl') || '/';
+                    console.log('Going back to previousUrl:', backUrl);
+
+                    if (backUrl === window.location.href) {
+                      console.log('Previous URL is same as current. Using history.back() to force return.');
+                      history.back(); // native browser "go back"
+                    } else {
+                      window.location.href = backUrl; // let browser handle real navigation
+                    }
+                  } else {
+                    console.log('Navigating to /collections/ready-to-ship');
+                    sessionStorage.setItem('previousUrl', window.location.href);
+                    window.location.href = '/collections/ready-to-ship';
+                  }
+                });
               });
             </script>
+
             {%- for filter in results.filters -%}
               {% liquid
                 assign total_active_values = total_active_values | plus: filter.active_values.size

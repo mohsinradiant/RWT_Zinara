@@ -122,7 +122,7 @@ details[open].menu-opening>.menu-drawer__submenu {
 }
 
 .js .menu-drawer__menu-item .icon-caret {
-  display: none;
+  /* display: none; */
 }
 
 .menu-drawer__menu-item>.svg-wrapper {
@@ -132,7 +132,9 @@ details[open].menu-opening>.menu-drawer__submenu {
   top: 50%;
   transform: translateY(-50%);
 }
-
+.menu-drawer__menu-item>.svg-wrapper .icon-caret{
+  position: unset;
+}
 .js .menu-drawer__submenu {
   position: absolute;
   top: 0;

@@ -458,65 +458,77 @@
     // Debugging: Log unavailable slots map
     console.log('Adjusted Unavailable Slots Map:', unavailableSlotsMap);
 
-  // Generate Dates
-const today = new Date();
-for (let i = 0; i < 7; i++) {
-  const futureDate = new Date(today); // Clone today's date
-  futureDate.setDate(today.getDate() + i); // Increment by i days
-  
-  // Add 5 hours and 30 minutes
-  futureDate.setHours(futureDate.getHours() + 5);
-  futureDate.setMinutes(futureDate.getMinutes() + 30);
+    // Generate Dates
+    const today = new Date();
+    for (let i = 0; i < 7; i++) {
+      const futureDate = new Date(today); // Clone today's date
+      futureDate.setDate(today.getDate() + i); // Increment by i days
 
-  // Format the `data-date` manually using local time
-  const year = futureDate.getFullYear();
-  const month = String(futureDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-  const day = String(futureDate.getDate()).padStart(2, '0');
-  const formattedDate = `${year}-${month}-${day}`;
-  
-  // Extract day, month, and weekday for display
-  const displayDay = futureDate.getDate();
-  const displayMonth = futureDate.toLocaleString('en-US', { month: 'short' });
-  const displayWeekday = futureDate.toLocaleString('en-US', { weekday: 'long' });
-  
-  const buttonHTML = `
-    <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
-      ${displayMonth} ${String(displayDay).padStart(2, '0')}<br>
-      <span>${displayWeekday}</span>
-    </button>
-  `;
-  dateContainer.innerHTML += buttonHTML;
-}
+      // Add 5 hours and 30 minutes
+      futureDate.setHours(futureDate.getHours() + 5);
+      futureDate.setMinutes(futureDate.getMinutes() + 30);
 
+      // Format the `data-date` manually using local time
+      const year = futureDate.getFullYear();
+      const month = String(futureDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+      const day = String(futureDate.getDate()).padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day}`;
+
+      // Extract day, month, and weekday for display
+      const displayDay = futureDate.getDate();
+      const displayMonth = futureDate.toLocaleString('en-US', { month: 'short' });
+      const displayWeekday = futureDate.toLocaleString('en-US', { weekday: 'long' });
+
+      const buttonHTML = `
+        <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
+          ${displayMonth} ${String(displayDay).padStart(2, '0')}<br>
+          <span>${displayWeekday}</span>
+        </button>
+      `;
+      dateContainer.innerHTML += buttonHTML;
+    }
 
     // Function to update timeslots based on selected date
     function updateTimeslots(selectedDate) {
-  timeslotContainer.innerHTML = ''; // Clear existing timeslots
-  let startTime = 10; // Start at 10:00 AM
-  let startMinutes = 0;
+      timeslotContainer.innerHTML = ''; // Clear existing timeslots
+      let startTime = 10; // Start at 10:00 AM
+      let startMinutes = 0;
 
-  for (let i = 0; i < 9; i++) { // 9 slots for a 60-minute interval from 10 AM to 6 PM
-    const endMinutes = startMinutes + 60;
-    const endTime = startTime + Math.floor(endMinutes / 60);
-    const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
-    const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
-    const timeslot = `${displayStart} - ${displayEnd}`;
+      const isToday = selectedDate === new Date().toISOString().split('T')[0]; // Check if selected date is today
 
-    // Check if timeslot is unavailable for the selected date
-    const isUnavailable =
-      unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
+      for (let i = 0; i < 9; i++) { // 9 slots for a 60-minute interval from 10 AM to 6 PM
+        const endMinutes = startMinutes + 60;
+        const endTime = startTime + Math.floor(endMinutes / 60);
+        const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+        const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+        const timeslot = `${displayStart} - ${displayEnd}`;
 
-    if (!isUnavailable) {
-      // Render only if the slot is available
-      const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
-      timeslotContainer.innerHTML += buttonHTML;
+        // If today, check if the timeslot is before current time
+        if (isToday) {
+          const currentTime = new Date();
+          const [currentHours, currentMinutes] = [currentTime.getHours(), currentTime.getMinutes()];
+          const [slotHours, slotMinutes] = displayStart.split(':').map(Number);
+
+          // Skip the timeslot if it's before the current time
+          if (slotHours < currentHours || (slotHours === currentHours && slotMinutes < currentMinutes)) {
+            continue;
+          }
+        }
+
+        // Check if timeslot is unavailable for the selected date
+        const isUnavailable =
+          unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
+
+        if (!isUnavailable) {
+          // Render only if the slot is available
+          const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
+          timeslotContainer.innerHTML += buttonHTML;
+        }
+
+        startTime += Math.floor((startMinutes + 60) / 60);
+        startMinutes = (startMinutes + 60) % 60;
+      }
     }
-
-    startTime += Math.floor((startMinutes + 60) / 60);
-    startMinutes = (startMinutes + 60) % 60;
-  }
-}
-
 
     // Initially update timeslots for the first selected date
     const initialSelectedDate = dateContainer.querySelector('.date-btn.selected').dataset.date;
@@ -551,6 +563,7 @@ for (let i = 0; i < 7; i++) {
     });
   });
 </script>
+
 <script>
   const bookingSuccessContent = '{{ section.settings.booking_successful_content | escape }}';
 </script>

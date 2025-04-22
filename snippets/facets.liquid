@@ -526,6 +526,10 @@
                 const filterAnchor = document.querySelector('.filter-rts-button');
                 const checkbox = filterAnchor.querySelector('.filter-checkbox');
 
+                // Store the referrer URL in a variable
+                let previousUrl =
+                  document.referrer && document.referrer !== window.location.href ? document.referrer : '/';
+
                 // Set the checkbox state based on the current URL
                 if (currentUrl === '/collections/ready-to-ship') {
                   checkbox.checked = true; // Check the checkbox if URL matches
@@ -539,14 +543,10 @@
                   event.preventDefault(); // Prevent default anchor behavior
 
                   if (currentUrl === '/collections/ready-to-ship') {
-                    // Check if there is a previous page in history
-                    if (document.referrer && document.referrer !== window.location.href) {
-                      window.location.href = document.referrer; // Navigate to the referring page
-                    } else {
-                      window.location.href = '/'; // Fallback to homepage or another default page
-                    }
+                    // Navigate to the previously stored URL
+                    window.location.href = previousUrl;
                   } else {
-                    // Navigate to "/collections/ready-to-ship" if not already there
+                    // Navigate to "/collections/ready-to-ship"
                     window.location.href = '/collections/ready-to-ship';
                   }
                 });

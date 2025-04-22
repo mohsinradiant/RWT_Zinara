@@ -537,6 +537,7 @@
                   return;
                 }
 
+                // Save current page in sessionStorage only if not the target page
                 if (currentUrl !== '/collections/ready-to-ship') {
                   sessionStorage.setItem('previousUrl', window.location.href);
                   console.log('Stored previousUrl:', window.location.href);
@@ -547,31 +548,37 @@
                   );
                 }
 
+                // Set checkbox state
                 checkbox.checked = currentUrl === '/collections/ready-to-ship';
                 console.log('Checkbox checked state:', checkbox.checked);
 
-                checkbox.addEventListener('click', function (event) {
-                  event.stopPropagation();
+                // Single handler for both anchor and checkbox
+                function handleClick(event) {
                   event.preventDefault();
+                  event.stopPropagation();
+                  console.log('Filter clicked!');
 
-                  console.log('Checkbox clicked!');
+                  const previousUrl = sessionStorage.getItem('previousUrl') || '/';
+                  console.log('Target previousUrl:', previousUrl);
 
                   if (currentUrl === '/collections/ready-to-ship') {
-                    const backUrl = sessionStorage.getItem('previousUrl') || '/';
-                    console.log('Going back to previousUrl:', backUrl);
-
-                    if (backUrl === window.location.href) {
-                      console.log('Previous URL is same as current. Using history.back() to force return.');
-                      history.back(); // native browser "go back"
+                    if (previousUrl === window.location.href) {
+                      console.log('Previous URL is same as current. Using history.back().');
+                      history.back();
                     } else {
-                      window.location.href = backUrl; // let browser handle real navigation
+                      console.log('Redirecting back to previousUrl.');
+                      window.location.href = previousUrl;
                     }
                   } else {
                     console.log('Navigating to /collections/ready-to-ship');
                     sessionStorage.setItem('previousUrl', window.location.href);
                     window.location.href = '/collections/ready-to-ship';
                   }
-                });
+                }
+
+                // Apply same logic to both the anchor and the checkbox
+                filterAnchor.addEventListener('click', handleClick);
+                checkbox.addEventListener('click', handleClick);
               });
             </script>
 

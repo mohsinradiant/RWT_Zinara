@@ -1086,19 +1086,35 @@ header .menu-drawer {
     line-height: 0;
 }
 .filter-rts-button input {
-    pointer-events: none; /* Disables pointer events to make the checkbox unclickable */
-    appearance: none; /* Removes default checkbox styling */
-    width: 20px; /* Set a custom width */
-    height: 20px; /* Set a custom height */
-    border: 2px solid #ccc; /* Default border color */
-    border-radius: 4px; /* Optional, adds rounded corners */
-    background: transparent; /* Default background color */
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    pointer-events: none; /* Prevent user interaction */
+    appearance: none; /* Remove default styling */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    position: relative;
+    background-color: #fff; /* Background remains white */
 }
 
-.filter-rts-button input:checked {
-    background-color: #ff5722; /* Change background color when checked */
-    border-color: #ff5722; /* Change border color when checked */
+.filter-rts-button input::after {
+    content: ""; /* Empty content initially */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0); /* Hide the tick initially */
+    width: 10px;
+    height: 10px;
+    border: solid #fff; /* Tick color (default hidden state) */
+    border-width: 0 2px 2px 0; /* Tick shape */
+    display: inline-block;
+    transform-origin: center;
+    rotate: 45deg; /* Rotate to form a tick mark */
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.filter-rts-button input:checked::after {
+    transform: translate(-50%, -50%) scale(1); /* Show the tick when checked */
+    border-color: #ff5722; /* Change tick color to desired color */
 }
 @media(max-width:756px) {
     .filter-rts-button {

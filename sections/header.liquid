@@ -329,7 +329,7 @@
             {{ link.title }}
             <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Expand_Arrow_1.png?v=1744182233">
           </a>
-                    <div class="dropdown-menu">
+          <div class="dropdown-menu">
             {% for sublink in link.links %}
               <a class="dropdown-item" href="{{ sublink.url }}">{{ sublink.title }}</a>
             {% endfor %}

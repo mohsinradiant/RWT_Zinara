@@ -517,19 +517,14 @@
             {% endcomment %}
             <a class="filter-rts-button facets__summary" href="/collections/ready-to-ship">
               Ready to Ship
-              <label class="svg-checkbox-wrapper">
-                <input
-                  type="checkbox"
-                  class="filter-checkbox"
-                  id="ready-to-ship-checkbox"
-                >
-                {{ 'square.svg' | inline_asset_content }}
-              </label>
+              <input type="checkbox" class="filter-checkbox" style="margin-left: 10px;">
             </a>
+
             <script>
               document.addEventListener('DOMContentLoaded', function () {
                 const currentUrl = window.location.pathname; // Get the current path
-                const checkbox = document.querySelector('#ready-to-ship-checkbox');
+                const filterAnchor = document.querySelector('.filter-rts-button');
+                const checkbox = filterAnchor.querySelector('.filter-checkbox');
 
                 if (currentUrl === '/collections/ready-to-ship') {
                   checkbox.checked = true; // Check the checkbox if URL matches

@@ -522,15 +522,21 @@
 
             <script>
               document.addEventListener('DOMContentLoaded', function () {
+                const currentUrl = window.location.pathname; // Get the current path
                 const filterAnchor = document.querySelector('.filter-rts-button');
                 const checkbox = filterAnchor.querySelector('.filter-checkbox');
 
-                // Add an event listener to handle checkbox click
+                // Set the checkbox state based on the current URL
+                if (currentUrl === '/collections/ready-to-ship') {
+                  checkbox.checked = true; // Check the checkbox if URL matches
+                } else {
+                  checkbox.checked = false; // Ensure it's unchecked otherwise
+                }
+
+                // Add an event listener to handle checkbox clicks
                 checkbox.addEventListener('click', function (event) {
                   event.stopPropagation(); // Prevent triggering the parent anchor tag
                   event.preventDefault(); // Prevent default anchor behavior
-
-                  const currentUrl = window.location.pathname; // Get the current path
 
                   if (currentUrl === '/collections/ready-to-ship') {
                     // If already on "/collections/ready-to-ship", go back

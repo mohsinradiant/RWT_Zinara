@@ -1080,8 +1080,7 @@ header .menu-drawer {
 
 .filter-rts-button {
     text-decoration: none;
-    display: flex
-;
+    display: flex;
     border-bottom: 0.1rem solid rgba(18, 18, 18, 0.1);
     align-items: center;
     line-height: 0;
@@ -1091,7 +1090,7 @@ header .menu-drawer {
     background: transparent;
 }
 .filter-rts-button input:checked  {
-    fill: #ff5722; /* Replace this with your desired color */
+    fill: #ff5722; 
   }
 @media(max-width:756px) {
     .filter-rts-button {

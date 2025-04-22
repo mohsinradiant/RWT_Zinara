@@ -1076,6 +1076,7 @@ header .menu-drawer {
 }
 .filter-rts-button{
     text-decoration: none;
+    border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.1);
 }
 @media (max-width: 756px) {
     product-info .product__title h1 {

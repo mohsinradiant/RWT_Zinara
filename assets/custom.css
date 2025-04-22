@@ -1080,8 +1080,11 @@ header .menu-drawer {
 
 .filter-rts-button {
     text-decoration: none;
-    display: flex;
-    border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.1);
+    display: flex
+;
+    border-bottom: 0.1rem solid rgba(18, 18, 18, 0.1);
+    align-items: center;
+    line-height: 0;
 }
 .filter-rts-button input{
     pointer-events: none;

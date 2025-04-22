@@ -562,17 +562,16 @@
                     const backUrl = sessionStorage.getItem('previousUrl') || '/';
                     console.log('Going back to previousUrl:', backUrl);
 
-                    // Avoid looping back to the same page
                     if (backUrl === window.location.href) {
                       console.log('Previous URL is same as current. Redirecting to "/" instead.');
-                      window.location.href = '/';
+                      window.location.replace('/'); // force hard redirect
                     } else {
-                      window.location.href = backUrl;
+                      window.location.replace(backUrl); // force hard redirect, bypass SPA soft navigation
                     }
                   } else {
                     console.log('Navigating to /collections/ready-to-ship');
                     sessionStorage.setItem('previousUrl', window.location.href);
-                    window.location.href = '/collections/ready-to-ship';
+                    window.location.replace('/collections/ready-to-ship'); // force hard redirect
                   }
                 });
               });

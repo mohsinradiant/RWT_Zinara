@@ -14,23 +14,29 @@
 </section>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Select the container with the blocks
-    const benefitsContainer = document.querySelector('.home-benefits-container');
+    // Check if the page template is 'products' and the viewport width is greater than 756px
+    const isProductsPage = document.body.classList.contains('template-product');
+    const viewportWidth = window.innerWidth;
 
-    // Clone the content to enable seamless looping
-    const blocks = benefitsContainer.innerHTML;
-    benefitsContainer.innerHTML += blocks;
+    if (!isProductsPage && viewportWidth > 756) {
+      // Select the container with the blocks
+      const benefitsContainer = document.querySelector('.home-benefits-container');
 
-    // Get the total width of all blocks
-    const totalWidth = benefitsContainer.scrollWidth / 2;
+      // Clone the content to enable seamless looping
+      const blocks = benefitsContainer.innerHTML;
+      benefitsContainer.innerHTML += blocks;
 
-    // Animate the blocks
-    gsap.to('.home-benefits-container', {
-      x: `-${totalWidth}px`,
-      ease: 'none',
-      duration: 30, // Adjust duration for speed
-      repeat: -1,
-    });
+      // Get the total width of all blocks
+      const totalWidth = benefitsContainer.scrollWidth / 2;
+
+      // Animate the blocks
+      gsap.to('.home-benefits-container', {
+        x: `-${totalWidth}px`,
+        ease: 'none',
+        duration: 30, // Adjust duration for speed
+        repeat: -1,
+      });
+    }
   });
 </script>
 <style>

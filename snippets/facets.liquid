@@ -1496,8 +1496,11 @@
           currentUrl.searchParams.append(paramName, paramValue);
         }
 
-        // Reload the page with the updated URL
-        window.location.href = currentUrl.toString(); // This reloads the page with the updated URL
+        // Construct the updated URL (same as your working example)
+        const newUrl = currentUrl.toString();
+
+        // Redirect to the updated URL (this will reload the page)
+        window.location.href = newUrl;
       });
     });
   });

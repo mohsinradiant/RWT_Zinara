@@ -515,7 +515,24 @@
                 </div>
               </div>
             {% endcomment %}
-            <a class="filter-rts-button facets__summary" href="/collections/ready-to-ship">Ready to Ship</a>
+            <a class="filter-rts-button facets__summary" href="/collections/ready-to-ship">
+              Ready to Ship
+              <input type="checkbox" class="filter-checkbox" style="margin-left: 10px;">
+            </a>
+
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                const currentUrl = window.location.pathname; // Get the current path
+                const filterAnchor = document.querySelector('.filter-rts-button');
+                const checkbox = filterAnchor.querySelector('.filter-checkbox');
+
+                if (currentUrl === '/collections/ready-to-ship') {
+                  checkbox.checked = true; // Check the checkbox if URL matches
+                } else {
+                  checkbox.checked = false; // Ensure it's unchecked otherwise
+                }
+              });
+            </script>
             {%- for filter in results.filters -%}
               {% liquid
                 assign total_active_values = total_active_values | plus: filter.active_values.size
@@ -1514,18 +1531,18 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const valuesToShow = ['Social Events', 'Engagement', 'Gifting', 'Daily Hustle'];
-    const listItems = document.querySelectorAll('#Facet-4-template--24203645616312__product-grid li');
+    const valuesToHide = ['Social Events', 'Engagement', 'Gifting', 'Daily Hustle'];
+    const listItems = document.querySelectorAll('#Facet-3-template--24203645616312__product-grid li');
 
     listItems.forEach((item) => {
       const labelText = item.querySelector('.facet-checkbox__text-label')?.textContent.trim();
       console.log('Label Text:', labelText); // Debugging to check label text content
 
       // Check for exact match, handle case and extra spaces
-      if (labelText && valuesToShow.some((value) => labelText.trim().toLowerCase() === value.toLowerCase())) {
-        item.style.display = 'block'; // Show this <li>
-      } else {
+      if (labelText && valuesToHide.some((value) => labelText.trim().toLowerCase() === value.toLowerCase())) {
         item.style.display = 'none'; // Hide this <li>
+      } else {
+        item.style.display = 'block'; // Show this <li>
       }
     });
   });

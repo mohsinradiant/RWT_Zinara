@@ -1081,9 +1081,41 @@ header .menu-drawer {
 .filter-rts-button {
     text-decoration: none;
     display: flex;
-    border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.1);
+    border-bottom: 0.1rem solid rgba(18, 18, 18, 0.1);
+    align-items: center;
+    line-height: 0;
+    justify-content: space-between;
+    padding-right: 0 !important;
+}
+.filter-rts-button input {
+    pointer-events: none; /* Prevent user interaction */
+    appearance: none; /* Remove default checkbox styling */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc; /* Default border color */
+    border-radius: 4px; /* Add rounded corners */
+    position: relative;
+    background-color: #fff; /* Checkbox background */
+    cursor: not-allowed;
 }
 
+.filter-rts-button input::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 10px;
+    border: solid transparent; /* Default hidden state */
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(45deg) scale(0);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.filter-rts-button input:checked::after {
+    border-color: #610C27; /* Desired tick color */
+    transform: translate(-50%, -50%) rotate(45deg) scale(1); /* Make tick visible */
+}
 @media(max-width:756px) {
     .filter-rts-button {
         background: #f2eeeb;

@@ -1515,14 +1515,9 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const valuesToShow = ['Social Events', 'Engagement', 'Gifting', 'Daily Hustle'];
-    const listItems = document.querySelectorAll('#Details-filter.p.tag-template--24203645616312__product-grid li');
-
-    // Loop through each list item
+    const listItems = document.querySelectorAll('#Facet-5-template--24203645616312__product-grid li');
     listItems.forEach((item) => {
-      // Get the label text inside each <li>
       const labelText = item.querySelector('.facet-checkbox__text-label')?.textContent.trim();
-
-      // Check if the text is in the valuesToShow array
       if (valuesToShow.includes(labelText)) {
         item.style.display = 'block'; // Show this <li>
       } else {

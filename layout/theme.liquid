@@ -543,15 +543,17 @@
           let lastClickedButton = null; // Tracks the last clicked button
 
           function togglePopup() {
-            const tryAtHomeLink = document.querySelector('.c-menu2 a[href*="experience-the-product"]');
+            const tryAtHomeLinks = document.querySelectorAll(
+              '.c-menu2 a[href*="experience-the-product"], .menu-drawer__navigation .menu-item #HeaderDrawer-try-at-home'
+            );
 
-            if (tryAtHomeLink) {
-              tryAtHomeLink.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevents the link from navigating
+            tryAtHomeLinks.forEach((link) => {
+              link.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default navigation
                 overlay.style.display = 'flex';
                 lastClickedButton = 'try-at-home';
               });
-            }
+            });
 
             closeButton.addEventListener('click', () => {
               overlay.style.display = 'none';
@@ -563,6 +565,7 @@
               }
             });
           }
+
           function isLoggedIn() {
             return typeof customerId !== 'undefined' && customerId !== null && customerId !== '';
           }

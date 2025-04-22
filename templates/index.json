@@ -391,11 +391,11 @@
       "type": "home-tryathome",
       "settings": {
         "heading": "Want to see designs personally?",
-        "sub-heading": "Get designs to try at home or schedule a video call",
-        "button-1": "Try at Home",
-        "url-1": "shopify://collections/rings",
-        "button-2": "Video Call",
-        "url-2": "shopify://collections/rings",
+        "sub-heading": "Try designs at home if you're in Delhi NCR - or book a virtual consultation from anywhere else!",
+        "button-1": "Try at Home / Schedule Video Trial",
+        "url-1": "shopify://collections/home-trial",
+        "button-2": "",
+        "url-2": "",
         "image": "shopify://shop_images/try_athome.png"
       }
     },

@@ -17,17 +17,17 @@
         "padding_bottom": 28
       }
     },
-    "video_trial_form_7JRYCt": {
-      "type": "video-trial-form",
-      "settings": {
-        "collection_handle": "all-products",
-        "booking_successful_content": "ascasdAXSAS"
-      }
-    },
     "tah_how_it_works_AY4bKd": {
       "type": "tah-how-it-works",
       "settings": {
         "heading": "How it works"
+      }
+    },
+    "video_trial_form_7JRYCt": {
+      "type": "video-trial-form",
+      "settings": {
+        "collection_handle": "ready-to-ship",
+        "booking_successful_content": "ascasdAXSAS"
       }
     }
   },

@@ -515,7 +515,7 @@
                 </div>
               </div>
             {% endcomment %}
-
+            <a class="filter-rts-button facets__summary" href="/collections/ready-to-ship">Ready to Ship</a>
             {%- for filter in results.filters -%}
               {% liquid
                 assign total_active_values = total_active_values | plus: filter.active_values.size
@@ -1515,7 +1515,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const valuesToShow = ['Social Events', 'Engagement', 'Gifting', 'Daily Hustle'];
-    const listItems = document.querySelectorAll('#Facet-5-template--24203645616312__product-grid li');
+    const listItems = document.querySelectorAll('#Facet-4-template--24203645616312__product-grid li');
 
     listItems.forEach((item) => {
       const labelText = item.querySelector('.facet-checkbox__text-label')?.textContent.trim();

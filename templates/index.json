@@ -123,7 +123,7 @@
         "category_item_UnpUTB": {
           "type": "category_item",
           "settings": {
-            "collection": "rings",
+            "collection": "solitaire-rings",
             "image": "shopify://shop_images/all_rings_c5fffa42-b6b4-407f-882a-4d981ae44871.png",
             "text": "Solitaire Rings",
             "associated_tab": "Rings"
@@ -132,7 +132,7 @@
         "category_item_LC3t6F": {
           "type": "category_item",
           "settings": {
-            "collection": "rings",
+            "collection": "daily-wear-rings",
             "image": "shopify://shop_images/daily_rings_72845c24-9f44-4eda-8ed4-6b511ba9e993.png",
             "text": "Daily Wear Rings",
             "associated_tab": "Rings"
@@ -141,7 +141,7 @@
         "category_item_GUPLzn": {
           "type": "category_item",
           "settings": {
-            "collection": "rings",
+            "collection": "engagement-rings",
             "image": "shopify://shop_images/engagement_rings.png",
             "text": "Engagement Rings",
             "associated_tab": "Rings"
@@ -150,7 +150,7 @@
         "category_item_xqWnqU": {
           "type": "category_item",
           "settings": {
-            "collection": "rings",
+            "collection": "eternity-rings",
             "image": "shopify://shop_images/eternity_rings.png",
             "text": "Eternity Rings",
             "associated_tab": "Rings"
@@ -159,7 +159,7 @@
         "category_item_rcUxAD": {
           "type": "category_item",
           "settings": {
-            "collection": "",
+            "collection": "studs-1",
             "image": "shopify://shop_images/studs_earrings.png",
             "text": "Studs",
             "associated_tab": "earrings"
@@ -168,7 +168,7 @@
         "category_item_VNApYD": {
           "type": "category_item",
           "settings": {
-            "collection": "",
+            "collection": "drops-and-danglers",
             "image": "shopify://shop_images/dangler_earrings.png",
             "text": "Drops and Danglers",
             "associated_tab": "earrings"
@@ -177,7 +177,7 @@
         "category_item_YH4BgR": {
           "type": "category_item",
           "settings": {
-            "collection": "",
+            "collection": "hoops",
             "image": "shopify://shop_images/hoops_earrings.png",
             "text": "Hoops",
             "associated_tab": "earrings"
@@ -186,7 +186,7 @@
         "category_item_hcLkcD": {
           "type": "category_item",
           "settings": {
-            "collection": "",
+            "collection": "solitaire-earrings",
             "image": "shopify://shop_images/solitaire_earrings.png",
             "text": "Solitaire Earrings",
             "associated_tab": "earrings"
@@ -195,7 +195,7 @@
         "category_item_CBxgmw": {
           "type": "category_item",
           "settings": {
-            "collection": "",
+            "collection": "daily-wear-pendants",
             "image": "shopify://shop_images/daily_pendant.png",
             "text": "Daily Wear Pendants",
             "associated_tab": "pendants"
@@ -204,7 +204,7 @@
         "category_item_pHU3iR": {
           "type": "category_item",
           "settings": {
-            "collection": "",
+            "collection": "statement-pendants",
             "image": "shopify://shop_images/statement_pendant.png",
             "text": "Statement Pendants",
             "associated_tab": "pendants"
@@ -213,7 +213,7 @@
         "category_item_NAryA4": {
           "type": "category_item",
           "settings": {
-            "collection": "",
+            "collection": "solitaire-pendants",
             "image": "shopify://shop_images/solitaire_pendant.png",
             "text": "Solitaire Pendants",
             "associated_tab": "pendants"
@@ -291,7 +291,7 @@
           "settings": {
             "text": "Daily Hustle",
             "image": "shopify://shop_images/Daily_Hustle_5.png",
-            "collection": "rings"
+            "collection": "daily-hustle"
           }
         },
         "tab_KtkDJe": {
@@ -299,7 +299,7 @@
           "settings": {
             "text": "Engagement",
             "image": "shopify://shop_images/Engagement_2.png",
-            "collection": "rings"
+            "collection": "engagement"
           }
         },
         "tab_wgzCbP": {
@@ -307,7 +307,7 @@
           "settings": {
             "text": "Social Events",
             "image": "shopify://shop_images/Social_Event.png",
-            "collection": "rings"
+            "collection": "social-events"
           }
         },
         "tab_6eXazx": {
@@ -315,7 +315,7 @@
           "settings": {
             "text": "Gifting",
             "image": "shopify://shop_images/22.png",
-            "collection": "rings"
+            "collection": "gifting"
           }
         }
       },
@@ -407,7 +407,7 @@
           "settings": {
             "image": "shopify://shop_images/1_dd9deb66-1cb3-42b3-81f2-bbebdfc5a071.png",
             "alt_text": "Carousel Image",
-            "url": "shopify://collections/earrings"
+            "url": "shopify://collections/under-20k"
           }
         },
         "image_picker_gtLymc": {
@@ -415,7 +415,7 @@
           "settings": {
             "image": "shopify://shop_images/3_b3797103-01e6-4362-9009-d829ddfd2060.png",
             "alt_text": "Carousel Image",
-            "url": ""
+            "url": "shopify://collections/office-wear-collection"
           }
         },
         "image_picker_zN3d8M": {
@@ -423,7 +423,7 @@
           "settings": {
             "image": "shopify://shop_images/2_7a6440a6-e379-4665-a034-40c9d5cb19cc.png",
             "alt_text": "Carousel Image",
-            "url": ""
+            "url": "shopify://collections/home-trial"
           }
         },
         "image_picker_8FC4jK": {
@@ -431,7 +431,7 @@
           "settings": {
             "image": "shopify://shop_images/4.png",
             "alt_text": "Carousel Image",
-            "url": ""
+            "url": "shopify://collections/solitaire-collection"
           }
         },
         "image_picker_rwCCJA": {

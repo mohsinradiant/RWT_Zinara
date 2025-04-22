@@ -563,7 +563,9 @@
               }
             });
           }
-
+          function isLoggedIn() {
+      return typeof customerId !== 'undefined' && customerId !== null && customerId !== '';
+    }
           // Handle pincode validation and redirection
           function handlePincodeCheck() {
             submitButton.addEventListener('click', () => {

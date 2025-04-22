@@ -1511,3 +1511,26 @@
     pointer-events: none;
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Define the values to show
+    const valuesToShow = ['Social Events', 'Engagement', 'Gifting', 'Daily Hustle'];
+
+    // Get all the list items in the filter
+    const listItems = document.querySelectorAll('#Details-filter.p.tag-template--24203645616312__product-grid li');
+
+    // Loop through each list item
+    listItems.forEach((item) => {
+      // Get the label text inside each <li>
+      const labelText = item.querySelector('.facet-checkbox__text-label')?.textContent.trim();
+
+      // Check if the text is in the valuesToShow array
+      if (valuesToShow.includes(labelText)) {
+        item.style.display = 'block'; // Show this <li>
+      } else {
+        item.style.display = 'none'; // Hide this <li>
+      }
+    });
+  });
+</script>

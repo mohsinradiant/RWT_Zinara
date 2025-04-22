@@ -521,26 +521,34 @@
             </a>
 
             <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const currentUrl = window.location.pathname; // Get the current path
-    const filterAnchor = document.querySelector('.filter-rts-button');
-    const checkbox = filterAnchor.querySelector('.filter-checkbox');
+              document.addEventListener('DOMContentLoaded', function () {
+                const currentUrl = window.location.pathname; // Get the current path
+                const filterAnchor = document.querySelector('.filter-rts-button');
+                const checkbox = filterAnchor.querySelector('.filter-checkbox');
 
-    // Set the checkbox state based on the current URL
-    if (currentUrl === '/collections/ready-to-ship') {
-      checkbox.checked = true; // Check the checkbox if URL matches
-    } else {
-      checkbox.checked = false; // Ensure it's unchecked otherwise
-    }
+                // Set the checkbox state based on the current URL
+                if (currentUrl === '/collections/ready-to-ship') {
+                  checkbox.checked = true; // Check the checkbox if URL matches
+                } else {
+                  checkbox.checked = false; // Ensure it's unchecked otherwise
+                }
 
-    // Add an event listener to navigate back on checkbox click
-    checkbox.addEventListener('change', function () {
-      if (checkbox.checked) {
-        history.back(); // Navigate back to the previous page
-      }
-    });
-  });
-</script>
+                // Add an event listener to navigate back to the previous URL on checkbox click
+                checkbox.addEventListener('click', function (event) {
+                  event.stopPropagation(); // Prevent triggering the parent anchor tag
+                  event.preventDefault(); // Prevent default anchor behavior
+
+                  if (checkbox.checked) {
+                    const previousUrl = document.referrer; // Get the referrer (previous URL)
+                    if (previousUrl) {
+                      window.location.href = previousUrl; // Navigate to the previous URL
+                    } else {
+                      console.log('No previous URL found.');
+                    }
+                  }
+                });
+              });
+            </script>
 
             {%- for filter in results.filters -%}
               {% liquid

@@ -529,7 +529,7 @@
                 // Store the referrer URL in a variable
                 let previousUrl =
                   document.referrer && document.referrer !== window.location.href ? document.referrer : '/';
-
+                console.log('previousUrl: ' + previousUrl);
                 // Set the checkbox state based on the current URL
                 if (currentUrl === '/collections/ready-to-ship') {
                   checkbox.checked = true; // Check the checkbox if URL matches

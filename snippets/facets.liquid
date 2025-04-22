@@ -1512,21 +1512,23 @@
   }
 </style>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const valuesToShow = ['Social Events', 'Engagement', 'Gifting', 'Daily Hustle'];
-    const listItems = document.querySelectorAll('#Facet-4-template--24203645616312__product-grid li');
+{% comment %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const valuesToShow = ['Social Events', 'Engagement', 'Gifting', 'Daily Hustle'];
+      const listItems = document.querySelectorAll('#Facet-4-template--24203645616312__product-grid li');
 
-    listItems.forEach((item) => {
-      const labelText = item.querySelector('.facet-checkbox__text-label')?.textContent.trim();
-      console.log('Label Text:', labelText); // Debugging to check label text content
+      listItems.forEach((item) => {
+        const labelText = item.querySelector('.facet-checkbox__text-label')?.textContent.trim();
+        console.log('Label Text:', labelText); // Debugging to check label text content
 
-      // Check for exact match, handle case and extra spaces
-      if (labelText && valuesToShow.some((value) => labelText.trim().toLowerCase() === value.toLowerCase())) {
-        item.style.display = 'block'; // Show this <li>
-      } else {
-        item.style.display = 'none'; // Hide this <li>
-      }
+        // Check for exact match, handle case and extra spaces
+        if (labelText && valuesToShow.some((value) => labelText.trim().toLowerCase() === value.toLowerCase())) {
+          item.style.display = 'block'; // Show this <li>
+        } else {
+          item.style.display = 'none'; // Hide this <li>
+        }
+      });
     });
-  });
-</script>
+  </script>
+{% endcomment %}

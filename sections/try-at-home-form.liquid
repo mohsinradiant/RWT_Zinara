@@ -437,7 +437,7 @@
     const dateContainer = document.querySelector('.date-container');
     const timeslotContainer = document.querySelector('.timeslot-container');
 
-    // Function to add 5 hours and 30 minutes to a time string
+    // Function to add 5 hours and 30 minutes to a time string (ensure time zone offset)
     function addTimeOffset(timeString, offsetHours, offsetMinutes) {
       const [hours, minutes] = timeString.split(':').map(Number);
       const date = new Date();
@@ -449,7 +449,7 @@
     // Parse unavailable slots into a structured format (e.g., { 'YYYY-MM-DD': ['HH:mm', ...] })
     const unavailableSlotsMap = unavailableSlots.reduce((acc, slot) => {
       const [date, time] = slot.trim().split('T');
-      const adjustedTime = addTimeOffset(time.split(':').slice(0, 2).join(':'), 5, 30); // Add offset
+      const adjustedTime = addTimeOffset(time.split(':').slice(0, 2).join(':'), 5, 30); // Add offset for India Standard Time (UTC +5:30)
       if (!acc[date]) acc[date] = [];
       acc[date].push(adjustedTime); // Push the adjusted time
       return acc;
@@ -464,7 +464,7 @@
       const futureDate = new Date(today); // Clone today's date
       futureDate.setDate(today.getDate() + i); // Increment by i days
 
-      // Add 5 hours and 30 minutes
+      // Add 5 hours and 30 minutes to future date
       futureDate.setHours(futureDate.getHours() + 5);
       futureDate.setMinutes(futureDate.getMinutes() + 30);
 

@@ -176,9 +176,11 @@
 </style>
 {% if template == 'product' %}
   <style>
-    .zinara-benefits-content {
-      min-width: fit-content !important;
-      margin: 15px 15px 0;
+    @media (max-width: 756px) {
+      .zinara-benefits-content {
+        min-width: fit-content !important;
+        margin: 15px 15px 0;
+      }
     }
   </style>
 {% endif %}

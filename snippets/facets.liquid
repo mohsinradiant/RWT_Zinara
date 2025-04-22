@@ -537,7 +537,7 @@
                   return;
                 }
 
-                // Store previous page only if not on target page
+                // Store previous page only if not on /collections/ready-to-ship
                 if (currentUrl !== '/collections/ready-to-ship') {
                   sessionStorage.setItem('previousUrl', window.location.href);
                   console.log('Stored previousUrl:', window.location.href);
@@ -548,20 +548,22 @@
                   );
                 }
 
+                // Set checkbox based on current page
                 checkbox.checked = currentUrl === '/collections/ready-to-ship';
                 console.log('Checkbox checked state:', checkbox.checked);
 
-                // STOP the anchor itself from navigating
+                // Prevent anchor navigation even if clicked directly
                 filterAnchor.addEventListener('click', function (event) {
                   console.log('Anchor clicked!');
                   event.preventDefault();
                   event.stopPropagation();
                 });
 
-                // Handle the checkbox click
+                // Handle checkbox click separately
                 checkbox.addEventListener('click', function (event) {
-                  event.preventDefault();
-                  event.stopPropagation();
+                  event.preventDefault(); // prevent default checkbox click
+                  event.stopPropagation(); // stop anchor or other bubbling
+
                   console.log('Checkbox clicked!');
 
                   const previousUrl = sessionStorage.getItem('previousUrl') || '/';

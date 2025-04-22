@@ -1545,25 +1545,6 @@ header .menu-drawer {
         scroll-snap-type: x mandatory;
     }
 
-
-    .image-carousel img {
-        width: 75% !important;
-        scroll-snap-align: start;
-    }
-
-    .image-carousel img {
-        padding-left: 10px;
-    }
-
-    .image-carousel img:nth-last-of-type(1) {
-        padding-right: 10px;
-    }
-
-    .image-carousel img:not(.active) {
-        opacity: 1 !important;
-        transform: scale(1) !important;
-    }
-
     #shopify-section-template--24208249323704__home_about_7agqRh {
         padding-top: 20px !important;
     }

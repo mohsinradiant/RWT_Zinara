@@ -1084,6 +1084,8 @@ header .menu-drawer {
     border-bottom: 0.1rem solid rgba(18, 18, 18, 0.1);
     align-items: center;
     line-height: 0;
+    justify-content: space-between;
+    padding-right: 0 !important;
 }
 .filter-rts-button input {
     pointer-events: none; /* Prevent user interaction */

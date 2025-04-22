@@ -539,8 +539,12 @@
                   event.preventDefault(); // Prevent default anchor behavior
 
                   if (currentUrl === '/collections/ready-to-ship') {
-                    // If already on "/collections/ready-to-ship", go back
-                    history.back();
+                    // If already on "/collections/ready-to-ship", go back or navigate to a fallback
+                    if (document.referrer && document.referrer !== window.location.href) {
+                      window.location.href = document.referrer; // Go to the referring page
+                    } else {
+                      window.location.href = '/'; // Fallback to homepage or any other URL
+                    }
                   } else {
                     // Otherwise, navigate to "/collections/ready-to-ship"
                     window.location.href = '/collections/ready-to-ship';

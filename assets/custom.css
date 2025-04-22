@@ -1074,7 +1074,9 @@ header .menu-drawer {
     fill: #121212 !important;
     color: #121212 !important;
 }
-
+.filter-rts-button{
+    text-decoration: none;
+}
 @media (max-width: 756px) {
     product-info .product__title h1 {
         font-size: 1.4rem;

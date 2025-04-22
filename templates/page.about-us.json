@@ -21,7 +21,9 @@
       "type": "about-us-banner",
       "settings": {
         "heading": "Our Story",
-        "subheading": ""
+        "subheading": "sdfsdfsd",
+        "bg_image": "shopify://shop_images/ZNB11_RG3_5cbb1574-95f8-4955-9ffa-2cc822421354.png",
+        "bg_image_mobile": "shopify://shop_images/ZNB11_YG4_e8c4d192-8b15-43bd-a08f-870383bad808.png"
       }
     },
     "about_us_content_aiaKHJ": {

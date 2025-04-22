@@ -508,6 +508,38 @@
       }
     });
   });
+  document.addEventListener("DOMContentLoaded", function () {
+  const dropdowns = document.querySelectorAll(".c-menu3 .dropdown");
+
+  dropdowns.forEach((dropdown) => {
+    const toggle = dropdown.querySelector(".dropdown-toggle");
+
+    // Toggle submenu on click
+    toggle.addEventListener("click", function (e) {
+      const isActive = dropdown.classList.contains("active");
+
+      if (!isActive) {
+        e.preventDefault(); // Prevent link navigation if not active (to show dropdown)
+      }
+
+      dropdown.classList.toggle("active");
+
+      // If the dropdown is active (meaning the user has clicked the link to show the submenu)
+      if (isActive) {
+        // Allow the link to navigate after a slight delay (optional)
+        setTimeout(() => {
+          window.location.href = this.href;
+        }, 100);
+      }
+    });
+
+    // Close submenu if clicked outside
+    document.addEventListener("click", function (e) {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove("active");
+      }
+    });
+  });
 });
 
 </script>

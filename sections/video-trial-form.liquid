@@ -625,7 +625,7 @@
           email,
         };
         sessionStorage.setItem('tryAtHomeFormData', JSON.stringify(formData));
-  window.location.href = `/account/login?return_to=${encodeURIComponent(window.location.href)}`;
+        window.location.href = '/account/login'; // Redirect to login page
         return;
       }
 

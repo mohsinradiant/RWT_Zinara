@@ -22,8 +22,10 @@
     console.log('Is Products Page:', isProductsPage);
     console.log('Viewport Width:', viewportWidth);
 
-    // ✅ Final condition: skip ONLY on mobile product pages.
+    // This condition is the key: skip only if product page + mobile.
     if (!(isProductsPage && viewportWidth <= 756)) {
+      console.log('✅ Animation allowed. Preparing...');
+
       const benefitsContainer = document.querySelector('.home-benefits-container');
 
       if (!benefitsContainer) {
@@ -46,28 +48,21 @@
           if (img.complete) {
             loadedImages++;
             console.log(`✅ Image already loaded (${loadedImages}/${images.length})`);
-
             if (loadedImages === images.length) {
-              console.log('🎉 All images loaded, starting animation.');
               startAnimation();
             }
           } else {
             img.addEventListener('load', () => {
               loadedImages++;
               console.log(`✅ Image loaded (${loadedImages}/${images.length})`);
-
               if (loadedImages === images.length) {
-                console.log('🎉 All images loaded, starting animation.');
                 startAnimation();
               }
             });
-
             img.addEventListener('error', () => {
               loadedImages++;
               console.log(`⚠️ Image failed to load (${loadedImages}/${images.length})`);
-
               if (loadedImages === images.length) {
-                console.log('🎉 All images attempted (loaded or failed), starting animation.');
                 startAnimation();
               }
             });
@@ -89,10 +84,9 @@
           gsap.to('.home-benefits-container', {
             x: `-${totalWidth}px`,
             ease: 'none',
-            duration: 30, // Adjust duration for speed
+            duration: 30,
             repeat: -1,
           });
-
           console.log('✅ GSAP animation started.');
         } else {
           console.log('❌ totalWidth is 0 — animation skipped.');

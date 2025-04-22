@@ -537,6 +537,7 @@
                   return;
                 }
 
+                // Store previous page only if not on target page
                 if (currentUrl !== '/collections/ready-to-ship') {
                   sessionStorage.setItem('previousUrl', window.location.href);
                   console.log('Stored previousUrl:', window.location.href);
@@ -550,21 +551,29 @@
                 checkbox.checked = currentUrl === '/collections/ready-to-ship';
                 console.log('Checkbox checked state:', checkbox.checked);
 
-                checkbox.addEventListener('click', function (event) {
-                  event.stopPropagation();
+                // STOP the anchor itself from navigating
+                filterAnchor.addEventListener('click', function (event) {
+                  console.log('Anchor clicked!');
                   event.preventDefault();
+                  event.stopPropagation();
+                });
 
+                // Handle the checkbox click
+                checkbox.addEventListener('click', function (event) {
+                  event.preventDefault();
+                  event.stopPropagation();
                   console.log('Checkbox clicked!');
 
-                  if (currentUrl === '/collections/ready-to-ship') {
-                    const backUrl = sessionStorage.getItem('previousUrl') || '/';
-                    console.log('Going back to previousUrl:', backUrl);
+                  const previousUrl = sessionStorage.getItem('previousUrl') || '/';
+                  console.log('Target previousUrl:', previousUrl);
 
-                    if (backUrl === window.location.href) {
-                      console.log('Previous URL is same as current. Using history.back() to force return.');
-                      history.back(); // native browser "go back"
+                  if (currentUrl === '/collections/ready-to-ship') {
+                    if (previousUrl === window.location.href) {
+                      console.log('Previous URL is same as current. Using history.back().');
+                      history.back();
                     } else {
-                      window.location.href = backUrl; // let browser handle real navigation
+                      console.log('Redirecting back to previousUrl.');
+                      window.location.href = previousUrl;
                     }
                   } else {
                     console.log('Navigating to /collections/ready-to-ship');

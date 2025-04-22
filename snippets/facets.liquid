@@ -1515,42 +1515,58 @@
 
 {% comment %} Diamond shape script {% endcomment %}
  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-  const filterPanel = document.querySelector('#filter-panel-3');
+ document.addEventListener("DOMContentLoaded", function () {
+  // Select all the facet items with the metafield content
+  const facetItems = document.querySelectorAll('.list-menu__item.facets__item');
 
-  if (filterPanel) {
-    // Get all checkboxes
-    const checkboxes = filterPanel.querySelectorAll('input[type="checkbox"]');
+  facetItems.forEach((item) => {
+    const input = item.querySelector('input');
+    const labelText = item.querySelector('.facet-checkbox__text-label');
 
-    checkboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', () => {
-        const selectedFilters = [];
+    if (input && labelText) {
+      try {
+        // Parse the JSON value of the input
+        const values = JSON.parse(input.value);
 
-        checkboxes.forEach(cb => {
-          if (cb.checked) {
-            // Parse the JSON value of the checkbox
-            const values = JSON.parse(cb.value.replace(/&quot;/g, '"')); // Convert string to array
-            selectedFilters.push(...values); // Merge into selected filters
-          }
+        // Clear the current content
+        item.innerHTML = '';
+
+        // Render individual checkboxes
+        values.forEach((value, index) => {
+          const checkboxId = `${input.id}-${index + 1}`;
+
+          const newLabel = document.createElement('label');
+          newLabel.setAttribute('for', checkboxId);
+          newLabel.className = 'facets__label facet-checkbox';
+
+          const newInput = document.createElement('input');
+          newInput.type = 'checkbox';
+          newInput.name = input.name;
+          newInput.value = value;
+          newInput.id = checkboxId;
+
+          const svgWrapper = document.createElement('div');
+          svgWrapper.className = 'svg-wrapper';
+          svgWrapper.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="icon icon-checkmark" viewBox="0 0 12 9">
+              <path fill="currentColor" fill-rule="evenodd" d="M11.35.643a.5.5 0 0 1 .006.707l-6.77 6.886a.5.5 0 0 1-.719-.006L.638 4.845a.5.5 0 1 1 .724-.69l2.872 3.011 6.41-6.517a.5.5 0 0 1 .707-.006z" clip-rule="evenodd"></path>
+            </svg>`;
+
+          const textSpan = document.createElement('span');
+          textSpan.className = 'facet-checkbox__text';
+          textSpan.innerHTML = `<span class="facet-checkbox__text-label">${value}</span>`;
+
+          newLabel.appendChild(newInput);
+          newLabel.appendChild(svgWrapper);
+          newLabel.appendChild(textSpan);
+
+          // Append to the original item
+          item.appendChild(newLabel);
         });
-
-        // Create a unique list of filters
-        const uniqueFilters = [...new Set(selectedFilters)];
-
-        // Update the URL with individual filters
-        const baseUrl = window.location.origin + window.location.pathname;
-        const queryString = uniqueFilters
-          .map(filter => `filter.p.m.content.diamond_shape=${encodeURIComponent(filter)}`)
-          .join('&');
-
-        const newUrl = `${baseUrl}?${queryString}`;
-        window.history.replaceState(null, '', newUrl);
-
-        // Optionally trigger a reload or fetch updated products
-        console.log('Updated URL:', newUrl);
-      });
-    });
-  }
+      } catch (error) {
+        console.error("Failed to parse JSON value for facet:", error);
+      }
+    }
+  });
 });
-
  </script>

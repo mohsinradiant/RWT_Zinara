@@ -1083,15 +1083,21 @@ header .menu-drawer {
     justify-content: space-between;
     padding-right: 0 !important;
 }
+
 .filter-rts-button input {
-    pointer-events: none; /* Prevent user interaction */
-    appearance: none; /* Remove default checkbox styling */
+    pointer-events: none;
+    /* Prevent user interaction */
+    appearance: none;
+    /* Remove default checkbox styling */
     width: 20px;
     height: 20px;
-    border: 2px solid #ccc; /* Default border color */
-    border-radius: 4px; /* Add rounded corners */
+    border: 2px solid #ccc;
+    /* Default border color */
+    border-radius: 4px;
+    /* Add rounded corners */
     position: relative;
-    background-color: #fff; /* Checkbox background */
+    background-color: #fff;
+    /* Checkbox background */
     cursor: not-allowed;
 }
 
@@ -1102,16 +1108,20 @@ header .menu-drawer {
     left: 50%;
     width: 5px;
     height: 10px;
-    border: solid transparent; /* Default hidden state */
+    border: solid transparent;
+    /* Default hidden state */
     border-width: 0 2px 2px 0;
     transform: translate(-50%, -50%) rotate(45deg) scale(0);
     transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .filter-rts-button input:checked::after {
-    border-color: #610C27; /* Desired tick color */
-    transform: translate(-50%, -50%) rotate(45deg) scale(1); /* Make tick visible */
+    border-color: #610C27;
+    /* Desired tick color */
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
+    /* Make tick visible */
 }
+
 @media(max-width:756px) {
     .filter-rts-button {
         background: #f2eeeb;
@@ -1156,7 +1166,8 @@ header .menu-drawer {
     }
 
     .images-parent-div a {
-        width: 75%;
+        min-width: 75%;
+        margin-right: -75%;
     }
 
     .price_breakdown-left_container_top {

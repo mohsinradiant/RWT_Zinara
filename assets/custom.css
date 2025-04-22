@@ -1090,6 +1090,9 @@ header .menu-drawer {
     pointer-events: none;
     background: transparent;
 }
+.filter-rts-button input:checked  {
+    fill: #ff5722; /* Replace this with your desired color */
+  }
 @media(max-width:756px) {
     .filter-rts-button {
         background: #f2eeeb;

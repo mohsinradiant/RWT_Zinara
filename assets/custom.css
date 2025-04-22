@@ -1096,6 +1096,7 @@ header .menu-drawer {
         font-weight: 700;
         align-items: center;
         padding: 10px 15px !important;
+        line-height: 0;
     }
 }
 

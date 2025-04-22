@@ -1523,18 +1523,23 @@
 
       if (input && labelText) {
         try {
-          // Parse the JSON value of the input
-          const values = JSON.parse(input.value);
+          // Parse input value as JSON if applicable, else use single value
+          let values = [];
+          try {
+            values = JSON.parse(input.value);
+          } catch {
+            values = [input.value]; // Fallback to single value if not JSON
+          }
 
           // Get the parent `<ul>` element
-          const parentUl = item.parentElement;
+          const parentUl = item.closest('ul');
 
           // Loop through each value and create unique `<li>` elements
           values.forEach((value, index) => {
             const newLi = document.createElement('li');
             newLi.className = item.className;
 
-            // Create a new `<label>` element
+            // Clone the label and its structure
             const newLabel = item.querySelector('label').cloneNode(true);
 
             // Update input attributes
@@ -1545,21 +1550,19 @@
 
             // Update label text
             const newLabelText = newLabel.querySelector('.facet-checkbox__text-label');
-            newLabelText.textContent = value;
+            if (newLabelText) newLabelText.textContent = value;
 
-            // Update visually hidden text (if necessary)
+            // Update visually hidden text (if present)
             const visuallyHiddenText = newLabel.querySelector('.visually-hidden');
-            if (visuallyHiddenText) {
-              visuallyHiddenText.textContent = `${value}`;
-            }
+            if (visuallyHiddenText) visuallyHiddenText.textContent = value;
 
             // Append the updated label to the new `<li>`
             newLi.appendChild(newLabel);
 
-            // Add click listener to update the URL
+            // Add event listener to update URL on input change
             newInput.addEventListener('change', function () {
               const urlParams = new URLSearchParams(window.location.search);
-              urlParams.set('filter', value); // Set the filter parameter
+              urlParams.set('filter', value); // Update the filter parameter
               window.location.search = urlParams.toString(); // Update the URL
             });
 
@@ -1567,7 +1570,7 @@
             parentUl.appendChild(newLi);
           });
 
-          // Remove the original `<li>` to prevent duplicates
+          // Remove the original `<li>` to avoid duplicates
           parentUl.removeChild(item);
         } catch (error) {
           console.error('Error processing facet item:', error);

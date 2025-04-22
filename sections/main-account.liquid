@@ -254,16 +254,7 @@
     {% endcomment %}
   </div>
 </div>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const savedUrl = sessionStorage.getItem('originalUrl');
-    if (savedUrl) {
-      // Redirect to the saved URL
-      sessionStorage.removeItem('originalUrl'); // Clear after use
-      window.location.href = savedUrl;
-    }
-  });
-</script>
+
 {% schema %}
 {
   "name": "t:sections.main-account.name",

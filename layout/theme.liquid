@@ -563,7 +563,9 @@
               }
             });
           }
-
+          function isLoggedIn() {
+            return typeof customerId !== 'undefined' && customerId !== null && customerId !== '';
+          }
           // Handle pincode validation and redirection
           function handlePincodeCheck() {
             submitButton.addEventListener('click', () => {
@@ -578,6 +580,18 @@
 
               const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
               const videoTrialUrl = `/pages/video-trial?view=video-trial&product_handle={{ product.handle }}`;
+
+              if (!isLoggedIn()) {
+                // Save the intended redirection URL based on pincode validation
+                const targetUrl = validPincodes.includes(zipcode) ? tryAtHomeUrl : videoTrialUrl;
+
+                // Construct the login URL with the correct return_to parameter
+                const loginUrl = `/account/login?return_url=${encodeURIComponent(targetUrl)}`;
+
+                // Redirect the user to the login page
+                window.location.href = loginUrl;
+                return;
+              }
 
               if (validPincodes.includes(zipcode)) {
                 res.textContent = 'Available';

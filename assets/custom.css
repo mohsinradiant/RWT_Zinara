@@ -1591,9 +1591,9 @@ header .menu-drawer {
         overflow: auto;
     }
 
-    .home-about-us-left .home-about-us-left_small_image {
+    /* .home-about-us-left .home-about-us-left_small_image {
         width: 200px !important;
-    }
+    } */
 
     .home-about-us-right {
         width: 100% !important;

@@ -460,8 +460,8 @@
     console.log('Adjusted Unavailable Slots Map:', unavailableSlotsMap);
 
   // Generate Dates
-const today = new Date();
-for (let i = 0; i < 7; i++) {
+  const today = new Date();
+  for (let i = 0; i < 7; i++) {
   const futureDate = new Date(today); // Clone today's date
   futureDate.setDate(today.getDate() + i); // Increment by i days
   
@@ -487,7 +487,7 @@ for (let i = 0; i < 7; i++) {
     </button>
   `;
   dateContainer.innerHTML += buttonHTML;
-}
+  }
 
 
     // Function to update timeslots based on selected date
@@ -516,7 +516,7 @@ for (let i = 0; i < 7; i++) {
     startTime += Math.floor((startMinutes + 60) / 60);
     startMinutes = (startMinutes + 60) % 60;
   }
-}
+  }
 
 
     // Initially update timeslots for the first selected date
@@ -715,18 +715,6 @@ for (let i = 0; i < 7; i++) {
               </div>
               <p class="trial_booked_bottom_text">${bookingSuccessContent}</p>
             `;
-        // <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
-        //   <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
-
-        // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
-        // document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
-        //   window.location.href = '/account#account_page_tah_trials'; // Replace '/account' with your actual account page URL
-        // });
-
-        // Close popup on "Close" button click
-        // document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
-        //   content3.classList.add('hidden');
-        // });
       } else {
         alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
       }
@@ -862,7 +850,7 @@ for (let i = 0; i < 7; i++) {
   #select-time-slot-content-1 {
     background: #712242;
     color: #fff;
-    font-size: 2.2rem;
+    font-size: 1.6rem;
     padding: 10px 40px;
     border: none;
     font-weight: 400;
@@ -1195,7 +1183,7 @@ for (let i = 0; i < 7; i++) {
     cursor: pointer !important;
     margin-top: 1.3rem;
     width: fit-content;
-    font-size: 2.2rem;
+    font-size: 1.6rem;
     font-weight: 400;
     font-family: 'Quicksand';
   }

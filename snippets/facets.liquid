@@ -1512,61 +1512,51 @@
   }
 </style>
 
-
 {% comment %} Diamond shape script {% endcomment %}
- <script>
- document.addEventListener("DOMContentLoaded", function () {
-  // Select all the facet items with the metafield content
-  const facetItems = document.querySelectorAll('.list-menu__item.facets__item');
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Select all the facet items with the metafield content
+    const facetItems = document.querySelectorAll('.list-menu__item.facets__item');
 
-  facetItems.forEach((item) => {
-    const input = item.querySelector('input');
-    const labelText = item.querySelector('.facet-checkbox__text-label');
+    facetItems.forEach((item) => {
+      const input = item.querySelector('input');
+      const labelText = item.querySelector('.facet-checkbox__text-label');
 
-    if (input && labelText) {
-      try {
-        // Parse the JSON value of the input
-        const values = JSON.parse(input.value);
+      if (input && labelText) {
+        try {
+          // Parse the JSON value of the input
+          const values = JSON.parse(input.value);
 
-        // Clear the current content
-        item.innerHTML = '';
+          // Get the parent `<ul>` element
+          const parentUl = item.parentElement;
 
-        // Render individual checkboxes
-        values.forEach((value, index) => {
-          const checkboxId = `${input.id}-${index + 1}`;
+          // Loop through each value and duplicate the `<li>`
+          values.forEach((value, index) => {
+            const clonedLi = item.cloneNode(true);
 
-          const newLabel = document.createElement('label');
-          newLabel.setAttribute('for', checkboxId);
-          newLabel.className = 'facets__label facet-checkbox';
+            // Update the `id`, `value`, and label text
+            const clonedInput = clonedLi.querySelector('input');
+            const clonedLabelText = clonedLi.querySelector('.facet-checkbox__text-label');
 
-          const newInput = document.createElement('input');
-          newInput.type = 'checkbox';
-          newInput.name = input.name;
-          newInput.value = value;
-          newInput.id = checkboxId;
+            if (clonedInput) {
+              clonedInput.value = value;
+              clonedInput.id = `${input.id}-${index + 1}`;
+            }
 
-          const svgWrapper = document.createElement('div');
-          svgWrapper.className = 'svg-wrapper';
-          svgWrapper.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="icon icon-checkmark" viewBox="0 0 12 9">
-              <path fill="currentColor" fill-rule="evenodd" d="M11.35.643a.5.5 0 0 1 .006.707l-6.77 6.886a.5.5 0 0 1-.719-.006L.638 4.845a.5.5 0 1 1 .724-.69l2.872 3.011 6.41-6.517a.5.5 0 0 1 .707-.006z" clip-rule="evenodd"></path>
-            </svg>`;
+            if (clonedLabelText) {
+              clonedLabelText.textContent = value;
+            }
 
-          const textSpan = document.createElement('span');
-          textSpan.className = 'facet-checkbox__text';
-          textSpan.innerHTML = `<span class="facet-checkbox__text-label">${value}</span>`;
+            // Append the cloned `<li>` to the parent `<ul>`
+            parentUl.appendChild(clonedLi);
+          });
 
-          newLabel.appendChild(newInput);
-          newLabel.appendChild(svgWrapper);
-          newLabel.appendChild(textSpan);
-
-          // Append to the original item
-          item.appendChild(newLabel);
-        });
-      } catch (error) {
-        console.error("Failed to parse JSON value for facet:", error);
+          // Remove the original item (optional)
+          parentUl.removeChild(item);
+        } catch (error) {
+          console.error('Failed to parse JSON value for facet:', error);
+        }
       }
-    }
+    });
   });
-});
- </script>
+</script>

@@ -1515,40 +1515,18 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const valuesToShow = ['Social Events', 'Engagement', 'Gifting', 'Daily Hustle'];
+    const listItems = document.querySelectorAll('#Facet-4-template--24203645616312__product-grid li');
 
-    // Function to filter and show/hide list items
-    function filterListItems() {
-      const listItems = document.querySelectorAll('#Facet-5-template--24203645616312__product-grid li');
+    listItems.forEach((item) => {
+      const labelText = item.querySelector('.facet-checkbox__text-label')?.textContent.trim();
+      console.log('Label Text:', labelText); // Debugging to check label text content
 
-      if (!listItems.length) {
-        console.warn('No list items found. Retrying...');
-        return; // Exit if no items are found
+      // Check for exact match, handle case and extra spaces
+      if (labelText && valuesToShow.some((value) => labelText.trim().toLowerCase() === value.toLowerCase())) {
+        item.style.display = 'block'; // Show this <li>
+      } else {
+        item.style.display = 'none'; // Hide this <li>
       }
-
-      listItems.forEach((item) => {
-        const labelText = item.querySelector('.facet-checkbox__text-label')?.textContent.trim();
-        console.log('Label Text:', labelText); // Debugging to check label text content
-
-        // Check for exact match, handle case and extra spaces
-        if (labelText && valuesToShow.some((value) => labelText.trim().toLowerCase() === value.toLowerCase())) {
-          item.style.display = 'block'; // Show this <li>
-        } else {
-          item.style.display = 'none'; // Hide this <li>
-        }
-      });
-    }
-
-    // Run the function immediately
-    filterListItems();
-
-    // Observe changes in the DOM and reapply the filtering logic
-    const observer = new MutationObserver(filterListItems);
-    const targetNode = document.querySelector('#Facet-5-template--24203645616312__product-grid');
-
-    if (targetNode) {
-      observer.observe(targetNode, { childList: true, subtree: true });
-    } else {
-      console.error('Target node for MutationObserver not found.');
-    }
+    });
   });
 </script>

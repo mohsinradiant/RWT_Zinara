@@ -1083,7 +1083,9 @@ header .menu-drawer {
     display: flex;
     border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.1);
 }
-
+.filter-rts-button input{
+    pointer-events: none;
+}
 @media(max-width:756px) {
     .filter-rts-button {
         background: #f2eeeb;

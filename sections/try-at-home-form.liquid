@@ -503,14 +503,18 @@
         const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
         const timeslot = `${displayStart} - ${displayEnd}`;
 
-        // If today, check if the timeslot is before current time
+        // If today, check if the timeslot is before the current time
         if (isToday) {
           const currentTime = new Date();
           const [currentHours, currentMinutes] = [currentTime.getHours(), currentTime.getMinutes()];
           const [slotHours, slotMinutes] = displayStart.split(':').map(Number);
 
-          // Skip the timeslot if it's before the current time
-          if (slotHours < currentHours || (slotHours === currentHours && slotMinutes < currentMinutes)) {
+          // Create Date objects for the current time and timeslot
+          const currentSlotTime = new Date(currentTime);
+          currentSlotTime.setHours(slotHours, slotMinutes, 0, 0); // Set the timeslot time to compare
+
+          // If the timeslot is in the past, skip it
+          if (currentSlotTime < currentTime) {
             continue;
           }
         }

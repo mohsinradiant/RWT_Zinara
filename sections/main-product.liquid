@@ -813,11 +813,15 @@
                       {{ variant.id }}: {{ variant.inventory_quantity }}{% unless forloop.last %},{% endunless %}
                     {% endfor %}
                   };
-                </script>
 
-                <script>
                   document.addEventListener('DOMContentLoaded', () => {
+                    const btn = document.getElementById('submit-btn');
                     const zipcodeInput = document.getElementById('zipcode');
+                    const res = document.getElementById('res');
+                    const deliveryDateSpan = document.getElementById('delivery-date');
+                    const deliveryDateParagraph = document.querySelector('.expected-delivery-date');
+
+                    // Pincode delivery days
                     const pincodeDeliveryDays = {
                       110001: 3,
                       110002: 3,
@@ -839,13 +843,9 @@
                     });
 
                     // On Check Availability button click
-                    document.getElementById('submit-btn').addEventListener('click', () => {
+                    btn.addEventListener('click', () => {
                       const zipcode = zipcodeInput.value.trim();
                       const pincodeRegex = /^[1-9][0-9]{5}$/;
-
-                      const res = document.getElementById('res');
-                      const deliveryDateSpan = document.getElementById('delivery-date');
-                      const deliveryDateParagraph = document.querySelector('.expected-delivery-date');
 
                       const selectedVariantId = document.querySelector('[name="id"]').value;
                       const inventory = variantInventories[selectedVariantId] || 0;
@@ -855,28 +855,30 @@
                           let baseDays = pincodeDeliveryDays[zipcode];
                           let totalDays = inventory > 1 ? baseDays + 21 : inventory >= 1 ? baseDays : null;
 
+                          // Check stock availability
                           if (totalDays === null) {
                             res.textContent = 'Out of Stock';
                             res.className = 'pincode-checker-result invalid';
-                            deliveryDateParagraph.style.display = 'none';
+                            deliveryDateParagraph.style.display = 'none'; // Hide delivery date
                             return;
                           }
 
                           const finalDate = getCustomDeliveryDate(totalDays);
 
+                          // Update the results display
                           res.textContent = 'Available';
                           res.className = 'pincode-checker-result available';
                           deliveryDateSpan.textContent = finalDate;
-                          deliveryDateParagraph.style.display = 'block';
+                          deliveryDateParagraph.style.display = 'block'; // Show the expected delivery date
                         } else {
                           res.textContent = 'Pincode not serviceable';
                           res.className = 'pincode-checker-result invalid';
-                          deliveryDateParagraph.style.display = 'none';
+                          deliveryDateParagraph.style.display = 'none'; // Hide delivery date
                         }
                       } else {
                         res.textContent = 'Invalid Pincode';
                         res.className = 'pincode-checker-result invalid';
-                        deliveryDateParagraph.style.display = 'none';
+                        deliveryDateParagraph.style.display = 'none'; // Hide delivery date
                       }
                     });
                   });

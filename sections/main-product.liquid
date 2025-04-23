@@ -2342,7 +2342,7 @@
 
                           if (inventory > 1) {
                             totalDays = baseDays + 21;
-                          } else if (inventory > 0) {
+                          } else if (inventory >= 1) {
                             totalDays = baseDays;
                           } else {
                             res.textContent = 'Out of Stock';

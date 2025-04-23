@@ -14,54 +14,54 @@
 </section>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM fully loaded.');
+    // console.log('DOM fully loaded.');
 
     const isProductsPage = document.body.classList.contains('template-product');
     const viewportWidth = window.innerWidth;
 
-    console.log('Is Products Page:', isProductsPage);
-    console.log('Viewport Width:', viewportWidth);
+    // console.log('Is Products Page:', isProductsPage);
+    // console.log('Viewport Width:', viewportWidth);
 
     // This condition is the key: skip only if product page + mobile.
     if (!(isProductsPage && viewportWidth <= 756)) {
-      console.log('✅ Animation allowed. Preparing...');
+      // console.log('✅ Animation allowed. Preparing...');
 
       const benefitsContainer = document.querySelector('.home-benefits-container');
 
       if (!benefitsContainer) {
-        console.log('❌ Benefits container not found.');
+        // console.log('❌ Benefits container not found.');
         return;
       }
 
-      console.log('✅ Benefits container found.');
+      // console.log('✅ Benefits container found.');
 
       const images = benefitsContainer.querySelectorAll('img');
       let loadedImages = 0;
 
-      console.log(`🖼️ Found ${images.length} images.`);
+      // console.log(`🖼️ Found ${images.length} images.`);
 
       if (images.length === 0) {
-        console.log('⚠️ No images found, starting animation immediately.');
+        // console.log('⚠️ No images found, starting animation immediately.');
         startAnimation();
       } else {
         images.forEach((img) => {
           if (img.complete) {
             loadedImages++;
-            console.log(`✅ Image already loaded (${loadedImages}/${images.length})`);
+            // console.log(`✅ Image already loaded (${loadedImages}/${images.length})`);
             if (loadedImages === images.length) {
               startAnimation();
             }
           } else {
             img.addEventListener('load', () => {
               loadedImages++;
-              console.log(`✅ Image loaded (${loadedImages}/${images.length})`);
+              // console.log(`✅ Image loaded (${loadedImages}/${images.length})`);
               if (loadedImages === images.length) {
                 startAnimation();
               }
             });
             img.addEventListener('error', () => {
               loadedImages++;
-              console.log(`⚠️ Image failed to load (${loadedImages}/${images.length})`);
+              // console.log(`⚠️ Image failed to load (${loadedImages}/${images.length})`);
               if (loadedImages === images.length) {
                 startAnimation();
               }
@@ -71,14 +71,14 @@
       }
 
       function startAnimation() {
-        console.log('🚀 Starting animation...');
+        // console.log('🚀 Starting animation...');
 
         const blocks = benefitsContainer.innerHTML;
         benefitsContainer.innerHTML += blocks;
 
         const totalWidth = benefitsContainer.scrollWidth / 2;
 
-        console.log('Total Scroll Width (half):', totalWidth);
+        // console.log('Total Scroll Width (half):', totalWidth);
 
         if (totalWidth > 0) {
           gsap.to('.home-benefits-container', {
@@ -87,13 +87,13 @@
             duration: 30,
             repeat: -1,
           });
-          console.log('✅ GSAP animation started.');
+          // console.log('✅ GSAP animation started.');
         } else {
-          console.log('❌ totalWidth is 0 — animation skipped.');
+          // console.log('❌ totalWidth is 0 — animation skipped.');
         }
       }
     } else {
-      console.log('💡 Animation skipped: Product page on mobile device.');
+      // console.log('💡 Animation skipped: Product page on mobile device.');
     }
   });
 </script>

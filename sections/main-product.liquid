@@ -821,7 +821,7 @@
                     const deliveryDateSpan = document.getElementById('delivery-date');
                     const deliveryDateParagraph = document.querySelector('.expected-delivery-date');
 
-                    // Pincode delivery days
+                    // Pincode delivery days (for different regions)
                     const pincodeDeliveryDays = {
                       110001: 3,
                       110002: 3,
@@ -829,7 +829,7 @@
                       110004: 3,
                     };
 
-                    // Format delivery date
+                    // Function to calculate delivery date
                     function getCustomDeliveryDate(daysToAdd) {
                       const today = new Date();
                       today.setDate(today.getDate() + daysToAdd);
@@ -842,7 +842,7 @@
                       event.target.value = event.target.value.replace(/[^0-9]/g, '');
                     });
 
-                    // On Check Availability button click
+                    // Handle the button click event for checking pincode availability
                     btn.addEventListener('click', () => {
                       const zipcode = zipcodeInput.value.trim();
                       const pincodeRegex = /^[1-9][0-9]{5}$/;
@@ -850,35 +850,54 @@
                       const selectedVariantId = document.querySelector('[name="id"]').value;
                       const inventory = variantInventories[selectedVariantId] || 0;
 
-                      if (pincodeRegex.test(zipcode)) {
-                        if (zipcode in pincodeDeliveryDays) {
-                          let baseDays = pincodeDeliveryDays[zipcode];
-                          let totalDays = inventory > 1 ? baseDays + 21 : inventory >= 1 ? baseDays : null;
+                      // Debugging logs
+                      console.log("Selected Variant ID:", selectedVariantId);
+                      console.log("Inventory for selected variant:", inventory);
 
-                          // Check stock availability
-                          if (totalDays === null) {
-                            res.textContent = 'Out of Stock';
-                            res.className = 'pincode-checker-result invalid';
-                            deliveryDateParagraph.style.display = 'none'; // Hide delivery date
-                            return;
+                      // Reset result
+                      res.textContent = '';
+                      res.className = 'pincode-checker-result';
+
+                      if (pincodeRegex.test(zipcode)) {
+                        console.log("Valid pincode entered:", zipcode);
+
+                        if (zipcode in pincodeDeliveryDays) {
+                          console.log("Pincode is serviceable:", zipcode);
+                          let baseDays = pincodeDeliveryDays[zipcode];
+                          let totalDays = null;
+
+                          // If out of stock, add 21 days to delivery time
+                          if (inventory > 1) {
+                            totalDays = baseDays; // Normal delivery time for in-stock items
+                            console.log("Inventory > 1, using normal delivery time");
+                          } else if (inventory >= 1) {
+                            totalDays = baseDays; // Inventory 1 - Normal delivery time
+                            console.log("Inventory = 1, using normal delivery time");
+                          } else {
+                            // If out of stock, add 21 days to the delivery time
+                            totalDays = baseDays + 21;
+                            console.log("Inventory = 0, adding 21 days to delivery time");
                           }
 
+                          // Calculate and show the expected delivery date
                           const finalDate = getCustomDeliveryDate(totalDays);
+                          console.log("Final delivery date:", finalDate); // Debugging log
 
-                          // Update the results display
                           res.textContent = 'Available';
                           res.className = 'pincode-checker-result available';
                           deliveryDateSpan.textContent = finalDate;
-                          deliveryDateParagraph.style.display = 'block'; // Show the expected delivery date
+                          deliveryDateParagraph.style.display = 'block'; // Show the delivery date section
                         } else {
+                          console.log("Pincode is not serviceable:", zipcode);
                           res.textContent = 'Pincode not serviceable';
                           res.className = 'pincode-checker-result invalid';
-                          deliveryDateParagraph.style.display = 'none'; // Hide delivery date
+                          deliveryDateParagraph.style.display = 'none'; // Hide the delivery date section
                         }
                       } else {
+                        console.log("Invalid pincode entered:", zipcode);
                         res.textContent = 'Invalid Pincode';
                         res.className = 'pincode-checker-result invalid';
-                        deliveryDateParagraph.style.display = 'none'; // Hide delivery date
+                        deliveryDateParagraph.style.display = 'none'; // Hide the delivery date section
                       }
                     });
                   });

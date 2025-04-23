@@ -798,18 +798,15 @@
                       maxlength="6"
                     >
                   </div>
-                  <button
-                    id="submit-btn"
-                    type="submit"
-                    class="pincode-checker-button"
-                  >
-                    Check Availability
-                  </button>
+                  <button id="submit-btn" type="submit" class="pincode-checker-button">Check Availability</button>
                 </div>
 
                 <div id="res" class="pincode-checker-result"></div>
 
-                <p class="expected-delivery-date">Get it delivered by: <span id="delivery-date"></span></p>
+                <p class="expected-delivery-date" style="display: none;">
+                  Get it delivered by: <span id="delivery-date"></span>
+                </p>
+
                 <script>
                   const variantInventories = {
                     {% for variant in product.variants %}
@@ -820,11 +817,7 @@
 
                 <script>
                   document.addEventListener('DOMContentLoaded', () => {
-                    const btn = document.getElementById('submit-btn');
                     const zipcodeInput = document.getElementById('zipcode');
-                    const res = document.getElementById('res');
-                    const deliveryDateSpan = document.getElementById('delivery-date');
-                    const deliveryDateParagraph = document.querySelector('.expected-delivery-date');
                     const pincodeDeliveryDays = {
                       110001: 3,
                       110002: 3,
@@ -832,8 +825,7 @@
                       110004: 3,
                     };
 
-                    // Calculate delivery date (customDays + 10)
-
+                    // Format delivery date
                     function getCustomDeliveryDate(daysToAdd) {
                       const today = new Date();
                       today.setDate(today.getDate() + daysToAdd);
@@ -841,13 +833,19 @@
                       return today.toLocaleDateString('en-US', options);
                     }
 
+                    // Prevent non-numeric input
                     zipcodeInput.addEventListener('input', (event) => {
                       event.target.value = event.target.value.replace(/[^0-9]/g, '');
                     });
 
-                    btn.addEventListener('click', () => {
+                    // On Check Availability button click
+                    document.getElementById('submit-btn').addEventListener('click', () => {
                       const zipcode = zipcodeInput.value.trim();
                       const pincodeRegex = /^[1-9][0-9]{5}$/;
+
+                      const res = document.getElementById('res');
+                      const deliveryDateSpan = document.getElementById('delivery-date');
+                      const deliveryDateParagraph = document.querySelector('.expected-delivery-date');
 
                       const selectedVariantId = document.querySelector('[name="id"]').value;
                       const inventory = variantInventories[selectedVariantId] || 0;
@@ -855,13 +853,9 @@
                       if (pincodeRegex.test(zipcode)) {
                         if (zipcode in pincodeDeliveryDays) {
                           let baseDays = pincodeDeliveryDays[zipcode];
-                          let totalDays;
+                          let totalDays = inventory > 1 ? baseDays + 21 : inventory >= 1 ? baseDays : null;
 
-                          if (inventory > 1) {
-                            totalDays = baseDays + 21;
-                          } else if (inventory >= 1) {
-                            totalDays = baseDays;
-                          } else {
+                          if (totalDays === null) {
                             res.textContent = 'Out of Stock';
                             res.className = 'pincode-checker-result invalid';
                             deliveryDateParagraph.style.display = 'none';

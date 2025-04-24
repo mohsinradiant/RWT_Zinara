@@ -183,14 +183,6 @@
         }
       }
     },
-    // "try_at_home": {
-    //   "name": "Try at Home",
-    //   "settings": {
-    //     "paragraph": {
-    //       "content": "Add a brand description to your store's footer."
-    //     }
-    //   }
-    // },
     "typography": {
       "name": "Typography",
       "settings": {

@@ -153,9 +153,8 @@
     "settings": [
       {
         "type": "text",
-        "id": "custom_text",
-        "label": "Custom Text",
-        "default": "Enter your custom text here"
+        "id": "try_at_home_text",
+        "label": "Pincode Checker Popup Content"
       }
     ]
   },

@@ -149,6 +149,15 @@
     ]
   },
   {
+    "name": "Try at Home",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:settings_schema.try_at_home.settings.paragraph.content"
+      },
+    ]
+  },
+  {
     "name": "t:settings_schema.layout.name",
     "settings": [
       {

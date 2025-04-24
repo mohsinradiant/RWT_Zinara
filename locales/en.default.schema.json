@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "settings_schema": {
     "global": {
@@ -171,6 +180,14 @@
         },
         "brand_image_width": {
           "label": "Image width"
+        }
+      }
+    },
+    "try_at_home": {
+      "name": "Try at Home",
+      "settings": {
+        "paragraph": {
+          "content": "Add a brand description to your store's footer."
         }
       }
     },

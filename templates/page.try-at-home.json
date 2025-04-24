@@ -20,7 +20,13 @@
     "tah_how_it_works_wDjmf6": {
       "type": "tah-how-it-works",
       "settings": {
-        "heading": "How it works"
+        "heading": "How it works",
+        "image_1": "shopify://shop_images/Zinara_Home_Banners_-_Web_Check_1.png",
+        "text_1": "Choose your designs (Upto 10)",
+        "image_2": "shopify://shop_images/Zinara_Home_Banners_-_Web_Check_1.png",
+        "text_2": "A Zinara professional will come to your home",
+        "image_3": "shopify://shop_images/Zinara_Home_Banners_-_Web_Check_1_4511031a-4870-4088-ac41-edc684c22697.png",
+        "text_3": "Own your favourite designs"
       }
     },
     "try_at_home_form_HNyDbd": {

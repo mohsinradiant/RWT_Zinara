@@ -31,16 +31,16 @@
   </script>
   <h2 class="page-width section-heading">{{ section.settings.heading }}</h2>
   <div class="tah-how-it-works">
-    <img src="">
-    <p>Choose your designs (Upto 10)</p>
+    <img src="{{ section.settings.image_1 | img_url }}">
+    <p>{{ section.settings.text_1 }}</p>
   </div>
   <div class="tah-how-it-works">
-    <img src="">
-    <p>A Zinara professional will come to your home</p>
+    <img src="{{ section.settings.image_2 | img_url }}">
+    <p>{{ section.settings.text_2 }}</p>
   </div>
   <div class="tah-how-it-works">
-    <img src="">
-    <p>Own your favourite designs</p>
+    <img src="{{ section.settings.image_3 | img_url }}">
+    <p>{{ section.settings.text_3 }}</p>
   </div>
 </div>
 <style>
@@ -119,14 +119,32 @@
       "label": "Image 1"
     },
     {
+      "type": "text",
+      "id": "text_1",
+      "label": "Text 1",
+      "default": "Choose your designs (Upto 10)"
+    },
+    {
       "type": "image_picker",
       "id": "image_2",
       "label": "Image 2"
     },
     {
+      "type": "text",
+      "id": "text_2",
+      "label": "Text 2",
+      "default": "A Zinara professional will come to your home"
+    },
+    {
       "type": "image_picker",
       "id": "image_3",
       "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "text_3",
+      "label": "Text 3",
+      "default": "Own your favourite designs"
     }
   ],
   "blocks": [],

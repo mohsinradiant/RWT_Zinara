@@ -152,9 +152,11 @@
     "name": "Try at Home",
     "settings": [
       {
-        "type": "paragraph",
-        "content": "t:settings_schema.try_at_home.settings.paragraph.content"
-      },
+        "type": "text",
+        "id": "custom_text",
+        "label": "Custom Text",
+        "default": "Enter your custom text here"
+      }
     ]
   },
   {

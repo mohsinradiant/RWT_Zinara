@@ -149,6 +149,16 @@
     ]
   },
   {
+    "name": "Try at Home",
+    "settings": [
+      {
+        "type": "text",
+        "id": "try_at_home_text",
+        "label": "Pincode Checker Popup Content"
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.layout.name",
     "settings": [
       {

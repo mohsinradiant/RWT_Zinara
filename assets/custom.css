@@ -551,13 +551,15 @@ product-info variant-selects {
     gap: 2%;
     margin: 1rem 0;
 }
-.pincode_check_popup_content{
+
+.pincode_check_popup_content {
     text-align: left;
     font-size: 1.4rem;
     color: #000;
     line-height: 1.9rem;
     margin: 13px 0 0;
 }
+
 product-info variant-selects .select:after,
 product-info variant-selects .select:hover {
     border: none !important;
@@ -1106,11 +1108,13 @@ header .menu-drawer {
     /* Checkbox background */
     cursor: not-allowed;
 }
-@media(max-width:756px){
-    .filter-rts-button input{
+
+@media(max-width:756px) {
+    .filter-rts-button input {
         margin: -3px 0 -3px 10px;
     }
 }
+
 .filter-rts-button input::after {
     content: "";
     position: absolute;

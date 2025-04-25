@@ -51,7 +51,8 @@
       ],
       "settings": {
         "heading": "How it works",
-        "heading_2": "Pick your own:"
+        "heading_2": "Pick your own:",
+        "description": "<ul><li>Diamond Size</li><li>Carat</li><li>Cut</li></ul>"
       }
     },
     "collapsible_content_3HTqGh": {

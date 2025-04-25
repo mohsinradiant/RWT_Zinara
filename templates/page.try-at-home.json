@@ -21,8 +21,11 @@
       "type": "tah-how-it-works",
       "settings": {
         "heading": "How it works",
+        "image_1": "shopify://shop_images/select_tah.png",
         "text_1": "Choose upto 10 designs to see at your home",
+        "image_2": "shopify://shop_images/human_tah.png",
         "text_2": "A Zinara professional will bring your selected designs to the comfort of your home.",
+        "image_3": "shopify://shop_images/cart_tah.png",
         "text_3": "If you love it, you can make the purchase on the spot."
       }
     },

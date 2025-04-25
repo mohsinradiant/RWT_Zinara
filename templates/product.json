@@ -260,6 +260,7 @@
         },
         "image_picker_RhqVm9": {
           "type": "image_picker",
+          "disabled": true,
           "settings": {
             "alt_text": "testimonialcarousel Image",
             "name": "Kartik Rao",

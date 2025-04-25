@@ -23,6 +23,7 @@
         "image_block_2_pyJEGb": {
           "type": "image-block-2",
           "settings": {
+            "image": "shopify://shop_images/Conceptualize.png",
             "heading": "Conceptualize",
             "description": "Share any reference or inspiration, and we’ll blend your vision with expert craftsmanship to create unique designs tailored just for you."
           }
@@ -30,7 +31,7 @@
         "image_block_2_KRdhQp": {
           "type": "image-block-2",
           "settings": {
-            "image": "shopify://shop_images/ZNB11_RG3_5cbb1574-95f8-4955-9ffa-2cc822421354.png",
+            "image": "shopify://shop_images/Design_Approval.png",
             "heading": "Design Approval",
             "description": "Our team transforms your vision into a realistic product image for your approval before we begin crafting."
           }
@@ -38,7 +39,7 @@
         "image_block_2_HJdYp4": {
           "type": "image-block-2",
           "settings": {
-            "image": "shopify://shop_images/ZNB11_RG3_5cbb1574-95f8-4955-9ffa-2cc822421354.png",
+            "image": "shopify://shop_images/Ready_to_Wear.png",
             "heading": "Ready to Wear",
             "description": "Once approved, your custom jewellery is crafted and carefully prepared, ready to be worn and cherished."
           }

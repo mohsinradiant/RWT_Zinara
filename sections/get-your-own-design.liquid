@@ -29,7 +29,7 @@
   <div class="own-design-images-container">
     {% for block in section.blocks %}
       <div class="own-design-image">
-        <img src="{{ block.settings.image | img_url }}">
+        <img src="{{ block.settings.image | img_url: 'master' }}">
         <div>
           <h3>{{ block.settings.heading }}</h3>
           <p>{{ block.settings.description }}</p>

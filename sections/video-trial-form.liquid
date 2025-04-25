@@ -355,6 +355,7 @@
       </div>
     </div>
     <div class="bookTrialTah-container">
+      <p>*Gold/Diamond price might change on the day of appointment</p>
       <button id="bookTrialTah" class="submit-btn">Book Video Trial</button>
     </div>
   </div>
@@ -746,7 +747,34 @@
     }
   });
 </script>
+{% comment %} Asterisk note hiding script {% endcomment %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('.date-btn');
+    const bookTrial = document.querySelector('.bookTrialTah-container p');
 
+    function updateBookTrialVisibility() {
+      if (buttons.length === 0 || !bookTrial) return;
+
+      const firstButtonSelected = buttons[0].classList.contains('selected');
+      const anyOtherSelected = Array.from(buttons)
+        .slice(1)
+        .some((btn) => btn.classList.contains('selected'));
+
+      bookTrial.style.display = !firstButtonSelected && anyOtherSelected ? 'block' : 'none';
+    }
+
+    // Initial run
+    updateBookTrialVisibility();
+
+    // Set up a MutationObserver
+    const observer = new MutationObserver(updateBookTrialVisibility);
+
+    buttons.forEach((btn) => {
+      observer.observe(btn, { attributes: true, attributeFilter: ['class'] });
+    });
+  });
+</script>
 <style>
   .trial_booked_bottom_text {
     text-align: left;
@@ -1223,6 +1251,18 @@
     padding: 15px;
     background: #f2eeeb;
     z-index: 1;
+  }
+  .bookTrialTah-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+  }
+  .bookTrialTah-container p {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #000;
+    font-weight: 400;
   }
   @media (max-width: 756px) {
     .selected-products-container .product-card .product-card-content {

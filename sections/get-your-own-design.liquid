@@ -38,11 +38,7 @@
     {% endfor %}
   </div>
   <h2 class="section-heading">{{ section.settings.heading_2 }}</h2>
-  <ul>
-    <li>Diamond Size</li>
-    <li>Carat</li>
-    <li>Cut</li>
-  </ul>
+  {{ section.settings.description }}
 </div>
 <style>
   .own-design-header-container {
@@ -100,23 +96,24 @@
   }
   .own-design-image h3 {
     text-align: center;
-    font-size: 2.6rem;
+    font-size: 2rem;
     margin: 13px 0 0;
     font-family: 'Quicksand';
   }
   .own-design-image p {
     text-align: center;
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     margin: 7px 0 0;
     line-height: 2.3rem;
     color: #121212;
-    font-weight: 500;
+    font-weight: 400;
   }
   .own-design-container ul li {
     font-size: 2rem;
     margin: 25px 0;
     line-height: 2.7rem;
     color: #121212;
+    font-weight: 400;
   }
   @media (max-width: 756px) {
     .own-design-images-container {
@@ -187,6 +184,11 @@
       "id": "heading_2",
       "label": "Section Heading 2",
       "default": "Pick your own:"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Pick your Own:"
     }
   ],
   "blocks": [

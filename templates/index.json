@@ -16,7 +16,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/Black_Banner.jpg",
-            "image_mobile": "shopify://shop_images/mobile_banner_1_435d8c3b-8e25-4dda-b863-886c84876f0f.png",
+            "image_mobile": "shopify://shop_images/mobile_banner_1.png",
             "heading": "Image slide",
             "heading_size": "h1",
             "subheading": "Tell your brand's story through images",

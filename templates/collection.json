@@ -75,13 +75,23 @@
             "row_content": "<p>Payment methods include credit cards, debit cards, net banking, international cards, and cash on delivery.</p>",
             "page": ""
           }
+        },
+        "collapsible_row_b98YYX": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What’s a home trial?",
+            "icon": "none",
+            "row_content": "<p>We bring upto 10 preselected designs to your location (Delhi NCR only). Try them on, get opinions, and buy only what you love. No pressure, just pretty things.</p>",
+            "page": ""
+          }
         }
       },
       "block_order": [
         "collapsible_row_fa6hEp",
         "collapsible_row_MUnAgU",
         "collapsible_row_KgCLYw",
-        "collapsible_row_g7PpD3"
+        "collapsible_row_g7PpD3",
+        "collapsible_row_b98YYX"
       ],
       "settings": {
         "caption": "",

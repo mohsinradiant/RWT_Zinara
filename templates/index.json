@@ -405,7 +405,7 @@
         "image_picker_wrD7jz": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/banner_2_1.png",
+            "image": "shopify://shop_images/banner_2_1_47f8f9aa-14f9-47f3-92a3-916f21a1a0b3.png",
             "alt_text": "Carousel Image",
             "url": "shopify://collections/under-20k"
           }
@@ -413,7 +413,7 @@
         "image_picker_gtLymc": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/3_b3797103-01e6-4362-9009-d829ddfd2060.png",
+            "image": "shopify://shop_images/banner_2_2.png",
             "alt_text": "Carousel Image",
             "url": "shopify://collections/office-wear-collection"
           }
@@ -421,7 +421,7 @@
         "image_picker_zN3d8M": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/2_7a6440a6-e379-4665-a034-40c9d5cb19cc.png",
+            "image": "shopify://shop_images/banner_2_3.png",
             "alt_text": "Carousel Image",
             "url": "shopify://collections/home-trial"
           }
@@ -429,7 +429,7 @@
         "image_picker_8FC4jK": {
           "type": "image_picker",
           "settings": {
-            "image": "shopify://shop_images/4.png",
+            "image": "shopify://shop_images/banner_2_4.png",
             "alt_text": "Carousel Image",
             "url": "shopify://collections/solitaire-collection"
           }

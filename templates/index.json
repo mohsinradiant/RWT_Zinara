@@ -468,6 +468,7 @@
         "image_picker_D9xDnB": {
           "type": "image_picker",
           "settings": {
+            "image": "shopify://shop_images/Sheena_testimonial.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Sheena",
             "review": "“Their designs are elegant, modern, and unique. The quality of materials is excellent, and you can feel the durability in each piece. Whether for everyday wear or special occasions, their jewellery is both beautiful and well-crafted. Highly recommend!”"
@@ -476,6 +477,7 @@
         "image_picker_hQmWqT": {
           "type": "image_picker",
           "settings": {
+            "image": "shopify://shop_images/Malikka_testimonial.png",
             "alt_text": "testimonialcarousel Image",
             "name": "Malikka",
             "review": "“From sketch to final piece, the custom design process with Zinara was seamless. The final ring looked like something out of a dream—so elegant and well-crafted. Plus, it didn’t break the bank. I’m definitely coming back for more!”"
@@ -484,9 +486,10 @@
         "image_picker_nKRGwE": {
           "type": "image_picker",
           "settings": {
+            "image": "shopify://shop_images/Pooja_testimonial.png",
             "alt_text": "testimonialcarousel Image",
-            "name": "An.",
-            "review": "“I bought a ring from Zinara and I couldn’t be happier! The design is absolutely beautiful—elegant and modern. It looks so premium, but the price was surprisingly affordable. Great experience overall!”"
+            "name": "Pooja",
+            "review": "“Pretty ring 🥰,thanku Zinara for this wonderful ring and design.I love this 💖 Thanku for this stylish ring.😊I am so happy 😊”"
           }
         },
         "image_picker_VfkVjb": {

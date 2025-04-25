@@ -21,12 +21,9 @@
       "type": "tah-how-it-works",
       "settings": {
         "heading": "How it works",
-        "image_1": "shopify://shop_images/Zinara_Home_Banners_-_Web_Check_1.png",
-        "text_1": "Choose your designs (Upto 10)",
-        "image_2": "shopify://shop_images/Zinara_Home_Banners_-_Web_Check_1.png",
-        "text_2": "A Zinara professional will come to your home",
-        "image_3": "shopify://shop_images/Zinara_Home_Banners_-_Web_Check_1_4511031a-4870-4088-ac41-edc684c22697.png",
-        "text_3": "Own your favourite designs"
+        "text_1": "Choose upto 10 designs to see at your home",
+        "text_2": "A Zinara professional will bring your selected designs to the comfort of your home.",
+        "text_3": "If you love it, you can make the purchase on the spot."
       }
     },
     "try_at_home_form_HNyDbd": {
@@ -42,36 +39,63 @@
         "collapsible_row_hYE4Kg": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "heading": "What is the Try at Home service?",
             "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "row_content": "<p>Our <em>Try at Home</em> service allows you to experience Zinara’s exquisite diamond jewellery from the comfort of your home. A Zinara professional will bring your selected designs so you can see, feel, and try them before making a purchase.</p>",
             "page": ""
           }
         },
         "collapsible_row_Akp3z3": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "heading": "Is there any charge for the Try at Home service?",
             "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "row_content": "<p>No, the service is absolutely free with no obligation to buy.</p>",
             "page": ""
           }
         },
         "collapsible_row_zVaYgt": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "heading": "How many designs can I try at once?",
             "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "row_content": "<p>You can select up to 10 designs for each appointment. We recommend choosing a mix of styles you’re curious about!</p>",
             "page": ""
           }
         },
         "collapsible_row_LcJGfQ": {
           "type": "collapsible_row",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet, adipiscing elit?",
+            "heading": "Can I purchase the jewellery during the appointment?",
             "icon": "none",
-            "row_content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur cursus justo sed urna finibus fermentum. Fusce vestibulum sollicitudin felis, at ultricies leo semper at. Nunc volutpat auctor varius. Aenean consectetur ex id nulla euismod vulputate. Nam eu posuere mauris, at gravida neque. Phasellus vehicula ex sit amet ante efficitur, vel semper velit rhoncus. Phasellus quis felis odio.</p>",
+            "row_content": "<p>Yes, if you love a piece, you can purchase it on the spot. Our professional will assist you with a seamless checkout experience.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_GbMDEX": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Who will visit my home? Is it safe?",
+            "icon": "none",
+            "row_content": "<p>A trained and verified Zinara professional will visit your home. Your safety and comfort are our top priorities.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_VcxFU6": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I reschedule or cancel my appointment?",
+            "icon": "none",
+            "row_content": "<p>Yes, you can reschedule or cancel your appointment easily through your confirmation link or by contacting our team.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_R88Hmg": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "In which cities is Try at Home currently available?",
+            "icon": "none",
+            "row_content": "<p>We currently offer this service in Delhi NCR. We’re constantly expanding, so stay tuned if your city isn’t listed yet!</p>",
             "page": ""
           }
         }
@@ -80,7 +104,10 @@
         "collapsible_row_hYE4Kg",
         "collapsible_row_Akp3z3",
         "collapsible_row_zVaYgt",
-        "collapsible_row_LcJGfQ"
+        "collapsible_row_LcJGfQ",
+        "collapsible_row_GbMDEX",
+        "collapsible_row_VcxFU6",
+        "collapsible_row_R88Hmg"
       ],
       "settings": {
         "caption": "",

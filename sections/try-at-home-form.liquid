@@ -759,33 +759,30 @@ for (let i = 0; i < 7; i++) {
   });
 </script>
 <script>
-  // Function to check which button is selected
-  function updateBookTrialVisibility() {
+  document.addEventListener('DOMContentLoaded', function () {
     const buttons = document.querySelectorAll('.date-btn');
     const bookTrial = document.querySelector('.bookTrialTah-container p');
-    const firstButtonSelected = buttons[0].classList.contains('selected');
-    const anyOtherSelected = Array.from(buttons)
-      .slice(1)
-      .some((btn) => btn.classList.contains('selected'));
 
-    if (!firstButtonSelected && anyOtherSelected) {
-      bookTrial.style.display = 'block';
-    } else {
-      bookTrial.style.display = 'none';
+    function updateBookTrialVisibility() {
+      if (buttons.length === 0 || !bookTrial) return;
+
+      const firstButtonSelected = buttons[0].classList.contains('selected');
+      const anyOtherSelected = Array.from(buttons)
+        .slice(1)
+        .some((btn) => btn.classList.contains('selected'));
+
+      bookTrial.style.display = !firstButtonSelected && anyOtherSelected ? 'block' : 'none';
     }
-  }
 
-  // Run once initially
-  updateBookTrialVisibility();
-
-  // Set up a MutationObserver to detect class changes
-  const observer = new MutationObserver(() => {
+    // Initial run
     updateBookTrialVisibility();
-  });
 
-  // Observe all date buttons
-  document.querySelectorAll('.date-btn').forEach((btn) => {
-    observer.observe(btn, { attributes: true, attributeFilter: ['class'] });
+    // Set up a MutationObserver
+    const observer = new MutationObserver(updateBookTrialVisibility);
+
+    buttons.forEach((btn) => {
+      observer.observe(btn, { attributes: true, attributeFilter: ['class'] });
+    });
   });
 </script>
 

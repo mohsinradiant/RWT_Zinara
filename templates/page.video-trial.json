@@ -21,8 +21,11 @@
       "type": "tah-how-it-works",
       "settings": {
         "heading": "How it works",
+        "image_1": "shopify://shop_images/select_tah.png",
         "text_1": "Pick up to 10 designs and try them on over a video call",
+        "image_2": "shopify://shop_images/call_tah.png",
         "text_2": "A Zinara expert will guide you and showcase the pieces live on a video call.",
+        "image_3": "shopify://shop_images/cart_tah.png",
         "text_3": "Love it on the video call? Make it yours instantly."
       }
     },

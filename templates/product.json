@@ -230,43 +230,35 @@
           "type": "image_picker",
           "settings": {
             "alt_text": "testimonialcarousel Image",
-            "name": "Kartik Rao",
-            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+            "name": "Malikka",
+            "review": "“From sketch to final piece, the custom design process with Zinara was seamless. The final ring looked like something out of a dream—so elegant and well-crafted. Plus, it didn’t break the bank. I’m definitely coming back for more!”"
           }
         },
         "image_picker_VJyX7G": {
           "type": "image_picker",
           "settings": {
             "alt_text": "testimonialcarousel Image",
-            "name": "Kartik Rao",
-            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+            "name": "Anmol",
+            "review": "“I bought a ring from Zinara and I couldn’t be happier! The design is absolutely beautiful—elegant and modern. It looks so premium, but the price was surprisingly affordable. Great experience overall!”"
           }
         },
         "image_picker_KRQyPm": {
           "type": "image_picker",
           "settings": {
             "alt_text": "testimonialcarousel Image",
-            "name": "Kartik Rao",
-            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+            "name": "Kumkum",
+            "review": "“I’ve always found diamond jewellery overwhelming—either too flashy or too expensive. Zinara changed that. I got a beautiful pair of earrings that I wear every day. The quality, the elegance, and the service—everything was just perfect.”"
           }
         },
         "image_picker_GMhzVb": {
           "type": "image_picker",
           "settings": {
             "alt_text": "testimonialcarousel Image",
-            "name": "Kartik Rao",
-            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
+            "name": "Jony",
+            "review": "I ordered a necklace from Zinara and it exceeded my expectations. The design is elegant and it feels so luxurious. The price was a pleasant surprise too—such great value for such a stunning piece!"
           }
         },
         "image_picker_RhqVm9": {
-          "type": "image_picker",
-          "settings": {
-            "alt_text": "testimonialcarousel Image",
-            "name": "Kartik Rao",
-            "review": "“OMG, so cool website. I hope the designer and PM get paid well (in equity).”"
-          }
-        },
-        "image_picker_YFEd7Y": {
           "type": "image_picker",
           "settings": {
             "alt_text": "testimonialcarousel Image",
@@ -281,8 +273,7 @@
         "image_picker_VJyX7G",
         "image_picker_KRQyPm",
         "image_picker_GMhzVb",
-        "image_picker_RhqVm9",
-        "image_picker_YFEd7Y"
+        "image_picker_RhqVm9"
       ],
       "settings": {
         "heading": "Testimonials"

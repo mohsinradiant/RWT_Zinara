@@ -501,6 +501,15 @@
             "review": "“I found the perfect ring at Zinara—it’s simple, elegant, and beautifully made. It looks premium, but was still within my budget. I’ve been wearing it almost every day!”"
           }
         },
+        "image_picker_Ue9JrQ": {
+          "type": "image_picker",
+          "settings": {
+            "image": "shopify://shop_images/mysha.png",
+            "alt_text": "testimonialcarousel Image",
+            "name": "Vasudha",
+            "review": "\"I ordered a set of earrings from Zinara and it exceeded my expectations. The design is elegant and it feels so luxurious. The price was a pleasant surprise too—such great value for such a stunning piece!\""
+          }
+        },
         "image_picker_pey7c8": {
           "type": "image_picker",
           "settings": {
@@ -509,15 +518,6 @@
             "name": "Sameeksha",
             "review": "“I’ve always found diamond jewellery overwhelming—either too flashy or too expensive. Zinara changed that. I got a beautiful pair of rings that I wear every day. The quality, the elegance, and the service—everything was just perfect.”"
           }
-        },
-        "image_picker_Ue9JrQ": {
-          "type": "image_picker",
-          "settings": {
-            "image": "shopify://shop_images/mysha.png",
-            "alt_text": "testimonialcarousel Image",
-            "name": "Vasudha",
-            "review": "I ordered a set of earrings from Zinara and it exceeded my expectations. The design is elegant and it feels so luxurious. The price was a pleasant surprise too—such great value for such a stunning piece!"
-          }
         }
       },
       "block_order": [
@@ -525,8 +525,8 @@
         "image_picker_nKRGwE",
         "image_picker_hQmWqT",
         "image_picker_VfkVjb",
-        "image_picker_pey7c8",
-        "image_picker_Ue9JrQ"
+        "image_picker_Ue9JrQ",
+        "image_picker_pey7c8"
       ],
       "settings": {
         "heading": "Testimonials"

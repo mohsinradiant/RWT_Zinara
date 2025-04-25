@@ -38,11 +38,7 @@
     {% endfor %}
   </div>
   <h2 class="section-heading">{{ section.settings.heading_2 }}</h2>
-  <ul>
-    <li>Diamond Size</li>
-    <li>Carat</li>
-    <li>Cut</li>
-  </ul>
+  {{ section.settings.description }}
 </div>
 <style>
   .own-design-header-container {
@@ -187,6 +183,11 @@
       "id": "heading_2",
       "label": "Section Heading 2",
       "default": "Pick your own:"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Pick your Own:"
     }
   ],
   "blocks": [

@@ -1315,6 +1315,7 @@ header .menu-drawer {
 
     .facets__summary {
         margin: 0 !important;
+        height: fit-content;
     }
 
     #FacetsWrapperDesktop>details:first-of-type {

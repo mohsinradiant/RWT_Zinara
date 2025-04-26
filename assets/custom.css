@@ -1317,7 +1317,9 @@ header .menu-drawer {
         margin: 0 !important;
         height: fit-content;
     }
-
+#FacetsWrapperDesktop a{
+    line-height: 2rem;
+}
     #FacetsWrapperDesktop>details:first-of-type {
         display: none;
     }

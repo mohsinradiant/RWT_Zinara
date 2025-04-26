@@ -529,7 +529,7 @@
         "image_picker_pey7c8"
       ],
       "settings": {
-        "heading": "Our customers stories!"
+        "heading": "Our customer stories!"
       }
     },
     "home_about_hDMerC": {
@@ -622,7 +622,7 @@
           "settings": {
             "heading": "What payment options are available?",
             "icon": "none",
-            "row_content": "<p>Payment methods include credit cards, debit cards, net banking, international cards, and cash on delivery.</p>",
+            "row_content": "<p>Payment methods include credit cards, debit cards, net banking, international cards, and cash on delivery. Cash on Delivery is available for orders up to INR 35000</p>",
             "page": ""
           }
         },

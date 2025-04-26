@@ -7,22 +7,23 @@
     <button>WhatsApp Us</button>
   </div>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const images = document.querySelectorAll('.own-design-header-container img');
-      const button = document.querySelector('.own-design-header-container button');
+        document.addEventListener('DOMContentLoaded', () => {
+          const images = document.querySelectorAll('.own-design-header-container img');
+          const button = document.querySelector('.own-design-header-container button');
 
-      if (images.length > 0) {
-        images[0].addEventListener('click', () => {
-          window.history.back();
+          if (images.length > 0) {
+            images[0].addEventListener('click', () => {
+              window.history.back();
+            });
+
+            if (button) {
+              button.addEventListener('click', () => {
+                window.location.href = 'https://wa.me/918851812814
+    ';
+              });
+            }
+          }
         });
-
-        if (button) {
-          button.addEventListener('click', () => {
-            window.location.href = 'tel:8851812814';
-          });
-        }
-      }
-    });
   </script>
 
   <h2 class="section-heading">{{ section.settings.heading }}</h2>

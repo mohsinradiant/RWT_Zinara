@@ -157,9 +157,34 @@
         {{ 'customer.login_page.sign_in' | t }}
       </button>
 
-      <a href="{{ routes.account_register_url }}">
+      <a id="create-account-btn" href="{{ routes.account_register_url }}">
         {{ 'customer.login_page.create_account' | t }}
       </a>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const urlParams = new URLSearchParams(window.location.search);
+          const returnUrl = urlParams.get('return_url');
+
+          if (returnUrl) {
+            const createAccountBtn = document.getElementById('create-account-btn');
+            const baseHref = createAccountBtn.getAttribute('href');
+
+            // Append return_url as a query parameter
+            createAccountBtn.setAttribute('href', `${baseHref}?return_url=${encodeURIComponent(returnUrl)}`);
+          }
+        });
+      </script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const urlParams = new URLSearchParams(window.location.search);
+          const returnUrl = urlParams.get('return_url');
+
+          if (returnUrl) {
+            localStorage.setItem('return_url', returnUrl);
+          }
+        });
+      </script>
     {%- endform -%}
   </div>
 

@@ -1142,8 +1142,7 @@ header .menu-drawer {
     #main-collection-filters,
     #main-collection-filters .facets-container,
     #main-collection-filters .facets-container facet-filters-form,
-    #main-collection-filters .facets-container facet-filters-form .facets__form-vertical,
-    #main-collection-filters .facets-container facet-filters-form .facets__form-vertical #FacetsWrapperDesktop {
+    #main-collection-filters .facets-container facet-filters-form .facets__form-vertical {
         overflow: visible !important;
     }
 

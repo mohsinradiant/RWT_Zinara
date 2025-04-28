@@ -385,6 +385,8 @@
         document.addEventListener('DOMContentLoaded', function () {
           const storedReturnUrl = localStorage.getItem('return_url');
 
+          console.log('Stored return_url:', storedReturnUrl); // Add this line for debugging
+
           if (storedReturnUrl) {
             localStorage.removeItem('return_url'); // Clean up after use
             window.location.href = storedReturnUrl;

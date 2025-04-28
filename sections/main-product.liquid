@@ -2831,8 +2831,8 @@
 
     // Check if the user is logged in
     function isLoggedIn() {
-      return typeof customerId !== 'undefined' && customerId !== null && customerId !== '';
-    }
+  return {{ customer != null | json }};
+}
 
     // Handle pincode validation and login/redirection
     function handlePincodeCheck() {

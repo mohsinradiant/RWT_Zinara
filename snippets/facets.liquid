@@ -519,7 +519,6 @@
               Ready to Ship
               <input type="checkbox" class="filter-checkbox" style="margin-left: 10px;">
             </a>
-
             <script>
               document.addEventListener('DOMContentLoaded', function () {
                 const currentUrl = window.location.pathname;
@@ -581,7 +580,6 @@
                 checkbox.addEventListener('click', handleClick);
               });
             </script>
-
             {%- for filter in results.filters -%}
               {% liquid
                 assign total_active_values = total_active_values | plus: filter.active_values.size

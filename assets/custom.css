@@ -1156,6 +1156,10 @@ header .menu-drawer {
         padding: 10px 15px !important;
         line-height: 0;
     }
+
+    .facets__display-vertical fieldset {
+        border: none;
+    }
 }
 
 @media (max-width: 756px) {

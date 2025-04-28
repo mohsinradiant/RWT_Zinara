@@ -383,15 +383,16 @@
     {% if template == 'index' %}
       <script>
         document.addEventListener('DOMContentLoaded', function () {
-          const urlParams = new URLSearchParams(window.location.search);
-          const returnUrl = urlParams.get('return_url');
-
-          if (returnUrl) {
-            window.location.href = returnUrl;
+          const storedReturnUrl = localStorage.getItem('return_url');
+          
+          if (storedReturnUrl) {
+            localStorage.removeItem('return_url'); // Clean up after use
+            window.location.href = storedReturnUrl;
           }
         });
       </script>
     {% endif %}
+    
     {% sections 'header-group' %}
     {% render 'breadcrumbs' %}
     <main

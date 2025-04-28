@@ -904,35 +904,7 @@
               });
             });
           </script>
-          <script>
-            document.addEventListener('DOMContentLoaded', function () {
-              // Get all the summary elements within the details tags
-              const summaries = document.querySelectorAll('facet-filters-form details summary');
 
-              summaries.forEach((summary) => {
-                // Set the aria-expanded attribute based on whether the parent details is open
-                summary.setAttribute('aria-expanded', summary.parentNode.hasAttribute('open'));
-
-                // Add click event listener to each summary
-                summary.addEventListener('click', function () {
-                  const detailsElement = summary.closest('details');
-
-                  // If the clicked details is already open, do nothing
-                  if (detailsElement.hasAttribute('open')) {
-                    return;
-                  }
-
-                  // Close all details elements by removing the "open" attribute
-                  document.querySelectorAll('facet-filters-form details').forEach((otherDetails) => {
-                    otherDetails.removeAttribute('open');
-                  });
-
-                  // Open the clicked details element
-                  detailsElement.setAttribute('open', 'open');
-                });
-              });
-            });
-          </script>
           {% comment %} Pills after filtes on filter type horizontal {% endcomment %}
           {%- if filter_type == 'horizontal' -%}
             <div class="active-facets active-facets-desktop">

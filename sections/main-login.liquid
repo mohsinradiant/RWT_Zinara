@@ -175,6 +175,16 @@
           }
         });
       </script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const urlParams = new URLSearchParams(window.location.search);
+          const returnUrl = urlParams.get('return_url');
+
+          if (returnUrl) {
+            localStorage.setItem('return_url', returnUrl);
+          }
+        });
+      </script>
     {%- endform -%}
   </div>
 

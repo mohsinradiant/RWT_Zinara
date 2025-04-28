@@ -1139,13 +1139,13 @@ header .menu-drawer {
 
 @media(max-width:756px) {
 
-    #main-collection-filters,
+    /* #main-collection-filters,
     #main-collection-filters .facets-container,
     #main-collection-filters .facets-container facet-filters-form,
     #main-collection-filters .facets-container facet-filters-form .facets__form-vertical,
     #main-collection-filters .facets-container facet-filters-form .facets__form-vertical #FacetsWrapperDesktop {
         overflow: visible !important;
-    }
+    } */
 
     .filter-rts-button {
         background: #f2eeeb;

@@ -385,12 +385,13 @@
         document.addEventListener('DOMContentLoaded', function () {
           const storedReturnUrl = localStorage.getItem('return_url');
 
-          console.log('Stored return_url:', storedReturnUrl); // Add this line for debugging
-
-          if (storedReturnUrl) {
+          // Check if the return_url exists and the user is logged in
+          if (storedReturnUrl && !window.location.href.includes('/account')) {
             localStorage.removeItem('return_url'); // Clean up after use
             window.location.href = storedReturnUrl;
           }
+
+          console.log('Stored return_url:', storedReturnUrl); // For debugging
         });
       </script>
     {% endif %}

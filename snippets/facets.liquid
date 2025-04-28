@@ -928,7 +928,10 @@
                   });
 
                   // Ensure the clicked details stays open
-                  details.setAttribute('open', true);
+                  if (!details.hasAttribute('open')) {
+                    details.setAttribute('open', 'open');
+                    console.log('Opened details:', details); // Log the details element that is now open
+                  }
                 });
               });
             });

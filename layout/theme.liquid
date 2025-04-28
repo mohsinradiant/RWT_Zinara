@@ -384,21 +384,21 @@
       <script>
         document.addEventListener('DOMContentLoaded', function () {
           const storedReturnUrl = localStorage.getItem('return_url');
-
-          // Check if the return_url exists and ensure we aren't on the account page
-          if (
-            storedReturnUrl &&
-            !window.location.href.includes('/account') &&
-            !document.body.classList.contains('logged-out')
-          ) {
+          
+          // Clear cached return_url if logged out
+          if (storedReturnUrl && !window.location.href.includes('/account') && !document.body.classList.contains('logged-out')) {
             localStorage.removeItem('return_url'); // Clean up after use
             window.location.href = storedReturnUrl;
+          } else {
+            // Ensure no unwanted redirects happen if logged out
+            localStorage.removeItem('return_url'); // Just a precaution
           }
-
+    
           console.log('Stored return_url:', storedReturnUrl); // For debugging
         });
       </script>
     {% endif %}
+    
 
     {% sections 'header-group' %}
     {% render 'breadcrumbs' %}

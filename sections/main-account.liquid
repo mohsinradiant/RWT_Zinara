@@ -264,6 +264,23 @@
     }
   });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const logoutButton = document.querySelector('.account div a'); // Verify this selector
+  
+  if (logoutButton) {
+    logoutButton.addEventListener('click', function () {
+      // Clear return_url and any other relevant session storage or cookies
+      localStorage.removeItem('return_url');
+      sessionStorage.removeItem('return_url'); // Just in case other storage is being used
+      
+      // Optionally, you can also manually trigger a page reload to ensure no old state persists
+      window.location.reload();
+    });
+  }
+});
+
+</script>
 
 {% schema %}
 {

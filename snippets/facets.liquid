@@ -909,12 +909,20 @@
               // Get all the details elements
               const detailsElements = document.querySelectorAll('#FacetsWrapperDesktop details');
 
+              // Check if we are selecting the right elements
+              console.log('Details elements:', detailsElements);
+
               // Add click event listener to each details element
               detailsElements.forEach(function (details) {
+                console.log('Adding click listener to:', details); // Log each details element
+
                 details.addEventListener('click', function () {
-                  // Loop through all details elements and remove the open attribute
+                  console.log('Clicked details:', details); // Log the clicked details element
+
+                  // Loop through all details elements and remove the open attribute from others
                   detailsElements.forEach(function (otherDetails) {
                     if (otherDetails !== details) {
+                      console.log('Closing details:', otherDetails); // Log which details are being closed
                       otherDetails.removeAttribute('open');
                     }
                   });

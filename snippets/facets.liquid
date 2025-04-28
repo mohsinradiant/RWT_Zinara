@@ -911,19 +911,19 @@
 
               detailsElements.forEach((details) => {
                 const summary = details.querySelector('summary');
+
                 summary.addEventListener('click', function () {
+                  // Loop through other details elements
                   detailsElements.forEach((otherDetails) => {
                     if (otherDetails !== details && otherDetails.hasAttribute('open')) {
-                      // Manually "click" the other details to close them
-                      otherDetails.removeAttribute('open');
+                      // Simulate a click on the other details elements that are open
+                      otherDetails.querySelector('summary').click();
                     }
                   });
 
-                  // Toggle the open state of the clicked details element
+                  // Manually open the clicked details if it's not already open
                   if (!details.hasAttribute('open')) {
-                    details.setAttribute('open', 'open');
-                  } else {
-                    details.removeAttribute('open');
+                    details.querySelector('summary').click();
                   }
                 });
               });

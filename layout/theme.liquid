@@ -380,7 +380,18 @@
     {%- if settings.cart_type == 'drawer' -%}
       {%- render 'cart-drawer' -%}
     {%- endif -%}
+    {% if template == 'index' %}
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const urlParams = new URLSearchParams(window.location.search);
+          const returnUrl = urlParams.get('return_url');
 
+          if (returnUrl) {
+            window.location.href = returnUrl;
+          }
+        });
+      </script>
+    {% endif %}
     {% sections 'header-group' %}
     {% render 'breadcrumbs' %}
     <main

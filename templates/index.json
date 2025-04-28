@@ -222,7 +222,7 @@
         "category_item_eqWHMY": {
           "type": "category_item",
           "settings": {
-            "collection": "",
+            "collection": "all-bracelets",
             "image": "shopify://shop_images/daily_bracelet_78816ac5-cc1d-4ad0-b605-d283397b5bf1.png",
             "text": "Daily Wear Bracelets",
             "associated_tab": "bracelets"
@@ -230,6 +230,7 @@
         },
         "category_item_ahHa9n": {
           "type": "category_item",
+          "disabled": true,
           "settings": {
             "collection": "",
             "image": "shopify://shop_images/solitaire_bracelet.png",

@@ -72,43 +72,17 @@ document.querySelectorAll('[id^="Details-"] summary').forEach((summary) => {
   summary.setAttribute('role', 'button');
   summary.setAttribute('aria-expanded', summary.parentNode.hasAttribute('open'));
 
-  // If the summary has a next sibling with an id, set aria-controls
-  if (summary.nextElementSibling && summary.nextElementSibling.getAttribute('id')) {
+  if (summary.nextElementSibling.getAttribute('id')) {
     summary.setAttribute('aria-controls', summary.nextElementSibling.id);
   }
 
   summary.addEventListener('click', (event) => {
-    const detailsElement = event.currentTarget.closest('details');
-
-    // Toggle the 'open' attribute of the clicked <details> element
-    const isOpen = detailsElement.hasAttribute('open');
-    if (isOpen) {
-      detailsElement.removeAttribute('open');
-    } else {
-      detailsElement.setAttribute('open', '');
-    }
-
-    // Update aria-expanded for the clicked summary
-    event.currentTarget.setAttribute('aria-expanded', !isOpen);
-
-    // Close all other details elements by removing 'open'
-    document.querySelectorAll('[id^="Details-"] details').forEach((otherDetails) => {
-      if (otherDetails !== detailsElement) {
-        otherDetails.removeAttribute('open');
-        // Update aria-expanded for other summaries
-        const otherSummary = otherDetails.querySelector('summary');
-        if (otherSummary) {
-          otherSummary.setAttribute('aria-expanded', 'false');
-        }
-      }
-    });
+    event.currentTarget.setAttribute('aria-expanded', !event.currentTarget.closest('details').hasAttribute('open'));
   });
 
-  // Prevent this logic from applying to specific parent elements like drawer menus
   if (summary.closest('header-drawer, menu-drawer')) return;
   summary.parentElement.addEventListener('keyup', onKeyUpEscape);
 });
-
 
 const trapFocusHandlers = {};
 

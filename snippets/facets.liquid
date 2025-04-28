@@ -907,51 +907,25 @@
           <script>
             document.addEventListener('DOMContentLoaded', function () {
               // Get all the details elements
-              const detailsElements = document.querySelectorAll('#FacetsWrapperDesktop details');
+              const detailsElements = document.querySelectorAll('#FacetsWrapperDesktop details summary');
               console.log('Details elements:', detailsElements);
 
               // Add click event listener to each details element
               detailsElements.forEach(function (details) {
-                details.addEventListener('click', function (e) {
-                  // Stop the event from bubbling up (so it doesn't trigger on parents)
-                  e.stopPropagation();
-
+                details.addEventListener('click', function () {
                   console.log('Clicked details:', details); // Log clicked details
 
                   // Loop through all details elements and remove the open attribute from others
                   detailsElements.forEach(function (otherDetails) {
                     if (otherDetails !== details) {
                       console.log('Closing details:', otherDetails); // Log closing details
-                      otherDetails.removeAttribute('open'); // Remove open from other details
+                      otherDetails.removeAttribute('open');
                     }
                   });
 
                   // Ensure the clicked details stays open
-                  if (!details.hasAttribute('open')) {
-                    console.log('Opening details:', details); // Log opening details
-                    details.setAttribute('open', 'open'); // Properly set open attribute with 'open' value
-                  }
-                });
-
-                // Also add the event listener for click on the summary or anything inside the details
-                details.querySelectorAll('*').forEach((child) => {
-                  child.addEventListener('click', function (e) {
-                    e.stopPropagation(); // Prevent the event from bubbling up to parent elements
-                    console.log('Clicked inside details:', details); // Log click inside details
-
-                    // Open the clicked details element and close others
-                    detailsElements.forEach(function (otherDetails) {
-                      if (otherDetails !== details) {
-                        console.log('Closing details:', otherDetails);
-                        otherDetails.removeAttribute('open');
-                      }
-                    });
-
-                    if (!details.hasAttribute('open')) {
-                      console.log('Opening details from inside click:', details);
-                      details.setAttribute('open', 'open');
-                    }
-                  });
+                  console.log('Opening details:', details); // Log opening details
+                  details.setAttribute('open', 'open'); // Set open attribute
                 });
               });
             });

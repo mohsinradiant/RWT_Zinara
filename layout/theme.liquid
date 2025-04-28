@@ -385,8 +385,12 @@
         document.addEventListener('DOMContentLoaded', function () {
           const storedReturnUrl = localStorage.getItem('return_url');
 
-          // Check if the return_url exists and the user is logged in
-          if (storedReturnUrl && !window.location.href.includes('/account')) {
+          // Check if the return_url exists and ensure we aren't on the account page
+          if (
+            storedReturnUrl &&
+            !window.location.href.includes('/account') &&
+            !document.body.classList.contains('logged-out')
+          ) {
             localStorage.removeItem('return_url'); // Clean up after use
             window.location.href = storedReturnUrl;
           }

@@ -2803,7 +2803,7 @@
     const overlay = document.getElementById('tryAtHomeOverlay');
     const pincodePopup = document.getElementById('tryAtHomePincodePopup');
     const closeButton = document.getElementById('tryAtHomeClose');
-    const submitButton = document.getElementById('tryAtHomeSubmitBtn');
+    const submitButton_2 = document.getElementById('tryAtHomeSubmitBtn');
     const zipcodeInput = document.getElementById('tryAtHomeZipcode');
     const res = document.getElementById('tryAtHomeRes');
     const inventoryElement = document.querySelector('.product__inventory');
@@ -2831,12 +2831,13 @@
 
     // Check if the user is logged in
     function isLoggedIn() {
-  return {{ customer != null | json }};
+  return {% if customer %}true{% else %}false{% endif %};
 }
+
 
     // Handle pincode validation and login/redirection
     function handlePincodeCheck() {
-      submitButton.addEventListener('click', () => {
+      submitButton_2.addEventListener('click', () => {
         const zipcode = zipcodeInput.value.trim();
         const pincodeRegex = /^[1-9][0-9]{5}$/;
 

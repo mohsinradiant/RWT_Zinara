@@ -1139,16 +1139,10 @@ header .menu-drawer {
 
 @media(max-width:756px) {
 
-    #main-collection-filters,
-    #main-collection-filters .facets-container,
-    #main-collection-filters .facets-container facet-filters-form,
-    #main-collection-filters .facets-container facet-filters-form .facets__form-vertical {
-        overflow: visible !important;
-    }
-    #main-collection-filters .facets-container facet-filters-form .facets__form-vertical #FacetsWrapperDesktop{
+    #main-collection-filters .facets-container facet-filters-form .facets__form-vertical #FacetsWrapperDesktop {
         overflow-x: auto !important;
-        
     }
+
     .filter-rts-button {
         background: #f2eeeb;
         color: #610C27 !important;

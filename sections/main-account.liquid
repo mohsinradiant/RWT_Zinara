@@ -264,18 +264,6 @@
     }
   });
 </script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const logoutButton = document.querySelector('.logout-button'); // Change this to your actual logout button selector
-
-    if (logoutButton) {
-      logoutButton.addEventListener('click', function () {
-        // Clear the return_url when user logs out
-        localStorage.removeItem('return_url');
-      });
-    }
-  });
-</script>
 
 {% schema %}
 {

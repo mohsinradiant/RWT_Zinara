@@ -180,7 +180,8 @@
           const urlParams = new URLSearchParams(window.location.search);
           const returnUrl = urlParams.get('return_url');
 
-          if (returnUrl) {
+          // Only set returnUrl if it contains 'try-at-home' or 'video-trial'
+          if (returnUrl && (returnUrl.includes('try-at-home') || returnUrl.includes('video-trial'))) {
             localStorage.setItem('return_url', returnUrl);
           }
         });

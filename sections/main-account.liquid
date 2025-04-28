@@ -266,8 +266,9 @@
 </script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const logoutButton = document.querySelector('.account div a'); // Change this to your actual logout button selector
+    const logoutButton = document.querySelector('.account div a'); // Verify this selector
 
+    // Check if the logout button exists
     if (logoutButton) {
       logoutButton.addEventListener('click', function () {
         // Clear the return_url when user logs out

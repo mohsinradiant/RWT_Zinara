@@ -909,18 +909,25 @@
               // Get all the details elements
               const detailsElements = document.querySelectorAll('#FacetsWrapperDesktop details');
               console.log('Details elements:', detailsElements);
+
               // Add click event listener to each details element
               detailsElements.forEach(function (details) {
                 details.addEventListener('click', function () {
+                  console.log('Clicked details:', details); // Log clicked details
+
                   // Loop through all details elements and remove the open attribute from others
                   detailsElements.forEach(function (otherDetails) {
                     if (otherDetails !== details) {
+                      console.log('Closing details:', otherDetails); // Log closing details
                       otherDetails.removeAttribute('open');
                     }
                   });
 
                   // Ensure the clicked details stays open
-                  details.setAttribute('open', ''); // Set open attribute
+                  if (!details.hasAttribute('open')) {
+                    console.log('Opening details:', details); // Log opening details
+                    details.setAttribute('open', ''); // Set open attribute
+                  }
                 });
               });
             });

@@ -904,6 +904,27 @@
               });
             });
           </script>
+          <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              // Get all the details elements
+              const detailsElements = document.querySelectorAll('#FacetsWrapperDesktop details');
+
+              // Add click event listener to each details element
+              detailsElements.forEach(function (details) {
+                details.addEventListener('click', function () {
+                  // Loop through all details elements and remove the open attribute
+                  detailsElements.forEach(function (otherDetails) {
+                    if (otherDetails !== details) {
+                      otherDetails.removeAttribute('open');
+                    }
+                  });
+
+                  // Ensure the clicked details stays open
+                  details.setAttribute('open', true);
+                });
+              });
+            });
+          </script>
           {% comment %} Pills after filtes on filter type horizontal {% endcomment %}
           {%- if filter_type == 'horizontal' -%}
             <div class="active-facets active-facets-desktop">

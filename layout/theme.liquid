@@ -386,8 +386,16 @@
           const storedReturnUrl = localStorage.getItem('return_url');
 
           if (storedReturnUrl) {
-            localStorage.removeItem('return_url'); // Clean up after use
-            window.location.href = storedReturnUrl;
+            // Check if the current page is the home page and it's a valid return_url
+            const isComingFromRegister = storedReturnUrl.includes('/account/register');
+
+            if (isComingFromRegister) {
+              // Clean up the return_url from localStorage after use
+              localStorage.removeItem('return_url');
+
+              // Redirect to the return_url
+              window.location.href = storedReturnUrl;
+            }
           }
         });
       </script>

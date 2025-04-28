@@ -752,8 +752,9 @@
           }
 
           function isLoggedIn() {
-  return {{ customer ? 'true' : 'false' }};
+  return {{ customer != null | json }};
 }
+
 
           // Handle pincode validation and redirection
           function handlePincodeCheck() {

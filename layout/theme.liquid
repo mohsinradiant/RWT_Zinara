@@ -403,43 +403,61 @@
     {% endif %}
     {% comment %} gokwik return_url read {% endcomment %}
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // Utility: Get return_url from current page URL
+      document.addEventListener('DOMContentLoaded', function () {
+        console.log('DOM fully loaded');
+
         function getReturnUrl() {
           const params = new URLSearchParams(window.location.search);
-          return decodeURIComponent(params.get("return_url") || "/account");
+          const rawReturnUrl = params.get('return_url');
+          console.log('Raw return_url:', rawReturnUrl);
+          return decodeURIComponent(rawReturnUrl || '/account');
         }
-    
-        // Wait for the #d2c-pass container to be available
+
         const observer = new MutationObserver(() => {
-          const container = document.querySelector("#d2c-pass");
-          if (!container) return;
-    
-          const verifyBtn = container.querySelector("#submit-button");
-          if (!verifyBtn) return;
-    
-          // Monitor when the button becomes enabled
+          const container = document.querySelector('#d2c-pass');
+          if (!container) {
+            console.log('#d2c-pass not found yet');
+            return;
+          }
+          console.log('#d2c-pass found');
+
+          const verifyBtn = container.querySelector('#submit-button');
+          if (!verifyBtn) {
+            console.log('#submit-button not found inside #d2c-pass');
+            return;
+          }
+          console.log('#submit-button found');
+
+          // Stop checking once both container and button are found
+          observer.disconnect();
+
           const btnObserver = new MutationObserver(() => {
             if (!verifyBtn.disabled) {
-              verifyBtn.addEventListener("click", function (e) {
-                e.preventDefault();
-                window.location.href = getReturnUrl();
-              }, { once: true });
+              console.log('#submit-button is now enabled');
+
+              verifyBtn.addEventListener(
+                'click',
+                function (e) {
+                  e.preventDefault();
+                  const returnUrl = getReturnUrl();
+                  console.log('Redirecting to:', returnUrl);
+                  window.location.href = returnUrl;
+                },
+                { once: true }
+              );
+            } else {
+              console.log('#submit-button still disabled');
             }
           });
-    
-          // Observe disabled state change
-          btnObserver.observe(verifyBtn, { attributes: true, attributeFilter: ["disabled"] });
-    
-          // Stop watching once found
-          observer.disconnect();
+
+          // Watch for changes in the disabled attribute
+          btnObserver.observe(verifyBtn, { attributes: true, attributeFilter: ['disabled'] });
         });
-    
-        // Start observing the body for changes (e.g., external script injects content)
+
         observer.observe(document.body, { childList: true, subtree: true });
       });
     </script>
-    
+
     {% sections 'header-group' %}
     {% render 'breadcrumbs' %}
     <main

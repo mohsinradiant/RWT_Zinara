@@ -404,64 +404,27 @@
     {% comment %} gokwik return_url read {% endcomment %}
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        console.log('DOM fully loaded');
+        const returnUrl = new URLSearchParams(window.location.search).get('return_url');
+        const decodedReturnUrl = decodeURIComponent(returnUrl || '/');
 
-        function getReturnUrl() {
-          const params = new URLSearchParams(window.location.search);
-          const rawReturnUrl = params.get('return_url');
-          console.log('Raw return_url:', rawReturnUrl);
-          return decodeURIComponent(rawReturnUrl || '/account');
-        }
+        const expectedFinalUrl = window.location.origin + '/account';
 
-        // Step 1: Wait for #d2c-pass
         const observer = new MutationObserver(() => {
-          const container = document.querySelector('#d2c-pass');
-          if (!container) {
-            console.log('#d2c-pass not found yet');
-            return;
+          // Detect when the current URL changes to /account (i.e., login success)
+          if (window.location.pathname === '/account') {
+            console.log('Redirect detected to /account — overriding to return_url:', decodedReturnUrl);
+            window.location.replace(decodedReturnUrl);
           }
-          console.log('#d2c-pass found');
-          observer.disconnect();
-
-          // Step 2: Poll for #submit-button inside #d2c-pass
-          const buttonPoll = setInterval(() => {
-            const verifyBtn = container.querySelector('#submit-button');
-            if (!verifyBtn) {
-              console.log('#submit-button not found inside #d2c-pass');
-              return;
-            }
-
-            console.log('#submit-button found inside #d2c-pass');
-            clearInterval(buttonPoll);
-
-            // Step 3: Wait for it to become enabled
-            const btnObserver = new MutationObserver(() => {
-              if (!verifyBtn.disabled) {
-                console.log('#submit-button is now enabled');
-
-                verifyBtn.addEventListener(
-                  'click',
-                  function (e) {
-                    e.preventDefault();
-                    const returnUrl = getReturnUrl();
-                    console.log('Redirecting to:', returnUrl);
-                    window.location.href = returnUrl;
-                  },
-                  { once: true }
-                );
-              } else {
-                console.log('#submit-button still disabled');
-              }
-            });
-
-            btnObserver.observe(verifyBtn, {
-              attributes: true,
-              attributeFilter: ['disabled'],
-            });
-          }, 200);
         });
 
-        observer.observe(document.body, { childList: true, subtree: true });
+        // Monitor URL changes
+        let lastHref = location.href;
+        setInterval(() => {
+          if (location.href !== lastHref) {
+            lastHref = location.href;
+            observer.takeRecords(); // Trigger mutation logic
+          }
+        }, 200);
       });
     </script>
 

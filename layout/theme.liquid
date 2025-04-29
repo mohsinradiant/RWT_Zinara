@@ -413,6 +413,7 @@
           return decodeURIComponent(rawReturnUrl || '/account');
         }
 
+        // Step 1: Wait for #d2c-pass
         const observer = new MutationObserver(() => {
           const container = document.querySelector('#d2c-pass');
           if (!container) {
@@ -420,38 +421,44 @@
             return;
           }
           console.log('#d2c-pass found');
-
-          const verifyBtn = container.querySelector('#submit-button');
-          if (!verifyBtn) {
-            console.log('#submit-button not found inside #d2c-pass');
-            return;
-          }
-          console.log('#submit-button found');
-
-          // Stop checking once both container and button are found
           observer.disconnect();
 
-          const btnObserver = new MutationObserver(() => {
-            if (!verifyBtn.disabled) {
-              console.log('#submit-button is now enabled');
-
-              verifyBtn.addEventListener(
-                'click',
-                function (e) {
-                  e.preventDefault();
-                  const returnUrl = getReturnUrl();
-                  console.log('Redirecting to:', returnUrl);
-                  window.location.href = returnUrl;
-                },
-                { once: true }
-              );
-            } else {
-              console.log('#submit-button still disabled');
+          // Step 2: Poll for #submit-button inside #d2c-pass
+          const buttonPoll = setInterval(() => {
+            const verifyBtn = container.querySelector('#submit-button');
+            if (!verifyBtn) {
+              console.log('#submit-button not found inside #d2c-pass');
+              return;
             }
-          });
 
-          // Watch for changes in the disabled attribute
-          btnObserver.observe(verifyBtn, { attributes: true, attributeFilter: ['disabled'] });
+            console.log('#submit-button found inside #d2c-pass');
+            clearInterval(buttonPoll);
+
+            // Step 3: Wait for it to become enabled
+            const btnObserver = new MutationObserver(() => {
+              if (!verifyBtn.disabled) {
+                console.log('#submit-button is now enabled');
+
+                verifyBtn.addEventListener(
+                  'click',
+                  function (e) {
+                    e.preventDefault();
+                    const returnUrl = getReturnUrl();
+                    console.log('Redirecting to:', returnUrl);
+                    window.location.href = returnUrl;
+                  },
+                  { once: true }
+                );
+              } else {
+                console.log('#submit-button still disabled');
+              }
+            });
+
+            btnObserver.observe(verifyBtn, {
+              attributes: true,
+              attributeFilter: ['disabled'],
+            });
+          }, 200);
         });
 
         observer.observe(document.body, { childList: true, subtree: true });

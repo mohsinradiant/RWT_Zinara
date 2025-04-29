@@ -371,7 +371,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   </head>
-
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
@@ -402,7 +401,45 @@
         });
       </script>
     {% endif %}
-
+    {% comment %} gokwik return_url read {% endcomment %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Utility: Get return_url from current page URL
+        function getReturnUrl() {
+          const params = new URLSearchParams(window.location.search);
+          return decodeURIComponent(params.get("return_url") || "/account");
+        }
+    
+        // Wait for the #d2c-pass container to be available
+        const observer = new MutationObserver(() => {
+          const container = document.querySelector("#d2c-pass");
+          if (!container) return;
+    
+          const verifyBtn = container.querySelector("#submit-button");
+          if (!verifyBtn) return;
+    
+          // Monitor when the button becomes enabled
+          const btnObserver = new MutationObserver(() => {
+            if (!verifyBtn.disabled) {
+              verifyBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                window.location.href = getReturnUrl();
+              }, { once: true });
+            }
+          });
+    
+          // Observe disabled state change
+          btnObserver.observe(verifyBtn, { attributes: true, attributeFilter: ["disabled"] });
+    
+          // Stop watching once found
+          observer.disconnect();
+        });
+    
+        // Start observing the body for changes (e.g., external script injects content)
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+    </script>
+    
     {% sections 'header-group' %}
     {% render 'breadcrumbs' %}
     <main
@@ -762,8 +799,8 @@
           }
 
           function isLoggedIn() {
-  return {{ customer != null | json }};
-}
+        return {{ customer != null | json }};
+        }
 
 
           // Handle pincode validation and redirection

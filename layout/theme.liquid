@@ -401,33 +401,6 @@
         });
       </script>
     {% endif %}
-    {% comment %} gokwik return_url read {% endcomment %}
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const returnUrl = new URLSearchParams(window.location.search).get('return_url');
-        const decodedReturnUrl = decodeURIComponent(returnUrl || '/');
-
-        const expectedFinalUrl = window.location.origin + '/account';
-
-        const observer = new MutationObserver(() => {
-          // Detect when the current URL changes to /account (i.e., login success)
-          if (window.location.pathname === '/account') {
-            console.log('Redirect detected to /account — overriding to return_url:', decodedReturnUrl);
-            window.location.replace(decodedReturnUrl);
-          }
-        });
-
-        // Monitor URL changes
-        let lastHref = location.href;
-        setInterval(() => {
-          if (location.href !== lastHref) {
-            lastHref = location.href;
-            observer.takeRecords(); // Trigger mutation logic
-          }
-        }, 200);
-      });
-    </script>
-
     {% sections 'header-group' %}
     {% render 'breadcrumbs' %}
     <main

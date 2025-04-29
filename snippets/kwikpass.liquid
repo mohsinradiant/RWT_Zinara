@@ -1,76 +1,32 @@
 <script>
   let isElementsWithAccountClickable = true;
-
   function getCustomerId() {
     {% if customer %}
     return {{ customer.id | json }};
     {% else %}
-    return null;
+    return null
     {% endif %}
   }
-
   function getThemeId() {
     {% if theme %}
     return {{ theme.id | json }};
     {% else %}
-    return null;
+    return null
     {% endif %}
   }
-
   window.merchantInfo  = {
     ...window.merchantInfo,
-    mid: "4y6fima17b5l2",
-    environment: "production",
-    type: "merchantInfo"
-  };
-
-  // Function to handle redirection to the return_url after successful login
-  function redirectToReturnUrl() {
-    const params = new URLSearchParams(window.location.search);
-    const returnUrl = decodeURIComponent(params.get("return_url") || "/");
-
-    // Redirect to the return_url after login or OTP verification
-    console.log('Redirecting to:', returnUrl);
-    window.location.replace(returnUrl);
-  }
-
+          mid: "4y6fima17b5l2",
+          environment: "production",
+          type: "merchantInfo"
+    }
   document.addEventListener('DOMContentLoaded', function() {
     handleDOMUpdate();
-    attachIframeEventListener();
-  });
-
+  })
   window.addEventListener('update-dom', function() {
     handleDOMUpdate();
-    attachIframeEventListener();
-  });
-
-  function attachIframeEventListener() {
-    const iframe = document.getElementById('iframe-kp');
-
-    if (iframe) {
-      iframe.addEventListener('load', function() {
-        console.log('Iframe loaded');
-
-        // Access the iframe content and look for the "Verify" button
-        const iframeDocument = iframe.contentWindow.document;
-        const submitButton = iframeDocument.querySelector('#submit-button');
-
-        if (submitButton && submitButton.textContent.trim() === 'Verify') {
-          console.log('Found "Verify" button in iframe');
-
-          // Add an event listener to the "Verify" button
-          submitButton.addEventListener('click', function() {
-            console.log('Verify button clicked');
-
-            // After clicking the Verify button, redirect to the return_url
-            redirectToReturnUrl();
-          });
-        }
-      });
-    }
-  }
+  })
 </script>
-
 <script src="https://pdp.gokwik.co/kwikpass/kwikpass-core-functions-min.js" defer></script>
 <script defer src="https://pdp.gokwik.co/kwikpass/plugin/build/kp-merchant-v2.js"></script>
 <script defer src="https://pdp.gokwik.co/kwikpass/plugin/build/kp-shopify-app-sdk.js"></script>

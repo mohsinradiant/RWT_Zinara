@@ -24,6 +24,16 @@
     type: "merchantInfo"
   };
 
+  // Function to handle redirection to the return_url after successful login
+  function redirectToReturnUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const returnUrl = decodeURIComponent(params.get("return_url") || "/");
+
+    // Redirect to the return_url after login or OTP verification
+    console.log('Redirecting to:', returnUrl);
+    window.location.replace(returnUrl);
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     handleDOMUpdate();
     attachIframeEventListener();
@@ -48,12 +58,12 @@
         if (submitButton && submitButton.textContent.trim() === 'Verify') {
           console.log('Found "Verify" button in iframe');
 
-          // Example: Add an event listener for the submit button
+          // Add an event listener to the "Verify" button
           submitButton.addEventListener('click', function() {
             console.log('Verify button clicked');
 
-            // Optionally, redirect after the click if you want to
-            // window.location.replace(decodedReturnUrl);
+            // After clicking the Verify button, redirect to the return_url
+            redirectToReturnUrl();
           });
         }
       });

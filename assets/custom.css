@@ -394,11 +394,6 @@ header .header__search {
     height: 100%;
     width: 100%;
 }
-
-.banner__media:after {
-    pointer-events: none;
-}
-
 #FacetsWrapperDesktop details:first-of-type {
     border-top: none !important;
 }

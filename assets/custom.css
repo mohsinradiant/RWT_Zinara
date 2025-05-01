@@ -389,6 +389,12 @@ header .header__search {
     color: #F4EEEB !important;
 }
 
+.slideshow__slide a {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
 #FacetsWrapperDesktop details:first-of-type {
     border-top: none !important;
 }

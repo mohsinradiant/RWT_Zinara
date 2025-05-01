@@ -129,46 +129,55 @@
         aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
         tabindex="-1"
       >
-        <div class="slideshow__media banner__media media{% if block.settings.image == blank %} placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}">
-          <!-- Desktop Image -->
-          <div class="desktop-image">
-            {%- if block.settings.image -%}
-              {%- if forloop.first -%}
-                {{ block.settings.image | image_url: width: 3840 | image_tag: fetchpriority: 'high', loading: 'eager' }}
-              {%- else -%}
-                {{ block.settings.image | image_url: width: 3840 | image_tag: fetchpriority: 'low', loading: 'lazy' }}
-              {%- endif -%}
+        <a
+          {% if block.settings.link %}
+            href="{{ block.settings.link }}"
+          {% endif %}
+        >
+          <div class="slideshow__media banner__media media{% if block.settings.image == blank %} placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}">
+            <!-- Desktop Image -->
+            <div class="desktop-image">
+              {%- if block.settings.image -%}
+                {%- if forloop.first -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 3840
+                    | image_tag: fetchpriority: 'high', loading: 'eager'
+                  }}
+                {%- else -%}
+                  {{ block.settings.image | image_url: width: 3840 | image_tag: fetchpriority: 'low', loading: 'lazy' }}
+                {%- endif -%}
 
-            {%- else -%}
-              {%- assign placeholder_slide = forloop.index | modulo: 2 -%}
-              {%- if placeholder_slide == 1 -%}
-                {{ 'hero-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
               {%- else -%}
-                {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- assign placeholder_slide = forloop.index | modulo: 2 -%}
+                {%- if placeholder_slide == 1 -%}
+                  {{ 'hero-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- else -%}
+                  {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
               {%- endif -%}
-            {%- endif -%}
+            </div>
+
+            <!-- Mobile Image -->
+            <div class="mobile-image">
+              {%- if block.settings.image_mobile -%}
+                {%- if forloop.first %}
+                  {{
+                    block.settings.image_mobile
+                    | image_url: width: 3840
+                    | image_tag: height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
+                  }}
+                {%- else -%}
+                  {{
+                    block.settings.image_mobile
+                    | image_url: width: 3840
+                    | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths
+                  }}
+                {%- endif -%}
+              {%- endif -%}
+            </div>
           </div>
-
-          <!-- Mobile Image -->
-          <div class="mobile-image">
-            {%- if block.settings.image_mobile -%}
-              {%- if forloop.first %}
-                {{
-                  block.settings.image_mobile
-                  | image_url: width: 3840
-                  | image_tag: height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
-                }}
-              {%- else -%}
-                {{
-                  block.settings.image_mobile
-                  | image_url: width: 3840
-                  | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths
-                }}
-              {%- endif -%}
-            {%- endif -%}
-          </div>
-        </div>
-
+        </a>
         {% comment %}
           <div class="slideshow__text-wrapper banner__content banner__content--{{ block.settings.box_align }} page-width{% if block.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if settings.animations_reveal_on_scroll and forloop.index == 1 %} scroll-trigger animate--slide-in{% endif %}">
               <div class="slideshow__text banner__box content-container content-container--full-width-mobile color-{{ block.settings.color_scheme }} gradient slideshow__text--{{ block.settings.text_alignment }} slideshow__text-mobile--{{ block.settings.text_alignment_mobile }}">

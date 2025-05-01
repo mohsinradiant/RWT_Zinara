@@ -395,7 +395,7 @@ header .header__search {
     width: 100%;
 }
 
-.banner__media:after {
+.banner::after {
     pointer-events: none;
 }
 

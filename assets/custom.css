@@ -395,8 +395,8 @@ header .header__search {
     width: 100%;
 }
 
-.banner::after {
-    pointer-events: none !important;
+.banner__media:after {
+    pointer-events: none;
 }
 
 #FacetsWrapperDesktop details:first-of-type {

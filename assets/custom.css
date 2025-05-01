@@ -396,7 +396,7 @@ header .header__search {
 }
 
 .banner__media:after {
-    pointer-events: none;
+    pointer-events: none !important;
 }
 
 #FacetsWrapperDesktop details:first-of-type {

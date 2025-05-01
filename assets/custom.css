@@ -395,7 +395,7 @@ header .header__search {
     width: 100%;
 }
 
-.slideshow__slide .banner__media:after {
+.banner__media:after {
     pointer-events: none;
 }
 

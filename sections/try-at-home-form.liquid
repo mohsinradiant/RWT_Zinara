@@ -559,10 +559,10 @@ for (let i = 0; i < 7; i++) {
   // Submit Form
   document.getElementById('bookTrialTah').addEventListener('click', async () => {
     const button = document.getElementById('bookTrialTah');
-    button.classList.add('loading'); // Add loading state
-    button.disabled = true; // Disable the button
+    button.classList.add('loading');
+    button.disabled = true;
+
     try {
-      // Get selected date and time
       const activeDateBtn = document.querySelector('.date-btn.selected');
       const activeTimeBtn = document.querySelector('.timeslot-btn.selected');
 
@@ -571,16 +571,14 @@ for (let i = 0; i < 7; i++) {
         return;
       }
 
-      const activeDate = activeDateBtn.getAttribute('data-date'); // Format: YYYY-MM-DD
-      let activeTime = activeTimeBtn.getAttribute('data-time'); // Format: HH:mm
+      const activeDate = activeDateBtn.getAttribute('data-date');
+      let activeTime = activeTimeBtn.getAttribute('data-time');
 
-      // If data-time is not defined, fallback to extracting time from the button text
       if (!activeTime) {
-        const timeText = activeTimeBtn.textContent.trim(); // e.g., "18:00 - 18:30"
-        activeTime = timeText.split('-')[0].trim(); // Extract "18:00"
+        const timeText = activeTimeBtn.textContent.trim();
+        activeTime = timeText.split('-')[0].trim();
       }
 
-      // Combine date and time into a single Date object
       const combinedDateTime = `${activeDate}T${activeTime}:00`;
       const timeslotLocal = new Date(combinedDateTime);
 
@@ -590,11 +588,10 @@ for (let i = 0; i < 7; i++) {
         return;
       }
 
-      const ISTOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
-      const timeslotIST = new Date(timeslotLocal.getTime() + ISTOffset); // Adjust to IST
-      const timeslot = timeslotIST.toISOString(); // Convert to ISO format
+      const ISTOffset = 5.5 * 60 * 60 * 1000;
+      const timeslotIST = new Date(timeslotLocal.getTime() + ISTOffset);
+      const timeslot = timeslotIST.toISOString();
 
-      // Other data fields
       const house = document.getElementById('house').value.trim();
       const locality = document.getElementById('locality').value.trim();
       const city = document.getElementById('city').value.trim();
@@ -603,6 +600,7 @@ for (let i = 0; i < 7; i++) {
       const address = `${house}, ${locality}, ${city}, ${state}`.replace(/,\s*$/, '');
       const productVariant =
         window.selectedProductIds && window.selectedProductIds.length > 0 ? window.selectedProductIds : null;
+
       const phoneInput = document.getElementById('phone');
       const emailInput = document.getElementById('email');
       const phone = phoneInput ? phoneInput.value.trim() : "{{ customer.phone | default: '' }}";
@@ -611,7 +609,6 @@ for (let i = 0; i < 7; i++) {
       const name = "{{ customer.first_name | default: '' }} {{ customer.last_name | default: '' }}".trim();
 
       if (!customerId) {
-        // Save form data to sessionStorage and redirect to login page
         const formData = {
           timeslot,
           house,
@@ -625,7 +622,7 @@ for (let i = 0; i < 7; i++) {
           email,
         };
         sessionStorage.setItem('tryAtHomeFormData', JSON.stringify(formData));
-        window.location.href = '/account/login'; // Redirect to login page
+        window.location.href = '/account/login';
         return;
       }
 
@@ -659,82 +656,79 @@ for (let i = 0; i < 7; i++) {
 
       console.log('Final data being posted:', tryAtHomeData);
 
-      const response = await fetch('https://www.learningtlms.in/Zever4u/shopify_customer.php', {
+      // Send to PHP endpoint
+      const phpResponse = await fetch('https://www.learningtlms.in/Zever4u/shopify_customer.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(tryAtHomeData),
       });
 
-      const rawResponse = await response.text();
+      const rawResponse = await phpResponse.text();
       console.log('Raw Response:', rawResponse);
 
+      // Send to Google Apps Script
+      const sheetResponse = await fetch(
+        'https://script.google.com/a/macros/zinara.in/s/AKfycbyjSWr6ZF2xzR2Zwd1nsB_2BEEblspvfDB-DJ-0DEhiXPZa1XvYI6K7sAEJ7ip3IR_N/exec',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(tryAtHomeData),
+        }
+      );
+
+      const rawSheetResponse = await sheetResponse.text();
+      console.log('Sheet Response:', rawSheetResponse);
+
       const jsonResponse = JSON.parse(rawResponse);
-      if (response.ok && jsonResponse.success) {
-        // Show the success popup
+      if (phpResponse.ok && jsonResponse.success) {
         const content3 = document.getElementById('content-3-tah');
         content3.classList.remove('hidden');
         const content2 = document.querySelector('.content-2-tah');
         content2.style.display = 'none';
 
-        // Populate the product cards using selectedProducts
         const productCards = window.selectedProducts
           .map((product) => {
             return `
-             <div class="product-card">
-               <img src="${product.image}" alt="${product.title}" />
-               <div class="product-details">
-                 <h4>${product.title}</h4>
-                 <p>${product.price}</p>
-               </div>
-             </div>
-           `;
+            <div class="product-card">
+              <img src="${product.image}" alt="${product.title}" />
+              <div class="product-details">
+                <h4>${product.title}</h4>
+                <p>${product.price}</p>
+              </div>
+            </div>
+          `;
           })
           .join('');
 
-        // Update the content3 container with the product cards and other details
         const date = new Date(tryAtHomeData.timeslot);
-
-        // Subtract 5 hours and 30 minutes
         date.setHours(date.getHours() - 5);
         date.setMinutes(date.getMinutes() - 30);
 
-        const formattedDate = date.toLocaleDateString(); // e.g., "3/5/2025"
-        const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // e.g., "10:30 PM"
+        const formattedDate = date.toLocaleDateString();
+        const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
         content3.innerHTML = `
-              <div class="trial-booked-header">
-                <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1745235582">
-                <h3>Trial Booked</h3>
-              </div>
-              <div class="product-cards">
-                ${productCards}
-              </div>
-              <div class="address-details">
-                <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
-                <p><strong>Booked Time Slot:</strong> ${formattedDate} | ${formattedTime}</p>
-              </div>
-              <p class="trial_booked_bottom_text">${bookingSuccessContent}</p>
-            `;
-        // <button id="ajax_tah_succ_submit_see_trials">See Booked Trials</button>
-        //   <button id="ajax_tah_succ_submit_popup_close_bottom">Close</button>
-
-        // Redirect to account page `.account_page_tah_trials` section on "See Booked Trials" button click
-        // document.getElementById('ajax_tah_succ_submit_see_trials').addEventListener('click', () => {
-        //   window.location.href = '/account#account_page_tah_trials'; // Replace '/account' with your actual account page URL
-        // });
-
-        // Close popup on "Close" button click
-        // document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
-        //   content3.classList.add('hidden');
-        // });
+        <div class="trial-booked-header">
+          <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Vector_23.png?v=1745235582">
+          <h3>Trial Booked</h3>
+        </div>
+        <div class="product-cards">
+          ${productCards}
+        </div>
+        <div class="address-details">
+          <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
+          <p><strong>Booked Time Slot:</strong> ${formattedDate} | ${formattedTime}</p>
+        </div>
+        <p class="trial_booked_bottom_text">${bookingSuccessContent}</p>
+      `;
       } else {
         alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error during submission:', error);
     } finally {
-      button.classList.remove('loading'); // Remove loading state
-      button.disabled = false; // Re-enable the button
+      button.classList.remove('loading');
+      button.disabled = false;
     }
   });
 

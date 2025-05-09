@@ -120,7 +120,7 @@
               return response.json();
             })
             .then((product) => {
-              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 40) + '...' : product.title;
+              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 30) + '...' : product.title;
               window.selectedProducts = [];
 
               const formattedProduct = {

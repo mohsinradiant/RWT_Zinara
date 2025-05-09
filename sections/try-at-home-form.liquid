@@ -12,12 +12,29 @@
       </div>
     </div>
 
-    <div class="collection-products-container">
-      <h2 class="section-heading">Add More to try more!</h2>
-      <div id="collectionProducts">
-        <!-- Collection product cards will be inserted here -->
+    <div class="collection-products-section">
+      <aside
+        aria-labelledby="verticalTitle"
+        class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
+        id="main-collection-filters"
+        data-id="{{ section.id }}"
+      >
+        {% render 'facets',
+          results: collection,
+          enable_filtering: section.settings.enable_filtering,
+          enable_sorting: section.settings.enable_sorting,
+          filter_type: section.settings.filter_type,
+          paginate: paginate
+        %}
+      </aside>
+      <div class="collection-products-container">
+        <h2 class="section-heading">Add More to try more!</h2>
+        <div id="collectionProducts">
+          <!-- Collection product cards will be inserted here -->
+        </div>
       </div>
     </div>
+
     <div id="errorModal" class="error-modal">
       <div class="modal-content">
         <button id="closeModal" class="close-button">&times;</button>
@@ -105,143 +122,118 @@
         window.selectedProducts = [];
 
         const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
+        const collectionProductsContainer = document.getElementById('collectionProducts');
+        const filterInputs = document.querySelectorAll('.facets-wrapper input[type="checkbox"]');
+        let currentFilters = {};
 
         function getQueryParam(param) {
           const params = new URLSearchParams(window.location.search);
           return params.get(param);
         }
 
-        const productHandle = getQueryParam('product_handle');
+        function updateProductGrid(products) {
+          collectionProductsContainer.innerHTML = '';
+          products.forEach((product) => {
+            const featuredImage = product.images[0]?.src || '';
+            const price = product.variants[0]?.price || 0;
+            const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 30) + '...' : product.title;
 
-        if (productHandle) {
-          fetch(`/products/${productHandle}.js`)
-            .then((response) => {
-              if (!response.ok) throw new Error('Product not found');
-              return response.json();
-            })
-            .then((product) => {
-              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 40) + '...' : product.title;
-              window.selectedProducts = [];
+            const productCard = document.createElement('div');
+            productCard.classList.add('product-card');
+            productCard.dataset.id = product.id;
+            productCard.innerHTML = `
+          <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+          <div class="product-card-content">
+            <h2 class="product-card__title">${truncatedTitle}</h2>
+            <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
+            <button class="add-item-button"><span>+</span> Add</button>
+          </div>
+        `;
 
-              const formattedProduct = {
-                id: product.id.toString(),
-                image: `https:${product.featured_image}`,
-                title: truncatedTitle,
-                price: `₹${Math.floor(product.price / 100)}`,
-              };
+            productCard.querySelector('.add-item-button').addEventListener('click', function () {
+              if (window.selectedProducts.length >= 10) {
+                const errorModal = document.getElementById('errorModal');
+                errorModal.style.display = 'flex';
+                return;
+              }
 
-              window.selectedProducts.push(formattedProduct);
-              selectedProductIds.push(product.id);
+              const productId = product.id.toString();
+              const isProductAdded = window.selectedProducts.some((p) => p.id === productId);
 
-              selectedProductsContainer.innerHTML = `
-            <div class="product-card" data-id="${product.id}">
-              <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
-              <div class="product-card-content">
-                <h2 class="product-card__title">${truncatedTitle}</h2>
-                <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
-                <button class="remove-item-button">
-                  <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
-                </button>
-              </div>
-            </div>
-          `;
+              if (!isProductAdded) {
+                window.selectedProducts.push({
+                  id: productId,
+                  image: featuredImage,
+                  title: truncatedTitle,
+                  price: `₹${Math.floor(price).toLocaleString('en-IN')}`,
+                });
 
-              // document.getElementById('loadingMessage').style.display = 'none';
-              selectedProductsContainer.style.display = 'flex';
-              document.querySelector('.selected-products-container').style.display = 'flex';
-              document.querySelector('.content-1-tah-sub_heading').style.display = 'inline-block';
-              document.querySelector('.content-1-tah .section-heading').style.display = 'block';
+                selectedProductIds.push(productId);
 
-              attachRemoveEvent();
-            })
-            .catch((error) => {
-              console.error(error);
-              // document.getElementById('loadingMessage').textContent = 'Product not found or invalid handle provided.';
-              hideSelectedProductSection();
-            });
-        } else {
-          // document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
-          hideSelectedProductSection();
-        }
-
-        function hideSelectedProductSection() {
-          const selectedContainer = document.querySelector('.selected-products-container');
-          const subHeading = document.querySelector('.content-1-tah-sub_heading');
-          const headings = document.querySelectorAll('.content-1-tah .section-heading');
-
-          if (selectedContainer) selectedContainer.style.display = 'none';
-          if (subHeading) subHeading.style.display = 'none';
-          if (headings.length > 0) headings[0].style.display = 'none';
-        }
-
-        fetch(`/collections/{{ section.settings.collection_handle }}/products.json`)
-          .then((response) => response.json())
-          .then((data) => {
-            const collectionProductsContainer = document.getElementById('collectionProducts');
-
-            data.products.forEach((product) => {
-              const featuredImage = product.images[0]?.src || '';
-              const price = product.variants[0]?.price || 0;
-              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 30) + '...' : product.title;
-
-              const productCard = document.createElement('div');
-              productCard.classList.add('product-card');
-              productCard.dataset.id = product.id;
-              productCard.innerHTML = `
-            <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
-            <div class="product-card-content">
-              <h2 class="product-card__title">${truncatedTitle}</h2>
-              <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
-              <button class="add-item-button"><span>+</span> Add</button>
-            </div>
-          `;
-
-              productCard.querySelector('.add-item-button').addEventListener('click', function () {
-                if (window.selectedProducts.length >= 10) {
-                  const errorModal = document.getElementById('errorModal');
-                  errorModal.style.display = 'flex';
-                  return;
-                }
-
-                const productId = product.id.toString();
-                const isProductAdded = window.selectedProducts.some((p) => p.id === productId);
-
-                if (!isProductAdded) {
-                  window.selectedProducts.push({
-                    id: productId,
-                    image: featuredImage,
-                    title: truncatedTitle,
-                    price: `₹${Math.floor(price).toLocaleString('en-IN')}`,
-                  });
-
-                  selectedProductIds.push(productId);
-
-                  selectedProductsContainer.innerHTML += `
-                <div class="product-card" data-id="${productId}">
-                  <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
-                  <div class="product-card-content">
-                    <h2 class="product-card__title">${truncatedTitle}</h2>
-                    <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
-                    <button class="remove-item-button">
-                      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
-                    </button>
-                  </div>
+                selectedProductsContainer.innerHTML += `
+              <div class="product-card" data-id="${productId}">
+                <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+                <div class="product-card-content">
+                  <h2 class="product-card__title">${truncatedTitle}</h2>
+                  <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
+                  <button class="remove-item-button">
+                    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
+                  </button>
                 </div>
-              `;
+              </div>
+            `;
 
-                  this.textContent = 'Added';
-                  this.style.opacity = '0.7';
-                  this.disabled = true;
+                this.textContent = 'Added';
+                this.style.opacity = '0.7';
+                this.disabled = true;
 
-                  attachRemoveEvent();
-                }
-              });
-
-              collectionProductsContainer.appendChild(productCard);
+                attachRemoveEvent();
+              }
             });
-          })
-          .catch((error) => console.error('Error fetching collection products:', error));
 
+            collectionProductsContainer.appendChild(productCard);
+          });
+        }
+
+        function fetchProducts(filters = {}) {
+          const filterParams = new URLSearchParams(filters).toString();
+          const fetchUrl = `/collections/{{ section.settings.collection_handle }}/products.json${
+            filterParams ? '?' + filterParams : ''
+          }`;
+
+          fetch(fetchUrl)
+            .then((response) => response.json())
+            .then((data) => {
+              updateProductGrid(data.products);
+            })
+            .catch((error) => console.error('Error fetching filtered products:', error));
+        }
+
+        filterInputs.forEach((input) => {
+          input.addEventListener('change', function () {
+            const filterName = this.name;
+            const filterValue = this.value;
+
+            if (this.checked) {
+              if (!currentFilters[filterName]) {
+                currentFilters[filterName] = [];
+              }
+              currentFilters[filterName].push(filterValue);
+            } else {
+              currentFilters[filterName] = currentFilters[filterName].filter((value) => value !== filterValue);
+              if (currentFilters[filterName].length === 0) {
+                delete currentFilters[filterName];
+              }
+            }
+
+            fetchProducts(currentFilters);
+          });
+        });
+
+        // Initial fetch to populate product grid
+        fetchProducts();
+
+        // Add and remove product event handlers
         function attachRemoveEvent() {
           document.querySelectorAll('.remove-item-button').forEach((removeButton) => {
             removeButton.removeEventListener('click', handleRemoveEvent);
@@ -266,29 +258,7 @@
           }
         }
 
-        // 🔁 MutationObserver to control display toggling
-        const observer = new MutationObserver(() => {
-          const container = document.querySelector('.selected-products-container');
-          const container_child = document.getElementById('productCardContainer');
-          const subHeading = document.querySelector('.content-1-tah-sub_heading');
-          const sectionHeading = document.querySelector('.content-1-tah .section-heading');
-
-          const hasProducts = selectedProductsContainer.children.length > 0;
-
-          if (hasProducts) {
-            container?.style.setProperty('display', 'flex');
-            container_child?.classList.add('display_flex_important');
-            subHeading?.style.setProperty('display', 'block');
-            sectionHeading?.style.setProperty('display', 'block');
-          } else {
-            container?.style.setProperty('display', 'none');
-            container_child?.classList.remove('display_flex_important');
-            subHeading?.style.setProperty('display', 'none');
-            sectionHeading?.style.setProperty('display', 'none');
-          }
-        });
-
-        observer.observe(selectedProductsContainer, { childList: true });
+        attachRemoveEvent();
       });
     </script>
   </div>

@@ -175,17 +175,19 @@
           }
         });
       </script>
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          const urlParams = new URLSearchParams(window.location.search);
-          const returnUrl = urlParams.get('return_url');
+      {% comment %}
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const returnUrl = urlParams.get('return_url');
 
-          // Only set returnUrl if it contains 'try-at-home' or 'video-trial'
-          if (returnUrl && (returnUrl.includes('try-at-home') || returnUrl.includes('video-trial'))) {
-            localStorage.setItem('return_url', returnUrl);
-          }
-        });
-      </script>
+            // Only set returnUrl if it contains 'try-at-home' or 'video-trial'
+            if (returnUrl && (returnUrl.includes('try-at-home') || returnUrl.includes('video-trial'))) {
+              localStorage.setItem('return_url', returnUrl);
+            }
+          });
+        </script>
+      {% endcomment %}
     {%- endform -%}
   </div>
 

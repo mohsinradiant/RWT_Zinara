@@ -182,7 +182,7 @@
             data.products.forEach((product) => {
               const featuredImage = product.images[0]?.src || '';
               const price = product.variants[0]?.price || 0;
-              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 30) + '...' : product.title;
+              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 25) + '...' : product.title;
 
               const productCard = document.createElement('div');
               productCard.classList.add('product-card');

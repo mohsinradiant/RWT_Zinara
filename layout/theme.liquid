@@ -784,8 +784,7 @@
                 const targetUrl = validPincodes.includes(zipcode) ? tryAtHomeUrl : videoTrialUrl;
 
                 // Construct the login URL with the correct return_to parameter
-                const loginUrl = `/account/login?return_url=${encodeURIComponent(targetUrl)}`;
-
+                const loginUrl = `/account/login?return_url=${encodeURIComponent(targetUrl)}&kp_login=true&kp_redirect=${encodeURIComponent(targetUrl)}`;
                 // Redirect the user to the login page
                 window.location.href = loginUrl;
                 return;

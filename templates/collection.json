@@ -20,7 +20,7 @@
     "product-grid": {
       "type": "main-collection-product-grid",
       "custom_css": [
-        "css.product-card__image-with-placeholder-wrapper {background-color: white !important;}"
+        ".product-grid-image,.card__media,.product-card__image {background-color: #ffffff !important;}"
       ],
       "settings": {
         "products_per_page": 51,

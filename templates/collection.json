@@ -19,6 +19,9 @@
     },
     "product-grid": {
       "type": "main-collection-product-grid",
+      "custom_css": [
+        "css.product-card__image-with-placeholder-wrapper {background-color: white !important;}"
+      ],
       "settings": {
         "products_per_page": 51,
         "columns_desktop": 3,

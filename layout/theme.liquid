@@ -1105,5 +1105,28 @@
       {% endif %}
     {% endcomment %}
     {% render 'kwikpass' %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const pageTitle = document.title;
+        const pageUrl = window.location.href;
+        const isHomePage = {{ request.page_type == 'index' | json }};
+
+        const customerData = {
+          id: {{ customer.id | default: 'null' }},
+          email: {{ customer.email | json }},
+          first_name: {{ customer.first_name | json }},
+          last_name: {{ customer.last_name | json }}
+        };
+
+        gtag('event', isHomePage ? 'homepage_view' : 'page_view_custom', {
+          page_title: pageTitle,
+          page_location: pageUrl,
+          customer_id: customerData.id,
+          customer_email: customerData.email,
+          customer_first_name: customerData.first_name,
+          customer_last_name: customerData.last_name
+        });
+      });
+    </script>
   </body>
 </html>

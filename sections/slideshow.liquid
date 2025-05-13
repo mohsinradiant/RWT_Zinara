@@ -132,6 +132,7 @@
         <a
           {% if block.settings.link %}
             href="{{ block.settings.link }}"
+            class="banner-link"
           {% endif %}
         >
           <div class="slideshow__media banner__media media{% if block.settings.image == blank %} placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}">
@@ -142,10 +143,14 @@
                   {{
                     block.settings.image
                     | image_url: width: 3840
-                    | image_tag: fetchpriority: 'high', loading: 'eager'
+                    | image_tag: alt: block.settings.image_alt, fetchpriority: 'high', loading: 'eager'
                   }}
                 {%- else -%}
-                  {{ block.settings.image | image_url: width: 3840 | image_tag: fetchpriority: 'low', loading: 'lazy' }}
+                  {{
+                    block.settings.image
+                    | image_url: width: 3840
+                    | image_tag: alt: block.settings.image_alt, fetchpriority: 'low', loading: 'lazy'
+                  }}
                 {%- endif -%}
 
               {%- else -%}
@@ -165,13 +170,23 @@
                   {{
                     block.settings.image_mobile
                     | image_url: width: 3840
-                    | image_tag: height: height, sizes: sizes, widths: widths, fetchpriority: fetch_priority
+                    | image_tag:
+                      alt: block.settings.image_mobile_alt,
+                      height: height,
+                      sizes: sizes,
+                      widths: widths,
+                      fetchpriority: fetch_priority
                   }}
                 {%- else -%}
                   {{
                     block.settings.image_mobile
                     | image_url: width: 3840
-                    | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths
+                    | image_tag:
+                      alt: block.settings.image_mobile_alt,
+                      loading: 'lazy',
+                      height: height,
+                      sizes: sizes,
+                      widths: widths
                   }}
                 {%- endif -%}
               {%- endif -%}
@@ -282,6 +297,28 @@
 {%- if request.design_mode -%}
   <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const bannerLinks = document.querySelectorAll('a.banner-link');
+
+    bannerLinks.forEach((link) => {
+      link.addEventListener('click', function () {
+        const img = link.querySelector('img');
+        if (!img) return;
+
+        const bannerAlt = img.alt || 'No Alt Text';
+        const bannerSrc = img.currentSrc || img.src || 'Unknown Image URL';
+        const destinationUrl = link.href || 'Unknown URL';
+
+        gtag('event', 'home_banner_click', {
+          banner_alt_text: bannerAlt,
+          banner_image_url: bannerSrc,
+          banner_destination_url: destinationUrl,
+        });
+      });
+    });
+  });
+</script>
 
 {% schema %}
 {
@@ -422,9 +459,29 @@
           "label": "t:sections.slideshow.blocks.slide.settings.image.label"
         },
         {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Alt Text Desktop Image"
+        },
+        {
           "type": "image_picker",
           "id": "image_mobile",
           "label": "Image Mobile"
+        },
+        {
+          "type": "text",
+          "id": "image_mobile_alt",
+          "label": "Alt Text Mobile Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "image_aspect_ratio",
+          "label": "t:sections.slideshow.blocks.slide.settings.image_aspect_ratio.label",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "t:sections.slideshow.blocks.slide.settings.text.content"
         },
         {
           "type": "inline_richtext",

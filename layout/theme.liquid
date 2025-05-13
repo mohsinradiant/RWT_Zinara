@@ -370,6 +370,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    {% comment %} Google Anaylytics {% endcomment %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9HTXCELBNX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-9HTXCELBNX');
+    </script>
   </head>
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
@@ -1095,5 +1105,38 @@
       {% endif %}
     {% endcomment %}
     {% render 'kwikpass' %}
+    {% comment %} Google Analytics homepage_view {% endcomment %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const pageTitle = document.title;
+        const pageUrl = window.location.href;
+        const isHomePage = {{ request.page_type == 'index' | json }};
+
+        {% if customer %}
+          const customerData = {
+            id: {{ customer.id }},
+            email: {{ customer.email | json }},
+            first_name: {{ customer.first_name | json }},
+            last_name: {{ customer.last_name | json }}
+          };
+        {% else %}
+          const customerData = {
+            id: null,
+            email: null,
+            first_name: null,
+            last_name: null
+          };
+        {% endif %}
+
+        gtag('event', isHomePage ? 'homepage_view' : 'page_view_custom', {
+          page_title: pageTitle,
+          page_location: pageUrl,
+          customer_id: customerData.id,
+          customer_email: customerData.email,
+          customer_first_name: customerData.first_name,
+          customer_last_name: customerData.last_name
+        });
+      });
+    </script>
   </body>
 </html>

@@ -1112,12 +1112,21 @@
         const pageUrl = window.location.href;
         const isHomePage = {{ request.page_type == 'index' | json }};
 
-        const customerData = {
-          id: {{ customer.id | default: 'null' }},
-          email: {{ customer.email | json }},
-          first_name: {{ customer.first_name | json }},
-          last_name: {{ customer.last_name | json }}
-        };
+        {% if customer %}
+          const customerData = {
+            id: {{ customer.id }},
+            email: {{ customer.email | json }},
+            first_name: {{ customer.first_name | json }},
+            last_name: {{ customer.last_name | json }}
+          };
+        {% else %}
+          const customerData = {
+            id: null,
+            email: null,
+            first_name: null,
+            last_name: null
+          };
+        {% endif %}
 
         gtag('event', isHomePage ? 'homepage_view' : 'page_view_custom', {
           page_title: pageTitle,

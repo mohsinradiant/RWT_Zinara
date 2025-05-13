@@ -298,8 +298,6 @@
   <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 <script>
-  window.dataLayer = window.dataLayer || [];
-
   document.addEventListener('DOMContentLoaded', function () {
     const bannerLinks = document.querySelectorAll('a.banner-link');
 
@@ -312,27 +310,24 @@
         const bannerSrc = img.currentSrc || img.src || 'Unknown Image URL';
         const destinationUrl = link.href || '#';
 
-        // Prevent immediate navigation
+        // Prevent immediate redirection
         e.preventDefault();
 
-        // Send dataLayer event
-        window.dataLayer.push({
-          event: 'home_banner_click',
+        // Send GA4 event directly
+        gtag('event', 'home_banner_click', {
           banner_alt_text: bannerAlt,
           banner_image_url: bannerSrc,
           banner_destination_url: destinationUrl,
+          page_title: document.title,
+          page_location: window.location.href,
         });
 
-        console.log('home_banner_click sent', {
-          banner_alt_text: bannerAlt,
-          banner_image_url: bannerSrc,
-          banner_destination_url: destinationUrl,
-        });
+        console.log('Sent GA4 event: home_banner_click');
 
-        // Delay navigation to ensure GA gets the event
-        setTimeout(function () {
+        // Delay redirect to allow GA4 call
+        setTimeout(() => {
           window.location.href = destinationUrl;
-        }, 300); // You can reduce or increase delay if needed
+        }, 300); // Adjust as needed
       });
     });
   });

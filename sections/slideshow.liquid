@@ -143,13 +143,13 @@
                   {{
                     block.settings.image
                     | image_url: width: 3840
-                    | image_tag: alt: block.settings.image.alt, fetchpriority: 'high', loading: 'eager'
+                    | image_tag: alt: block.settings.image_alt, fetchpriority: 'high', loading: 'eager'
                   }}
                 {%- else -%}
                   {{
                     block.settings.image
                     | image_url: width: 3840
-                    | image_tag: alt: block.settings.image.alt, fetchpriority: 'low', loading: 'lazy'
+                    | image_tag: alt: block.settings.image_alt, fetchpriority: 'low', loading: 'lazy'
                   }}
                 {%- endif -%}
 

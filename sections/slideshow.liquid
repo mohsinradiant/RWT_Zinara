@@ -298,23 +298,41 @@
   <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 <script>
+  window.dataLayer = window.dataLayer || [];
+
   document.addEventListener('DOMContentLoaded', function () {
     const bannerLinks = document.querySelectorAll('a.banner-link');
 
     bannerLinks.forEach((link) => {
-      link.addEventListener('click', function () {
+      link.addEventListener('click', function (e) {
         const img = link.querySelector('img');
         if (!img) return;
 
         const bannerAlt = img.alt || 'No Alt Text';
         const bannerSrc = img.currentSrc || img.src || 'Unknown Image URL';
-        const destinationUrl = link.href || 'Unknown URL';
+        const destinationUrl = link.href || '#';
 
-        gtag('event', 'home_banner_click', {
+        // Prevent immediate navigation
+        e.preventDefault();
+
+        // Send dataLayer event
+        window.dataLayer.push({
+          event: 'home_banner_click',
           banner_alt_text: bannerAlt,
           banner_image_url: bannerSrc,
           banner_destination_url: destinationUrl,
         });
+
+        console.log('home_banner_click sent', {
+          banner_alt_text: bannerAlt,
+          banner_image_url: bannerSrc,
+          banner_destination_url: destinationUrl,
+        });
+
+        // Delay navigation to ensure GA gets the event
+        setTimeout(function () {
+          window.location.href = destinationUrl;
+        }, 300); // You can reduce or increase delay if needed
       });
     });
   });

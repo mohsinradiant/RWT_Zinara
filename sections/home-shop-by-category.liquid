@@ -36,6 +36,39 @@
     </div>
   </div>
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const categoryLinks = document.querySelectorAll('.category-item a');
+
+    categoryLinks.forEach((link) => {
+      link.addEventListener('click', function (e) {
+        const categoryName = link.querySelector('p')?.innerText || 'Unknown';
+        const categoryUrl = link.href || 'Unknown';
+
+        // Prevent immediate navigation
+        e.preventDefault();
+
+        // Send event to GA4
+        gtag('event', 'category_click', {
+          category_name: categoryName,
+          category_url: categoryUrl,
+          page_title: document.title,
+          page_location: window.location.href,
+        });
+
+        console.log('category_click sent:', {
+          category_name: categoryName,
+          category_url: categoryUrl,
+        });
+
+        // Redirect after slight delay
+        setTimeout(() => {
+          window.location.href = categoryUrl;
+        }, 300); // Adjust delay if needed
+      });
+    });
+  });
+</script>
 
 <style>
   .shop-by-category-section {

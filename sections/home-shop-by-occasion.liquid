@@ -13,6 +13,39 @@
     {% endfor %}
   </div>
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const occasionLinks = document.querySelectorAll('.occasion-tab-content a');
+
+    occasionLinks.forEach((link) => {
+      link.addEventListener('click', function (e) {
+        const occasionName = link.querySelector('p')?.innerText || 'Unknown';
+        const occasionUrl = link.href || 'Unknown';
+
+        // Prevent immediate navigation
+        e.preventDefault();
+
+        // Send event to GA4
+        gtag('event', 'occasion_click', {
+          occasion_name: occasionName,
+          occasion_url: occasionUrl,
+          page_title: document.title,
+          page_location: window.location.href,
+        });
+
+        console.log('occasion_click sent:', {
+          occasion_name: occasionName,
+          occasion_url: occasionUrl,
+        });
+
+        // Redirect after slight delay
+        setTimeout(() => {
+          window.location.href = occasionUrl;
+        }, 300); // Adjust delay if needed
+      });
+    });
+  });
+</script>
 
 <style>
   .occasion-images-container {

@@ -3109,6 +3109,78 @@
     handlePincodeCheck();
   });
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const submitBtn = document.getElementById('tryAtHomeSubmitBtn');
+
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function () {
+        const sourceUrl = window.location.href;
+        const pincode = document.getElementById('tryAtHomeZipcode')?.value?.trim() || 'Unknown';
+
+        // Get product handle and variant ID from URL
+        const urlParts = window.location.pathname.split('/');
+        const productHandle = urlParts.includes('products') ? urlParts[urlParts.indexOf('products') + 1] : 'Unknown';
+        const variantId = new URLSearchParams(window.location.search).get('variant') || 'Unknown';
+
+        // Get selected variants
+        const variantData = [];
+        document.querySelectorAll('variant-selects .product-form__input').forEach(inputBlock => {
+          const select = inputBlock.querySelector('select');
+          if (select) {
+            const name = select.getAttribute('name')?.replace('options[', '')?.replace(']', '');
+            const value = select.value;
+            if (name && value) {
+              variantData.push({ [name]: value });
+            }
+          }
+        });
+
+        // Get image redirection URL - assuming product page
+        const redirectUrl = window.location.href;
+
+        // Trigger GA4 event
+        gtag('event', 'try_at_home', {
+          source: 'Pincode Popup',
+          source_url: sourceUrl,
+          redirect_url: redirectUrl,
+          pincode: pincode,
+          product_handle: productHandle,
+          variant_id: variantId,
+          tags: {{ product.tags | json }},
+          category: {{ product.type | json }},
+          price: {{ product.price | divided_by: 100.0 }},
+          compare_at_price: {{ product.compare_at_price | divided_by: 100.0 }},
+          feature_badges: [
+            {% for badge in product.metafields.content['product-features-badges'].value %}
+              "{{ badge }}"{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+          ],
+          selected_variants: variantData
+        });
+
+        console.log('try_at_home event fired:', {
+          source: 'Pincode Popup',
+          source_url: sourceUrl,
+          redirect_url: redirectUrl,
+          pincode: pincode,
+          product_handle: productHandle,
+          variant_id: variantId,
+          tags: {{ product.tags | json }},
+          category: {{ product.type | json }},
+          price: {{ product.price | divided_by: 100.0 }},
+          compare_at_price: {{ product.compare_at_price | divided_by: 100.0 }},
+          feature_badges: [
+            {% for badge in product.metafields.content['product-features-badges'].value %}
+              "{{ badge }}"{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+          ],
+          selected_variants: variantData
+        });
+      });
+    }
+  });
+</script>
 
 <style>
   @media (max-width: 756px) {

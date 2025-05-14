@@ -24,12 +24,9 @@
         const redirectUrl = link.href || 'Unknown';
         const pageTitle = document.title;
 
-        // Optional: Replace with actual customer data if available
-        const customerData = {
-          id: window?.customer?.id || null,
-          email: window?.customer?.email || null,
-          name: window?.customer?.first_name || null,
-        };
+        // Full customer info if available
+        const customer = window.customer || {};
+        const address = customer.default_address || {};
 
         let eventName = '';
         let source = '';
@@ -50,16 +47,24 @@
             redirect_url: redirectUrl,
             page_title: pageTitle,
             source: source,
-            customer_id: customerData.id,
-            customer_email: customerData.email,
-            customer_name: customerData.name,
+            customer_id: customer.id || null,
+            customer_email: customer.email || null,
+            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+            customer_phone: customer.phone || null,
+            customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${
+              address.zip || ''
+            }, ${address.country || ''}`.trim(),
           });
 
-          console.log(`${eventName} event sent:`, {
+          console.log(`${eventName} event sent with customer data:`, {
             source_url: sourceUrl,
             redirect_url: redirectUrl,
             source: source,
-            ...customerData,
+            customer_id: customer.id,
+            customer_email: customer.email,
+            customer_name: `${customer.first_name} ${customer.last_name}`,
+            customer_phone: customer.phone,
+            customer_address: address,
           });
 
           setTimeout(() => {

@@ -494,6 +494,7 @@
       link.addEventListener('click', function (e) {
         const linkText = link.innerText.trim().toLowerCase();
 
+        // Trigger 'try_at_home' event
         if (linkText.includes('try at home')) {
           const redirectUrl = link.href || 'Unknown';
           const sourceUrl = window.location.href;
@@ -532,10 +533,91 @@
             window.location.href = redirectUrl;
           }, 300);
         }
+
+        // Trigger 'shop_all' event for links that contain 'shop all'
+        if (linkText.includes('shop all')) {
+          const redirectUrl = link.href || 'Unknown';
+          const sourceUrl = window.location.href;
+
+          // Prevent navigation
+          e.preventDefault();
+
+          // Get customer data if available
+          const customer = window.customer || {};
+          const address = customer.default_address || {};
+
+          gtag('event', 'shop_all', {
+            source: 'Header Menu',  // Set source as 'Header Menu'
+            source_url: sourceUrl,
+            redirect_url: redirectUrl,
+            customer_id: customer.id || null,
+            customer_email: customer.email || null,
+            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+            customer_phone: customer.phone || null,
+            customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${address.zip || ''}, ${address.country || ''}`.trim()
+          });
+
+          console.log('shop_all event sent (Header Menu):', {
+            source: 'Header Menu',
+            source_url: sourceUrl,
+            redirect_url: redirectUrl,
+            customer_id: customer.id,
+            customer_email: customer.email,
+            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+            customer_phone: customer.phone,
+            customer_address: address
+          });
+
+          // Redirect after slight delay
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 300);
+        }
+
+        // Trigger 'about_us' event for links that contain 'about us'
+        if (linkText.includes('about us')) {
+          const redirectUrl = link.href || 'Unknown';
+          const sourceUrl = window.location.href;
+
+          // Prevent navigation
+          e.preventDefault();
+
+          // Get customer data if available
+          const customer = window.customer || {};
+          const address = customer.default_address || {};
+
+          gtag('event', 'about_us', {
+            source: 'Header Menu',  // Set source as 'Header Menu'
+            source_url: sourceUrl,
+            redirect_url: redirectUrl,
+            customer_id: customer.id || null,
+            customer_email: customer.email || null,
+            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+            customer_phone: customer.phone || null,
+            customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${address.zip || ''}, ${address.country || ''}`.trim()
+          });
+
+          console.log('about_us event sent (Header Menu):', {
+            source: 'Header Menu',
+            source_url: sourceUrl,
+            redirect_url: redirectUrl,
+            customer_id: customer.id,
+            customer_email: customer.email,
+            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+            customer_phone: customer.phone,
+            customer_address: address
+          });
+
+          // Redirect after slight delay
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 300);
+        }
       });
     });
   });
 </script>
+
 
 
 

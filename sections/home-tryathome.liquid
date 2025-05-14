@@ -13,6 +13,42 @@
     </div>
   </div>
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const tryAtHomeLinks = document.querySelectorAll('.home-try-at-home-section-left a');
+
+    tryAtHomeLinks.forEach((link) => {
+      link.addEventListener('click', function (e) {
+        const linkText = link.innerText.trim().toLowerCase();
+        if (linkText.includes('try at home')) {
+          const sourceUrl = window.location.href;
+          const redirectUrl = link.href || 'Unknown';
+
+          // Prevent navigation
+          e.preventDefault();
+
+          // Fire GA4 event
+          gtag('event', 'try_at_home', {
+            source_url: sourceUrl,
+            redirect_url: redirectUrl,
+            page_title: document.title,
+          });
+
+          console.log('try_at_home sent:', {
+            source_url: sourceUrl,
+            redirect_url: redirectUrl,
+          });
+
+          // Redirect after delay
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 300);
+        }
+      });
+    });
+  });
+</script>
+
 {% schema %}
 {
   "name": "Home Try at Home",

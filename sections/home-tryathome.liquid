@@ -15,33 +15,53 @@
 </section>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const tryAtHomeLinks = document.querySelectorAll('.home-try-at-home-section-left a');
+    const links = document.querySelectorAll('.home-try-at-home-section-left a');
 
-    tryAtHomeLinks.forEach((link) => {
+    links.forEach((link) => {
       link.addEventListener('click', function (e) {
         const linkText = link.innerText.trim().toLowerCase();
-        if (linkText.includes('try at home')) {
-          const sourceUrl = window.location.href;
-          const redirectUrl = link.href || 'Unknown';
+        const sourceUrl = window.location.href;
+        const redirectUrl = link.href || 'Unknown';
+        const pageTitle = document.title;
 
-          // Prevent navigation
+        // Optional: Replace with actual customer data if available
+        const customerData = {
+          id: window?.customer?.id || null,
+          email: window?.customer?.email || null,
+          name: window?.customer?.first_name || null,
+        };
+
+        let eventName = '';
+        let source = '';
+
+        if (linkText.includes('try at home')) {
+          eventName = 'try_at_home';
+          source = 'Home Try at Home Section';
+        } else if (linkText.includes('start designing')) {
+          eventName = 'get_own_design';
+          source = 'Home Own Design Section';
+        }
+
+        if (eventName) {
           e.preventDefault();
 
-          // Fire GA4 event
-          gtag('event', 'try_at_home', {
+          gtag('event', eventName, {
             source_url: sourceUrl,
             redirect_url: redirectUrl,
-            page_title: document.title,
-            source: 'Home Try at Home Section',
+            page_title: pageTitle,
+            source: source,
+            customer_id: customerData.id,
+            customer_email: customerData.email,
+            customer_name: customerData.name,
           });
 
-          console.log('try_at_home sent:', {
+          console.log(`${eventName} event sent:`, {
             source_url: sourceUrl,
             redirect_url: redirectUrl,
-            source: 'Home Try at Home Section',
+            source: source,
+            ...customerData,
           });
 
-          // Redirect after delay
           setTimeout(() => {
             window.location.href = redirectUrl;
           }, 300);

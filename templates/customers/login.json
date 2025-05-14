@@ -38,7 +38,7 @@
         "text_jYDpUM": {
           "type": "text",
           "settings": {
-            "text": "<p>If you don't get redirected in 10 seconds, please go back & try again</p>"
+            "text": "<p>If the login window doesn't appear within 10 seconds, please go back & try again.</p>"
           }
         }
       },

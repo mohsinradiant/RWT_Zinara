@@ -3004,7 +3004,7 @@
     // Check if the user is logged in
     function isLoggedIn() {
   return {% if customer %}true{% else %}false{% endif %};
-  }
+}
 
 
     // Handle pincode validation and login/redirection
@@ -3110,101 +3110,91 @@
   });
 </script>
 <script>
-  function attachTryAtHomeSubmitListener() {
+  document.addEventListener('DOMContentLoaded', function () {
     const submitBtn = document.getElementById('tryAtHomeSubmitBtn');
 
-    if (!submitBtn) {
-      console.warn('tryAtHomeSubmitBtn not found. Retrying...');
-      setTimeout(attachTryAtHomeSubmitListener, 500); // Try again in 500ms
-      return;
-    }
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function () {
+        const source = 'PDP Popup';
+        const sourceUrl = window.location.href;
+        const redirectUrl = window.location.href;
+        const customerPincode = document.getElementById('tryAtHomeZipcode')?.value || 'Not entered';
 
-    console.log('✅ tryAtHomeSubmitBtn found. Listener attached.');
+        // Extract product handle and variant ID
+        const urlParts = window.location.pathname.split('/');
+        let productHandle = '';
+        let variantId = '';
 
-    submitBtn.addEventListener('click', function () {
-      const source = 'PDP Popup';
-      const sourceUrl = window.location.href;
-      const redirectUrl = window.location.href;
-      const customerPincode = document.getElementById('tryAtHomeZipcode')?.value || 'Not entered';
-
-      // Extract product handle and variant ID
-      const urlParts = window.location.pathname.split('/');
-      let productHandle = '';
-      let variantId = '';
-
-      if (urlParts.includes('products')) {
-        productHandle = urlParts[urlParts.indexOf('products') + 1] || '';
-      }
-
-      const variantMatch = window.location.href.match(/variant=(\d+)/);
-      if (variantMatch) {
-        variantId = variantMatch[1];
-      }
-
-      // Get product tags
-      const productTags = {{ product.tags | json }};
-
-      // Get product category
-      const categoryTag = productTags.find(tag => tag.startsWith('category:'));
-      const productCategory = categoryTag ? categoryTag.split(':')[1] : 'Unknown';
-
-      // Prices
-      const price = {{ product.price | money_without_currency }};
-      const compareAtPrice = {{ product.compare_at_price | money_without_currency }};
-
-      // Feature Badges
-      const featureBadges = [
-        {% for badge in product.metafields.content['product-features-badges'].value %}
-          "{{ badge }}"{% unless forloop.last %},{% endunless %}
-        {% endfor %}
-      ];
-
-      // Selected variants
-      const selectedVariants = [];
-      document.querySelectorAll('variant-selects .product-form__input').forEach(inputWrapper => {
-        const select = inputWrapper.querySelector('select');
-        if (select) {
-          const label = select.name.replace('options[', '').replace(']', '');
-          const value = select.options[select.selectedIndex]?.value;
-          selectedVariants.push(`${label}: ${value}`);
+        if (urlParts.includes('products')) {
+          productHandle = urlParts[urlParts.indexOf('products') + 1] || '';
         }
-      });
 
-      gtag('event', 'try_at_home', {
-        source,
-        source_url: sourceUrl,
-        redirect_url: redirectUrl,
-        customer_pincode: customerPincode,
-        product_handle: productHandle,
-        variant_id: variantId,
-        product_tags: productTags,
-        product_category: productCategory,
-        price: price,
-        compare_at_price: compareAtPrice,
-        feature_badges: featureBadges,
-        selected_variants: selectedVariants
-      });
+        const variantMatch = window.location.href.match(/variant=(\\d+)/);
+        if (variantMatch) {
+          variantId = variantMatch[1];
+        }
 
-      console.log('✅ try_at_home event sent:', {
-        source,
-        source_url: sourceUrl,
-        redirect_url: redirectUrl,
-        customer_pincode: customerPincode,
-        product_handle: productHandle,
-        variant_id: variantId,
-        product_tags: productTags,
-        product_category: productCategory,
-        price,
-        compare_at_price: compareAtPrice,
-        feature_badges: featureBadges,
-        selected_variants: selectedVariants
-      });
-    });
-  }
+        // Get product tags (populated via Liquid)
+        const productTags = {{ product.tags | json }};
 
-  // Delay to ensure dynamic content is loaded
-  window.addEventListener('load', () => {
-    setTimeout(attachTryAtHomeSubmitListener, 500);
+        // Get product category (assume it's a tag like "category:xyz")
+        const categoryTag = productTags.find(tag => tag.startsWith('category:'));
+        const productCategory = categoryTag ? categoryTag.split(':')[1] : 'Unknown';
+
+        // Prices
+        const price = {{ product.price | money_without_currency }};
+        const compareAtPrice = {{ product.compare_at_price | money_without_currency }};
+
+        // Feature Badges (populated via Liquid as an array)
+        const featureBadges = [
+          {% for badge in product.metafields.content['product-features-badges'].value %}
+            "{{ badge }}"{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ];
+
+        // Get selected variants
+        const selectedVariants = [];
+        document.querySelectorAll('variant-selects .product-form__input').forEach(inputWrapper => {
+          const select = inputWrapper.querySelector('select');
+          if (select) {
+            const label = select.name.replace('options[', '').replace(']', '');
+            const value = select.options[select.selectedIndex]?.value;
+            selectedVariants.push(`${label}: ${value}`);
+          }
+        });
+
+        // Fire GA4 event
+        gtag('event', 'try_at_home', {
+          source,
+          source_url: sourceUrl,
+          redirect_url: redirectUrl,
+          customer_pincode: customerPincode,
+          product_handle: productHandle,
+          variant_id: variantId,
+          product_tags: productTags,
+          product_category: productCategory,
+          price: price,
+          compare_at_price: compareAtPrice,
+          feature_badges: featureBadges,
+          selected_variants: selectedVariants
+        });
+
+        console.log('try_at_home event sent:', {
+          source,
+          source_url: sourceUrl,
+          redirect_url: redirectUrl,
+          customer_pincode: customerPincode,
+          product_handle: productHandle,
+          variant_id: variantId,
+          product_tags: productTags,
+          product_category: productCategory,
+          price,
+          compare_at_price: compareAtPrice,
+          feature_badges: featureBadges,
+          selected_variants: selectedVariants
+        });
+      });
+    }
   });
 </script>
 

@@ -878,6 +878,43 @@
           handlePincodeCheck();
         });
       </script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const headerDrawerTAHLinks = document.getElementById('HeaderDrawer-try-at-home');
+
+          headerDrawerTAHLinks.forEach((link) => {
+            link.addEventListener('click', function (e) {
+              const linkText = link.innerText.trim().toLowerCase();
+
+              if (linkText.includes('try at home')) {
+                const redirectUrl = link.href || 'Unknown';
+                const sourceUrl = window.location.href;
+
+                // Prevent navigation
+                e.preventDefault();
+
+                // Fire GA4 event
+                gtag('event', 'try_at_home', {
+                  source: 'Burger Menu',
+                  source_url: sourceUrl,
+                  redirect_url: redirectUrl,
+                });
+
+                console.log('try_at_home sent (Header Menu):', {
+                  source: 'Header Menu',
+                  source_url: sourceUrl,
+                  redirect_url: redirectUrl,
+                });
+
+                // Redirect after slight delay
+                setTimeout(() => {
+                  window.location.href = redirectUrl;
+                }, 300);
+              }
+            });
+          });
+        });
+      </script>
     </main>
 
     {% sections 'footer-group' %}

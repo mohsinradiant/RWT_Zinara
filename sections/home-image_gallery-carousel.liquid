@@ -205,6 +205,40 @@
     });
   });
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const bannerLinks = document.querySelectorAll('.images-parent-div a');
+
+    bannerLinks.forEach((link) => {
+      link.addEventListener('click', function (e) {
+        const redirectUrl = link.href || 'Unknown';
+        const imageElement = link.nextElementSibling;
+        const imageUrl = imageElement?.src || 'Unknown';
+
+        // Prevent default navigation
+        e.preventDefault();
+
+        // Fire GA4 event
+        gtag('event', 'home_carousel_banner', {
+          redirect_url: redirectUrl,
+          image_url: imageUrl,
+          page_title: document.title,
+          page_location: window.location.href,
+        });
+
+        console.log('home_carousel_banner sent:', {
+          redirect_url: redirectUrl,
+          image_url: imageUrl,
+        });
+
+        // Redirect after delay
+        setTimeout(() => {
+          window.location.href = redirectUrl;
+        }, 300);
+      });
+    });
+  });
+</script>
 
 {% schema %}
 {

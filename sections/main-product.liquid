@@ -3156,11 +3156,14 @@
               "{{ badge }}"{% unless forloop.last %},{% endunless %}
             {% endfor %}
           ],
-          selected_variants: variantData
+          selected_variants: variantData.map(variant => {
+            const key = Object.keys(variant)[0];
+            return `${key}: ${variant[key]}`;
+          })
         });
 
         console.log('try_at_home event fired:', {
-          source: 'Pincode Popup',
+          source: 'PDP Popup',
           source_url: sourceUrl,
           redirect_url: redirectUrl,
           pincode: pincode,
@@ -3175,7 +3178,10 @@
               "{{ badge }}"{% unless forloop.last %},{% endunless %}
             {% endfor %}
           ],
-          selected_variants: variantData
+          selected_variants: variantData.map(variant => {
+            const key = Object.keys(variant)[0];
+            return `${key}: ${variant[key]}`;
+          })
         });
       });
     }

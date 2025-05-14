@@ -3118,7 +3118,7 @@
         const sourceUrl = window.location.href;
         const pincode = document.getElementById('tryAtHomeZipcode')?.value?.trim() || 'Unknown';
 
-        // Get product handle and variant ID from URL
+        // Get product handle and variant ID
         const urlParts = window.location.pathname.split('/');
         const productHandle = urlParts.includes('products') ? urlParts[urlParts.indexOf('products') + 1] : 'Unknown';
         const variantId = new URLSearchParams(window.location.search).get('variant') || 'Unknown';
@@ -3136,14 +3136,14 @@
           }
         });
 
-        // Get image redirection URL - assuming product page
-        const redirectUrl = window.location.href;
+        // Customer info from global object
+        const customer = window.customer || {};
+        const address = customer.default_address || {};
 
-        // Trigger GA4 event
-        gtag('event', 'try_at_home', {
+        const eventData = {
           source: 'PDP Popup',
           source_url: sourceUrl,
-          redirect_url: redirectUrl,
+          redirect_url: sourceUrl,
           pincode: pincode,
           product_handle: productHandle,
           variant_id: variantId,
@@ -3159,30 +3159,17 @@
           selected_variants: variantData.map(variant => {
             const key = Object.keys(variant)[0];
             return `${key}: ${variant[key]}`;
-          })
-        });
+          }),
+          customer_id: customer.id || null,
+          customer_email: customer.email || null,
+          customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+          customer_phone: customer.phone || null,
+          customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${address.zip || ''}, ${address.country || ''}`.trim()
+        };
 
-        console.log('try_at_home event fired:', {
-          source: 'PDP Popup',
-          source_url: sourceUrl,
-          redirect_url: redirectUrl,
-          pincode: pincode,
-          product_handle: productHandle,
-          variant_id: variantId,
-          tags: {{ product.tags | json }},
-          category: {{ product.type | json }},
-          price: {{ product.price | divided_by: 100.0 }},
-          compare_at_price: {{ product.compare_at_price | divided_by: 100.0 }},
-          feature_badges: [
-            {% for badge in product.metafields.content['product-features-badges'].value %}
-              "{{ badge }}"{% unless forloop.last %},{% endunless %}
-            {% endfor %}
-          ],
-          selected_variants: variantData.map(variant => {
-            const key = Object.keys(variant)[0];
-            return `${key}: ${variant[key]}`;
-          })
-        });
+        gtag('event', 'try_at_home', eventData);
+
+        console.log('try_at_home event fired:', eventData);
       });
     }
   });

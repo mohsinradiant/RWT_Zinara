@@ -24,7 +24,7 @@
         const redirectUrl = link.href || 'Unknown';
         const pageTitle = document.title;
 
-        // Full customer info if available
+        // Customer info from global window object
         const customer = window.customer || {};
         const address = customer.default_address || {};
 
@@ -42,7 +42,7 @@
         if (eventName) {
           e.preventDefault();
 
-          gtag('event', eventName, {
+          const eventData = {
             source_url: sourceUrl,
             redirect_url: redirectUrl,
             page_title: pageTitle,
@@ -54,18 +54,11 @@
             customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${
               address.zip || ''
             }, ${address.country || ''}`.trim(),
-          });
+          };
 
-          console.log(`${eventName} event sent with customer data:`, {
-            source_url: sourceUrl,
-            redirect_url: redirectUrl,
-            source: source,
-            customer_id: customer.id,
-            customer_email: customer.email,
-            customer_name: `${customer.first_name} ${customer.last_name}`,
-            customer_phone: customer.phone,
-            customer_address: address,
-          });
+          gtag('event', eventName, eventData);
+
+          console.log(`${eventName} event sent with customer data:`, eventData);
 
           setTimeout(() => {
             window.location.href = redirectUrl;

@@ -501,17 +501,30 @@
           // Prevent navigation
           e.preventDefault();
 
-          // Fire GA4 event
+          // Get customer data if available
+          const customer = window.customer || {};
+          const address = customer.default_address || {};
+
           gtag('event', 'try_at_home', {
             source: 'Header Menu',
             source_url: sourceUrl,
             redirect_url: redirectUrl,
+            customer_id: customer.id || null,
+            customer_email: customer.email || null,
+            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+            customer_phone: customer.phone || null,
+            customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${address.zip || ''}, ${address.country || ''}`.trim()
           });
 
           console.log('try_at_home sent (Header Menu):', {
             source: 'Header Menu',
             source_url: sourceUrl,
             redirect_url: redirectUrl,
+            customer_id: customer.id,
+            customer_email: customer.email,
+            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+            customer_phone: customer.phone,
+            customer_address: address
           });
 
           // Redirect after slight delay
@@ -523,6 +536,7 @@
     });
   });
 </script>
+
 
 
 {% comment %}Show Submenu on hover in header menu 3{% endcomment %}

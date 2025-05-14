@@ -21,27 +21,44 @@
       link.addEventListener('click', function (e) {
         const occasionName = link.querySelector('p')?.innerText || 'Unknown';
         const occasionUrl = link.href || 'Unknown';
+        const currentUrl = window.location.href;
 
         // Prevent immediate navigation
         e.preventDefault();
+
+        // Customer data
+        const customer = window.customer || {};
+        const address = customer.default_address || {};
+
+        const customerInfo = {
+          customer_id: customer.id || null,
+          customer_email: customer.email || null,
+          customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+          customer_phone: customer.phone || null,
+          customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${
+            address.zip || ''
+          }, ${address.country || ''}`.trim(),
+        };
 
         // Send event to GA4
         gtag('event', 'occasion_click', {
           occasion_name: occasionName,
           occasion_url: occasionUrl,
           page_title: document.title,
-          page_location: window.location.href,
+          page_location: currentUrl,
+          ...customerInfo,
         });
 
         console.log('occasion_click sent:', {
           occasion_name: occasionName,
           occasion_url: occasionUrl,
+          ...customerInfo,
         });
 
         // Redirect after slight delay
         setTimeout(() => {
           window.location.href = occasionUrl;
-        }, 300); // Adjust delay if needed
+        }, 300);
       });
     });
   });

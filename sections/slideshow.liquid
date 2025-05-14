@@ -313,16 +313,27 @@
         // Prevent immediate redirection
         e.preventDefault();
 
-        // Send GA4 event directly
+        // Customer info from global object
+        const customer = window.customer || {};
+        const address = customer.default_address || {};
+
+        // Send GA4 event with customer data
         gtag('event', 'home_banner_click', {
           banner_alt_text: bannerAlt,
           banner_image_url: bannerSrc,
           banner_destination_url: destinationUrl,
           page_title: document.title,
           page_location: window.location.href,
+          customer_id: customer.id || null,
+          customer_email: customer.email || null,
+          customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+          customer_phone: customer.phone || null,
+          customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${
+            address.zip || ''
+          }, ${address.country || ''}`.trim(),
         });
 
-        console.log('Sent GA4 event: home_banner_click');
+        console.log('Sent GA4 event: home_banner_click with customer data');
 
         // Delay redirect to allow GA4 call
         setTimeout(() => {

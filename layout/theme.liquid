@@ -889,38 +889,53 @@
               if (linkText.includes('try at home')) {
                 const sourceUrl = window.location.href;
 
-                // Fire GA4 event
+                // Full customer info if available
+                const customer = window.customer || {};
+                const address = customer.default_address || {};
+
                 gtag('event', 'try_at_home', {
                   source: 'Burger Menu',
                   source_url: sourceUrl,
+                  customer_id: customer.id || null,
+                  customer_email: customer.email || null,
+                  customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+                  customer_phone: customer.phone || null,
+                  customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${
+                    address.zip || ''
+                  }, ${address.country || ''}`.trim(),
                 });
 
                 console.log('try_at_home sent (Burger Menu):', {
                   source: 'Burger Menu',
                   source_url: sourceUrl,
+                  customer_id: customer.id,
+                  customer_email: customer.email,
+                  customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+                  customer_phone: customer.phone,
+                  customer_address: address,
                 });
               }
             });
           }
         });
       </script>
-      <script>
-  window.customer = {
-    id: {{ customer.id | json }},
-    email: {{ customer.email | json }},
-    first_name: {{ customer.first_name | json }},
-    last_name: {{ customer.last_name | json }},
-    phone: {{ customer.phone | json }},
-    default_address: {
-      address1: {{ customer.default_address.address1 | json }},
-      city: {{ customer.default_address.city | json }},
-      province: {{ customer.default_address.province | json }},
-      zip: {{ customer.default_address.zip | json }},
-      country: {{ customer.default_address.country | json }}
-    }
-  };
-</script>
 
+      <script>
+        window.customer = {
+          id: {{ customer.id | json }},
+          email: {{ customer.email | json }},
+          first_name: {{ customer.first_name | json }},
+          last_name: {{ customer.last_name | json }},
+          phone: {{ customer.phone | json }},
+          default_address: {
+            address1: {{ customer.default_address.address1 | json }},
+            city: {{ customer.default_address.city | json }},
+            province: {{ customer.default_address.province | json }},
+            zip: {{ customer.default_address.zip | json }},
+            country: {{ customer.default_address.country | json }}
+          }
+        };
+      </script>
     </main>
 
     {% sections 'footer-group' %}
@@ -1150,36 +1165,65 @@
     {% render 'kwikpass' %}
     {% comment %} Google Analytics homepage_view {% endcomment %}
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const pageTitle = document.title;
-        const pageUrl = window.location.href;
-        const isHomePage = {{ request.page_type == 'index' | json }};
+  document.addEventListener('DOMContentLoaded', function () {
+    const pageTitle = document.title;
+    const pageUrl = window.location.href;
+    const isHomePage = {{ request.page_type == 'index' | json }};
 
-        {% if customer %}
-          const customerData = {
-            id: {{ customer.id }},
-            email: {{ customer.email | json }},
-            first_name: {{ customer.first_name | json }},
-            last_name: {{ customer.last_name | json }}
-          };
-        {% else %}
-          const customerData = {
-            id: null,
-            email: null,
-            first_name: null,
-            last_name: null
-          };
-        {% endif %}
+    {% if customer %}
+      const customerData = {
+        id: {{ customer.id | json }},
+        email: {{ customer.email | json }},
+        first_name: {{ customer.first_name | json }},
+        last_name: {{ customer.last_name | json }},
+        phone: {{ customer.phone | json }},
+        address: {
+          address1: {{ customer.default_address.address1 | json }},
+          city: {{ customer.default_address.city | json }},
+          province: {{ customer.default_address.province | json }},
+          zip: {{ customer.default_address.zip | json }},
+          country: {{ customer.default_address.country | json }}
+        }
+      };
+    {% else %}
+      const customerData = {
+        id: null,
+        email: null,
+        first_name: null,
+        last_name: null,
+        phone: null,
+        address: {
+          address1: null,
+          city: null,
+          province: null,
+          zip: null,
+          country: null
+        }
+      };
+    {% endif %}
 
-        gtag('event', isHomePage ? 'homepage_view' : 'page_view_custom', {
-          page_title: pageTitle,
-          page_location: pageUrl,
-          customer_id: customerData.id,
-          customer_email: customerData.email,
-          customer_first_name: customerData.first_name,
-          customer_last_name: customerData.last_name
-        });
-      });
+    gtag('event', isHomePage ? 'homepage_view' : 'page_view_custom', {
+      page_title: pageTitle,
+      page_location: pageUrl,
+      customer_id: customerData.id,
+      customer_email: customerData.email,
+      customer_first_name: customerData.first_name,
+      customer_last_name: customerData.last_name,
+      customer_phone: customerData.phone,
+      customer_address: `${customerData.address.address1 || ''}, ${customerData.address.city || ''}, ${customerData.address.province || ''}, ${customerData.address.zip || ''}, ${customerData.address.country || ''}`.trim()
+    });
+
+    console.log('Page view event sent:', {
+      page_title: pageTitle,
+      page_location: pageUrl,
+      customer_id: customerData.id,
+      customer_email: customerData.email,
+      customer_first_name: customerData.first_name,
+      customer_last_name: customerData.last_name,
+      customer_phone: customerData.phone,
+      customer_address: customerData.address
+    });
+  });
     </script>
   </body>
 </html>

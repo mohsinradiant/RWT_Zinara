@@ -214,16 +214,17 @@
         const redirectUrl = link.href || 'Unknown';
         const imageElement = link.nextElementSibling;
         const imageUrl = imageElement?.src || 'Unknown';
+        const sourceUrl = window.location.href;
 
         // Prevent default navigation
         e.preventDefault();
 
-        // Fire GA4 event
+        // Fire GA4 event: home_carousel_banner
         gtag('event', 'home_carousel_banner', {
           redirect_url: redirectUrl,
           image_url: imageUrl,
           page_title: document.title,
-          page_location: window.location.href,
+          page_location: sourceUrl,
         });
 
         console.log('home_carousel_banner sent:', {
@@ -231,7 +232,22 @@
           image_url: imageUrl,
         });
 
-        // Redirect after delay
+        // If it's the Home Trial banner, fire extra event
+        if (redirectUrl.includes('/collections/home-trial')) {
+          gtag('event', 'try_at_home', {
+            redirect_url: redirectUrl,
+            source_url: sourceUrl,
+            source: 'Home Images Carousel',
+          });
+
+          console.log('try_at_home sent (carousel):', {
+            redirect_url: redirectUrl,
+            source_url: sourceUrl,
+            source: 'Home Images Carousel',
+          });
+        }
+
+        // Redirect after a slight delay
         setTimeout(() => {
           window.location.href = redirectUrl;
         }, 300);

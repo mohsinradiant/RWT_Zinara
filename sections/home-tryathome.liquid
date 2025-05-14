@@ -21,7 +21,7 @@
       link.addEventListener('click', function (e) {
         const linkText = link.innerText.trim().toLowerCase();
         if (linkText.includes('try at home')) {
-          const sourceUrl = 'Home Try at Home Section';
+          const sourceUrl = window.location.href;
           const redirectUrl = link.href || 'Unknown';
 
           // Prevent navigation
@@ -32,11 +32,13 @@
             source_url: sourceUrl,
             redirect_url: redirectUrl,
             page_title: document.title,
+            source: 'Home Try at Home Section',
           });
 
           console.log('try_at_home sent:', {
             source_url: sourceUrl,
             redirect_url: redirectUrl,
+            source: 'Home Try at Home Section',
           });
 
           // Redirect after delay

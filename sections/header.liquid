@@ -90,19 +90,19 @@
 
 {%- style -%}
   .header {
-<<<<<<< HEAD
-    padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 1rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 1rem;
-=======
-<<<<<<< HEAD
-    padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 1.5rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 1.5rem;
-=======
-<<<<<<< HEAD
-    padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 1.5rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 1.5rem;
-=======
-    padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 1rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 1rem;
->>>>>>> 75a893d3ff30d48715c11cf8172818df8a17eddd
->>>>>>> 7fdd22279b4d9f224716086e671edf3894ed2363
->>>>>>> de1e306ddf922825af3c5bcea58208a3a37cbd93
+  <<<<<<< HEAD
+      padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 1rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 1rem;
+  =======
+  <<<<<<< HEAD
+      padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 1.5rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 1.5rem;
+  =======
+  <<<<<<< HEAD
+      padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 1.5rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 1.5rem;
+  =======
+      padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 1rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 1rem;
+  >>>>>>> 75a893d3ff30d48715c11cf8172818df8a17eddd
+  >>>>>>> 7fdd22279b4d9f224716086e671edf3894ed2363
+  >>>>>>> de1e306ddf922825af3c5bcea58208a3a37cbd93
   }
 
   .section-header {
@@ -486,6 +486,44 @@
   }
 </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const headerLinks = document.querySelectorAll('.c-menu2 a');
+
+    headerLinks.forEach((link) => {
+      link.addEventListener('click', function (e) {
+        const linkText = link.innerText.trim().toLowerCase();
+
+        if (linkText.includes('try at home')) {
+          const redirectUrl = link.href || 'Unknown';
+          const sourceUrl = window.location.href;
+
+          // Prevent navigation
+          e.preventDefault();
+
+          // Fire GA4 event
+          gtag('event', 'try_at_home', {
+            source: 'Header Menu',
+            source_url: sourceUrl,
+            redirect_url: redirectUrl,
+          });
+
+          console.log('try_at_home sent (Header Menu):', {
+            source: 'Header Menu',
+            source_url: sourceUrl,
+            redirect_url: redirectUrl,
+          });
+
+          // Redirect after slight delay
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 300);
+        }
+      });
+    });
+  });
+</script>
+
 
 {% comment %}Show Submenu on hover in header menu 3{% endcomment %}
 <script>
@@ -540,7 +578,7 @@
       }
     });
   });
-});
+  });
 
 </script>
 {%- if request.page_type == 'index' -%}

@@ -1653,7 +1653,6 @@
     const filterSections = document.querySelectorAll('details.js-filter');
 
     filterSections.forEach((section) => {
-      // Get filter heading (e.g. "Product type")
       const headingElement = section.querySelector('summary .facets__summary-label');
       const filterHeading = headingElement ? headingElement.childNodes[0].nodeValue.trim() : 'Unknown Filter';
 
@@ -1661,29 +1660,39 @@
 
       listItems.forEach((item) => {
         item.addEventListener('click', function () {
-          // Get filter name from the label span
-          const labelSpan = item.querySelector('.facet-checkbox__text-label');
-          const filterName = labelSpan ? labelSpan.textContent.trim() : 'Unknown Option';
+          // Delay to let checkbox update its checked state
+          setTimeout(() => {
+            const labelSpan = item.querySelector('.facet-checkbox__text-label');
+            const filterName = labelSpan ? labelSpan.textContent.trim() : 'Unknown Option';
 
-          console.log('Filter applied:', filterHeading, filterName);
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            const filterStatus = checkbox && checkbox.checked ? 'applied' : 'removed';
 
-          // Fire GA event
-          if (typeof gtag === 'function') {
-            gtag('event', 'filter_applied', {
-              event_category: 'Filter Click',
-              event_label: `${filterHeading} - ${filterName}`,
-              filter_heading: filterHeading,
-              filter_name: filterName,
+            console.log('Filter event:', {
+              heading: filterHeading,
+              name: filterName,
+              status: filterStatus,
             });
 
-            console.log('✅ gtag event fired:', {
-              event: 'filter_applied',
-              filter_heading: filterHeading,
-              filter_name: filterName,
-            });
-          } else {
-            console.warn('⚠️ gtag is not defined');
-          }
+            if (typeof gtag === 'function') {
+              gtag('event', 'filter_applied', {
+                event_category: 'Filter Click',
+                event_label: `${filterHeading} - ${filterName}`,
+                filter_heading: filterHeading,
+                filter_name: filterName,
+                filter_status: filterStatus,
+              });
+
+              console.log('✅ gtag event fired:', {
+                event: 'filter_applied',
+                filter_heading: filterHeading,
+                filter_name: filterName,
+                filter_status: filterStatus,
+              });
+            } else {
+              console.warn('⚠️ gtag is not defined');
+            }
+          }, 10); // Let checkbox update
         });
       });
     });

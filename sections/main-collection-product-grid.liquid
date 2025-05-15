@@ -262,6 +262,12 @@
                 {%- endif -%}
                 <li
                   class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  data-title="{{ product.title | escape }}"
+                  data-handle="{{ product.handle }}"
+                  data-price="{{ product.price | money }}"
+                  data-compare-price="{{ product.compare_at_price | money }}"
+                  data-tags="{{ product.tags | join: ',' }}"
+                  data-vendor="{{ product.vendor | escape }}"
                   {% if settings.animations_reveal_on_scroll %}
                     data-cascade
                     style="--animation-order: {{ forloop.index }};"
@@ -296,6 +302,48 @@
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const gridItems = document.querySelectorAll('#product-grid li.grid__item');
+
+    gridItems.forEach(function (item) {
+      item.addEventListener('click', function () {
+        const title = item.dataset.title || '';
+        const handle = item.dataset.handle || '';
+        const price = item.dataset.price || '';
+        const compareAtPrice = item.dataset.comparePrice || '';
+        const tags = item.dataset.tags ? item.dataset.tags.split(',') : [];
+        const vendor = item.dataset.vendor || '';
+
+        gtag('event', 'product_click', {
+          event_category: 'Product Grid',
+          event_label: title,
+          product_handle: handle,
+          price: price,
+          compare_at_price: compareAtPrice,
+          tags: tags,
+          vendor: vendor,
+          page_url: window.location.href,
+          page_title: document.title,
+          customer_email: {{ customer.email | json }},
+          customer_id: {{ customer.id | json }},
+          customer_first_name: {{ customer.first_name | json }},
+          customer_last_name: {{ customer.last_name | json }}
+        });
+
+        console.log('product_click fired:', {
+          title: title,
+          handle: handle,
+          price: price,
+          compareAtPrice: compareAtPrice,
+          tags: tags,
+          vendor: vendor
+        });
+      });
+    });
+  });
+</script>
+
 {% schema %}
 {
   "name": "t:sections.main-collection-product-grid.name",

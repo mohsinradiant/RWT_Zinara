@@ -1648,3 +1648,55 @@
     }
   });
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Change this selector to your actual form or filter container ID
+    const filterContainer =
+      document.querySelector('#FacetFiltersForm') || document.querySelector('#FacetsWrapperDesktop');
+
+    if (!filterContainer) {
+      console.warn('Filter container not found');
+      return;
+    }
+
+    filterContainer.addEventListener('click', (event) => {
+      // Check if clicked target is an li or inside an li
+      const li = event.target.closest('li');
+      if (!li || !filterContainer.contains(li)) return;
+
+      // Find the closest details element (filter group container)
+      const details = li.closest('details.js-filter');
+      if (!details) return;
+
+      // Extract the filter heading (summary > div > span text)
+      const summarySpan = details.querySelector(
+        'summary > div > span.facets__summary-label, summary > div > span:not(.facets__selected)'
+      );
+      let filterHeading = summarySpan ? summarySpan.textContent.trim() : '';
+
+      // Extract the filter name (from li's label text)
+      // Usually the text inside .facet-checkbox__text-label or fallback to label text
+      let filterName = '';
+      const label = li.querySelector('label.facets__label');
+      if (label) {
+        const textLabel = label.querySelector('.facet-checkbox__text-label');
+        filterName = textLabel ? textLabel.textContent.trim() : label.textContent.trim();
+      } else {
+        filterName = li.textContent.trim();
+      }
+
+      // If either heading or name is missing, do not proceed
+      if (!filterHeading || !filterName) return;
+
+      // Prepare dataLayer event
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'filter_applied',
+        filter_heading: filterHeading,
+        filter_name: filterName,
+      });
+
+      console.log('Filter applied:', filterHeading, filterName);
+    });
+  });
+</script>

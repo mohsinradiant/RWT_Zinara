@@ -1650,38 +1650,41 @@
 </script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Select all filter containers
-    const filterContainers = document.querySelectorAll('details.js-filter');
+    const filterSections = document.querySelectorAll('details.js-filter');
 
-    filterContainers.forEach((container) => {
-      // Find the heading text inside <summary> > div > span.facets__summary-label
-      const headingElement = container.querySelector('summary > div > span.facets__summary-label');
-      const filterHeading = headingElement ? headingElement.textContent.trim() : 'Unknown Filter';
+    filterSections.forEach((section) => {
+      // Get filter heading (e.g. "Product type")
+      const headingElement = section.querySelector('summary .facets__summary-label');
+      const filterHeading = headingElement ? headingElement.childNodes[0].nodeValue.trim() : 'Unknown Filter';
 
-      // Listen for clicks on checkboxes inside this filter container
-      container.addEventListener('click', function (event) {
-        const target = event.target;
+      const listItems = section.querySelectorAll('li.facets__item');
 
-        // Check if a checkbox input was clicked
-        if (target.tagName === 'INPUT' && target.type === 'checkbox') {
-          // The checkbox value is the filter name (e.g. Bracelets)
-          const filterName = target.value;
+      listItems.forEach((item) => {
+        item.addEventListener('click', function () {
+          // Get filter name from the label span
+          const labelSpan = item.querySelector('.facet-checkbox__text-label');
+          const filterName = labelSpan ? labelSpan.textContent.trim() : 'Unknown Option';
+
+          console.log('Filter applied:', filterHeading, filterName);
 
           // Fire GA event
-          gtag('event', 'filter_applied', {
-            event_category: 'Filter Click',
-            event_label: `${filterHeading} - ${filterName}`,
-            filter_heading: filterHeading,
-            filter_name: filterName,
-            checked: target.checked ? 'Checked' : 'Unchecked',
-          });
+          if (typeof gtag === 'function') {
+            gtag('event', 'filter_applied', {
+              event_category: 'Filter Click',
+              event_label: `${filterHeading} - ${filterName}`,
+              filter_heading: filterHeading,
+              filter_name: filterName,
+            });
 
-          console.log('filter_applied fired:', {
-            filter_heading: filterHeading,
-            filter_name: filterName,
-            checked: target.checked,
-          });
-        }
+            console.log('✅ gtag event fired:', {
+              event: 'filter_applied',
+              filter_heading: filterHeading,
+              filter_name: filterName,
+            });
+          } else {
+            console.warn('⚠️ gtag is not defined');
+          }
+        });
       });
     });
   });

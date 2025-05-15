@@ -14,9 +14,13 @@
       "blocks": {
         "slide_BLKkdp": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/motherdayweb.png",
+            "image_alt": "",
             "image_mobile": "shopify://shop_images/mothersdaymobile.png",
+            "image_mobile_alt": "",
+            "image_aspect_ratio": true,
             "heading": "Image slide",
             "heading_size": "h1",
             "subheading": "Tell your brand's story through images",
@@ -35,7 +39,10 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/Black_Banner.jpg",
+            "image_alt": "",
             "image_mobile": "shopify://shop_images/mobile_banner_1.png",
+            "image_mobile_alt": "",
+            "image_aspect_ratio": true,
             "heading": "Image slide",
             "heading_size": "h1",
             "subheading": "Tell your brand's story through images",
@@ -54,7 +61,10 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/web_banner_2.png",
+            "image_alt": "",
             "image_mobile": "shopify://shop_images/mobile_banner_2.png",
+            "image_mobile_alt": "",
+            "image_aspect_ratio": true,
             "heading": "Image slide",
             "heading_size": "h1",
             "subheading": "Tell your brand's story through images",
@@ -73,7 +83,10 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/web_banner_3.png",
+            "image_alt": "",
             "image_mobile": "shopify://shop_images/mobile_banner_3.png",
+            "image_mobile_alt": "",
+            "image_aspect_ratio": true,
             "heading": "Image slide",
             "heading_size": "h1",
             "subheading": "Tell your brand's story through images",

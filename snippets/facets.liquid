@@ -1649,54 +1649,40 @@
   });
 </script>
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Change this selector to your actual form or filter container ID
-    const filterContainer =
-      document.querySelector('#FacetFiltersForm') || document.querySelector('#FacetsWrapperDesktop');
+  document.addEventListener('DOMContentLoaded', function () {
+    // Select all filter containers
+    const filterContainers = document.querySelectorAll('details.js-filter');
 
-    if (!filterContainer) {
-      console.warn('Filter container not found');
-      return;
-    }
+    filterContainers.forEach((container) => {
+      // Find the heading text inside <summary> > div > span.facets__summary-label
+      const headingElement = container.querySelector('summary > div > span.facets__summary-label');
+      const filterHeading = headingElement ? headingElement.textContent.trim() : 'Unknown Filter';
 
-    filterContainer.addEventListener('click', (event) => {
-      // Check if clicked target is an li or inside an li
-      const li = event.target.closest('li');
-      if (!li || !filterContainer.contains(li)) return;
+      // Listen for clicks on checkboxes inside this filter container
+      container.addEventListener('click', function (event) {
+        const target = event.target;
 
-      // Find the closest details element (filter group container)
-      const details = li.closest('details.js-filter');
-      if (!details) return;
+        // Check if a checkbox input was clicked
+        if (target.tagName === 'INPUT' && target.type === 'checkbox') {
+          // The checkbox value is the filter name (e.g. Bracelets)
+          const filterName = target.value;
 
-      // Extract the filter heading (summary > div > span text)
-      const summarySpan = details.querySelector(
-        'summary > div > span.facets__summary-label, summary > div > span:not(.facets__selected)'
-      );
-      let filterHeading = summarySpan ? summarySpan.textContent.trim() : '';
+          // Fire GA event
+          gtag('event', 'filter_applied', {
+            event_category: 'Filter Click',
+            event_label: `${filterHeading} - ${filterName}`,
+            filter_heading: filterHeading,
+            filter_name: filterName,
+            checked: target.checked ? 'Checked' : 'Unchecked',
+          });
 
-      // Extract the filter name (from li's label text)
-      // Usually the text inside .facet-checkbox__text-label or fallback to label text
-      let filterName = '';
-      const label = li.querySelector('label.facets__label');
-      if (label) {
-        const textLabel = label.querySelector('.facet-checkbox__text-label');
-        filterName = textLabel ? textLabel.textContent.trim() : label.textContent.trim();
-      } else {
-        filterName = li.textContent.trim();
-      }
-
-      // If either heading or name is missing, do not proceed
-      if (!filterHeading || !filterName) return;
-
-      // Prepare dataLayer event
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: 'filter_applied',
-        filter_heading: filterHeading,
-        filter_name: filterName,
+          console.log('filter_applied fired:', {
+            filter_heading: filterHeading,
+            filter_name: filterName,
+            checked: target.checked,
+          });
+        }
       });
-
-      console.log('Filter applied:', filterHeading, filterName);
     });
   });
 </script>

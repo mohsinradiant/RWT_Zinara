@@ -688,6 +688,33 @@
     }
   </script>
 {%- endif -%}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const wishlistIcon = document.querySelector('.h-wishlist-icon');
+
+    if (wishlistIcon) {
+      wishlistIcon.addEventListener('click', function () {
+        const currentUrl = window.location.href;
+
+        gtag('event', 'view_wishlist', {
+          event_category: 'Navigation',
+          event_label: 'Wishlist Icon',
+          source: 'Header Icon',
+          current_url: currentUrl,
+          customer_email: {{ customer.email | json }},
+          customer_id: {{ customer.id | json }},
+          customer_first_name: {{ customer.first_name | json }},
+          customer_last_name: {{ customer.last_name | json }}
+        });
+
+        console.log('view_wishlist fired:', {
+          event_label: 'Wishlist Icon',
+          current_url: currentUrl
+        });
+      });
+    }
+  });
+</script>
 
 {% schema %}
 {

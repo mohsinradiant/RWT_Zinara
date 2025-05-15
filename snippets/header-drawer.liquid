@@ -461,4 +461,90 @@
       }
     });
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const buybackLink = document.querySelector('.menu-drawer__menu-item.list-menu__item[href*="buyback-policy"]');
+
+      if (buybackLink && buybackLink.textContent.trim().includes('Zinara Buyback Policy')) {
+        buybackLink.addEventListener('click', function () {
+          const linkText = buybackLink.textContent.trim();
+          const linkHref = buybackLink.getAttribute('href');
+
+          gtag('event', 'menu_buyback_click', {
+            event_category: 'Navigation',
+            event_label: linkText,
+            url: linkHref,
+            source: 'Menu Drawer',
+            customer_email: {{ customer.email | json }},
+            customer_id: {{ customer.id | json }},
+            customer_first_name: {{ customer.first_name | json }},
+            customer_last_name: {{ customer.last_name | json }}
+          });
+
+          console.log('menu_buyback_click fired:', {
+            event_label: linkText,
+            url: linkHref
+          });
+        });
+      }
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const exchangeLink = Array.from(document.querySelectorAll('.menu-drawer__menu-item.list-menu__item'))
+        .find(link => link.textContent.trim().includes('Zinara Exchange Policy'));
+
+      if (exchangeLink) {
+        exchangeLink.addEventListener('click', function () {
+          const linkText = exchangeLink.textContent.trim();
+          const linkHref = exchangeLink.getAttribute('href');
+
+          gtag('event', 'menu_exchange_click', {
+            event_category: 'Navigation',
+            event_label: linkText,
+            url: linkHref,
+            source: 'Menu Drawer',
+            customer_email: {{ customer.email | json }},
+            customer_id: {{ customer.id | json }},
+            customer_first_name: {{ customer.first_name | json }},
+            customer_last_name: {{ customer.last_name | json }}
+          });
+
+          console.log('menu_exchange_click fired:', {
+            event_label: linkText,
+            url: linkHref
+          });
+        });
+      }
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const ordersLink = Array.from(document.querySelectorAll('.menu-drawer__menu-item.list-menu__item'))
+        .find(link => link.textContent.trim().includes('Orders'));
+
+      if (ordersLink) {
+        ordersLink.addEventListener('click', function () {
+          const linkText = ordersLink.textContent.trim();
+          const linkHref = ordersLink.getAttribute('href');
+
+          gtag('event', 'menu_orders_click', {
+            event_category: 'Navigation',
+            event_label: linkText,
+            url: linkHref,
+            source: 'Menu Drawer',
+            customer_email: {{ customer.email | json }},
+            customer_id: {{ customer.id | json }},
+            customer_first_name: {{ customer.first_name | json }},
+            customer_last_name: {{ customer.last_name | json }}
+          });
+
+          console.log('menu_orders_click fired:', {
+            event_label: linkText,
+            url: linkHref
+          });
+        });
+      }
+    });
+  </script>
 </header-drawer>

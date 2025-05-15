@@ -16,6 +16,33 @@
         {{- 'icon-close.svg' | inline_asset_content -}}
       </span>
     </summary>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const summaryBtn = document.querySelector('.header__icon--menu');
+
+        if (summaryBtn) {
+          summaryBtn.addEventListener('click', function (e) {
+            const clickedElement = e.target;
+
+            if (clickedElement.closest('svg') && clickedElement.closest('svg').outerHTML.includes('icon-hamburger')) {
+              // Fire GA4 event
+              gtag('event', 'menu_click', {
+                event_category: 'Navigation',
+                event_label: 'Hamburger Menu',
+                source: 'Header Drawer',
+                customer_email: {{ customer.email | json }},
+                customer_id: {{ customer.id | json }},
+                customer_first_name: {{ customer.first_name | json }},
+                customer_last_name: {{ customer.last_name | json }}
+              });
+
+              console.log('menu_click event triggered with customer details');
+            }
+          });
+        }
+      });
+    </script>
+
     <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
       <div class="menu-drawer__inner-container">
         <div class="menu-drawer__navigation-container">

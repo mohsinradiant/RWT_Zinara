@@ -1624,11 +1624,15 @@
         const linkText = rtsLink.textContent.trim();
         const linkHref = rtsLink.getAttribute('href');
 
+        const checkbox = rtsLink.querySelector('input.filter-checkbox');
+        const checkboxStatus = checkbox && checkbox.checked ? 'Close' : 'Open';
+
         gtag('event', 'ready_to_ship', {
           event_category: 'Filter Click',
           event_label: linkText,
           url: linkHref,
           source: 'Ready to Ship Filter',
+          checkbox_status: checkboxStatus,
           customer_email: {{ customer.email | json }},
           customer_id: {{ customer.id | json }},
           customer_first_name: {{ customer.first_name | json }},
@@ -1637,7 +1641,8 @@
 
         console.log('ready_to_ship fired:', {
           event_label: linkText,
-          url: linkHref
+          url: linkHref,
+          checkbox_status: checkboxStatus
         });
       });
     }

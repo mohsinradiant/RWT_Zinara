@@ -1666,7 +1666,7 @@
             const filterName = labelSpan ? labelSpan.textContent.trim() : 'Unknown Option';
 
             const checkbox = item.querySelector('input[type="checkbox"]');
-            const filterStatus = checkbox && checkbox.checked ? 'applied' : 'removed';
+            const filterStatus = checkbox && checkbox.checked ? 'removed' : 'applied';
 
             console.log('Filter event:', {
               heading: filterHeading,

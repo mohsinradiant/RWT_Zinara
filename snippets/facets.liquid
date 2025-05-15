@@ -1615,3 +1615,31 @@
     });
   });
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const rtsLink = document.querySelector('a.filter-rts-button');
+
+    if (rtsLink && rtsLink.textContent.trim() === 'Ready to Ship') {
+      rtsLink.addEventListener('click', function () {
+        const linkText = rtsLink.textContent.trim();
+        const linkHref = rtsLink.getAttribute('href');
+
+        gtag('event', 'ready_to_ship', {
+          event_category: 'Filter Click',
+          event_label: linkText,
+          url: linkHref,
+          source: 'Ready to Ship Filter',
+          customer_email: {{ customer.email | json }},
+          customer_id: {{ customer.id | json }},
+          customer_first_name: {{ customer.first_name | json }},
+          customer_last_name: {{ customer.last_name | json }}
+        });
+
+        console.log('ready_to_ship fired:', {
+          event_label: linkText,
+          url: linkHref
+        });
+      });
+    }
+  });
+</script>

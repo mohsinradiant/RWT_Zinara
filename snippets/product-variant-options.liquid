@@ -19,7 +19,6 @@
 {%- liquid
   assign product_form_id = 'product-form-' | append: section.id
 -%}
-
 {%- for value in option.values -%}
   {%- liquid
     assign swatch_focal_point = null
@@ -38,26 +37,21 @@
       assign option_disabled = false
     endif
   -%}
-
   {%- capture input_id -%}
     {{ section.id }}-{{ option.position }}-{{ forloop.index0 -}}
   {%- endcapture -%}
-
   {%- capture input_name -%}
     {{ option.name }}-{{ option.position }}
   {%- endcapture -%}
-
   {%- capture input_dataset -%}
     data-product-url="{{ value.product_url }}"
     data-option-value-id="{{ value.id }}"
   {%- endcapture -%}
-
   {%- capture label_unavailable -%}
     <span class="visually-hidden label-unavailable">
       {{- 'products.product.variant_sold_out_or_unavailable' | t -}}
     </span>
   {%- endcapture -%}
-
   {%- if picker_type == 'swatch' -%}
     {%- capture help_text -%}
       <span class="visually-hidden">{{ value | escape }}</span>
@@ -118,3 +112,72 @@
     </option>
   {%- endif -%}
 {%- endfor -%}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const selectors = document.querySelectorAll('select');
+
+    selectors.forEach((select) => {
+      let previousValue = select.value;
+
+      select.addEventListener('change', function () {
+        const newValue = this.value;
+        const selectLabel = this.closest('.product-form__input')?.querySelector('label')?.innerText.trim();
+
+        if (!selectLabel) return;
+
+        const isMetal = /metal\s*type/i.test(selectLabel);
+        const isSize = /^size$/i.test(selectLabel);
+
+        if (!isMetal && !isSize) return;
+
+        // Fetch variant from Shopify object or from DOM (fallback)
+        const selectedVariant =
+          window.product?.variants?.find((v) => v.options && v.options.includes(newValue)) || null;
+
+        const currentVariant =
+          window.product?.variants?.find((v) => v.options && v.options.includes(previousValue)) || null;
+
+        const customer = window.customer || {};
+        const address = customer.default_address || {};
+
+        const eventData = {
+          event_type: isMetal ? 'metal_type_click' : 'size_click',
+          option_label: selectLabel,
+          previous_value: previousValue,
+          new_value: newValue,
+          current_variant: currentVariant
+            ? {
+                id: currentVariant.id,
+                title: currentVariant.title,
+                price: currentVariant.price,
+                sku: currentVariant.sku,
+              }
+            : null,
+          selected_variant: selectedVariant
+            ? {
+                id: selectedVariant.id,
+                title: selectedVariant.title,
+                price: selectedVariant.price,
+                sku: selectedVariant.sku,
+              }
+            : null,
+          customer_id: customer.id || null,
+          customer_email: customer.email || null,
+          customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+          customer_phone: customer.phone || null,
+          customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${
+            address.zip || ''
+          }, ${address.country || ''}`.trim(),
+          source_url: window.location.href,
+          page_title: document.title,
+        };
+
+        gtag('event', eventData.event_type, eventData);
+        console.log(`${eventData.event_type} sent with:`, eventData);
+
+        // Update previous value
+        previousValue = newValue;
+      });
+    });
+  });
+</script>

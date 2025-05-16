@@ -3392,6 +3392,74 @@
     window.addEventListener('popstate', reloadOnVariantChange); // ✅ Handles back/forward button
   })();
 </script>
+<script>
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    const productForm = document.querySelector('form[id^="product-form-"]');
+
+    if (!productForm) return;
+
+    let triggered = false;
+
+    productForm.addEventListener('submit', function(event) {
+      if (triggered) return;
+      triggered = true;
+
+      // Reset flag after 2 sec to allow new submissions later
+      setTimeout(() => { triggered = false; }, 2000);
+
+      // Get variant id from hidden input
+      const variantId = productForm.querySelector('.product-variant-id')?.value || null;
+
+      // If window.product JSON not available, parse from Liquid inline JSON for product
+      const product = window.product || {{ product | json }};
+      const customer = window.customer || {};
+      const defaultAddress = customer.default_address || {};
+
+      // Find variant from product variants by id
+      const variant = product.variants.find(v => v.id == variantId) || product.selected_or_first_available_variant;
+
+      // Compose customer address string if available
+      const address = [
+        defaultAddress.address1,
+        defaultAddress.address2,
+        defaultAddress.city,
+        defaultAddress.province,
+        defaultAddress.country,
+        defaultAddress.zip
+      ].filter(Boolean).join(', ');
+
+      // Build data for analytics or tracking
+      const eventData = {
+        event: 'add_to_cart',
+        product_id: product.id,
+        product_title: product.title,
+        variant_id: variant.id,
+        variant_title: variant.title,
+        sku: variant.sku,
+        price: variant.price / 100,
+        quantity: 1,
+        customer: {
+          id: customer.id || null,
+          email: customer.email || null,
+          name: defaultAddress.name || `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+          phone: customer.phone || defaultAddress.phone || null,
+          address: address
+        },
+        page_url: window.location.href,
+        page_title: document.title
+      };
+
+      // Example: Fire Google Analytics event if gtag available
+      if (typeof gtag === 'function') {
+        gtag('event', 'add_to_cart', eventData);
+      }
+
+      console.log('Add to Cart event fired:', eventData);
+    });
+  });
+})();
+</script>
 
 {% schema %}
 {

@@ -3492,6 +3492,72 @@
     });
   })();
 </script>
+<script>
+  (function () {
+    document.addEventListener('DOMContentLoaded', function () {
+      const submitBtn = document.getElementById('tryAtHomeSubmitBtn');
+      const pincodeInput = document.getElementById('tryAtHomeZipcode');
+      const resultDiv = document.getElementById('tryAtHomeRes');
+
+      if (!submitBtn || !pincodeInput || !resultDiv) {
+        console.warn('TryAtHome elements not found.');
+        return;
+      }
+
+      submitBtn.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent form submission or default behavior
+
+        const pincode = pincodeInput.value.trim();
+        const result = resultDiv.textContent.trim();
+        const pageUrl = window.location.href;
+
+        // Product and customer data (make sure these are set globally like in add_to_cart)
+        const productData = window.product || null;
+        const customerData = window.customer || {};
+
+        const eventData = {
+          event: 'check_availability_tryathome',
+          pincode: pincode,
+          result: result,
+          page_url: pageUrl,
+          product: productData,
+          customer: {
+            id: customerData.id || null,
+            email: customerData.email || null,
+            name:
+              (customerData.default_address && customerData.default_address.name) ||
+              `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
+            phone: customerData.phone || (customerData.default_address && customerData.default_address.phone) || null,
+            address: customerData.default_address
+              ? [
+                  customerData.default_address.address1,
+                  customerData.default_address.address2,
+                  customerData.default_address.city,
+                  customerData.default_address.province,
+                  customerData.default_address.country,
+                  customerData.default_address.zip,
+                ]
+                  .filter(Boolean)
+                  .join(', ')
+              : '',
+          },
+        };
+
+        console.log('check_availability_tryathome event data:', eventData);
+
+        // Push event via gtag if available
+        if (typeof gtag === 'function') {
+          gtag('event', 'check_availability_tryathome', eventData);
+        } else {
+          console.warn('gtag not found, event not sent');
+        }
+
+        // If you want to proceed with the redirect or other default logic, do it here
+        // e.g., window.location.href = someUrl;
+      });
+    });
+  })();
+</script>
 
 {% schema %}
 {

@@ -3395,67 +3395,104 @@
 <script>
 (function() {
   document.addEventListener('DOMContentLoaded', function() {
-    const productForm = document.querySelector('form[id^="product-form-"]');
+    console.log('add_to_cart DOM fully loaded');
 
-    if (!productForm) return;
+    const productForm = document.querySelector('form[id^="product-form-"]');
+    if (!productForm) {
+      console.error('❌ Product form NOT found!');
+      return;
+    }
+    console.log('add_to_cart ✅ Product form found:', productForm);
 
     let triggered = false;
 
     productForm.addEventListener('submit', function(event) {
-      if (triggered) return;
+      console.log('add_to_cart Submit event fired');
+      if (triggered) {
+        console.warn('⚠️ Add to cart event already triggered, ignoring duplicate');
+        return;
+      }
       triggered = true;
 
-      // Reset flag after 2 sec to allow new submissions later
-      setTimeout(() => { triggered = false; }, 2000);
+      setTimeout(() => {
+        triggered = false;
+        console.log('add_to_cart Trigger flag reset, ready for next submit');
+      }, 2000);
 
-      // Get variant id from hidden input
-      const variantId = productForm.querySelector('.product-variant-id')?.value || null;
+      // Get variant ID from hidden input
+      const variantInput = productForm.querySelector('.product-variant-id');
+      if (!variantInput) {
+        console.error('❌ Variant ID input (.product-variant-id) NOT found!');
+        return;
+      }
+      const variantId = variantInput.value;
+      console.log('add_to_cart Variant ID:', variantId);
 
-      // If window.product JSON not available, parse from Liquid inline JSON for product
-      const product = window.product || {{ product | json }};
-      const customer = window.customer || {};
-      const defaultAddress = customer.default_address || {};
+      // Access product JSON from global scope or inline JSON fallback
+      let productData;
+      try {
+        productData = window.product || {{ product | json }};
+        console.log('add_to_cart Product data found:', productData);
+      } catch(e) {
+        console.error('❌ Product data not available:', e);
+        productData = null;
+      }
+      if (!productData) {
+        console.warn('⚠️ No product data, aborting event trigger');
+        return;
+      }
 
-      // Find variant from product variants by id
-      const variant = product.variants.find(v => v.id == variantId) || product.selected_or_first_available_variant;
+      // Customer data from global or empty fallback
+      const customerData = window.customer || {};
+      console.log('add_to_cart Customer data:', customerData);
 
-      // Compose customer address string if available
-      const address = [
-        defaultAddress.address1,
-        defaultAddress.address2,
-        defaultAddress.city,
-        defaultAddress.province,
-        defaultAddress.country,
-        defaultAddress.zip
-      ].filter(Boolean).join(', ');
+      // Find variant by ID in product variants
+      const variant = productData.variants.find(v => v.id == variantId);
+      if (!variant) {
+        console.warn('⚠️ Variant not found in product variants, using first available variant');
+      }
+      const selectedVariant = variant || productData.selected_or_first_available_variant || productData.variants[0];
+      console.log('add_to_cart Selected variant:', selectedVariant);
 
-      // Build data for analytics or tracking
+      // Compose address string if default address present
+      const addressParts = [];
+      if (customerData.default_address) {
+        const addr = customerData.default_address;
+        addressParts.push(addr.address1, addr.address2, addr.city, addr.province, addr.country, addr.zip);
+      }
+      const address = addressParts.filter(Boolean).join(', ');
+      console.log('add_to_cart Customer address:', address);
+
+      // Compose event data
       const eventData = {
         event: 'add_to_cart',
-        product_id: product.id,
-        product_title: product.title,
-        variant_id: variant.id,
-        variant_title: variant.title,
-        sku: variant.sku,
-        price: variant.price / 100,
+        product_id: productData.id,
+        product_title: productData.title,
+        variant_id: selectedVariant.id,
+        variant_title: selectedVariant.title,
+        sku: selectedVariant.sku,
+        price: selectedVariant.price / 100,
         quantity: 1,
         customer: {
-          id: customer.id || null,
-          email: customer.email || null,
-          name: defaultAddress.name || `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
-          phone: customer.phone || defaultAddress.phone || null,
+          id: customerData.id || null,
+          email: customerData.email || null,
+          name: (customerData.default_address && customerData.default_address.name) || `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
+          phone: customerData.phone || (customerData.default_address && customerData.default_address.phone) || null,
           address: address
         },
         page_url: window.location.href,
         page_title: document.title
       };
 
-      // Example: Fire Google Analytics event if gtag available
-      if (typeof gtag === 'function') {
-        gtag('event', 'add_to_cart', eventData);
-      }
+      console.log('add_to_cart Prepared add_to_cart event data:', eventData);
 
-      console.log('Add to Cart event fired:', eventData);
+      // Fire GA event if gtag exists
+      if (typeof gtag === 'function') {
+        console.log('add_to_cart Calling gtag with add_to_cart event');
+        gtag('event', 'add_to_cart', eventData);
+      } else {
+        console.warn('⚠️ gtag function not found, skipping analytics event');
+      }
     });
   });
 })();

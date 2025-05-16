@@ -2475,6 +2475,50 @@
                     });
                   });
                 </script>
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const checkerButton = document.querySelector('.pincode-checker-button');
+
+                    function isElementVisible(el) {
+                      return el && window.getComputedStyle(el).display !== 'none';
+                    }
+
+                    function sendPincodeAvailabilityEvent() {
+                      const zipcode = document.getElementById('zipcode')?.value.trim();
+                      const result = document.getElementById('res')?.innerText.trim();
+                      const deliveryDateEl = document.querySelector('.expected-delivery-date');
+                      const deliveryDate = document.getElementById('delivery-date')?.innerText.trim();
+
+                      const customer = window.customer || {};
+                      const address = customer.default_address || {};
+
+                      const eventData = {
+                        source_url: window.location.href,
+                        page_title: document.title,
+                        customer_id: customer.id || null,
+                        customer_email: customer.email || null,
+                        customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+                        customer_phone: customer.phone || null,
+                        customer_address: `${address.address1 || ''}, ${address.city || ''}, ${
+                          address.province || ''
+                        }, ${address.zip || ''}, ${address.country || ''}`.trim(),
+                        pincode_entered: zipcode || null,
+                        availability_result: result || null,
+                      };
+
+                      if (isElementVisible(deliveryDateEl)) {
+                        eventData.expected_delivery_date = deliveryDate || null;
+                      }
+
+                      gtag('event', 'check_availability_ship', eventData);
+                      console.log('check_availability_ship event sent with:', eventData);
+                    }
+
+                    checkerButton?.addEventListener('click', () => {
+                      setTimeout(sendPincodeAvailabilityEvent, 500); // Allow time for DOM to update
+                    });
+                  });
+                </script>
 
               {%- when 'inventory-indicator' -%}
                 <p

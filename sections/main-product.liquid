@@ -3361,21 +3361,29 @@
 <script>
   (function () {
     let lastUrl = window.location.href;
+    let shouldDelayReload = false;
+    let delayedReloadUrl = null;
 
     const reloadOnVariantChange = () => {
       const currentUrl = window.location.href;
 
       if (currentUrl !== lastUrl) {
-        console.log('URL changed, reloading...');
+        console.log('URL change detected...');
         lastUrl = currentUrl;
-        sessionStorage.removeItem('redirectedToAvailableVariant'); // ✅ Remove session flag after manual change
+
+        if (shouldDelayReload) {
+          console.log('Delaying reload for GA...');
+          delayedReloadUrl = currentUrl;
+          return;
+        }
+
+        sessionStorage.removeItem('redirectedToAvailableVariant');
         window.location.href = currentUrl.includes('?')
           ? currentUrl + '&manual_variant_change=true'
-          : currentUrl + '?manual_variant_change=true'; // ✅ Add flag to prevent automatic redirection
+          : currentUrl + '?manual_variant_change=true';
       }
     };
 
-    // Listen for Shopify's history changes
     const originalPushState = history.pushState;
     const originalReplaceState = history.replaceState;
 
@@ -3389,7 +3397,89 @@
       reloadOnVariantChange();
     };
 
-    window.addEventListener('popstate', reloadOnVariantChange); // ✅ Handles back/forward button
+    window.addEventListener('popstate', reloadOnVariantChange);
+
+    // Expose to use before GA event triggers
+    window.deferVariantReloadForGA = function (delay = 300) {
+      shouldDelayReload = true;
+      setTimeout(() => {
+        shouldDelayReload = false;
+        if (delayedReloadUrl) {
+          window.location.href = delayedReloadUrl.includes('?')
+            ? delayedReloadUrl + '&manual_variant_change=true'
+            : delayedReloadUrl + '?manual_variant_change=true';
+        }
+      }, delay);
+    };
+
+    // Dropdown variant tracking
+    document.addEventListener('DOMContentLoaded', function () {
+      const selects = document.querySelectorAll('select');
+
+      selects.forEach((select) => {
+        let previousValue = select.value;
+
+        select.addEventListener('change', function () {
+          const newValue = this.value;
+          const labelEl = this.closest('.product-form__input')?.querySelector('label');
+          const selectLabel = labelEl ? labelEl.innerText.trim() : '';
+
+          if (!selectLabel || !this.selectedOptions[0]) return;
+
+          const isMetal = /metal\s*type/i.test(selectLabel);
+          const isSize = /^size$/i.test(selectLabel);
+          if (!isMetal && !isSize) return;
+
+          const customer = window.customer || {};
+          const address = customer.default_address || {};
+
+          const selectedVariant =
+            window.product?.variants?.find((v) => v.options && v.options.includes(newValue)) || null;
+
+          const currentVariant =
+            window.product?.variants?.find((v) => v.options && v.options.includes(previousValue)) || null;
+
+          const eventData = {
+            event_type: isMetal ? 'metal_type_click' : 'size_click',
+            option_label: selectLabel,
+            previous_value: previousValue,
+            new_value: newValue,
+            current_variant: currentVariant
+              ? {
+                  id: currentVariant.id,
+                  title: currentVariant.title,
+                  price: currentVariant.price,
+                  sku: currentVariant.sku,
+                }
+              : null,
+            selected_variant: selectedVariant
+              ? {
+                  id: selectedVariant.id,
+                  title: selectedVariant.title,
+                  price: selectedVariant.price,
+                  sku: selectedVariant.sku,
+                }
+              : null,
+            customer_id: customer.id || null,
+            customer_email: customer.email || null,
+            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+            customer_phone: customer.phone || null,
+            customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${
+              address.zip || ''
+            }, ${address.country || ''}`.trim(),
+            source_url: window.location.href,
+            page_title: document.title,
+          };
+
+          // Fire GA Event
+          gtag('event', eventData.event_type, eventData);
+          console.log(`${eventData.event_type} sent with:`, eventData);
+
+          // Delay variant reload
+          window.deferVariantReloadForGA(300);
+        });
+      });
+    });
   })();
 </script>
 

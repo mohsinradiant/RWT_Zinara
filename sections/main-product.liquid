@@ -3393,6 +3393,9 @@
   })();
 </script>
 <script>
+  window.product = {{ product | json }};
+</script>
+<script>
   (function () {
     document.addEventListener('DOMContentLoaded', function () {
       console.log('add_to_cart DOM fully loaded');

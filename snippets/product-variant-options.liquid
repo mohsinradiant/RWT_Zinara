@@ -112,145 +112,147 @@
     </option>
   {%- endif -%}
 {%- endfor -%}
-<script>
-  (function() {
-    // Wait until DOM is loaded
-    document.addEventListener('DOMContentLoaded', function() {
-      // --- Utility to get customer and address info ---
-      var customer = window.customer || {};
-      var defaultAddress = (customer && customer.default_address) || {};
-      function getAddress() {
-        if (!customer || !defaultAddress) return null;
-        var parts = [
-          defaultAddress.address1,
-          defaultAddress.address2,
-          defaultAddress.city,
-          defaultAddress.province,
-          defaultAddress.country,
-          defaultAddress.zip
-        ].filter(Boolean);
-        return parts.join(', ');
-      }
-
-      // --- Prepare product variants if needed (fallback) ---
-      // Attempt to parse product data from Liquid (ensure main-product.liquid includes product JSON).
-      var productData = window.product || null;
-      if (!productData) {
-        try {
-          // If window.product not set, try injecting via Liquid
-          productData = {{ product | json }};
-        } catch(e) {
-          productData = null;
+{% comment %}
+  <script>
+    (function() {
+      // Wait until DOM is loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        // --- Utility to get customer and address info ---
+        var customer = window.customer || {};
+        var defaultAddress = (customer && customer.default_address) || {};
+        function getAddress() {
+          if (!customer || !defaultAddress) return null;
+          var parts = [
+            defaultAddress.address1,
+            defaultAddress.address2,
+            defaultAddress.city,
+            defaultAddress.province,
+            defaultAddress.country,
+            defaultAddress.zip
+          ].filter(Boolean);
+          return parts.join(', ');
         }
-      }
-      var allVariants = (productData && productData.variants) || [];
-      var optionNames = (productData && productData.options) || [];
 
-      // Variables to hold change data for fallback
-      var lastChangeData = null;
-      var fallbackTimer = null;
-
-      // Function to send analytics event
-      function sendEvent(data, variant) {
-        var eventParams = {
-          option_label: data.optionLabel,
-          previous_value: data.prevValue,
-          new_value: data.newValue,
-          selected_variant: {
-            id: variant.id,
-            title: variant.title,
-            sku: variant.sku,
-            price: variant.price ? (variant.price / 100) : null
-          },
-          customer_id: customer.id || null,
-          email: customer.email || null,
-          name: defaultAddress.name || ( (customer.first_name || '') + ' ' + (customer.last_name || '') ).trim() || null,
-          phone: customer.phone || (defaultAddress.phone || null),
-          address: getAddress(),
-          source_url: window.location.href,
-          page_title: document.title
-        };
-        if (typeof gtag === 'function') {
-          gtag('event', data.eventName, eventParams);
-        }
-      }
-
-      // Handler for select change
-      function onSelectChange(e) {
-        var select = e.target;
-        var nameAttr = select.getAttribute('name') || '';
-        var match = nameAttr.match(/^options\[(.*)\]$/);
-        if (!match) return;
-        var optionLabel = match[1]; // e.g. "Metal Type" or "Size"
-        var eventName = (optionLabel === "Metal Type") ? 'metal_type_click' :
-                        (optionLabel === "Size" ? 'size_click' : null);
-        if (!eventName) return;
-        var prevValue = select.__previousValue || '';
-        var newValue = select.value;
-        // Update stored previous value for future changes
-        select.__previousValue = newValue;
-        // Prepare data for this change
-        lastChangeData = {
-          optionLabel: optionLabel,
-          eventName: eventName,
-          prevValue: prevValue,
-          newValue: newValue
-        };
-        // Clear any existing fallback timer
-        if (fallbackTimer) {
-          clearTimeout(fallbackTimer);
-        }
-        // Fallback: in case 'variant:change' event does not fire, send after delay
-        fallbackTimer = setTimeout(function() {
-          if (!lastChangeData) return;
-          var data = lastChangeData;
-          lastChangeData = null;
-          // Find variant by matching all option values
-          var variantFound = null;
-          if (allVariants.length && optionNames.length) {
-            var selectedOptions = optionNames.map(function(optName) {
-              var sel = document.querySelector('variant-selects select[name="options[' + optName + ']"]');
-              return sel ? sel.value : '';
-            });
-            variantFound = allVariants.find(function(v) {
-              for (var i = 0; i < selectedOptions.length; i++) {
-                if (v.options[i] !== selectedOptions[i]) return false;
-              }
-              return true;
-            });
+        // --- Prepare product variants if needed (fallback) ---
+        // Attempt to parse product data from Liquid (ensure main-product.liquid includes product JSON).
+        var productData = window.product || null;
+        if (!productData) {
+          try {
+            // If window.product not set, try injecting via Liquid
+            productData = {{ product | json }};
+          } catch(e) {
+            productData = null;
           }
-          if (variantFound) {
-            sendEvent(data, variantFound);
-          }
-        }, 500);
-      }
+        }
+        var allVariants = (productData && productData.variants) || [];
+        var optionNames = (productData && productData.options) || [];
 
-      // Attach listeners to Metal Type and Size selects inside variant-selects
-      var metalSelect = document.querySelector('variant-selects select[name="options[Metal Type]"]');
-      var sizeSelect = document.querySelector('variant-selects select[name="options[Size]"]');
-      [metalSelect, sizeSelect].forEach(function(select) {
-        if (!select) return;
-        // Initialize previous value
-        select.__previousValue = select.value;
-        // Listen for focus to update previous value before change
-        select.addEventListener('focus', function() {
-          this.__previousValue = this.value;
+        // Variables to hold change data for fallback
+        var lastChangeData = null;
+        var fallbackTimer = null;
+
+        // Function to send analytics event
+        function sendEvent(data, variant) {
+          var eventParams = {
+            option_label: data.optionLabel,
+            previous_value: data.prevValue,
+            new_value: data.newValue,
+            selected_variant: {
+              id: variant.id,
+              title: variant.title,
+              sku: variant.sku,
+              price: variant.price ? (variant.price / 100) : null
+            },
+            customer_id: customer.id || null,
+            email: customer.email || null,
+            name: defaultAddress.name || ( (customer.first_name || '') + ' ' + (customer.last_name || '') ).trim() || null,
+            phone: customer.phone || (defaultAddress.phone || null),
+            address: getAddress(),
+            source_url: window.location.href,
+            page_title: document.title
+          };
+          if (typeof gtag === 'function') {
+            gtag('event', data.eventName, eventParams);
+          }
+        }
+
+        // Handler for select change
+        function onSelectChange(e) {
+          var select = e.target;
+          var nameAttr = select.getAttribute('name') || '';
+          var match = nameAttr.match(/^options\[(.*)\]$/);
+          if (!match) return;
+          var optionLabel = match[1]; // e.g. "Metal Type" or "Size"
+          var eventName = (optionLabel === "Metal Type") ? 'metal_type_click' :
+                          (optionLabel === "Size" ? 'size_click' : null);
+          if (!eventName) return;
+          var prevValue = select.__previousValue || '';
+          var newValue = select.value;
+          // Update stored previous value for future changes
+          select.__previousValue = newValue;
+          // Prepare data for this change
+          lastChangeData = {
+            optionLabel: optionLabel,
+            eventName: eventName,
+            prevValue: prevValue,
+            newValue: newValue
+          };
+          // Clear any existing fallback timer
+          if (fallbackTimer) {
+            clearTimeout(fallbackTimer);
+          }
+          // Fallback: in case 'variant:change' event does not fire, send after delay
+          fallbackTimer = setTimeout(function() {
+            if (!lastChangeData) return;
+            var data = lastChangeData;
+            lastChangeData = null;
+            // Find variant by matching all option values
+            var variantFound = null;
+            if (allVariants.length && optionNames.length) {
+              var selectedOptions = optionNames.map(function(optName) {
+                var sel = document.querySelector('variant-selects select[name="options[' + optName + ']"]');
+                return sel ? sel.value : '';
+              });
+              variantFound = allVariants.find(function(v) {
+                for (var i = 0; i < selectedOptions.length; i++) {
+                  if (v.options[i] !== selectedOptions[i]) return false;
+                }
+                return true;
+              });
+            }
+            if (variantFound) {
+              sendEvent(data, variantFound);
+            }
+          }, 500);
+        }
+
+        // Attach listeners to Metal Type and Size selects inside variant-selects
+        var metalSelect = document.querySelector('variant-selects select[name="options[Metal Type]"]');
+        var sizeSelect = document.querySelector('variant-selects select[name="options[Size]"]');
+        [metalSelect, sizeSelect].forEach(function(select) {
+          if (!select) return;
+          // Initialize previous value
+          select.__previousValue = select.value;
+          // Listen for focus to update previous value before change
+          select.addEventListener('focus', function() {
+            this.__previousValue = this.value;
+          });
+          // Listen for change events
+          select.addEventListener('change', onSelectChange);
         });
-        // Listen for change events
-        select.addEventListener('change', onSelectChange);
-      });
 
-      // Listen for the theme's variant:change event for accurate variant data
-      document.addEventListener('variant:change', function(event) {
-        if (!lastChangeData) return;
-        var variant = event.detail.variant;
-        // Send GA event with updated variant info
-        sendEvent(lastChangeData, variant);
-        lastChangeData = null;
-        if (fallbackTimer) {
-          clearTimeout(fallbackTimer);
-        }
+        // Listen for the theme's variant:change event for accurate variant data
+        document.addEventListener('variant:change', function(event) {
+          if (!lastChangeData) return;
+          var variant = event.detail.variant;
+          // Send GA event with updated variant info
+          sendEvent(lastChangeData, variant);
+          lastChangeData = null;
+          if (fallbackTimer) {
+            clearTimeout(fallbackTimer);
+          }
+        });
       });
-    });
-  })();
-</script>
+    })();
+  </script>
+{% endcomment %}

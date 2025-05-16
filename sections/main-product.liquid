@@ -194,21 +194,13 @@
                   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
                 </div>
 
-                <script>
-                  function togglePopup() {
-                    document.querySelector('.price-breakdown-popup').classList.toggle('active');
-                    document.getElementById('overlay').classList.toggle('active');
-                  }
-                </script>
+                <div id="overlay" style="display:none;"></div>
 
                 <script>
                   document.addEventListener('DOMContentLoaded', function () {
                     const container = document.querySelector('.price-breakdown-container');
                     const popup = document.querySelector('.price-breakdown-popup');
-
-                    function isPopupOpening() {
-                      return !popup.classList.contains('active');
-                    }
+                    const closeBtn = document.querySelector('.price-breakdown-close-btn');
 
                     function extractPopupData() {
                       const items = [];
@@ -248,37 +240,56 @@
                       return { items, total_cost: totalCost };
                     }
 
-                    container.addEventListener('click', function () {
-                      const wasOpening = isPopupOpening();
+                    function flattenItems(items) {
+                      return items.reduce((acc, item, index) => {
+                        const i = index + 1;
+                        acc[`item_${i}_title`] = item.title;
+                        acc[`item_${i}_selling_price`] = item.selling_price;
+                        acc[`item_${i}_compare_at_price`] = item.compare_at_price;
+                        acc[`item_${i}_subtitle_1`] = item.subtitle_1;
+                        acc[`item_${i}_subtitle_2`] = item.subtitle_2;
+                        acc[`item_${i}_discount`] = item.discount;
+                        return acc;
+                      }, {});
+                    }
 
-                      // Timeout ensures this fires after popup class has toggled
+                    function openPopup() {
+                      popup.classList.add('active');
+                      document.getElementById('overlay').classList.add('active');
+
                       setTimeout(() => {
-                        const nowActive = popup.classList.contains('active');
-                        if (wasOpening && nowActive) {
-                          const popupData = extractPopupData();
+                        const popupData = extractPopupData();
+                        const customer = window.customer || {};
+                        const address = customer.default_address || {};
 
-                          const customer = window.customer || {};
-                          const address = customer.default_address || {};
+                        const flattenedItems = flattenItems(popupData.items);
 
-                          const eventData = {
-                            source_url: window.location.href,
-                            page_title: document.title,
-                            customer_id: customer.id || null,
-                            customer_email: customer.email || null,
-                            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
-                            customer_phone: customer.phone || null,
-                            customer_address: `${address.address1 || ''}, ${address.city || ''}, ${
-                              address.province || ''
-                            }, ${address.zip || ''}, ${address.country || ''}`.trim(),
-                            ...popupData,
-                          };
+                        const eventData = {
+                          source_url: window.location.href,
+                          page_title: document.title,
+                          customer_id: customer.id || null,
+                          customer_email: customer.email || null,
+                          customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+                          customer_phone: customer.phone || null,
+                          customer_address: `${address.address1 || ''}, ${address.city || ''}, ${
+                            address.province || ''
+                          }, ${address.zip || ''}, ${address.country || ''}`.trim(),
+                          total_cost: popupData.total_cost,
+                          ...flattenedItems,
+                        };
 
-                          gtag('event', 'price_breakdown', eventData);
+                        gtag('event', 'price_breakdown', eventData);
+                        console.log('price_breakdown event sent with:', eventData);
+                      }, 100);
+                    }
 
-                          console.log('price_breakdown event sent with:', eventData);
-                        }
-                      }, 50); // Short delay to wait for class toggle
-                    });
+                    function closePopup() {
+                      popup.classList.remove('active');
+                      document.getElementById('overlay').classList.remove('active');
+                    }
+
+                    container.addEventListener('click', openPopup);
+                    closeBtn.addEventListener('click', closePopup);
                   });
                 </script>
 
@@ -2461,6 +2472,50 @@
                         res.className = 'pincode-checker-result invalid';
                         deliveryDateParagraph.style.display = 'none'; // Hide the delivery date section
                       }
+                    });
+                  });
+                </script>
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const checkerButton = document.querySelector('.pincode-checker-button');
+
+                    function isElementVisible(el) {
+                      return el && window.getComputedStyle(el).display !== 'none';
+                    }
+
+                    function sendPincodeAvailabilityEvent() {
+                      const zipcode = document.getElementById('zipcode')?.value.trim();
+                      const result = document.getElementById('res')?.innerText.trim();
+                      const deliveryDateEl = document.querySelector('.expected-delivery-date');
+                      const deliveryDate = document.getElementById('delivery-date')?.innerText.trim();
+
+                      const customer = window.customer || {};
+                      const address = customer.default_address || {};
+
+                      const eventData = {
+                        source_url: window.location.href,
+                        page_title: document.title,
+                        customer_id: customer.id || null,
+                        customer_email: customer.email || null,
+                        customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+                        customer_phone: customer.phone || null,
+                        customer_address: `${address.address1 || ''}, ${address.city || ''}, ${
+                          address.province || ''
+                        }, ${address.zip || ''}, ${address.country || ''}`.trim(),
+                        pincode_entered: zipcode || null,
+                        availability_result: result || null,
+                      };
+
+                      if (isElementVisible(deliveryDateEl)) {
+                        eventData.expected_delivery_date = deliveryDate || null;
+                      }
+
+                      gtag('event', 'check_availability_ship', eventData);
+                      console.log('check_availability_ship event sent with:', eventData);
+                    }
+
+                    checkerButton?.addEventListener('click', () => {
+                      setTimeout(sendPincodeAvailabilityEvent, 500); // Allow time for DOM to update
                     });
                   });
                 </script>

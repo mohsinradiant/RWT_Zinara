@@ -101,6 +101,82 @@
         </div>
       {%- endform -%}
     </product-form>
+    <script>
+      (function () {
+        document.addEventListener("DOMContentLoaded", function () {
+          const button = document.querySelector('button[id^="ProductSubmitButton-"]');
+          if (!button) return;
+
+          // Get customer and address info
+          const customer = window.customer || {};
+          const defaultAddress = customer.default_address || {};
+
+          function getAddress() {
+            const parts = [
+              defaultAddress.address1,
+              defaultAddress.address2,
+              defaultAddress.city,
+              defaultAddress.province,
+              defaultAddress.country,
+              defaultAddress.zip
+            ].filter(Boolean);
+            return parts.join(', ');
+          }
+
+          function getVariantData() {
+            const productData = window.product || {{ product | json }};
+            const selectedOptions = [];
+            const optionNames = productData.options || [];
+
+            optionNames.forEach(function (optionName) {
+              const select = document.querySelector('select[name="options[' + optionName + ']"]');
+              if (select) selectedOptions.push(select.value);
+            });
+
+            const selectedVariant = productData.variants.find(v => {
+              return selectedOptions.every((opt, idx) => v.options[idx] === opt);
+            });
+
+            return selectedVariant || productData.selected_or_first_available_variant || null;
+          }
+
+          button.addEventListener("click", function () {
+            const product = window.product || {{ product | json }};
+            const variant = getVariantData();
+
+            if (!variant) return;
+
+            const eventData = {
+              event: "add_to_cart",
+              product_id: product.id,
+              product_title: product.title,
+              variant_id: variant.id,
+              variant_title: variant.title,
+              sku: variant.sku,
+              price: variant.price / 100,
+              quantity: 1,
+              customer: {
+                id: customer.id || null,
+                email: customer.email || null,
+                name: defaultAddress.name || ((customer.first_name || '') + ' ' + (customer.last_name || '')).trim() || null,
+                phone: customer.phone || defaultAddress.phone || null,
+                address: getAddress()
+              },
+              source_url: window.location.href,
+              page_title: document.title
+            };
+
+            // Fire GA4 event
+            if (typeof gtag === "function") {
+              gtag('event', 'add_to_cart', eventData);
+            }
+
+            // Optionally log for testing
+            console.log("GA Event: add_to_cart", eventData);
+          });
+        });
+      })();
+    </script>
 
   {%- else -%}
     <div class="product-form">

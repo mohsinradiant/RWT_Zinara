@@ -114,31 +114,34 @@
 {%- endfor -%}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const selectors = document.querySelectorAll('select');
+    const selects = document.querySelectorAll('select');
 
-    selectors.forEach((select) => {
+    selects.forEach((select) => {
+      // Save initial value and URL
       let previousValue = select.value;
 
-      select.addEventListener('change', function () {
+      select.addEventListener('change', function (e) {
+        e.preventDefault();
+
         const newValue = this.value;
         const selectLabel = this.closest('.product-form__input')?.querySelector('label')?.innerText.trim();
+        const selectedOption = this.selectedOptions[0];
+        const redirectUrl = selectedOption?.getAttribute('data-product-url');
 
-        if (!selectLabel) return;
+        if (!selectLabel || !redirectUrl) return;
 
         const isMetal = /metal\s*type/i.test(selectLabel);
         const isSize = /^size$/i.test(selectLabel);
-
         if (!isMetal && !isSize) return;
 
-        // Fetch variant from Shopify object or from DOM (fallback)
+        const customer = window.customer || {};
+        const address = customer.default_address || {};
+
         const selectedVariant =
           window.product?.variants?.find((v) => v.options && v.options.includes(newValue)) || null;
 
         const currentVariant =
           window.product?.variants?.find((v) => v.options && v.options.includes(previousValue)) || null;
-
-        const customer = window.customer || {};
-        const address = customer.default_address || {};
 
         const eventData = {
           event_type: isMetal ? 'metal_type_click' : 'size_click',
@@ -175,8 +178,10 @@
         gtag('event', eventData.event_type, eventData);
         console.log(`${eventData.event_type} sent with:`, eventData);
 
-        // Update previous value
-        previousValue = newValue;
+        // Delay redirect slightly to ensure GA event fires
+        setTimeout(() => {
+          window.location.href = redirectUrl;
+        }, 300); // 300ms is usually safe for GA
       });
     });
   });

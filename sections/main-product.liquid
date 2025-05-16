@@ -194,21 +194,14 @@
                   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
                 </div>
 
-                <script>
-                  function togglePopup() {
-                    document.querySelector('.price-breakdown-popup').classList.toggle('active');
-                    document.getElementById('overlay').classList.toggle('active');
-                  }
-                </script>
+<div id="overlay" style="display:none;"></div>
+
 
                 <script>
                   document.addEventListener('DOMContentLoaded', function () {
                     const container = document.querySelector('.price-breakdown-container');
                     const popup = document.querySelector('.price-breakdown-popup');
-
-                    function isPopupOpening() {
-                      return !popup.classList.contains('active');
-                    }
+                    const closeBtn = document.querySelector('.price-breakdown-close-btn');
 
                     function extractPopupData() {
                       const items = [];
@@ -248,37 +241,42 @@
                       return { items, total_cost: totalCost };
                     }
 
-                    container.addEventListener('click', function () {
-                      const wasOpening = isPopupOpening();
+                    function openPopup() {
+                      popup.classList.add('active');
+                      document.getElementById('overlay').classList.add('active');
 
-                      // Timeout ensures this fires after popup class has toggled
+                      // Send GA event after slight delay
                       setTimeout(() => {
-                        const nowActive = popup.classList.contains('active');
-                        if (wasOpening && nowActive) {
-                          const popupData = extractPopupData();
+                        const popupData = extractPopupData();
+                        const customer = window.customer || {};
+                        const address = customer.default_address || {};
 
-                          const customer = window.customer || {};
-                          const address = customer.default_address || {};
+                        const eventData = {
+                          source_url: window.location.href,
+                          page_title: document.title,
+                          customer_id: customer.id || null,
+                          customer_email: customer.email || null,
+                          customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+                          customer_phone: customer.phone || null,
+                          customer_address: `${address.address1 || ''}, ${address.city || ''}, ${
+                            address.province || ''
+                          }, ${address.zip || ''}, ${address.country || ''}`.trim(),
+                          ...popupData,
+                        };
 
-                          const eventData = {
-                            source_url: window.location.href,
-                            page_title: document.title,
-                            customer_id: customer.id || null,
-                            customer_email: customer.email || null,
-                            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
-                            customer_phone: customer.phone || null,
-                            customer_address: `${address.address1 || ''}, ${address.city || ''}, ${
-                              address.province || ''
-                            }, ${address.zip || ''}, ${address.country || ''}`.trim(),
-                            ...popupData,
-                          };
+                        gtag('event', 'price_breakdown', eventData);
+                        console.log('price_breakdown event sent with:', eventData);
+                      }, 100);
+                    }
 
-                          gtag('event', 'price_breakdown', eventData);
+                    function closePopup() {
+                      popup.classList.remove('active');
+                      document.getElementById('overlay').classList.remove('active');
+                    }
 
-                          console.log('price_breakdown event sent with:', eventData);
-                        }
-                      }, 50); // Short delay to wait for class toggle
-                    });
+                    // Bind opening and closing separately
+                    container.addEventListener('click', openPopup);
+                    closeBtn.addEventListener('click', closePopup);
                   });
                 </script>
 

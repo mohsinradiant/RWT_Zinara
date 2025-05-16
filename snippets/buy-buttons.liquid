@@ -104,16 +104,13 @@
     <script>
 (function () {
   document.addEventListener("DOMContentLoaded", function () {
-    const button = document.querySelector('[id^="ProductSubmitButton-"]');
-    if (!button) return;
+    const form = document.querySelector('form[action^="/cart/add"]');
+    if (!form) return;
 
-    let alreadyFired = false;
-
-    button.addEventListener("click", function () {
-      if (alreadyFired) return;
-      alreadyFired = true;
-
-      setTimeout(() => alreadyFired = false, 2000); // Allow retrigger after 2s
+    form.addEventListener("submit", function (e) {
+      // Fire once only per form submit
+      if (form.dataset.eventFired === "true") return;
+      form.dataset.eventFired = "true";
 
       const customer = window.customer || {};
       const defaultAddress = customer.default_address || {};
@@ -122,7 +119,7 @@
       const optionNames = product.options || [];
 
       const selectedOptions = optionNames.map(name => {
-        const select = document.querySelector(`select[name="options[${name}]"]`);
+        const select = form.querySelector(`select[name="options[${name}]"]`);
         return select ? select.value : null;
       });
 
@@ -164,7 +161,12 @@
       }
 
       console.log("GA Event: add_to_cart", eventData);
-    });
+
+      // Reset flag after short delay in case it's needed again
+      setTimeout(() => {
+        form.dataset.eventFired = "false";
+      }, 2000);
+    }, { once: false });
   });
 })();
     </script>

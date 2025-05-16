@@ -194,8 +194,7 @@
                   <div class="price-breakdown-close-btn" onclick="togglePopup()">Close</div>
                 </div>
 
-<div id="overlay" style="display:none;"></div>
-
+                <div id="overlay" style="display:none;"></div>
 
                 <script>
                   document.addEventListener('DOMContentLoaded', function () {
@@ -241,15 +240,29 @@
                       return { items, total_cost: totalCost };
                     }
 
+                    function flattenItems(items) {
+                      return items.reduce((acc, item, index) => {
+                        const i = index + 1;
+                        acc[`item_${i}_title`] = item.title;
+                        acc[`item_${i}_selling_price`] = item.selling_price;
+                        acc[`item_${i}_compare_at_price`] = item.compare_at_price;
+                        acc[`item_${i}_subtitle_1`] = item.subtitle_1;
+                        acc[`item_${i}_subtitle_2`] = item.subtitle_2;
+                        acc[`item_${i}_discount`] = item.discount;
+                        return acc;
+                      }, {});
+                    }
+
                     function openPopup() {
                       popup.classList.add('active');
                       document.getElementById('overlay').classList.add('active');
 
-                      // Send GA event after slight delay
                       setTimeout(() => {
                         const popupData = extractPopupData();
                         const customer = window.customer || {};
                         const address = customer.default_address || {};
+
+                        const flattenedItems = flattenItems(popupData.items);
 
                         const eventData = {
                           source_url: window.location.href,
@@ -261,7 +274,8 @@
                           customer_address: `${address.address1 || ''}, ${address.city || ''}, ${
                             address.province || ''
                           }, ${address.zip || ''}, ${address.country || ''}`.trim(),
-                          ...popupData,
+                          total_cost: popupData.total_cost,
+                          ...flattenedItems,
                         };
 
                         gtag('event', 'price_breakdown', eventData);
@@ -274,7 +288,6 @@
                       document.getElementById('overlay').classList.remove('active');
                     }
 
-                    // Bind opening and closing separately
                     container.addEventListener('click', openPopup);
                     closeBtn.addEventListener('click', closePopup);
                   });

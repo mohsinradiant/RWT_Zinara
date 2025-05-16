@@ -3361,97 +3361,41 @@
 <script>
   (function () {
     let lastUrl = window.location.href;
-    let shouldDelayReload = false;
-    let delayedReloadUrl = null;
 
-    const reloadOnVariantChange = () => {
-      const currentUrl = window.location.href;
-
-      if (currentUrl !== lastUrl) {
-        console.log('URL change detected...');
-        lastUrl = currentUrl;
-
-        if (shouldDelayReload) {
-          console.log('Delaying reload for GA...');
-          delayedReloadUrl = currentUrl;
-          return;
-        }
-
-        sessionStorage.removeItem('redirectedToAvailableVariant');
-        window.location.href = currentUrl.includes('?')
-          ? currentUrl + '&manual_variant_change=true'
-          : currentUrl + '?manual_variant_change=true';
-      }
-    };
-
-    const originalPushState = history.pushState;
-    const originalReplaceState = history.replaceState;
-
-    history.pushState = function (...args) {
-      originalPushState.apply(this, args);
-      reloadOnVariantChange();
-    };
-
-    history.replaceState = function (...args) {
-      originalReplaceState.apply(this, args);
-      reloadOnVariantChange();
-    };
-
-    window.addEventListener('popstate', reloadOnVariantChange);
-
-    // Expose to use before GA event triggers
-    window.deferVariantReloadForGA = function (delay = 300) {
-      shouldDelayReload = true;
+    function triggerDelayedReload(url) {
       setTimeout(() => {
-        shouldDelayReload = false;
-        if (delayedReloadUrl) {
-          window.location.href = delayedReloadUrl.includes('?')
-            ? delayedReloadUrl + '&manual_variant_change=true'
-            : delayedReloadUrl + '?manual_variant_change=true';
-        }
-      }, delay);
-    };
+        window.location.href = url.includes('?')
+          ? url + '&manual_variant_change=true'
+          : url + '?manual_variant_change=true';
+      }, 300);
+    }
 
-    // Dropdown variant tracking
     document.addEventListener('DOMContentLoaded', function () {
       const selects = document.querySelectorAll('select');
 
       selects.forEach((select) => {
-        let previousValue = select.value;
+        const labelEl = select.closest('.product-form__input')?.querySelector('label');
+        const selectLabel = labelEl ? labelEl.innerText.trim() : '';
 
-        select.addEventListener('change', function () {
+        const isMetal = /metal\s*type/i.test(selectLabel);
+        const isSize = /^size$/i.test(selectLabel);
+
+        if (!isMetal && !isSize) return;
+
+        select.addEventListener('change', function (e) {
+          e.preventDefault(); // stop default pushState for now
+
           const newValue = this.value;
-          const labelEl = this.closest('.product-form__input')?.querySelector('label');
-          const selectLabel = labelEl ? labelEl.innerText.trim() : '';
-
-          if (!selectLabel || !this.selectedOptions[0]) return;
-
-          const isMetal = /metal\s*type/i.test(selectLabel);
-          const isSize = /^size$/i.test(selectLabel);
-          if (!isMetal && !isSize) return;
-
           const customer = window.customer || {};
           const address = customer.default_address || {};
 
           const selectedVariant =
             window.product?.variants?.find((v) => v.options && v.options.includes(newValue)) || null;
 
-          const currentVariant =
-            window.product?.variants?.find((v) => v.options && v.options.includes(previousValue)) || null;
-
           const eventData = {
             event_type: isMetal ? 'metal_type_click' : 'size_click',
             option_label: selectLabel,
-            previous_value: previousValue,
             new_value: newValue,
-            current_variant: currentVariant
-              ? {
-                  id: currentVariant.id,
-                  title: currentVariant.title,
-                  price: currentVariant.price,
-                  sku: currentVariant.sku,
-                }
-              : null,
             selected_variant: selectedVariant
               ? {
                   id: selectedVariant.id,
@@ -3471,14 +3415,40 @@
             page_title: document.title,
           };
 
-          // Fire GA Event
-          gtag('event', eventData.event_type, eventData);
-          console.log(`${eventData.event_type} sent with:`, eventData);
+          console.log(`Triggering GA for ${eventData.event_type}...`, eventData);
+          if (typeof gtag === 'function') {
+            gtag('event', eventData.event_type, eventData);
+          }
 
-          // Delay variant reload
-          window.deferVariantReloadForGA(300);
+          // Delay and then reload to update variant properly
+          const newUrl = select.options[select.selectedIndex]?.dataset?.productUrl;
+          if (newUrl) triggerDelayedReload(newUrl);
         });
       });
+    });
+
+    // Overwrite pushState/reload logic to prevent duplicate reloads
+    const originalPushState = history.pushState;
+    const originalReplaceState = history.replaceState;
+
+    history.pushState = function (...args) {
+      const url = args[2];
+      if (url !== lastUrl) {
+        console.log('URL change detected...');
+        lastUrl = url;
+      }
+    };
+
+    history.replaceState = function (...args) {
+      originalReplaceState.apply(this, args);
+    };
+
+    window.addEventListener('popstate', () => {
+      const currentUrl = window.location.href;
+      if (currentUrl !== lastUrl) {
+        lastUrl = currentUrl;
+        window.location.reload();
+      }
     });
   })();
 </script>

@@ -3362,94 +3362,34 @@
   (function () {
     let lastUrl = window.location.href;
 
-    function triggerDelayedReload(url) {
-      setTimeout(() => {
-        window.location.href = url.includes('?')
-          ? url + '&manual_variant_change=true'
-          : url + '?manual_variant_change=true';
-      }, 300);
-    }
+    const reloadOnVariantChange = () => {
+      const currentUrl = window.location.href;
 
-    document.addEventListener('DOMContentLoaded', function () {
-      const selects = document.querySelectorAll('select');
+      if (currentUrl !== lastUrl) {
+        console.log('URL changed, reloading...');
+        lastUrl = currentUrl;
+        sessionStorage.removeItem('redirectedToAvailableVariant'); // ✅ Remove session flag after manual change
+        window.location.href = currentUrl.includes('?')
+          ? currentUrl + '&manual_variant_change=true'
+          : currentUrl + '?manual_variant_change=true'; // ✅ Add flag to prevent automatic redirection
+      }
+    };
 
-      selects.forEach((select) => {
-        const labelEl = select.closest('.product-form__input')?.querySelector('label');
-        const selectLabel = labelEl ? labelEl.innerText.trim() : '';
-
-        const isMetal = /metal\s*type/i.test(selectLabel);
-        const isSize = /^size$/i.test(selectLabel);
-
-        if (!isMetal && !isSize) return;
-
-        select.addEventListener('change', function (e) {
-          e.preventDefault(); // stop default pushState for now
-
-          const newValue = this.value;
-          const customer = window.customer || {};
-          const address = customer.default_address || {};
-
-          const selectedVariant =
-            window.product?.variants?.find((v) => v.options && v.options.includes(newValue)) || null;
-
-          const eventData = {
-            event_type: isMetal ? 'metal_type_click' : 'size_click',
-            option_label: selectLabel,
-            new_value: newValue,
-            selected_variant: selectedVariant
-              ? {
-                  id: selectedVariant.id,
-                  title: selectedVariant.title,
-                  price: selectedVariant.price,
-                  sku: selectedVariant.sku,
-                }
-              : null,
-            customer_id: customer.id || null,
-            customer_email: customer.email || null,
-            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
-            customer_phone: customer.phone || null,
-            customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${
-              address.zip || ''
-            }, ${address.country || ''}`.trim(),
-            source_url: window.location.href,
-            page_title: document.title,
-          };
-
-          console.log(`Triggering GA for ${eventData.event_type}...`, eventData);
-          if (typeof gtag === 'function') {
-            gtag('event', eventData.event_type, eventData);
-          }
-
-          // Delay and then reload to update variant properly
-          const newUrl = select.options[select.selectedIndex]?.dataset?.productUrl;
-          if (newUrl) triggerDelayedReload(newUrl);
-        });
-      });
-    });
-
-    // Overwrite pushState/reload logic to prevent duplicate reloads
+    // Listen for Shopify's history changes
     const originalPushState = history.pushState;
     const originalReplaceState = history.replaceState;
 
     history.pushState = function (...args) {
-      const url = args[2];
-      if (url !== lastUrl) {
-        console.log('URL change detected...');
-        lastUrl = url;
-      }
+      originalPushState.apply(this, args);
+      reloadOnVariantChange();
     };
 
     history.replaceState = function (...args) {
       originalReplaceState.apply(this, args);
+      reloadOnVariantChange();
     };
 
-    window.addEventListener('popstate', () => {
-      const currentUrl = window.location.href;
-      if (currentUrl !== lastUrl) {
-        lastUrl = currentUrl;
-        window.location.reload();
-      }
-    });
+    window.addEventListener('popstate', reloadOnVariantChange); // ✅ Handles back/forward button
   })();
 </script>
 

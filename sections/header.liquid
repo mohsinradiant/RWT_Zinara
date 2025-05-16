@@ -340,6 +340,48 @@
       {% endif %}
     {% endfor %}
   </div>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const menuLinks = document.querySelectorAll('.c-menu3 .dropdown a');
+
+    menuLinks.forEach((link) => {
+      link.addEventListener('click', function (e) {
+        const collectionName = link.textContent.trim();
+        const collectionUrl = link.href;
+        const sourceUrl = window.location.href;
+        const pageTitle = document.title;
+
+        // Get customer data from global `window.customer`
+        const customer = window.customer || {};
+        const address = customer.default_address || {};
+
+        const eventData = {
+          collection_name: collectionName,
+          collection_url: collectionUrl,
+          source_url: sourceUrl,
+          page_title: pageTitle,
+          customer_id: customer.id || null,
+          customer_email: customer.email || null,
+          customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+          customer_phone: customer.phone || null,
+          customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${address.zip || ''}, ${address.country || ''}`.trim(),
+        };
+
+        // Send event to GA
+        gtag('event', 'view_product_list', eventData);
+
+        console.log('view_product_list event sent with:', eventData);
+
+        // Optional: add delay for event to register before navigation
+        e.preventDefault();
+        setTimeout(() => {
+          window.location.href = collectionUrl;
+        }, 300);
+      });
+    });
+  });
+</script>
+
   {% if template == 'index' %}
   <div class="mobile-search">
     {% render 'header-search', input_id: 'Search-In-Modal' %}

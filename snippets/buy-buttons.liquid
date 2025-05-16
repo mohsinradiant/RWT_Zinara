@@ -102,80 +102,73 @@
       {%- endform -%}
     </product-form>
     <script>
-      (function () {
-        document.addEventListener("DOMContentLoaded", function () {
-          const button = document.querySelector('button[id^="ProductSubmitButton-"]');
-          if (!button) return;
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    const button = document.querySelector('button[id^="ProductSubmitButton-"]');
+    if (!button) return;
 
-          // Get customer and address info
-          const customer = window.customer || {};
-          const defaultAddress = customer.default_address || {};
+    // Prevent duplicate firing
+    let eventFired = false;
 
-          function getAddress() {
-            const parts = [
-              defaultAddress.address1,
-              defaultAddress.address2,
-              defaultAddress.city,
-              defaultAddress.province,
-              defaultAddress.country,
-              defaultAddress.zip
-            ].filter(Boolean);
-            return parts.join(', ');
-          }
+    button.addEventListener("click", function () {
+      if (eventFired) return;
+      eventFired = true;
 
-          function getVariantData() {
-            const productData = window.product || {{ product | json }};
-            const selectedOptions = [];
-            const optionNames = productData.options || [];
+      const customer = window.customer || {};
+      const defaultAddress = customer.default_address || {};
 
-            optionNames.forEach(function (optionName) {
-              const select = document.querySelector('select[name="options[' + optionName + ']"]');
-              if (select) selectedOptions.push(select.value);
-            });
+      const product = window.product || {{ product | json }};
+      const optionNames = product.options || [];
 
-            const selectedVariant = productData.variants.find(v => {
-              return selectedOptions.every((opt, idx) => v.options[idx] === opt);
-            });
+      const selectedOptions = optionNames.map(name => {
+        const select = document.querySelector(`select[name="options[${name}]"]`);
+        return select ? select.value : null;
+      });
 
-            return selectedVariant || productData.selected_or_first_available_variant || null;
-          }
+      const variant = product.variants.find(v =>
+        selectedOptions.every((opt, i) => v.options[i] === opt)
+      ) || product.selected_or_first_available_variant;
 
-          button.addEventListener("click", function () {
-            const product = window.product || {{ product | json }};
-            const variant = getVariantData();
+      const address = [
+        defaultAddress.address1,
+        defaultAddress.address2,
+        defaultAddress.city,
+        defaultAddress.province,
+        defaultAddress.country,
+        defaultAddress.zip
+      ].filter(Boolean).join(', ');
 
-            if (!variant) return;
+      const eventData = {
+        event: "add_to_cart",
+        product_id: product.id,
+        product_title: product.title,
+        variant_id: variant.id,
+        variant_title: variant.title,
+        sku: variant.sku,
+        price: variant.price / 100,
+        quantity: 1,
+        customer: {
+          id: customer.id || null,
+          email: customer.email || null,
+          name: defaultAddress.name || `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+          phone: customer.phone || defaultAddress.phone || null,
+          address: address
+        },
+        source_url: window.location.href,
+        page_title: document.title
+      };
 
-            const eventData = {
-              event: "add_to_cart",
-              product_id: product.id,
-              product_title: product.title,
-              variant_id: variant.id,
-              variant_title: variant.title,
-              sku: variant.sku,
-              price: variant.price / 100,
-              quantity: 1,
-              customer: {
-                id: customer.id || null,
-                email: customer.email || null,
-                name: defaultAddress.name || ((customer.first_name || '') + ' ' + (customer.last_name || '')).trim() || null,
-                phone: customer.phone || defaultAddress.phone || null,
-                address: getAddress()
-              },
-              source_url: window.location.href,
-              page_title: document.title
-            };
+      if (typeof gtag === "function") {
+        gtag('event', 'add_to_cart', eventData);
+      }
 
-            // Fire GA4 event
-            if (typeof gtag === "function") {
-              gtag('event', 'add_to_cart', eventData);
-            }
+      console.log("GA Event: add_to_cart", eventData);
 
-            // Optionally log for testing
-            console.log("GA Event: add_to_cart", eventData);
-          });
-        });
-      })();
+      // Reset after short delay in case of AJAX/no page reload
+      setTimeout(() => eventFired = false, 1500);
+    });
+  });
+})();
     </script>
 
   {%- else -%}

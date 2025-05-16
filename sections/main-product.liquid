@@ -200,6 +200,74 @@
                     document.getElementById('overlay').classList.toggle('active');
                   }
                 </script>
+                <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const container = document.querySelector('.price-breakdown-container');
+    const popup = document.querySelector('.price-breakdown-popup');
+
+    function isPopupOpening() {
+      return !popup.classList.contains('active');
+    }
+
+    function extractPopupData() {
+      const items = [];
+      const listItems = popup.querySelectorAll('.price-breakdown-list > li:not(.price-breakdown-total):not(:last-child)');
+
+      listItems.forEach((li) => {
+        const title = li.querySelector('.price_breakdown-left_container_top span')?.innerText.trim() || '';
+        const discount = li.querySelector('.price_discount')?.innerText.trim() || null;
+        const subtitle1 = li.querySelector('.price_breakdown-left_container_bottom p:nth-child(1)')?.innerText.trim() || '';
+        const subtitle2 = li.querySelector('.price_breakdown-left_container_bottom p:nth-child(2)')?.innerText.trim() || '';
+        const sellingPrice = li.querySelector('.price_breakdown-right_container span:nth-child(1)')?.innerText.trim() || '';
+        const compareAtPrice = li.querySelector('.price_breakdown_compare_at_price')?.innerText.trim() || null;
+
+        items.push({
+          title,
+          discount,
+          subtitle_1: subtitle1,
+          subtitle_2: subtitle2,
+          selling_price: sellingPrice,
+          compare_at_price: compareAtPrice,
+        });
+      });
+
+      const totalCost = popup.querySelector('.price-breakdown-total span:nth-child(2)')?.innerText.trim() || '';
+
+      return { items, total_cost: totalCost };
+    }
+
+    container.addEventListener('click', function () {
+      const wasOpening = isPopupOpening();
+
+      // Timeout ensures this fires after popup class has toggled
+      setTimeout(() => {
+        const nowActive = popup.classList.contains('active');
+        if (wasOpening && nowActive) {
+          const popupData = extractPopupData();
+
+          const customer = window.customer || {};
+          const address = customer.default_address || {};
+
+          const eventData = {
+            source_url: window.location.href,
+            page_title: document.title,
+            customer_id: customer.id || null,
+            customer_email: customer.email || null,
+            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+            customer_phone: customer.phone || null,
+            customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${address.zip || ''}, ${address.country || ''}`.trim(),
+            ...popupData
+          };
+
+          gtag('event', 'price_breakdown', eventData);
+
+          console.log('price_breakdown event sent with:', eventData);
+        }
+      }, 50); // Short delay to wait for class toggle
+    });
+  });
+</script>
+
                 {%- if product.quantity_price_breaks_configured? -%}
                   <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
                     <span>{{ 'products.product.volume_pricing.note' | t }}</span>

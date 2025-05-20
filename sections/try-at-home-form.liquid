@@ -303,16 +303,74 @@
           const productCard = event.target.closest('.product-card');
           const productId = productCard.getAttribute('data-id');
 
+          // Find the product details before removing it
+          const removedProduct = window.selectedProducts.find((product) => product.id === productId);
+
+          // Remove from arrays
           window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
           selectedProductIds = selectedProductIds.filter((id) => id !== productId);
 
           productCard.remove();
 
+          // Re-enable the Add button
           const addButton = document.querySelector(`.product-card[data-id="${productId}"] .add-item-button`);
           if (addButton) {
             addButton.textContent = '+ Add';
             addButton.style.opacity = '1';
             addButton.disabled = false;
+          }
+
+          // ✅ Send GA Event for remove
+          if (removedProduct) {
+            const customerData = window.customer || {};
+            const productData = {
+              name: removedProduct.title,
+              handle: removedProduct.handle || '', // handle isn't stored in selectedProducts, so update if needed
+              price: removedProduct.price?.replace(/[₹,]/g, '') || null,
+              compare_at_price: null, // Not available in selectedProducts unless you store it earlier
+            };
+
+            const eventPayload = {
+              event: 'remove_product_tryathome',
+              product: productData,
+              customer: {
+                id: customerData.id || null,
+                email: customerData.email || null,
+                name:
+                  (customerData.default_address && customerData.default_address.name) ||
+                  `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
+                phone: customerData.phone || null,
+                address: customerData.default_address
+                  ? [
+                      customerData.default_address.address1,
+                      customerData.default_address.city,
+                      customerData.default_address.province,
+                      customerData.default_address.country,
+                      customerData.default_address.zip,
+                    ]
+                      .filter(Boolean)
+                      .join(', ')
+                  : '',
+              },
+            };
+
+            console.log('GA Event - remove_product_tryathome:', eventPayload);
+
+            if (typeof gtag === 'function') {
+              gtag('event', 'remove_product_tryathome', {
+                product_name: productData.name,
+                product_handle: productData.handle,
+                product_price: productData.price,
+                product_compare_at_price: productData.compare_at_price,
+                customer_id: eventPayload.customer.id,
+                customer_email: eventPayload.customer.email,
+                customer_name: eventPayload.customer.name,
+                customer_phone: eventPayload.customer.phone,
+                customer_address: eventPayload.customer.address,
+              });
+            } else {
+              console.warn('gtag not found – event not sent');
+            }
           }
         }
 

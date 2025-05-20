@@ -3520,27 +3520,30 @@
           pincode: pincode,
           result: result,
           page_url: pageUrl,
-          product: productData,
-          customer: {
-            id: customerData.id || null,
-            email: customerData.email || null,
-            name:
-              (customerData.default_address && customerData.default_address.name) ||
-              `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
-            phone: customerData.phone || (customerData.default_address && customerData.default_address.phone) || null,
-            address: customerData.default_address
-              ? [
-                  customerData.default_address.address1,
-                  customerData.default_address.address2,
-                  customerData.default_address.city,
-                  customerData.default_address.province,
-                  customerData.default_address.country,
-                  customerData.default_address.zip,
-                ]
-                  .filter(Boolean)
-                  .join(', ')
-              : '',
-          },
+          product_id: productData?.id || null,
+          product_title: productData?.title || '',
+          product_type: productData?.type || '',
+          variant_id: productData?.selected_or_first_available_variant?.id || null,
+          variant_title: productData?.selected_or_first_available_variant?.title || '',
+          customer_id: customerData.id || null,
+          customer_email: customerData.email || '',
+          customer_name:
+            (customerData.default_address && customerData.default_address.name) ||
+            `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
+          customer_phone:
+            customerData.phone || (customerData.default_address && customerData.default_address.phone) || '',
+          customer_address: customerData.default_address
+            ? [
+                customerData.default_address.address1,
+                customerData.default_address.address2,
+                customerData.default_address.city,
+                customerData.default_address.province,
+                customerData.default_address.country,
+                customerData.default_address.zip,
+              ]
+                .filter(Boolean)
+                .join(', ')
+            : '',
         };
 
         console.log('check_availability_tryathome event data:', eventData);

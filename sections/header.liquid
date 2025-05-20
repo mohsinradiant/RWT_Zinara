@@ -322,6 +322,12 @@
       <script>
         document.getElementById('cart-icon-bubble')?.addEventListener('click', () => {
   try {
+<<<<<<< HEAD
+    const cart = {{ cart | json }};
+    const customer = window.customer || {};
+
+    // Prepare product details
+=======
     // Shopify cart and customer info (via Liquid variables)
     const cart = {{ cart | json }};
     const customer = {
@@ -332,22 +338,48 @@
     };
 
     // Prepare product details for GA
+>>>>>>> c82484bda301a4085e53d40998b222fd3b1f3394
     const products = cart.items.map(item => ({
       id: item.variant_id,
       name: item.product_title,
       handle: item.handle,
       variant: item.variant_title,
       quantity: item.quantity,
+<<<<<<< HEAD
+      price: item.final_line_price / 100, // from cents to dollars
+    }));
+
+    const totalValue = cart.total_price / 100;
+=======
       price: item.final_line_price / 100, // Convert from cents to dollars
     }));
 
     const totalValue = cart.total_price / 100; // Convert from cents to dollars
+>>>>>>> c82484bda301a4085e53d40998b222fd3b1f3394
     const totalItems = cart.item_count;
 
     if (typeof gtag === 'function') {
       gtag('event', 'view_cart', {
         currency: cart.currency || 'INR',
         value: totalValue,
+<<<<<<< HEAD
+        item_count: totalItems,
+        items: products,
+        customer_id: customer.id || '',
+        customer_email: customer.email || '',
+        customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+        customer_phone: customer.phone || '',
+        customer_address: customer.default_address
+          ? `${customer.default_address.address1 || ''}, ${customer.default_address.city || ''}, ${customer.default_address.province || ''}, ${customer.default_address.zip || ''}, ${customer.default_address.country || ''}`
+          : ''
+      });
+      console.log('GA4 view_cart event sent');
+    } else {
+      console.warn('gtag is not defined');
+    }
+  } catch (error) {
+    console.error('Failed to send view_cart event:', error);
+=======
         items: products,
         customer_id: customer.id,
         customer_name: customer.name,
@@ -362,6 +394,7 @@
 
   } catch (error) {
     console.error('Error sending view_cart event:', error);
+>>>>>>> c82484bda301a4085e53d40998b222fd3b1f3394
   }
 });
 

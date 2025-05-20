@@ -319,6 +319,53 @@
           </div>
         {%- endif -%}
       </a>
+      <script>
+        document.getElementById('cart-icon-bubble')?.addEventListener('click', () => {
+  try {
+    // Shopify cart and customer info (via Liquid variables)
+    const cart = {{ cart | json }};
+    const customer = {
+      id: "{{ customer.id | default: '' }}",
+      name: "{{ customer.first_name | default: '' }} {{ customer.last_name | default: '' }}".trim(),
+      email: "{{ customer.email | default: '' }}",
+      phone: "{{ customer.phone | default: '' }}"
+    };
+
+    // Prepare product details for GA
+    const products = cart.items.map(item => ({
+      id: item.variant_id,
+      name: item.product_title,
+      handle: item.handle,
+      variant: item.variant_title,
+      quantity: item.quantity,
+      price: item.final_line_price / 100, // Convert from cents to dollars
+    }));
+
+    const totalValue = cart.total_price / 100; // Convert from cents to dollars
+    const totalItems = cart.item_count;
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'view_cart', {
+        currency: cart.currency || 'INR',
+        value: totalValue,
+        items: products,
+        customer_id: customer.id,
+        customer_name: customer.name,
+        customer_email: customer.email,
+        customer_phone: customer.phone,
+        item_count: totalItems
+      });
+      console.log('GA4 view_cart event triggered');
+    } else {
+      console.warn('gtag not available');
+    }
+
+  } catch (error) {
+    console.error('Error sending view_cart event:', error);
+  }
+});
+
+      </script>
     </div>
   </header>
   <div class="c-menu3">

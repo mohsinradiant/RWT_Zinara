@@ -883,6 +883,23 @@ timeslotContainer.addEventListener('click', function (event) {
         // document.getElementById('ajax_tah_succ_submit_popup_close_bottom').addEventListener('click', () => {
         //   content3.classList.add('hidden');
         // });
+        // GA4 Event push
+        if (typeof gtag === 'function') {
+          gtag('event', 'book_trial_at_home', {
+            customer_id: tryAtHomeData.customer || '',
+            name: tryAtHomeData.name || '',
+            email: tryAtHomeData.email || '',
+            phone: tryAtHomeData.phone || '',
+            address: tryAtHomeData.address || '',
+            pincode: tryAtHomeData.pincode || '',
+            timeslot: tryAtHomeData.timeslot || '',
+            slot_status: tryAtHomeData.slot_status || '',
+            product_ids: Array.isArray(tryAtHomeData.product_ids) ? tryAtHomeData.product_ids.join(',') : '',
+          });
+          console.log('GA event book_trial_at_home fired');
+        } else {
+          console.warn('gtag not defined – GA event not fired');
+        }
       } else {
         alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
       }

@@ -328,16 +328,14 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
     const cart = await response.json();
 
     let totalQuantity = 0;
-    let totalValueCents = 0;
+    let totalValue = 0;
     const productNames = [];
 
     cart.items.forEach(item => {
       totalQuantity += item.quantity;
-      totalValueCents += item.price * item.quantity; // price in cents * quantity
+      totalValue += item.price * item.quantity; // assume price is already full currency unit
       productNames.push(item.product_title);
     });
-
-    const totalValue = totalValueCents / 100; // convert to decimal currency
 
     // Prepare customer details from global window.customer, safely handle missing fields
     const customer = window.customer || {};
@@ -363,7 +361,6 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
 
     console.log('GA4 view_cart event data:', eventData);
 
-    // Send GA4 event with simple parameters only
     gtag('event', 'view_cart', eventData);
 
   } catch (error) {

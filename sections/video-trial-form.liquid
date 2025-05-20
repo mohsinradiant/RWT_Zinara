@@ -647,17 +647,64 @@
       }
     });
 
-    // Add click event listener to timeslot buttons
-    timeslotContainer.addEventListener('click', function (event) {
-      if (event.target.classList.contains('timeslot-btn')) {
-        // Remove the 'selected' class from all timeslot buttons
-        const allTimeslotButtons = timeslotContainer.querySelectorAll('.timeslot-btn');
-        allTimeslotButtons.forEach(button => button.classList.remove('selected'));
+// Add click event listener to timeslot buttons
+timeslotContainer.addEventListener('click', function (event) {
+  if (event.target.classList.contains('timeslot-btn')) {
+    // Remove the 'selected' class from all timeslot buttons
+    const allTimeslotButtons = timeslotContainer.querySelectorAll('.timeslot-btn');
+    allTimeslotButtons.forEach(button => button.classList.remove('selected'));
 
-        // Add the 'selected' class to the clicked button
-        event.target.classList.add('selected');
-      }
-    });
+    // Add the 'selected' class to the clicked button
+    event.target.classList.add('selected');
+
+    // ✅ Send GA Event
+    const selectedDateBtn = document.querySelector('.date-btn.selected');
+    const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
+    const selectedTime = event.target.textContent.trim();
+
+    const customerData = window.customer || {};
+    const eventPayload = {
+      event: 'select_time_slot_videotrial',
+      date: selectedDate,
+      time: selectedTime,
+      customer: {
+        id: customerData.id || null,
+        email: customerData.email || null,
+        name:
+          (customerData.default_address && customerData.default_address.name) ||
+          `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
+        phone: customerData.phone || null,
+        address: customerData.default_address
+          ? [
+              customerData.default_address.address1,
+              customerData.default_address.city,
+              customerData.default_address.province,
+              customerData.default_address.country,
+              customerData.default_address.zip,
+            ]
+              .filter(Boolean)
+              .join(', ')
+          : '',
+      },
+    };
+
+    console.log('GA Event - select_time_slot_videotrial:', eventPayload);
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'select_time_slot_videotrial', {
+        selected_date: selectedDate,
+        selected_time: selectedTime,
+        customer_id: eventPayload.customer.id,
+        customer_email: eventPayload.customer.email,
+        customer_name: eventPayload.customer.name,
+        customer_phone: eventPayload.customer.phone,
+        customer_address: eventPayload.customer.address,
+      });
+    } else {
+      console.warn('gtag not found – event not sent');
+    }
+  }
+});
   });
 </script>
 <script>

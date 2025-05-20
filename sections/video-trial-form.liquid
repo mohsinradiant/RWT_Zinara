@@ -870,6 +870,28 @@ timeslotContainer.addEventListener('click', function (event) {
               </div>
               <p class="trial_booked_bottom_text">${bookingSuccessContent}</p>
             `;
+        if (typeof gtag === 'function') {
+          const productNames = window.selectedProducts?.map((p) => p.title).join(', ') || '';
+          const productHandles = window.selectedProducts?.map((p) => p.handle).join(', ') || '';
+
+          gtag('event', 'book_video_trial', {
+            customer_id: tryAtHomeData.customer || '',
+            name: tryAtHomeData.name || '',
+            email: tryAtHomeData.email || '',
+            phone: tryAtHomeData.phone || '',
+            address: tryAtHomeData.address || '',
+            pincode: tryAtHomeData.pincode || '',
+            timeslot: tryAtHomeData.timeslot || '',
+            slot_status: tryAtHomeData.slot_status || '',
+            product_ids: Array.isArray(tryAtHomeData.product_ids) ? tryAtHomeData.product_ids.join(',') : '',
+            product_names: productNames,
+            product_handles: productHandles,
+          });
+
+          console.log('GA event book_video_trial fired with products');
+        } else {
+          console.warn('gtag not defined – GA event not fired');
+        }
       } else {
         alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);
       }

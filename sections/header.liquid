@@ -319,68 +319,73 @@
           </div>
         {%- endif -%}
       </a>
-      <script>
-  // Ensure window.customer is already defined
-  async function refreshCartData() {
-    try {
-      const res = await fetch('/cart.js');
-      const data = await res.json();
+<script>
+  document.getElementById('cart-icon-bubble').addEventListener('click', async (e) => {
+    e.preventDefault(); // Prevent default navigation, remove if you want to keep it
 
-      window.cart = {
-        value: data.items_subtotal_price / 100,
-        item_count: data.item_count,
-        items: data.items.map(item => ({
-          item_id: item.product_id,
+    try {
+      const response = await fetch('/cart.js');
+      const cart = await response.json();
+
+      let totalValue = 0;
+      let totalQuantity = 0;
+
+      // Prepare items array for GA event
+      const items = cart.items.map(item => {
+        totalValue += item.line_price; // line_price is price * quantity in cents
+        totalQuantity += item.quantity;
+
+        return {
+          item_id: item.product_id.toString(),
+          item_variant_id: item.variant_id.toString(),
           item_name: item.product_title,
-          item_variant: item.variant_title,
-          price: item.final_line_price / 100,
-          quantity: item.quantity,
-          item_handle: item.handle,
-          item_image: item.image
-        }))
+          item_variant: item.variant_title || '',
+          item_handle: item.handle || '',  // handle may not be directly in cart data
+          price: item.price / 100,  // price in currency units
+          quantity: item.quantity
+        };
+      });
+
+      // Convert totalValue from cents to main currency unit (e.g., rupees)
+      totalValue = totalValue / 100;
+
+      // Use handle fallback if missing: fetch from Shopify via another request or leave blank
+      // Here, we assume handle is missing, so remove item_handle if unknown or get it from another source
+
+      // Compose GA4 event parameters
+      const eventParams = {
+        currency: cart.currency || 'INR',
+        value: totalValue,
+        items: items,
+        customer_id: window.customer?.id || '',
+        customer_email: window.customer?.email || '',
+        customer_name: `${window.customer?.first_name || ''} ${window.customer?.last_name || ''}`.trim(),
+        customer_phone: window.customer?.phone || '',
+        customer_address: window.customer?.default_address?.address1 || '',
+        customer_city: window.customer?.default_address?.city || '',
+        customer_state: window.customer?.default_address?.province || '',
+        customer_zip: window.customer?.default_address?.zip || '',
+        customer_country: window.customer?.default_address?.country || '',
+        item_count: totalQuantity,
       };
 
-    } catch (err) {
-      console.error('Error refreshing cart:', err);
-    }
-  }
+      console.log('GA4 view_cart event data:', eventParams);
 
-  async function sendViewCartEvent() {
-    await refreshCartData(); // Ensure latest cart info
-
-    if (!window.cart || !window.customer) return;
-
-    const { items, value, item_count } = window.cart;
-    const customer = window.customer;
-
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'view_cart',
-      ecommerce: {
-        currency: 'INR',
-        value: value,
-        item_count: item_count,
-        items: items
-      },
-      customer: {
-        id: customer.id,
-        email: customer.email,
-        phone: customer.phone,
-        name: `${customer.first_name} ${customer.last_name}`,
-        address: {
-          city: customer.default_address?.city || '',
-          province: customer.default_address?.province || '',
-          country: customer.default_address?.country || '',
-          zip: customer.default_address?.zip || ''
-        }
+      // Trigger GA4 event (replace 'gtag' with your analytics function if different)
+      if (typeof gtag === 'function') {
+        gtag('event', 'view_cart', eventParams);
+      } else {
+        console.warn('gtag function not found');
       }
-    });
 
-    console.log('✅ view_cart event pushed:', { value, item_count, items });
-  }
+      // Optional: If you want the cart link to open after tracking event, uncomment next line
+      // window.location.href = e.currentTarget.href;
 
-  document.getElementById('cart-icon-bubble')?.addEventListener('click', sendViewCartEvent);
-      </script>
+    } catch (error) {
+      console.error('Error fetching cart or sending GA event:', error);
+    }
+  });
+</script>
     </div>
   </header>
   <div class="c-menu3">

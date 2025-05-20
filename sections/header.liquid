@@ -319,6 +319,49 @@
           </div>
         {%- endif -%}
       </a>
+      <script>
+        document.getElementById('cart-icon-bubble')?.addEventListener('click', () => {
+  try {
+    const cart = {{ cart | json }};
+    const customer = window.customer || {};
+
+    // Prepare product details
+    const products = cart.items.map(item => ({
+      id: item.variant_id,
+      name: item.product_title,
+      handle: item.handle,
+      variant: item.variant_title,
+      quantity: item.quantity,
+      price: item.final_line_price / 100, // from cents to dollars
+    }));
+
+    const totalValue = cart.total_price / 100;
+    const totalItems = cart.item_count;
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'view_cart', {
+        currency: cart.currency || 'INR',
+        value: totalValue,
+        item_count: totalItems,
+        items: products,
+        customer_id: customer.id || '',
+        customer_email: customer.email || '',
+        customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+        customer_phone: customer.phone || '',
+        customer_address: customer.default_address
+          ? `${customer.default_address.address1 || ''}, ${customer.default_address.city || ''}, ${customer.default_address.province || ''}, ${customer.default_address.zip || ''}, ${customer.default_address.country || ''}`
+          : ''
+      });
+      console.log('GA4 view_cart event sent');
+    } else {
+      console.warn('gtag is not defined');
+    }
+  } catch (error) {
+    console.error('Failed to send view_cart event:', error);
+  }
+});
+
+      </script>
     </div>
   </header>
   <div class="c-menu3">

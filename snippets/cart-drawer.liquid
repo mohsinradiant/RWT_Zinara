@@ -646,3 +646,48 @@
     </div>
   </div>
 </cart-drawer>
+<script>
+  document.getElementById('CartDrawer-Checkout')?.addEventListener('click', async function (e) {
+    try {
+      const response = await fetch('/cart.js');
+      const cart = await response.json();
+
+      const customer = window.customer || {};
+      const defaultAddress = customer.default_address || {};
+
+      const allProductDetails = cart.items.map((item) => ({
+        name: item.product_title,
+        variant_id: item.variant_id,
+        quantity: item.quantity,
+        price: (item.price / 100).toFixed(2),
+        total_price: ((item.price * item.quantity) / 100).toFixed(2),
+      }));
+
+      const eventData = {
+        event: 'checkout_initiated',
+
+        customer_id: customer.id || '',
+        customer_email: customer.email || '',
+        customer_name: (customer.first_name || '') + ' ' + (customer.last_name || ''),
+        customer_phone: customer.phone || '',
+        customer_address: defaultAddress.address1 || '',
+        customer_city: defaultAddress.city || '',
+        customer_state: defaultAddress.province || '',
+        customer_zip: defaultAddress.zip || '',
+        customer_country: defaultAddress.country || '',
+
+        item_count: cart.item_count,
+        cart_value: (cart.total_price / 100).toFixed(2),
+        currency: cart.currency || 'INR',
+
+        cart_products: allProductDetails.map((p) => `${p.name} (Qty: ${p.quantity}, ₹${p.price})`).join(', '),
+      };
+
+      console.log('GA4 checkout_initiated event data:', eventData);
+
+      gtag('event', 'checkout_initiated', eventData);
+    } catch (error) {
+      console.error('Error triggering checkout_initiated event:', error);
+    }
+  });
+</script>

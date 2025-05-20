@@ -470,31 +470,48 @@
                 const response = await fetch('/cart.js');
                 const cart = await response.json();
 
+                const allProductDetails = [];
                 let totalQuantity = 0;
                 let totalValueCents = 0;
-                const allProductDetails = [];
+                let removedItem = null;
 
                 cart.items.forEach((item) => {
-                  totalQuantity += item.quantity;
-                  totalValueCents += item.price * item.quantity;
-
-                  allProductDetails.push({
+                  const product = {
                     name: item.product_title,
                     quantity: item.quantity,
-                    price: item.price / 100,
+                    price: (item.price / 100).toFixed(2),
                     variant_id: item.variant_id,
-                    id: item.id,
-                  });
+                  };
+
+                  if (item.variant_id == variantId) {
+                    removedItem = product;
+                    // skip adding this item to totals because it's about to be removed
+                  } else {
+                    totalQuantity += item.quantity;
+                    totalValueCents += item.price * item.quantity;
+                    allProductDetails.push(product);
+                  }
                 });
 
-                const removedItem = allProductDetails.find((p) => p.variant_id == variantId);
+                if (!removedItem) {
+                  removedItem = {
+                    name: 'Unknown',
+                    variant_id: variantId,
+                    price: '',
+                    quantity: '',
+                  };
+                }
 
                 const customer = window.customer || {};
                 const defaultAddress = customer.default_address || {};
 
                 const eventData = {
                   event: 'remove_from_cart',
-                  removed_product: removedItem || { variant_id: variantId, name: 'Unknown' },
+                  removed_product_name: removedItem.name,
+                  removed_product_variant_id: removedItem.variant_id,
+                  removed_product_price: removedItem.price,
+                  removed_product_quantity: removedItem.quantity,
+
                   customer_id: customer.id || '',
                   customer_email: customer.email || '',
                   customer_name: (customer.first_name || '') + ' ' + (customer.last_name || ''),
@@ -504,10 +521,14 @@
                   customer_state: defaultAddress.province || '',
                   customer_zip: defaultAddress.zip || '',
                   customer_country: defaultAddress.country || '',
+
                   remaining_item_count: totalQuantity,
-                  remaining_cart_value: totalValueCents / 100,
+                  remaining_cart_value: (totalValueCents / 100).toFixed(2),
                   currency: cart.currency || 'INR',
-                  remaining_products: allProductDetails,
+
+                  remaining_products: allProductDetails
+                    .map((p) => `${p.name} (Qty: ${p.quantity}, ₹${p.price})`)
+                    .join(', '),
                 };
 
                 console.log('GA4 remove_from_cart event data:', eventData);

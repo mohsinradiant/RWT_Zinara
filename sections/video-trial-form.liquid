@@ -257,7 +257,56 @@
                   this.textContent = 'Added';
                   this.style.opacity = '0.7';
                   this.disabled = true;
+                  // ✅ GA Event Trigger
+                  const customerData = window.customer || {};
+                  const productData = {
+                    name: product.title,
+                    handle: product.handle,
+                    price: product.variants[0]?.price || null,
+                    compare_at_price: product.variants[0]?.compare_at_price || null,
+                  };
 
+                  const eventPayload = {
+                    event: 'add_product_videotrial',
+                    product: productData,
+                    customer: {
+                      id: customerData.id || null,
+                      email: customerData.email || null,
+                      name:
+                        (customerData.default_address && customerData.default_address.name) ||
+                        `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
+                      phone: customerData.phone || null,
+                      address: customerData.default_address
+                        ? [
+                            customerData.default_address.address1,
+                            customerData.default_address.city,
+                            customerData.default_address.province,
+                            customerData.default_address.country,
+                            customerData.default_address.zip,
+                          ]
+                            .filter(Boolean)
+                            .join(', ')
+                        : '',
+                    },
+                  };
+
+                  console.log('GA Event - add_product_videotrial:', eventPayload);
+
+                  if (typeof gtag === 'function') {
+                    gtag('event', 'add_product_videotrial', {
+                      product_name: productData.name,
+                      product_handle: productData.handle,
+                      product_price: productData.price,
+                      product_compare_at_price: productData.compare_at_price,
+                      customer_id: eventPayload.customer.id,
+                      customer_email: eventPayload.customer.email,
+                      customer_name: eventPayload.customer.name,
+                      customer_phone: eventPayload.customer.phone,
+                      customer_address: eventPayload.customer.address,
+                    });
+                  } else {
+                    console.warn('gtag not found – event not sent');
+                  }
                   attachRemoveEvent();
                 }
               });

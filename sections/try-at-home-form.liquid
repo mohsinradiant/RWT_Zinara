@@ -885,6 +885,9 @@ timeslotContainer.addEventListener('click', function (event) {
         // });
         // GA4 Event push
         if (typeof gtag === 'function') {
+          const productNames = window.selectedProducts?.map((p) => p.title).join(', ') || '';
+          const productHandles = window.selectedProducts?.map((p) => p.handle).join(', ') || '';
+
           gtag('event', 'book_trial_at_home', {
             customer_id: tryAtHomeData.customer || '',
             name: tryAtHomeData.name || '',
@@ -895,8 +898,11 @@ timeslotContainer.addEventListener('click', function (event) {
             timeslot: tryAtHomeData.timeslot || '',
             slot_status: tryAtHomeData.slot_status || '',
             product_ids: Array.isArray(tryAtHomeData.product_ids) ? tryAtHomeData.product_ids.join(',') : '',
+            product_names: productNames,
+            product_handles: productHandles,
           });
-          console.log('GA event book_trial_at_home fired');
+
+          console.log('GA event book_trial_at_home fired with products');
         } else {
           console.warn('gtag not defined – GA event not fired');
         }

@@ -459,6 +459,66 @@
           </div>
           <div id="CartDrawer-CartErrors" role="alert"></div>
         </form>
+        <script>
+          document.querySelectorAll('.cart-remove-button').forEach((button) => {
+            button.addEventListener('click', async function (e) {
+              e.preventDefault();
+
+              try {
+                const variantId = this.getAttribute('data-variant-id');
+
+                const response = await fetch('/cart.js');
+                const cart = await response.json();
+
+                let totalQuantity = 0;
+                let totalValueCents = 0;
+                const allProductDetails = [];
+
+                cart.items.forEach((item) => {
+                  totalQuantity += item.quantity;
+                  totalValueCents += item.price * item.quantity;
+
+                  allProductDetails.push({
+                    name: item.product_title,
+                    quantity: item.quantity,
+                    price: item.price / 100,
+                    variant_id: item.variant_id,
+                    id: item.id,
+                  });
+                });
+
+                const removedItem = allProductDetails.find((p) => p.variant_id == variantId);
+
+                const customer = window.customer || {};
+                const defaultAddress = customer.default_address || {};
+
+                const eventData = {
+                  event: 'remove_from_cart',
+                  removed_product: removedItem || { variant_id: variantId, name: 'Unknown' },
+                  customer_id: customer.id || '',
+                  customer_email: customer.email || '',
+                  customer_name: (customer.first_name || '') + ' ' + (customer.last_name || ''),
+                  customer_phone: customer.phone || '',
+                  customer_address: defaultAddress.address1 || '',
+                  customer_city: defaultAddress.city || '',
+                  customer_state: defaultAddress.province || '',
+                  customer_zip: defaultAddress.zip || '',
+                  customer_country: defaultAddress.country || '',
+                  remaining_item_count: totalQuantity,
+                  remaining_cart_value: totalValueCents / 100,
+                  currency: cart.currency || 'INR',
+                  remaining_products: allProductDetails,
+                };
+
+                console.log('GA4 remove_from_cart event data:', eventData);
+
+                gtag('event', 'remove_from_cart', eventData);
+              } catch (error) {
+                console.error('Error sending remove_from_cart event:', error);
+              }
+            });
+          });
+        </script>
       </cart-drawer-items>
       <div class="drawer__footer">
         {%- if settings.show_cart_note -%}

@@ -343,8 +343,7 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
     const customer = window.customer || {};
     const defaultAddress = customer.default_address || {};
 
-    // Send GA4 event with simple parameters only
-    gtag('event', 'view_cart', {
+    const eventData = {
       customer_id: customer.id || '',
       customer_email: customer.email || '',
       customer_name: (customer.first_name || '') + ' ' + (customer.last_name || ''),
@@ -360,12 +359,17 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
       currency: cart.currency || 'INR',
 
       product_names: productNames.join(', ')
-    });
+    };
+
+    console.log('GA4 view_cart event data:', eventData);
+
+    gtag('event', 'view_cart', eventData);
 
   } catch (error) {
     console.error('Error sending view_cart event:', error);
   }
 });
+
 </script>
     </div>
   </header>

@@ -320,47 +320,66 @@
         {%- endif -%}
       </a>
       <script>
-        document.getElementById('cart-icon-bubble')?.addEventListener('click', () => {
-  try {
-    const cart = {{ cart | json }};
-    const customer = window.customer || {};
+  // Ensure window.customer is already defined
+  async function refreshCartData() {
+    try {
+      const res = await fetch('/cart.js');
+      const data = await res.json();
 
-    // Prepare product details
-    const products = cart.items.map(item => ({
-      id: item.variant_id,
-      name: item.product_title,
-      handle: item.handle,
-      variant: item.variant_title,
-      quantity: item.quantity,
-      price: item.final_line_price / 100, // from cents to dollars
-    }));
+      window.cart = {
+        value: data.items_subtotal_price / 100,
+        item_count: data.item_count,
+        items: data.items.map(item => ({
+          item_id: item.product_id,
+          item_name: item.product_title,
+          item_variant: item.variant_title,
+          price: item.final_line_price / 100,
+          quantity: item.quantity,
+          item_handle: item.handle,
+          item_image: item.image
+        }))
+      };
 
-    const totalValue = cart.total_price / 100;
-    const totalItems = cart.item_count;
-
-    if (typeof gtag === 'function') {
-      gtag('event', 'view_cart', {
-        currency: cart.currency || 'INR',
-        value: totalValue,
-        item_count: totalItems,
-        items: products,
-        customer_id: customer.id || '',
-        customer_email: customer.email || '',
-        customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
-        customer_phone: customer.phone || '',
-        customer_address: customer.default_address
-          ? `${customer.default_address.address1 || ''}, ${customer.default_address.city || ''}, ${customer.default_address.province || ''}, ${customer.default_address.zip || ''}, ${customer.default_address.country || ''}`
-          : ''
-      });
-      console.log('GA4 view_cart event sent');
-    } else {
-      console.warn('gtag is not defined');
+    } catch (err) {
+      console.error('Error refreshing cart:', err);
     }
-  } catch (error) {
-    console.error('Failed to send view_cart event:', error);
   }
-});
 
+  async function sendViewCartEvent() {
+    await refreshCartData(); // Ensure latest cart info
+
+    if (!window.cart || !window.customer) return;
+
+    const { items, value, item_count } = window.cart;
+    const customer = window.customer;
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'view_cart',
+      ecommerce: {
+        currency: 'INR',
+        value: value,
+        item_count: item_count,
+        items: items
+      },
+      customer: {
+        id: customer.id,
+        email: customer.email,
+        phone: customer.phone,
+        name: `${customer.first_name} ${customer.last_name}`,
+        address: {
+          city: customer.default_address?.city || '',
+          province: customer.default_address?.province || '',
+          country: customer.default_address?.country || '',
+          zip: customer.default_address?.zip || ''
+        }
+      }
+    });
+
+    console.log('✅ view_cart event pushed:', { value, item_count, items });
+  }
+
+  document.getElementById('cart-icon-bubble')?.addEventListener('click', sendViewCartEvent);
       </script>
     </div>
   </header>

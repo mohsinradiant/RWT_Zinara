@@ -320,71 +320,52 @@
         {%- endif -%}
       </a>
 <script>
-  document.getElementById('cart-icon-bubble').addEventListener('click', async (e) => {
-    e.preventDefault(); // Prevent default navigation, remove if you want to keep it
+document.getElementById('cart-icon-bubble').addEventListener('click', async function(e) {
+  e.preventDefault();
 
-    try {
-      const response = await fetch('/cart.js');
-      const cart = await response.json();
+  try {
+    const response = await fetch('/cart.js');
+    const cart = await response.json();
 
-      let totalValue = 0;
-      let totalQuantity = 0;
+    let totalQuantity = 0;
+    let totalValueCents = 0;
+    const productNames = [];
 
-      // Prepare items array for GA event
-      const items = cart.items.map(item => {
-        totalValue += item.line_price; // line_price is price * quantity in cents
-        totalQuantity += item.quantity;
+    cart.items.forEach(item => {
+      totalQuantity += item.quantity;
+      totalValueCents += item.price * item.quantity; // price in cents * quantity
+      productNames.push(item.product_title);
+    });
 
-        return {
-          item_id: item.product_id.toString(),
-          item_variant_id: item.variant_id.toString(),
-          item_name: item.product_title,
-          item_variant: item.variant_title || '',
-          item_handle: item.handle || '',  // handle may not be directly in cart data
-          price: item.price / 100,  // price in currency units
-          quantity: item.quantity
-        };
-      });
+    const totalValue = totalValueCents / 100; // convert to decimal currency
 
-      // Convert totalValue from cents to main currency unit (e.g., rupees)
-      totalValue = totalValue / 100;
+    // Prepare customer details from global window.customer, safely handle missing fields
+    const customer = window.customer || {};
+    const defaultAddress = customer.default_address || {};
 
-      // Use handle fallback if missing: fetch from Shopify via another request or leave blank
-      // Here, we assume handle is missing, so remove item_handle if unknown or get it from another source
+    // Send GA4 event with simple parameters only
+    gtag('event', 'view_cart', {
+      customer_id: customer.id || '',
+      customer_email: customer.email || '',
+      customer_name: (customer.first_name || '') + ' ' + (customer.last_name || ''),
+      customer_phone: customer.phone || '',
+      customer_address: defaultAddress.address1 || '',
+      customer_city: defaultAddress.city || '',
+      customer_state: defaultAddress.province || '',
+      customer_zip: defaultAddress.zip || '',
+      customer_country: defaultAddress.country || '',
 
-      // Compose GA4 event parameters
-      const eventParams = {
-        currency: cart.currency || 'INR',
-        value: totalValue,
-        items: items,
-        customer_id: window.customer?.id || '',
-        customer_email: window.customer?.email || '',
-        customer_name: `${window.customer?.first_name || ''} ${window.customer?.last_name || ''}`.trim(),
-        customer_phone: window.customer?.phone || '',
-        customer_address: window.customer?.default_address?.address1 || '',
-        customer_city: window.customer?.default_address?.city || '',
-        customer_state: window.customer?.default_address?.province || '',
-        customer_zip: window.customer?.default_address?.zip || '',
-        customer_country: window.customer?.default_address?.country || '',
-        item_count: totalQuantity,
-      };
+      item_count: totalQuantity,
+      value: totalValue,
+      currency: cart.currency || 'INR',
 
-      console.log('GA4 view_cart event data:', eventParams);
+      product_names: productNames.join(', ')
+    });
 
-      // Trigger GA4 event (replace 'gtag' with your analytics function if different)
-      if (typeof gtag === 'function') {
-        gtag('event', 'view_cart', eventParams);
-      } else {
-        console.warn('gtag function not found');
-      }
-
-      // Optional: If you want the cart link to open after tracking event, uncomment next line
-      // window.location.href = e.currentTarget.href;
-
-    } catch (error) {
-      console.error('Error fetching cart or sending GA event:', error);
-    }
-  });
+  } catch (error) {
+    console.error('Error sending view_cart event:', error);
+  }
+});
 </script>
     </div>
   </header>

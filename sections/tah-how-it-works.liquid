@@ -1,34 +1,4 @@
 <div class="page-width tah-how-it-works-container">
-  <div class="tah-content-header_helpline-container">
-    <div>
-      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Expand_Arrow_2.png?v=1745235024">
-      {% if page.handle == 'try-at-home' %}
-        <p>Try at Home</p>
-      {% elsif page.handle == 'video-trial' %}
-        <p>Video Trial</p>
-      {% endif %}
-    </div>
-    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Filter_Icon_Container.png?v=1745235101">
-  </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const images = document.querySelectorAll('.tah-content-header_helpline-container img');
-
-      if (images.length > 0) {
-        // Handle the first image click (Go back)
-        images[0].addEventListener('click', () => {
-          window.history.back(); // Navigate to the previous page
-        });
-
-        // Handle the second image click (Dial phone number)
-        if (images[1]) {
-          images[1].addEventListener('click', () => {
-            window.location.href = 'tel:8851812814'; // Dial the phone number
-          });
-        }
-      }
-    });
-  </script>
   <h2 class="page-width section-heading">{{ section.settings.heading }}</h2>
   <div class="tah-how-it-works">
     <img src="{{ section.settings.image_1 | img_url }}">

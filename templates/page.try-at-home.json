@@ -127,12 +127,18 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "tah_page_heading_9frnAW": {
+      "type": "tah-page-heading",
+      "name": "TAH Page Heading",
+      "settings": {}
     }
   },
   "order": [
     "main",
-    "tah_how_it_works_wDjmf6",
+    "tah_page_heading_9frnAW",
     "try_at_home_form_HNyDbd",
+    "tah_how_it_works_wDjmf6",
     "collapsible_content_jyRkPa"
   ]
 }

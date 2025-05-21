@@ -604,7 +604,7 @@
     timeslotContainer.innerHTML = ''; // Clear existing timeslots
     let startTime = 11; // Start at 11:00 AM
     let startMinutes = 0;
-    for (let i = 0; i < 9; i++) { // 9 slots for a 60-minute interval from 10 AM to 6 PM
+    for (let i = 0; i < 8; i++) { // 8 slots for a 60-minute interval from 11 AM to 7 PM
       const endMinutes = startMinutes + 60;
       const endTime = startTime + Math.floor(endMinutes / 60);
       const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;

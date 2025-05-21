@@ -17,6 +17,19 @@
         "padding_bottom": 28
       }
     },
+    "tah_page_heading_R9VKNg": {
+      "type": "tah-page-heading",
+      "name": "TAH Page Heading",
+      "settings": {}
+    },
+    "video_trial_form_7JRYCt": {
+      "type": "video-trial-form",
+      "settings": {
+        "collection_handle": "ready-to-ship",
+        "booking_successful_content": "ascasdAXSAS",
+        "cta_link": "shopify://collections/ready-to-ship"
+      }
+    },
     "tah_how_it_works_AY4bKd": {
       "type": "tah-how-it-works",
       "settings": {
@@ -27,14 +40,6 @@
         "text_2": "A Zinara expert will guide you and showcase the pieces live on a video call.",
         "image_3": "shopify://shop_images/cart_tah.png",
         "text_3": "Love it on the video call? Make it yours instantly."
-      }
-    },
-    "video_trial_form_7JRYCt": {
-      "type": "video-trial-form",
-      "settings": {
-        "collection_handle": "ready-to-ship",
-        "booking_successful_content": "ascasdAXSAS",
-        "cta_link": "shopify://collections/ready-to-ship"
       }
     },
     "collapsible_content_kQiERJ": {
@@ -122,8 +127,9 @@
   },
   "order": [
     "main",
-    "tah_how_it_works_AY4bKd",
+    "tah_page_heading_R9VKNg",
     "video_trial_form_7JRYCt",
+    "tah_how_it_works_AY4bKd",
     "collapsible_content_kQiERJ"
   ]
 }

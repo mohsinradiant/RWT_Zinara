@@ -607,20 +607,24 @@ function updateTimeslots(selectedDate) {
   const userHour = currentDate.getHours();
   const userMinute = currentDate.getMinutes();
 
-  let startTime = 11; // default start time
-  let slotsToGenerate = 8; // total number of 1-hour slots from 11AM to 7PM
+  let startTime = 11; // Default: start at 11 AM
+  let slotsToGenerate = 8; // 11AM to 7PM = 8 slots
 
-  // If current time is after or equal to 11 AM, calculate the next hour
   if (userHour >= 11) {
-    // Set startTime to the next full hour
-    startTime = Math.ceil((userHour + (userMinute > 0 ? 1 : 0)));
-    // Calculate remaining slots that can be shown
-    slotsToGenerate = 19 - startTime; // as 7PM is 19:00
+    // Round to next full hour
+    let nextHour = userHour + (userMinute > 0 ? 1 : 0);
+    // Skip one more hour
+    startTime = nextHour + 1;
+    // Adjust number of slots remaining in the day (until 7PM = 19:00)
+    slotsToGenerate = Math.max(0, 19 - startTime);
   }
 
   for (let i = 0; i < slotsToGenerate; i++) {
-    const displayStart = `${String(startTime + i).padStart(2, '0')}:00`;
-    const displayEnd = `${String(startTime + i + 1).padStart(2, '0')}:00`;
+    const slotStart = startTime + i;
+    const slotEnd = slotStart + 1;
+
+    const displayStart = `${String(slotStart).padStart(2, '0')}:00`;
+    const displayEnd = `${String(slotEnd).padStart(2, '0')}:00`;
     const timeslot = `${displayStart} - ${displayEnd}`;
 
     const isUnavailable =

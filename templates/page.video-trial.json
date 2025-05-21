@@ -33,7 +33,8 @@
       "type": "video-trial-form",
       "settings": {
         "collection_handle": "ready-to-ship",
-        "booking_successful_content": "ascasdAXSAS"
+        "booking_successful_content": "ascasdAXSAS",
+        "cta_link": "shopify://collections/ready-to-ship"
       }
     },
     "collapsible_content_kQiERJ": {

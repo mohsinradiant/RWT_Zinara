@@ -104,16 +104,44 @@
       document.addEventListener('DOMContentLoaded', function () {
         window.selectedProductIds = [];
         window.selectedProducts = [];
+        // Load selected products from sessionStorage if available
+        const savedSelectedProducts = sessionStorage.getItem('selectedProducts');
+        const savedSelectedProductIds = sessionStorage.getItem('selectedProductIds');
+        if (savedSelectedProducts && savedSelectedProductIds) {
+          window.selectedProducts = JSON.parse(savedSelectedProducts);
+          window.selectedProductIds = JSON.parse(savedSelectedProductIds);
+
+          // Render each saved product
+          window.selectedProducts.forEach((product) => {
+            selectedProductsContainer.innerHTML += `
+      <div class="product-card" data-id="${product.id}">
+        <img src="${product.image}" alt="${product.title}" class="product-card__image">
+        <div class="product-card-content">
+          <h2 class="product-card__title">${product.title}</h2>
+          <p class="product-card__price">${product.price}</p>
+          <button class="remove-item-button">
+            <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
+          </button>
+        </div>
+      </div>
+    `;
+          });
+
+          // Show container if needed
+          selectedProductsContainer.style.display = 'flex';
+          document.querySelector('.selected-products-container').style.display = 'flex';
+          document.querySelector('.content-1-tah-sub_heading').style.display = 'inline-block';
+          document.querySelector('.content-1-tah .section-heading').style.display = 'block';
+
+          attachRemoveEvent();
+        }
 
         const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
-
         function getQueryParam(param) {
           const params = new URLSearchParams(window.location.search);
           return params.get(param);
         }
-
         const productHandle = getQueryParam('product_handle');
-
         if (productHandle) {
           fetch(`/products/${productHandle}.js`)
             .then((response) => {
@@ -164,7 +192,6 @@
           // document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
           hideSelectedProductSection();
         }
-
         function hideSelectedProductSection() {
           const selectedContainer = document.querySelector('.selected-products-container');
           const subHeading = document.querySelector('.content-1-tah-sub_heading');
@@ -174,7 +201,6 @@
           if (subHeading) subHeading.style.display = 'none';
           if (headings.length > 0) headings[0].style.display = 'none';
         }
-
         fetch(`/collections/{{ section.settings.collection_handle }}/products.json`)
           .then((response) => response.json())
           .then((data) => {
@@ -213,6 +239,8 @@
                     image: featuredImage,
                     title: truncatedTitle,
                     price: `₹${Math.floor(price).toLocaleString('en-IN')}`,
+                    sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
                   });
 
                   selectedProductIds.push(productId);
@@ -299,7 +327,6 @@
             removeButton.addEventListener('click', handleRemoveEvent);
           });
         }
-
         function handleRemoveEvent(event) {
           const productCard = event.target.closest('.product-card');
           const productId = productCard.getAttribute('data-id');
@@ -310,6 +337,9 @@
           // Remove from arrays
           window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
           selectedProductIds = selectedProductIds.filter((id) => id !== productId);
+// Update sessionStorage after removal
+sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
 
           productCard.remove();
 
@@ -374,7 +404,6 @@
             }
           }
         }
-
         // 🔁 MutationObserver to control display toggling
         const observer = new MutationObserver(() => {
           const container = document.querySelector('.selected-products-container');
@@ -396,7 +425,6 @@
             sectionHeading?.style.setProperty('display', 'none');
           }
         });
-
         observer.observe(selectedProductsContainer, { childList: true });
       });
     </script>

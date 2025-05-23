@@ -101,6 +101,7 @@
       });
     </script>
     <script>
+      const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
       document.addEventListener('DOMContentLoaded', function () {
         window.selectedProductIds = [];
         window.selectedProducts = [];
@@ -136,7 +137,6 @@
           attachRemoveEvent();
         }
 
-        const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
         function getQueryParam(param) {
           const params = new URLSearchParams(window.location.search);
           return params.get(param);

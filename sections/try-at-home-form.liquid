@@ -101,19 +101,66 @@
       });
     </script>
     <script>
+      const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
       document.addEventListener('DOMContentLoaded', function () {
         window.selectedProductIds = [];
         window.selectedProducts = [];
 
-        const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
+        const productCardContainer = document.querySelector('#product-card-container');
+        const content1TahSubHeading = document.querySelector('.content-1-tah-sub_heading');
+
+        if (productCardContainer) {
+          const productCardCount = productCardContainer.querySelectorAll('.product-card').length;
+
+          if (productCardCount > 0) {
+            selectedProductsContainer.style.display = 'flex';
+            content1TahSubHeading.style.display = 'block';
+          } else {
+            selectedProductsContainer.style.display = 'none';
+            content1TahSubHeading.style.display = 'none';
+          }
+        } else {
+          console.warn('#product-card-container not found in the DOM');
+          selectedProductsContainer.style.display = 'none';
+          content1TahSubHeading.style.display = 'none';
+        }
+        // Load selected products from sessionStorage if available
+        const savedSelectedProducts = sessionStorage.getItem('selectedProducts');
+        const savedSelectedProductIds = sessionStorage.getItem('selectedProductIds');
+        if (savedSelectedProducts && savedSelectedProductIds) {
+          window.selectedProducts = JSON.parse(savedSelectedProducts);
+          window.selectedProductIds = JSON.parse(savedSelectedProductIds);
+
+          // Render each saved product
+          window.selectedProducts.forEach((product) => {
+            selectedProductsContainer.innerHTML += `
+              <div class="product-card" data-id="${product.id}">
+                <img src="${product.image}" alt="${product.title}" class="product-card__image">
+                <div class="product-card-content">
+                  <h2 class="product-card__title">${product.title}</h2>
+                  <p class="product-card__price">${product.price}</p>
+                  <button class="remove-item-button">
+                    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
+                  </button>
+                </div>
+              </div>
+            `;
+          });
+
+          // Show container if needed
+          selectedProductsContainer.style.display = 'flex';
+          document.querySelector('.selected-products-container').style.display = 'flex';
+          document.querySelector('.content-1-tah-sub_heading').style.display = 'inline-block';
+          document.querySelector('.content-1-tah .section-heading').style.display = 'block';
+
+          attachRemoveEvent();
+        }
 
         function getQueryParam(param) {
           const params = new URLSearchParams(window.location.search);
           return params.get(param);
         }
-
         const productHandle = getQueryParam('product_handle');
-
         if (productHandle) {
           fetch(`/products/${productHandle}.js`)
             .then((response) => {
@@ -121,33 +168,40 @@
               return response.json();
             })
             .then((product) => {
-              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 25) + '...' : product.title;
-              window.selectedProducts = [];
+              const productId = product.id.toString();
 
-              const formattedProduct = {
-                id: product.id.toString(),
-                image: `https:${product.featured_image}`,
-                title: truncatedTitle,
-                price: `₹${Math.floor(product.price / 100)}`,
-              };
+              // Check if the product is already selected
+              const isAlreadySelected = window.selectedProductIds.includes(productId);
 
-              window.selectedProducts.push(formattedProduct);
-              selectedProductIds.push(product.id);
+              if (!isAlreadySelected) {
+                const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 25) + '...' : product.title;
+                const formattedProduct = {
+                  id: productId,
+                  image: `https:${product.featured_image}`,
+                  title: truncatedTitle,
+                  price: `₹${Math.floor(product.price / 100).toLocaleString('en-IN')}`,
+                };
 
-              selectedProductsContainer.innerHTML = `
-            <div class="product-card" data-id="${product.id}">
-              <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
-              <div class="product-card-content">
-                <h2 class="product-card__title">${truncatedTitle}</h2>
-                <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
-                <button class="remove-item-button">
-                  <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
-                </button>
-              </div>
-            </div>
+                window.selectedProducts.push(formattedProduct);
+                window.selectedProductIds.push(productId);
+
+                selectedProductsContainer.innerHTML += `
+          <div class="product-card" data-id="${product.id}">
+          <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
+          <div class="product-card-content">
+            <h2 class="product-card__title">${truncatedTitle}</h2>
+            <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
+            <button class="remove-item-button">
+              <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
+            </button>
+          </div>
+          </div>
           `;
 
-              // document.getElementById('loadingMessage').style.display = 'none';
+                sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+                sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
+              }
+
               selectedProductsContainer.style.display = 'flex';
               document.querySelector('.selected-products-container').style.display = 'flex';
               document.querySelector('.content-1-tah-sub_heading').style.display = 'inline-block';
@@ -155,6 +209,7 @@
 
               attachRemoveEvent();
             })
+
             .catch((error) => {
               console.error(error);
               // document.getElementById('loadingMessage').textContent = 'Product not found or invalid handle provided.';
@@ -164,7 +219,6 @@
           // document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
           hideSelectedProductSection();
         }
-
         function hideSelectedProductSection() {
           const selectedContainer = document.querySelector('.selected-products-container');
           const subHeading = document.querySelector('.content-1-tah-sub_heading');
@@ -174,29 +228,53 @@
           if (subHeading) subHeading.style.display = 'none';
           if (headings.length > 0) headings[0].style.display = 'none';
         }
+        // Function to update Add button state based on whether product is added or not
+        function updateAddButtonState(productId) {
+          const productListContainer = document.getElementById('collectionProducts');
+          const addButton = productListContainer.querySelector(
+            `.product-card[data-id="${productId}"] .add-item-button`
+          );
+          if (!addButton) return;
+
+          if (window.selectedProductIds.includes(productId)) {
+            addButton.textContent = 'Added';
+            addButton.style.opacity = '0.7';
+            addButton.disabled = true;
+          } else {
+            addButton.innerHTML = `<span>+</span> Add`;
+            addButton.style.opacity = '1';
+            addButton.disabled = false;
+          }
+        }
 
         fetch(`/collections/{{ section.settings.collection_handle }}/products.json`)
           .then((response) => response.json())
           .then((data) => {
             const collectionProductsContainer = document.getElementById('collectionProducts');
 
+            // Initialize selectedProductIds array if not present
+            window.selectedProductIds = window.selectedProductIds || [];
+            window.selectedProducts = window.selectedProducts || [];
+
             data.products.forEach((product) => {
               const featuredImage = product.images[0]?.src || '';
               const price = product.variants[0]?.price || 0;
               const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 25) + '...' : product.title;
+              const productId = product.id.toString();
 
               const productCard = document.createElement('div');
               productCard.classList.add('product-card');
-              productCard.dataset.id = product.id;
+              productCard.dataset.id = productId;
               productCard.innerHTML = `
-            <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
-            <div class="product-card-content">
-              <h2 class="product-card__title">${truncatedTitle}</h2>
-              <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
-              <button class="add-item-button"><span>+</span> Add</button>
-            </div>
-          `;
+                <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+                <div class="product-card-content">
+                <h2 class="product-card__title">${truncatedTitle}</h2>
+                <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
+                <button class="add-item-button"><span>+</span> Add</button>
+                </div>
+              `;
 
+              // Attach click listener to Add button
               productCard.querySelector('.add-item-button').addEventListener('click', function () {
                 if (window.selectedProducts.length >= 10) {
                   const errorModal = document.getElementById('errorModal');
@@ -204,7 +282,6 @@
                   return;
                 }
 
-                const productId = product.id.toString();
                 const isProductAdded = window.selectedProducts.some((p) => p.id === productId);
 
                 if (!isProductAdded) {
@@ -215,25 +292,31 @@
                     price: `₹${Math.floor(price).toLocaleString('en-IN')}`,
                   });
 
-                  selectedProductIds.push(productId);
+                  window.selectedProductIds.push(productId);
+
+                  try {
+                    sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+                    sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
+                  } catch (e) {
+                    console.error('Error saving to sessionStorage:', e);
+                  }
 
                   selectedProductsContainer.innerHTML += `
-                <div class="product-card" data-id="${productId}">
-                  <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
-                  <div class="product-card-content">
-                    <h2 class="product-card__title">${truncatedTitle}</h2>
-                    <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
-                    <button class="remove-item-button">
-                      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
-                    </button>
-                  </div>
-                </div>
-              `;
+                  <div class="product-card" data-id="${productId}">
+                      <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+                      <div class="product-card-content">
+                        <h2 class="product-card__title">${truncatedTitle}</h2>
+                        <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
+                        <button class="remove-item-button">
+                          <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
+                        </button>
+                      </div>
+                    </div>
+                  `;
 
-                  this.textContent = 'Added';
-                  this.style.opacity = '0.7';
-                  this.disabled = true;
-                  // ✅ GA Event Trigger
+                  // Update button state to "Added" (disabled)
+                  updateAddButtonState(productId);
+                  // GA Event Trigger (no change here)
                   const customerData = window.customer || {};
                   const productData = {
                     name: product.title,
@@ -287,19 +370,21 @@
                   attachRemoveEvent();
                 }
               });
-
               collectionProductsContainer.appendChild(productCard);
+              // Update button state on initial render
+              updateAddButtonState(productId);
             });
           })
           .catch((error) => console.error('Error fetching collection products:', error));
 
+        // Attach remove event to dynamically created remove buttons
         function attachRemoveEvent() {
           document.querySelectorAll('.remove-item-button').forEach((removeButton) => {
             removeButton.removeEventListener('click', handleRemoveEvent);
             removeButton.addEventListener('click', handleRemoveEvent);
           });
         }
-
+        // Remove product handler
         function handleRemoveEvent(event) {
           const productCard = event.target.closest('.product-card');
           const productId = productCard.getAttribute('data-id');
@@ -309,26 +394,28 @@
 
           // Remove from arrays
           window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
-          selectedProductIds = selectedProductIds.filter((id) => id !== productId);
+          window.selectedProductIds = (window.selectedProductIds || []).filter((id) => id !== productId);
+
+          // Update sessionStorage
+          try {
+            sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+            sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
+          } catch (e) {
+            console.error('Error updating sessionStorage on remove:', e);
+          }
 
           productCard.remove();
 
-          // Re-enable the Add button
-          const addButton = document.querySelector(`.product-card[data-id="${productId}"] .add-item-button`);
-          if (addButton) {
-            addButton.textContent = '+ Add';
-            addButton.style.opacity = '1';
-            addButton.disabled = false;
-          }
-
-          // ✅ Send GA Event for remove
+          // Re-enable the Add button on the product list
+          updateAddButtonState(productId);
+          // GA Event for removal
           if (removedProduct) {
             const customerData = window.customer || {};
             const productData = {
               name: removedProduct.title,
-              handle: removedProduct.handle || '', // handle isn't stored in selectedProducts, so update if needed
+              handle: removedProduct.handle || '',
               price: removedProduct.price?.replace(/[₹,]/g, '') || null,
-              compare_at_price: null, // Not available in selectedProducts unless you store it earlier
+              compare_at_price: null,
             };
 
             const eventPayload = {
@@ -374,7 +461,6 @@
             }
           }
         }
-
         // 🔁 MutationObserver to control display toggling
         const observer = new MutationObserver(() => {
           const container = document.querySelector('.selected-products-container');
@@ -396,7 +482,6 @@
             sectionHeading?.style.setProperty('display', 'none');
           }
         });
-
         observer.observe(selectedProductsContainer, { childList: true });
       });
     </script>
@@ -530,14 +615,55 @@
     // Hide content-2-tah by default
     content2.style.display = 'none';
 
+    // Function to show content1 and hide content2
+    function showContent1() {
+      content1.style.display = 'block';
+      content2.style.display = 'none';
+    }
+
+    // Function to show content2 and hide content1
+    function showContent2() {
+      content1.style.display = 'none';
+      content2.style.display = 'flex';
+    }
+
     // Add click event listener to the button
     selectTimeSlotButton.addEventListener('click', function () {
-      // Hide content-1-tah
-      content1.style.display = 'none';
+      // Show content2 and hide content1
+      showContent2();
 
-      // Show content-2-tah
-      content2.style.display = 'flex';
+      // Scroll to the top of the page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Push state to history
+      history.pushState({ content: 'content2' }, '', '#content2');
     });
+
+    // Handle the back button using the popstate event
+    window.addEventListener('popstate', function (event) {
+      if (event.state && event.state.content === 'content2') {
+        showContent2();
+      } else {
+        showContent1();
+      }
+    });
+
+    // Prevent default back navigation to the previous page
+    window.addEventListener('beforeunload', function (event) {
+      history.replaceState({ content: 'content1' }, '', '#content1');
+    });
+
+    // Initialize the page based on the current URL or state
+    if (window.location.hash === '#content2') {
+      showContent2();
+    } else {
+      showContent1();
+    }
+
+    // Push the initial state to history if none exists
+    if (!history.state) {
+      history.replaceState({ content: 'content1' }, '', '#content1');
+    }
   });
 </script>
 
@@ -600,122 +726,141 @@
 
 
     // Function to update timeslots based on selected date
-function updateTimeslots(selectedDate) {
+  function updateTimeslots(selectedDate) {
+  console.log('Selected Date:', selectedDate);
+  console.log('Unavailable Slots for Selected Date:', unavailableSlotsMap[selectedDate] || []);
+
   timeslotContainer.innerHTML = ''; // Clear existing timeslots
+  let startTime = 10; // Start at 10:00 AM
+  let startMinutes = 0;
 
-  const currentDate = new Date();
-  const userHour = currentDate.getHours();
-  const userMinute = currentDate.getMinutes();
-
-  let startTime = 11; // Default: start at 11 AM
-  let slotsToGenerate = 8; // 11AM to 7PM = 8 slots
-
-  if (userHour >= 11) {
-    // Round to next full hour
-    let nextHour = userHour + (userMinute > 0 ? 1 : 0);
-    // Skip one more hour
-    startTime = nextHour + 1;
-    // Adjust number of slots remaining in the day (until 7PM = 19:00)
-    slotsToGenerate = Math.max(0, 19 - startTime);
-  }
-
-  for (let i = 0; i < slotsToGenerate; i++) {
-    const slotStart = startTime + i;
-    const slotEnd = slotStart + 1;
-
-    const displayStart = `${String(slotStart).padStart(2, '0')}:00`;
-    const displayEnd = `${String(slotEnd).padStart(2, '0')}:00`;
+  for (let i = 0; i < 18; i++) {
+    const endMinutes = startMinutes + 30;
+    const endTime = startTime + Math.floor(endMinutes / 60);
+    const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+    const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
     const timeslot = `${displayStart} - ${displayEnd}`;
 
-    const isUnavailable =
-      unavailableSlotsMap[selectedDate] &&
-      unavailableSlotsMap[selectedDate].includes(displayStart);
+    console.log('Checking timeslot:', displayStart, '-', displayEnd);
+
+    // Check if timeslot is unavailable for the selected date
+    const isUnavailable = unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
+
+    console.log('Is unavailable:', isUnavailable, 'for time', displayStart);
 
     if (!isUnavailable) {
+      // Render only if the slot is available
       const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
       timeslotContainer.innerHTML += buttonHTML;
     }
-  }
-}
 
-  // Initially update timeslots for the first selected date
+    startTime += Math.floor((startMinutes + 30) / 60); // Update start time
+    startMinutes = (startMinutes + 30) % 60; // Reset minutes
+  }
+  }
+      
+    let startTime = 10; // Start at 10:00 AM
+    let startMinutes = 0;
+      
+    for (let i = 0; i < 18; i++) {
+    const endMinutes = startMinutes + 30;
+    const endTime = startTime + Math.floor(endMinutes / 60);
+    const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+    const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+    const timeslot = `${displayStart} - ${displayEnd}`;
+
+    // Check if timeslot is unavailable for the selected date
+    const isUnavailable =
+      unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
+
+    if (!isUnavailable) {
+      // Render only if the slot is available
+      const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
+      timeslotContainer.innerHTML += buttonHTML;
+    }
+
+    startTime += Math.floor((startMinutes + 30) / 60); // Update start time
+    startMinutes = (startMinutes + 30) % 60; // Reset minutes
+    }
+    }
+      
+  // Initialize timeslots for the first selected date
   const initialSelectedDate = dateContainer.querySelector('.date-btn.selected').dataset.date;
   updateTimeslots(initialSelectedDate);
-  // Add click event listener to date buttons
+
+  // Event listener for date buttons
   dateContainer.addEventListener('click', function (event) {
-      if (event.target.classList.contains('date-btn')) {
-        // Remove the 'selected' class from all date buttons
-        const allDateButtons = dateContainer.querySelectorAll('.date-btn');
-        allDateButtons.forEach(button => button.classList.remove('selected'));
+    if (event.target.classList.contains('date-btn')) {
+      // Remove 'selected' from all date buttons
+      dateContainer.querySelectorAll('.date-btn').forEach(button => button.classList.remove('selected'));
 
-        // Add the 'selected' class to the clicked button
-        event.target.classList.add('selected');
+      // Add 'selected' to clicked button
+      event.target.classList.add('selected');
 
-        // Update timeslots for the selected date
-        const selectedDate = event.target.dataset.date;
-        updateTimeslots(selectedDate);
-      }
-  });
-  // Add click event listener to timeslot buttons
-  timeslotContainer.addEventListener('click', function (event) {
-    if (event.target.classList.contains('timeslot-btn')) {
-    // Remove the 'selected' class from all timeslot buttons
-    const allTimeslotButtons = timeslotContainer.querySelectorAll('.timeslot-btn');
-    allTimeslotButtons.forEach(button => button.classList.remove('selected'));
-
-    // Add the 'selected' class to the clicked button
-    event.target.classList.add('selected');
-
-    // ✅ Send GA Event
-    const selectedDateBtn = document.querySelector('.date-btn.selected');
-    const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
-    const selectedTime = event.target.textContent.trim();
-
-    const customerData = window.customer || {};
-    const eventPayload = {
-      event: 'select_time_slot_tryathome',
-      date: selectedDate,
-      time: selectedTime,
-      customer: {
-        id: customerData.id || null,
-        email: customerData.email || null,
-        name:
-          (customerData.default_address && customerData.default_address.name) ||
-          `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
-        phone: customerData.phone || null,
-        address: customerData.default_address
-          ? [
-              customerData.default_address.address1,
-              customerData.default_address.city,
-              customerData.default_address.province,
-              customerData.default_address.country,
-              customerData.default_address.zip,
-            ]
-              .filter(Boolean)
-              .join(', ')
-          : '',
-      },
-    };
-
-    console.log('GA Event - select_time_slot_tryathome:', eventPayload);
-
-    if (typeof gtag === 'function') {
-      gtag('event', 'select_time_slot_tryathome', {
-        selected_date: selectedDate,
-        selected_time: selectedTime,
-        customer_id: eventPayload.customer.id,
-        customer_email: eventPayload.customer.email,
-        customer_name: eventPayload.customer.name,
-        customer_phone: eventPayload.customer.phone,
-        customer_address: eventPayload.customer.address,
-      });
-    } else {
-      console.warn('gtag not found – event not sent');
+      // Update timeslots
+      const selectedDate = event.target.dataset.date;
+      updateTimeslots(selectedDate);
     }
-  }
-});
-
   });
+
+    // Event listener for timeslot buttons
+    timeslotContainer.addEventListener('click', function (event) {
+      if (event.target.classList.contains('timeslot-btn')) {
+        // Remove 'selected' from all timeslot buttons
+        timeslotContainer.querySelectorAll('.timeslot-btn').forEach(button => button.classList.remove('selected'));
+        
+        // Add 'selected' to clicked button
+        event.target.classList.add('selected');
+        
+        // Send GA Event
+        const selectedDateBtn = document.querySelector('.date-btn.selected');
+        const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
+        const selectedTime = event.target.textContent.trim();
+        
+        const customerData = window.customer || {};
+        const eventPayload = {
+          event: 'select_time_slot_tryathome',
+          date: selectedDate,
+          time: selectedTime,
+          customer: {
+            id: customerData.id || null,
+            email: customerData.email || null,
+            name: customerData.default_address?.name ||
+              `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
+            phone: customerData.phone || null,
+            address: customerData.default_address
+              ? [
+                  customerData.default_address.address1,
+                  customerData.default_address.city,
+                  customerData.default_address.province,
+                  customerData.default_address.country,
+                  customerData.default_address.zip,
+                ]
+                  .filter(Boolean)
+                  .join(', ')
+              : '',
+          },
+        };
+        
+        console.log('GA Event - select_time_slot_tryathome:', eventPayload);
+        
+        if (typeof gtag === 'function') {
+          gtag('event', 'select_time_slot_tryathome', {
+            selected_date: selectedDate,
+            selected_time: selectedTime,
+            customer_id: eventPayload.customer.id,
+            customer_email: eventPayload.customer.email,
+            customer_name: eventPayload.customer.name,
+            customer_phone: eventPayload.customer.phone,
+            customer_address: eventPayload.customer.address,
+          });
+        } else {
+          console.warn('gtag not found – event not sent');
+        }
+      }
+    });
+
+    });
 </script>
 <script>
   const bookingSuccessContent = '{{ section.settings.booking_successful_content | escape }}';

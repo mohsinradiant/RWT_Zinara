@@ -607,6 +607,7 @@
   }
 </style>
 <script>
+<script>
   document.addEventListener('DOMContentLoaded', function () {
     const selectTimeSlotButton = document.getElementById('select-time-slot-content-1');
     const content1 = document.querySelector('.content-1-tah');
@@ -615,19 +616,48 @@
     // Hide content-2-tah by default
     content2.style.display = 'none';
 
+    // Function to show content1 and hide content2
+    function showContent1() {
+      content1.style.display = 'block';
+      content2.style.display = 'none';
+    }
+
+    // Function to show content2 and hide content1
+    function showContent2() {
+      content1.style.display = 'none';
+      content2.style.display = 'flex';
+    }
+
     // Add click event listener to the button
     selectTimeSlotButton.addEventListener('click', function () {
-      // Hide content-1-tah
-      content1.style.display = 'none';
-
-      // Show content-2-tah
-      content2.style.display = 'flex';
+      // Show content2 and hide content1
+      showContent2();
 
       // Scroll to the top of the page
       window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Push state to history
+      history.pushState({ content: 'content2' }, '', '#content2');
     });
+
+    // Handle the back button using the popstate event
+    window.addEventListener('popstate', function (event) {
+      if (event.state && event.state.content === 'content2') {
+        showContent2();
+      } else {
+        showContent1();
+      }
+    });
+
+    // Initialize the page based on the current URL or state
+    if (window.location.hash === '#content2') {
+      showContent2();
+    } else {
+      showContent1();
+    }
   });
 </script>
+
 
 <script>
   const unavailableSlots = {{ unavailable_slots | split: ',' | json }};
@@ -688,7 +718,7 @@
 
 
     // Function to update timeslots based on selected date
-function updateTimeslots(selectedDate) {
+  function updateTimeslots(selectedDate) {
   timeslotContainer.innerHTML = ''; // Clear existing timeslots
 
   const currentDate = new Date();
@@ -724,86 +754,86 @@ function updateTimeslots(selectedDate) {
       timeslotContainer.innerHTML += buttonHTML;
     }
   }
-}
-
-  // Initially update timeslots for the first selected date
-  const initialSelectedDate = dateContainer.querySelector('.date-btn.selected').dataset.date;
-  updateTimeslots(initialSelectedDate);
-  // Add click event listener to date buttons
-  dateContainer.addEventListener('click', function (event) {
-      if (event.target.classList.contains('date-btn')) {
-        // Remove the 'selected' class from all date buttons
-        const allDateButtons = dateContainer.querySelectorAll('.date-btn');
-        allDateButtons.forEach(button => button.classList.remove('selected'));
-
-        // Add the 'selected' class to the clicked button
-        event.target.classList.add('selected');
-
-        // Update timeslots for the selected date
-        const selectedDate = event.target.dataset.date;
-        updateTimeslots(selectedDate);
-      }
-  });
-  // Add click event listener to timeslot buttons
-  timeslotContainer.addEventListener('click', function (event) {
-    if (event.target.classList.contains('timeslot-btn')) {
-    // Remove the 'selected' class from all timeslot buttons
-    const allTimeslotButtons = timeslotContainer.querySelectorAll('.timeslot-btn');
-    allTimeslotButtons.forEach(button => button.classList.remove('selected'));
-
-    // Add the 'selected' class to the clicked button
-    event.target.classList.add('selected');
-
-    // ✅ Send GA Event
-    const selectedDateBtn = document.querySelector('.date-btn.selected');
-    const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
-    const selectedTime = event.target.textContent.trim();
-
-    const customerData = window.customer || {};
-    const eventPayload = {
-      event: 'select_time_slot_tryathome',
-      date: selectedDate,
-      time: selectedTime,
-      customer: {
-        id: customerData.id || null,
-        email: customerData.email || null,
-        name:
-          (customerData.default_address && customerData.default_address.name) ||
-          `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
-        phone: customerData.phone || null,
-        address: customerData.default_address
-          ? [
-              customerData.default_address.address1,
-              customerData.default_address.city,
-              customerData.default_address.province,
-              customerData.default_address.country,
-              customerData.default_address.zip,
-            ]
-              .filter(Boolean)
-              .join(', ')
-          : '',
-      },
-    };
-
-    console.log('GA Event - select_time_slot_tryathome:', eventPayload);
-
-    if (typeof gtag === 'function') {
-      gtag('event', 'select_time_slot_tryathome', {
-        selected_date: selectedDate,
-        selected_time: selectedTime,
-        customer_id: eventPayload.customer.id,
-        customer_email: eventPayload.customer.email,
-        customer_name: eventPayload.customer.name,
-        customer_phone: eventPayload.customer.phone,
-        customer_address: eventPayload.customer.address,
-      });
-    } else {
-      console.warn('gtag not found – event not sent');
-    }
   }
-});
 
+    // Initially update timeslots for the first selected date
+    const initialSelectedDate = dateContainer.querySelector('.date-btn.selected').dataset.date;
+    updateTimeslots(initialSelectedDate);
+    // Add click event listener to date buttons
+    dateContainer.addEventListener('click', function (event) {
+        if (event.target.classList.contains('date-btn')) {
+          // Remove the 'selected' class from all date buttons
+          const allDateButtons = dateContainer.querySelectorAll('.date-btn');
+          allDateButtons.forEach(button => button.classList.remove('selected'));
+
+          // Add the 'selected' class to the clicked button
+          event.target.classList.add('selected');
+
+          // Update timeslots for the selected date
+          const selectedDate = event.target.dataset.date;
+          updateTimeslots(selectedDate);
+        }
+    });
+    // Add click event listener to timeslot buttons
+    timeslotContainer.addEventListener('click', function (event) {
+      if (event.target.classList.contains('timeslot-btn')) {
+      // Remove the 'selected' class from all timeslot buttons
+      const allTimeslotButtons = timeslotContainer.querySelectorAll('.timeslot-btn');
+      allTimeslotButtons.forEach(button => button.classList.remove('selected'));
+
+      // Add the 'selected' class to the clicked button
+      event.target.classList.add('selected');
+
+      // ✅ Send GA Event
+      const selectedDateBtn = document.querySelector('.date-btn.selected');
+      const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
+      const selectedTime = event.target.textContent.trim();
+
+      const customerData = window.customer || {};
+      const eventPayload = {
+        event: 'select_time_slot_tryathome',
+        date: selectedDate,
+        time: selectedTime,
+        customer: {
+          id: customerData.id || null,
+          email: customerData.email || null,
+          name:
+            (customerData.default_address && customerData.default_address.name) ||
+            `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
+          phone: customerData.phone || null,
+          address: customerData.default_address
+            ? [
+                customerData.default_address.address1,
+                customerData.default_address.city,
+                customerData.default_address.province,
+                customerData.default_address.country,
+                customerData.default_address.zip,
+              ]
+                .filter(Boolean)
+                .join(', ')
+            : '',
+        },
+      };
+
+      console.log('GA Event - select_time_slot_tryathome:', eventPayload);
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'select_time_slot_tryathome', {
+          selected_date: selectedDate,
+          selected_time: selectedTime,
+          customer_id: eventPayload.customer.id,
+          customer_email: eventPayload.customer.email,
+          customer_name: eventPayload.customer.name,
+          customer_phone: eventPayload.customer.phone,
+          customer_address: eventPayload.customer.address,
+        });
+      } else {
+        console.warn('gtag not found – event not sent');
+      }
+    }
   });
+
+    });
 </script>
 <script>
   const bookingSuccessContent = '{{ section.settings.booking_successful_content | escape }}';

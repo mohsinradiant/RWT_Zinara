@@ -727,7 +727,8 @@
 
     // Function to update timeslots based on selected date
 function updateTimeslots(selectedDate) {
-  console.log('Selected Date:', selectedDate); // Debugging
+  console.log('Selected Date:', selectedDate);
+  console.log('Unavailable Slots for Selected Date:', unavailableSlotsMap[selectedDate] || []);
 
   timeslotContainer.innerHTML = ''; // Clear existing timeslots
   let startTime = 10; // Start at 10:00 AM
@@ -740,13 +741,13 @@ function updateTimeslots(selectedDate) {
     const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
     const timeslot = `${displayStart} - ${displayEnd}`;
 
-    console.log('Checking timeslot:', displayStart, '-', displayEnd); // Debugging
+    console.log('Checking timeslot:', displayStart, '-', displayEnd);
 
     // Check if timeslot is unavailable for the selected date
     const isUnavailable =
       unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
 
-    console.log('Is unavailable:', isUnavailable); // Debugging
+    console.log('Is unavailable:', isUnavailable, 'for time', displayStart);
 
     if (!isUnavailable) {
       // Render only if the slot is available
@@ -759,6 +760,30 @@ function updateTimeslots(selectedDate) {
   }
 }
 
+  let startTime = 10; // Start at 10:00 AM
+  let startMinutes = 0;
+
+  for (let i = 0; i < 18; i++) {
+    const endMinutes = startMinutes + 30;
+    const endTime = startTime + Math.floor(endMinutes / 60);
+    const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+    const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+    const timeslot = `${displayStart} - ${displayEnd}`;
+
+    // Check if timeslot is unavailable for the selected date
+    const isUnavailable =
+      unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
+
+    if (!isUnavailable) {
+      // Render only if the slot is available
+      const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
+      timeslotContainer.innerHTML += buttonHTML;
+    }
+
+    startTime += Math.floor((startMinutes + 30) / 60); // Update start time
+    startMinutes = (startMinutes + 30) % 60; // Reset minutes
+  }
+  }
 
   // Initialize timeslots for the first selected date
   const initialSelectedDate = dateContainer.querySelector('.date-btn.selected').dataset.date;
@@ -784,15 +809,15 @@ function updateTimeslots(selectedDate) {
       if (event.target.classList.contains('timeslot-btn')) {
         // Remove 'selected' from all timeslot buttons
         timeslotContainer.querySelectorAll('.timeslot-btn').forEach(button => button.classList.remove('selected'));
-
+        
         // Add 'selected' to clicked button
         event.target.classList.add('selected');
-
+        
         // Send GA Event
         const selectedDateBtn = document.querySelector('.date-btn.selected');
         const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
         const selectedTime = event.target.textContent.trim();
-
+        
         const customerData = window.customer || {};
         const eventPayload = {
           event: 'select_time_slot_tryathome',
@@ -817,9 +842,9 @@ function updateTimeslots(selectedDate) {
               : '',
           },
         };
-
+        
         console.log('GA Event - select_time_slot_tryathome:', eventPayload);
-
+        
         if (typeof gtag === 'function') {
           gtag('event', 'select_time_slot_tryathome', {
             selected_date: selectedDate,

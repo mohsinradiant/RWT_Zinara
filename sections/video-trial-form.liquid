@@ -615,14 +615,55 @@
     // Hide content-2-tah by default
     content2.style.display = 'none';
 
+    // Function to show content1 and hide content2
+    function showContent1() {
+      content1.style.display = 'block';
+      content2.style.display = 'none';
+    }
+
+    // Function to show content2 and hide content1
+    function showContent2() {
+      content1.style.display = 'none';
+      content2.style.display = 'flex';
+    }
+
     // Add click event listener to the button
     selectTimeSlotButton.addEventListener('click', function () {
-      // Hide content-1-tah
-      content1.style.display = 'none';
+      // Show content2 and hide content1
+      showContent2();
 
-      // Show content-2-tah
-      content2.style.display = 'flex';
+      // Scroll to the top of the page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Push state to history
+      history.pushState({ content: 'content2' }, '', '#content2');
     });
+
+    // Handle the back button using the popstate event
+    window.addEventListener('popstate', function (event) {
+      if (event.state && event.state.content === 'content2') {
+        showContent2();
+      } else {
+        showContent1();
+      }
+    });
+
+    // Prevent default back navigation to the previous page
+    window.addEventListener('beforeunload', function (event) {
+      history.replaceState({ content: 'content1' }, '', '#content1');
+    });
+
+    // Initialize the page based on the current URL or state
+    if (window.location.hash === '#content2') {
+      showContent2();
+    } else {
+      showContent1();
+    }
+
+    // Push the initial state to history if none exists
+    if (!history.state) {
+      history.replaceState({ content: 'content1' }, '', '#content1');
+    }
   });
 </script>
 

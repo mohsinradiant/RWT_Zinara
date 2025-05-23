@@ -726,32 +726,33 @@
 
 
     // Function to update timeslots based on selected date
-    function updateTimeslots(selectedDate) {
-      timeslotContainer.innerHTML = ''; // Clear existing timeslots
-      let startTime = 10; // Start at 10:00 AM
-      let startMinutes = 0;
+function updateTimeslots(selectedDate) {
+  timeslotContainer.innerHTML = ''; // Clear existing timeslots
+  let startTime = 10; // Start at 10:00 AM
+  let startMinutes = 0;
 
-      for (let i = 0; i < 18; i++) {
-        const endMinutes = startMinutes + 30;
-        const endTime = startTime + Math.floor(endMinutes / 60);
-        const displayStart = ${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')};
-        const displayEnd = ${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')};
-        const timeslot = ${displayStart} - ${displayEnd};
+  for (let i = 0; i < 18; i++) {
+    const endMinutes = startMinutes + 30; // Add 30 minutes
+    const endTime = startTime + Math.floor(endMinutes / 60); // Calculate the end hour
+    const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+    const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+    const timeslot = `${displayStart} - ${displayEnd}`;
 
-        // Check if timeslot is unavailable for the selected date
-        const isUnavailable =
-          unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
+    // Check if timeslot is unavailable for the selected date
+    const isUnavailable =
+      unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
 
-        if (!isUnavailable) {
-          // Render only if the slot is available
-          const buttonHTML = <button class="timeslot-btn">${timeslot}</button>;
-          timeslotContainer.innerHTML += buttonHTML;
-        }
-
-        startTime += Math.floor((startMinutes + 30) / 60);
-        startMinutes = (startMinutes + 30) % 60;
-      }
+    if (!isUnavailable) {
+      // Render only if the slot is available
+      const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
+      timeslotContainer.innerHTML += buttonHTML;
     }
+
+    startTime += Math.floor((startMinutes + 30) / 60); // Update start time
+    startMinutes = (startMinutes + 30) % 60; // Reset minutes if exceeding 60
+  }
+}
+
     });
 </script>
 <script>

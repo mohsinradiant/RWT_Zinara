@@ -104,16 +104,12 @@
       document.addEventListener('DOMContentLoaded', function () {
         window.selectedProductIds = [];
         window.selectedProducts = [];
-
         const selectedProductsContainer = document.querySelector('.selected-products-container #productCardContainer');
-
         function getQueryParam(param) {
           const params = new URLSearchParams(window.location.search);
           return params.get(param);
         }
-
         const productHandle = getQueryParam('product_handle');
-
         if (productHandle) {
           fetch(`/products/${productHandle}.js`)
             .then((response) => {
@@ -164,7 +160,6 @@
           // document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
           hideSelectedProductSection();
         }
-
         function hideSelectedProductSection() {
           const selectedContainer = document.querySelector('.selected-products-container');
           const subHeading = document.querySelector('.content-1-tah-sub_heading');
@@ -174,7 +169,6 @@
           if (subHeading) subHeading.style.display = 'none';
           if (headings.length > 0) headings[0].style.display = 'none';
         }
-
         fetch(`/collections/{{ section.settings.collection_handle }}/products.json`)
           .then((response) => response.json())
           .then((data) => {
@@ -299,7 +293,6 @@
             removeButton.addEventListener('click', handleRemoveEvent);
           });
         }
-
         function handleRemoveEvent(event) {
           const productCard = event.target.closest('.product-card');
           const productId = productCard.getAttribute('data-id');
@@ -374,7 +367,6 @@
             }
           }
         }
-
         // 🔁 MutationObserver to control display toggling
         const observer = new MutationObserver(() => {
           const container = document.querySelector('.selected-products-container');
@@ -396,7 +388,6 @@
             sectionHeading?.style.setProperty('display', 'none');
           }
         });
-
         observer.observe(selectedProductsContainer, { childList: true });
       });
     </script>

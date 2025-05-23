@@ -233,27 +233,24 @@
                 const productId = product.id.toString();
                 const isProductAdded = window.selectedProducts.some((p) => p.id === productId);
 
-if (!isProductAdded) {
-  window.selectedProducts.push({
-    id: productId,
-    image: featuredImage,
-    title: truncatedTitle,
-    price: `₹${Math.floor(price).toLocaleString('en-IN')}`
-  });
+                if (!isProductAdded) {
+                  window.selectedProducts.push({
+                    id: productId,
+                    image: featuredImage,
+                    title: truncatedTitle,
+                    price: `₹${Math.floor(price).toLocaleString('en-IN')}`,
+                  });
 
-  // Ensure product IDs array is updated
-  window.selectedProductIds = window.selectedProductIds || [];
-  window.selectedProductIds.push(productId);
+                  // Ensure product IDs array is updated
+                  window.selectedProductIds = window.selectedProductIds || [];
+                  window.selectedProductIds.push(productId);
 
-  try {
-    sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
-    sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
-  } catch (e) {
-    console.error('Error saving to sessionStorage:', e);
-  }
-}
-
-
+                  try {
+                    sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+                    sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
+                  } catch (e) {
+                    console.error('Error saving to sessionStorage:', e);
+                  }
 
                   selectedProductIds.push(productId);
 
@@ -348,18 +345,18 @@ if (!isProductAdded) {
 
           // Remove from arrays
           window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
-window.selectedProductIds = (window.selectedProductIds || []).filter((id) => id !== productId);
-// Remove from arrays
-window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
-window.selectedProductIds = (window.selectedProductIds || []).filter((id) => id !== productId);
+          window.selectedProductIds = (window.selectedProductIds || []).filter((id) => id !== productId);
+          // Remove from arrays
+          window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
+          window.selectedProductIds = (window.selectedProductIds || []).filter((id) => id !== productId);
 
-// Safe sessionStorage update
-try {
-  sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
-  sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
-} catch (e) {
-  console.error('Error updating sessionStorage on remove:', e);
-}
+          // Safe sessionStorage update
+          try {
+            sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+            sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
+          } catch (e) {
+            console.error('Error updating sessionStorage on remove:', e);
+          }
 
           productCard.remove();
 

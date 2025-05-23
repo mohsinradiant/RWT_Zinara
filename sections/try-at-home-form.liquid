@@ -239,6 +239,8 @@
                     image: featuredImage,
                     title: truncatedTitle,
                     price: `₹${Math.floor(price).toLocaleString('en-IN')}`,
+                    sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
                   });
 
                   selectedProductIds.push(productId);

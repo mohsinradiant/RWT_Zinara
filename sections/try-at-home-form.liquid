@@ -728,6 +728,7 @@
     // Function to update timeslots based on selected date
   function updateTimeslots(selectedDate) {
   timeslotContainer.innerHTML = ''; // Clear existing timeslots
+    console.log('timeslotContainer Cleared', timeslotContainer);
 
   const currentDate = new Date();
   const userHour = currentDate.getHours();
@@ -840,7 +841,6 @@
       }
     }
   });
-      
     });
 </script>
 <script>

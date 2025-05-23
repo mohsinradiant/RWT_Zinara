@@ -364,7 +364,19 @@
             removeButton.removeEventListener('click', handleRemoveEvent);
             removeButton.addEventListener('click', handleRemoveEvent);
           });
-          updateAddButtonState(productId);
+
+          // Wait for updateAddButtonState to be available
+          tryCallUpdateState(10); // retry up to 10 times
+        }
+
+        function tryCallUpdateState(retries = 10) {
+          if (typeof updateAddButtonState === 'function') {
+            updateAddButtonState(productId);
+          } else if (retries > 0) {
+            setTimeout(() => tryCallUpdateState(retries - 1), 300); // retry after 300ms
+          } else {
+            console.warn('updateAddButtonState not defined after multiple attempts.');
+          }
         }
 
         // Remove product handler

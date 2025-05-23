@@ -238,10 +238,21 @@ if (!isProductAdded) {
     id: productId,
     image: featuredImage,
     title: truncatedTitle,
-    price: `₹${Math.floor(price).toLocaleString('en-IN')}`,
+    price: `₹${Math.floor(price).toLocaleString('en-IN')}`
   });
 
+  // Ensure product IDs array is updated
+  window.selectedProductIds = window.selectedProductIds || [];
+  window.selectedProductIds.push(productId);
+
+  try {
+    sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+    sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
+  } catch (e) {
+    console.error('Error saving to sessionStorage:', e);
+  }
 }
+
 
 
                   selectedProductIds.push(productId);

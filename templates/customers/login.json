@@ -18,13 +18,6 @@
         "padding_bottom": 36
       }
     },
-    "1745686204a93b1406": {
-      "type": "apps",
-      "disabled": true,
-      "settings": {
-        "include_margins": true
-      }
-    },
     "rich_text_HzFPPP": {
       "type": "rich-text",
       "blocks": {
@@ -55,11 +48,18 @@
         "padding_top": 40,
         "padding_bottom": 52
       }
+    },
+    "1745686204a93b1406": {
+      "type": "apps",
+      "disabled": true,
+      "settings": {
+        "include_margins": true
+      }
     }
   },
   "order": [
     "main",
-    "1745686204a93b1406",
-    "rich_text_HzFPPP"
+    "rich_text_HzFPPP",
+    "1745686204a93b1406"
   ]
 }

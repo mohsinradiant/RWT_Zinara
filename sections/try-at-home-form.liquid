@@ -252,8 +252,6 @@
                     console.error('Error saving to sessionStorage:', e);
                   }
 
-                  selectedProductIds.push(productId);
-
                   selectedProductsContainer.innerHTML += `
                 <div class="product-card" data-id="${productId}">
                   <img src="${featuredImage}" alt="${product.title}" class="product-card__image">

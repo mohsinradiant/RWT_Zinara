@@ -726,44 +726,32 @@
 
 
     // Function to update timeslots based on selected date
-  function updateTimeslots(selectedDate) {
-  timeslotContainer.innerHTML = ''; // Clear existing timeslots
-    console.log('timeslotContainer Cleared', timeslotContainer);
+   function updateTimeslots(selectedDate) {
+      timeslotContainer.innerHTML = ''; // Clear existing timeslots
+      let startTime = 10; // Start at 10:00 AM
+      let startMinutes = 0;
 
-  const currentDate = new Date();
-  const userHour = currentDate.getHours();
-  const userMinute = currentDate.getMinutes();
+      for (let i = 0; i < 18; i++) {
+        const endMinutes = startMinutes + 30;
+        const endTime = startTime + Math.floor(endMinutes / 60);
+        const displayStart = ${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')};
+        const displayEnd = ${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')};
+        const timeslot = ${displayStart} - ${displayEnd};
 
-  let startTime = 11; // Default: start at 11 AM
-  let slotsToGenerate = 8; // 11AM to 7PM = 8 slots
+        // Check if timeslot is unavailable for the selected date
+        const isUnavailable =
+          unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
 
-  if (userHour >= 11) {
-    // Round to next full hour
-    let nextHour = userHour + (userMinute > 0 ? 1 : 0);
-    // Skip one more hour
-    startTime = nextHour + 1;
-    // Adjust number of slots remaining in the day (until 7PM = 19:00)
-    slotsToGenerate = Math.max(0, 19 - startTime);
-  }
+        if (!isUnavailable) {
+          // Render only if the slot is available
+          const buttonHTML = <button class="timeslot-btn">${timeslot}</button>;
+          timeslotContainer.innerHTML += buttonHTML;
+        }
 
-  for (let i = 0; i < slotsToGenerate; i++) {
-    const slotStart = startTime + i;
-    const slotEnd = slotStart + 1;
-
-    const displayStart = `${String(slotStart).padStart(2, '0')}:00`;
-    const displayEnd = `${String(slotEnd).padStart(2, '0')}:00`;
-    const timeslot = `${displayStart} - ${displayEnd}`;
-
-    const isUnavailable =
-      unavailableSlotsMap[selectedDate] &&
-      unavailableSlotsMap[selectedDate].includes(displayStart);
-
-    if (!isUnavailable) {
-      const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
-      timeslotContainer.innerHTML += buttonHTML;
+        startTime += Math.floor((startMinutes + 30) / 60);
+        startMinutes = (startMinutes + 30) % 60;
+      }
     }
-  }
-  }
       
     // Initially update timeslots for the first selected date
     const initialSelectedDate = dateContainer.querySelector('.date-btn.selected').dataset.date;

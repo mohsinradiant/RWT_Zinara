@@ -375,7 +375,7 @@
         }
 
         // Attach remove event to dynamically created remove buttons
-        function attachRemoveEvent() {
+        function attachRemoveEvent(event) {
           document.querySelectorAll('.remove-item-button').forEach((removeButton) => {
             removeButton.removeEventListener('click', handleRemoveEvent);
             removeButton.addEventListener('click', handleRemoveEvent);

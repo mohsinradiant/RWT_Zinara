@@ -167,17 +167,17 @@
                 window.selectedProductIds.push(productId);
 
                 selectedProductsContainer.innerHTML += `
-      <div class="product-card" data-id="${product.id}">
-        <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
-        <div class="product-card-content">
-          <h2 class="product-card__title">${truncatedTitle}</h2>
-          <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
-          <button class="remove-item-button">
-            <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
-          </button>
-        </div>
-      </div>
-    `;
+          <div class="product-card" data-id="${product.id}">
+          <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
+          <div class="product-card-content">
+            <h2 class="product-card__title">${truncatedTitle}</h2>
+            <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
+            <button class="remove-item-button">
+              <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
+            </button>
+          </div>
+          </div>
+          `;
 
                 sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
                 sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
@@ -244,13 +244,13 @@
               productCard.classList.add('product-card');
               productCard.dataset.id = productId;
               productCard.innerHTML = `
-        <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
-        <div class="product-card-content">
+          <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+          <div class="product-card-content">
           <h2 class="product-card__title">${truncatedTitle}</h2>
           <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
           <button class="add-item-button"><span>+</span> Add</button>
-        </div>
-      `;
+          </div>
+          `;
 
               // Attach click listener to Add button
               productCard.querySelector('.add-item-button').addEventListener('click', function () {
@@ -467,6 +467,7 @@
           }
         });
         observer.observe(selectedProductsContainer, { childList: true });
+        updateAddButtonState(productId);
       });
     </script>
   </div>

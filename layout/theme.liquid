@@ -775,42 +775,41 @@
 
 
           // Handle pincode validation and redirection
-          function handlePincodeCheck() {
-            submitButton.addEventListener('click', () => {
-              const zipcode = zipcodeInput.value.trim();
-              const pincodeRegex = /^[1-9][0-9]{5}$/;
+function handlePincodeCheck() {
+  submitButton.addEventListener('click', () => {
+    const zipcode = zipcodeInput.value.trim();
+    const pincodeRegex = /^[1-9][0-9]{5}$/;
 
-              if (!pincodeRegex.test(zipcode)) {
-                res.textContent = 'Invalid Pincode';
-                res.className = 'try-at-home-pincode-result invalid';
-                return;
-              }
+    if (!pincodeRegex.test(zipcode)) {
+      res.textContent = 'Invalid Pincode';
+      res.className = 'try-at-home-pincode-result invalid';
+      return;
+    }
 
-              const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
-              const videoTrialUrl = `/pages/video-trial?view=video-trial&product_handle={{ product.handle }}`;
+    sessionStorage.setItem('user_tryathomepincode', zipcode);
 
-              if (!isLoggedIn()) {
-                // Save the intended redirection URL based on pincode validation
-                const targetUrl = validPincodes.includes(zipcode) ? tryAtHomeUrl : videoTrialUrl;
+    const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
+    const videoTrialUrl = `/pages/video-trial?view=video-trial&product_handle={{ product.handle }}`;
 
-                // Construct the login URL with the correct return_to parameter
-                const loginUrl = `/account/login?return_url=${encodeURIComponent(targetUrl)}&kp_login=true&kp_redirect=${encodeURIComponent(targetUrl)}`;
-                // Redirect the user to the login page
-                window.location.href = loginUrl;
-                return;
-              }
+    if (!isLoggedIn()) {
+      const targetUrl = validPincodes.includes(zipcode) ? tryAtHomeUrl : videoTrialUrl;
+      const loginUrl = `/account/login?return_url=${encodeURIComponent(targetUrl)}&kp_login=true&kp_redirect=${encodeURIComponent(targetUrl)}`;
+      window.location.href = loginUrl;
+      return;
+    }
 
-              if (validPincodes.includes(zipcode)) {
-                res.textContent = 'Available';
-                res.className = 'try-at-home-pincode-result available';
-                window.location.href = tryAtHomeUrl;
-              } else {
-                res.textContent = 'Pincode Not Available';
-                res.className = 'try-at-home-pincode-result unavailable';
-                window.location.href = videoTrialUrl;
-              }
-            });
-          }
+    if (validPincodes.includes(zipcode)) {
+      res.textContent = 'Available';
+      res.className = 'try-at-home-pincode-result available';
+      window.location.href = tryAtHomeUrl;
+    } else {
+      res.textContent = 'Pincode Not Available';
+      res.className = 'try-at-home-pincode-result unavailable';
+      window.location.href = videoTrialUrl;
+    }
+  });
+}
+
 
           // Restrict input to numbers only
           zipcodeInput.addEventListener('input', (event) => {

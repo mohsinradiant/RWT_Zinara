@@ -466,22 +466,19 @@
           }
         });
         observer.observe(selectedProductsContainer, { childList: true });
-        document.addEventListener("DOMContentLoaded", function () {
-  const productCardContainer = document.querySelector(".product-card-container");
-  const selectedProductsContainer = document.querySelector(".selected-products-container");
-  const content1TahSubHeading = document.querySelector(".content-1-tah-sub_heading");
+        const productCardContainer = document.querySelector('.product-card-container');
+        const selectedProductsContainer = document.querySelector('.selected-products-container');
+        const content1TahSubHeading = document.querySelector('.content-1-tah-sub_heading');
 
-  const productCardCount = productCardContainer.querySelectorAll(".product-card").length;
+        const productCardCount = productCardContainer.querySelectorAll('.product-card').length;
 
-  if (productCardCount > 0) {
-    selectedProductsContainer.style.display = "block";
-    content1TahSubHeading.style.display = "block";
-  } else {
-    selectedProductsContainer.style.display = "none";
-    content1TahSubHeading.style.display = "none";
-  }
-});
-
+        if (productCardCount > 0) {
+          selectedProductsContainer.style.display = 'block';
+          content1TahSubHeading.style.display = 'block';
+        } else {
+          selectedProductsContainer.style.display = 'none';
+          content1TahSubHeading.style.display = 'none';
+        }
       });
     </script>
   </div>

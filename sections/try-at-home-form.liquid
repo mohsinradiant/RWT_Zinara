@@ -239,8 +239,6 @@
                     image: featuredImage,
                     title: truncatedTitle,
                     price: `₹${Math.floor(price).toLocaleString('en-IN')}`,
-                    sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
-sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
                   });
 
                   selectedProductIds.push(productId);
@@ -337,9 +335,7 @@ sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProdu
           // Remove from arrays
           window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
           selectedProductIds = selectedProductIds.filter((id) => id !== productId);
-// Update sessionStorage after removal
-sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
-sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
+          // Update sessionStorage after removal
 
           productCard.remove();
 

@@ -209,24 +209,6 @@
           if (subHeading) subHeading.style.display = 'none';
           if (headings.length > 0) headings[0].style.display = 'none';
         }
-        // Function to update Add button state based on whether product is added or not
-        function updateAddButtonState(productId) {
-          const productListContainer = document.getElementById('collectionProducts');
-          const addButton = productListContainer.querySelector(
-            `.product-card[data-id="${productId}"] .add-item-button`
-          );
-          if (!addButton) return;
-
-          if (window.selectedProductIds.includes(productId)) {
-            addButton.textContent = 'Added';
-            addButton.style.opacity = '0.7';
-            addButton.disabled = true;
-          } else {
-            addButton.innerHTML = `<span>+</span> Add`;
-            addButton.style.opacity = '1';
-            addButton.disabled = false;
-          }
-        }
         fetch(`/collections/{{ section.settings.collection_handle }}/products.json`)
           .then((response) => response.json())
           .then((data) => {
@@ -235,6 +217,25 @@
             // Initialize selectedProductIds array if not present
             window.selectedProductIds = window.selectedProductIds || [];
             window.selectedProducts = window.selectedProducts || [];
+
+            // Function to update Add button state based on whether product is added or not
+            function updateAddButtonState(productId) {
+              const productListContainer = document.getElementById('collectionProducts');
+              const addButton = productListContainer.querySelector(
+                `.product-card[data-id="${productId}"] .add-item-button`
+              );
+              if (!addButton) return;
+
+              if (window.selectedProductIds.includes(productId)) {
+                addButton.textContent = 'Added';
+                addButton.style.opacity = '0.7';
+                addButton.disabled = true;
+              } else {
+                addButton.innerHTML = `<span>+</span> Add`;
+                addButton.style.opacity = '1';
+                addButton.disabled = false;
+              }
+            }
 
             data.products.forEach((product) => {
               const featuredImage = product.images[0]?.src || '';
@@ -365,7 +366,6 @@
             removeButton.addEventListener('click', handleRemoveEvent);
           });
         }
-
         // Remove product handler
         function handleRemoveEvent(event) {
           const productCard = event.target.closest('.product-card');
@@ -444,7 +444,6 @@
             }
           }
         }
-
         // 🔁 MutationObserver to control display toggling
         const observer = new MutationObserver(() => {
           const container = document.querySelector('.selected-products-container');
@@ -467,6 +466,22 @@
           }
         });
         observer.observe(selectedProductsContainer, { childList: true });
+        document.addEventListener("DOMContentLoaded", function () {
+  const productCardContainer = document.querySelector(".product-card-container");
+  const selectedProductsContainer = document.querySelector(".selected-products-container");
+  const content1TahSubHeading = document.querySelector(".content-1-tah-sub_heading");
+
+  const productCardCount = productCardContainer.querySelectorAll(".product-card").length;
+
+  if (productCardCount > 0) {
+    selectedProductsContainer.style.display = "block";
+    content1TahSubHeading.style.display = "block";
+  } else {
+    selectedProductsContainer.style.display = "none";
+    content1TahSubHeading.style.display = "none";
+  }
+});
+
       });
     </script>
   </div>

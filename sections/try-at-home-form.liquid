@@ -744,8 +744,7 @@ function updateTimeslots(selectedDate) {
     console.log('Checking timeslot:', displayStart, '-', displayEnd);
 
     // Check if timeslot is unavailable for the selected date
-    const isUnavailable =
-      unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
+    const isUnavailable = unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
 
     console.log('Is unavailable:', isUnavailable, 'for time', displayStart);
 
@@ -758,7 +757,7 @@ function updateTimeslots(selectedDate) {
     startTime += Math.floor((startMinutes + 30) / 60); // Update start time
     startMinutes = (startMinutes + 30) % 60; // Reset minutes
   }
-}
+})
 
   let startTime = 10; // Start at 10:00 AM
   let startMinutes = 0;

@@ -11,7 +11,6 @@
   "sections": {
     "main": {
       "type": "main-login",
-      "disabled": true,
       "settings": {
         "enable_shop_login_button": false,
         "padding_top": 36,
@@ -46,6 +45,7 @@
         "heading_KB8JkY",
         "text_jYDpUM"
       ],
+      "disabled": true,
       "name": "t:sections.rich-text.presets.name",
       "settings": {
         "desktop_content_position": "center",
@@ -59,7 +59,7 @@
   },
   "order": [
     "main",
-    "1745686204a93b1406",
-    "rich_text_HzFPPP"
+    "rich_text_HzFPPP",
+    "1745686204a93b1406"
   ]
 }

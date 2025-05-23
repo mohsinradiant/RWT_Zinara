@@ -560,6 +560,13 @@
         }
       </style>
       <script>
+        const savedPin = sessionStorage.getItem('user_tryathomepincode');
+        if (/^[1-9][0-9]{5}$/.test(savedPin)) {
+          window.globalTryAtHomePincode = savedPin;
+        }
+      </script>
+
+      <script>
         document.addEventListener('DOMContentLoaded', () => {
           const overlay = document.getElementById('tryAtHomeOverlay_2');
           const pincodePopup = document.getElementById('tryAtHomePincodePopup_2');

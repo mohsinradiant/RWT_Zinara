@@ -380,6 +380,7 @@
             removeButton.removeEventListener('click', handleRemoveEvent);
             removeButton.addEventListener('click', handleRemoveEvent);
           });
+          const productCard = event.target.closest('.product-card');
           const productId = productCard.getAttribute('data-id');
           updateAddButtonState(productId);
         }

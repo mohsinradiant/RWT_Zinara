@@ -3119,12 +3119,51 @@
             '201302',
             '201304',
           ]; // Example valid pincodes
-    let lastClickedButton = null; // Tracks the last clicked button
+     let lastClickedButton = null;
 
+    // Check if the user is logged in
+    function isLoggedIn() {
+      return {% if customer %}true{% else %}false{% endif %};
+    }
+
+    // Handle redirection using provided pincode
+    function handleDirectRedirect(zipcode) {
+      const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
+      const videoTrialUrl = `/pages/video-trial?view=video-trial&product_handle={{ product.handle }}`;
+
+      if (!isLoggedIn()) {
+        const targetUrl = validPincodes.includes(zipcode) ? tryAtHomeUrl : videoTrialUrl;
+        const loginUrl = `/account/login?return_url=${encodeURIComponent(targetUrl)}&kp_login=true&kp_redirect=${encodeURIComponent(targetUrl)}`;
+        window.location.href = loginUrl;
+        return;
+      }
+
+      if (validPincodes.includes(zipcode)) {
+        res.textContent = 'Available';
+        res.className = 'try-at-home-pincode-result available';
+        window.location.href = tryAtHomeUrl;
+      } else {
+        res.textContent = 'Pincode Not Available';
+        res.className = 'try-at-home-pincode-result unavailable';
+        window.location.href = videoTrialUrl;
+      }
+    }
+
+    // ✨ MODIFIED: Enhanced togglePopup logic to check for global pincode
     function togglePopup(buttonId) {
       document.getElementById(buttonId).addEventListener('click', () => {
-        overlay.style.display = 'flex';
-        lastClickedButton = buttonId;
+        const globalPin = window.globalTryAtHomePincode;
+        const pincodeRegex = /^[1-9][0-9]{5}$/;
+
+        // ✨ If valid global pincode exists, use it directly
+        if (globalPin && pincodeRegex.test(globalPin)) {
+          zipcodeInput.value = globalPin; // For consistency
+          sessionStorage.setItem('user_tryathomepincode', globalPin);
+          handleDirectRedirect(globalPin);
+        } else {
+          overlay.style.display = 'flex'; // Show popup if no valid global pin
+          lastClickedButton = buttonId;
+        }
       });
 
       closeButton.addEventListener('click', () => {
@@ -3138,13 +3177,7 @@
       });
     }
 
-    // Check if the user is logged in
-    function isLoggedIn() {
-  return {% if customer %}true{% else %}false{% endif %};
-}
-
-
-    // Handle pincode validation and login/redirection
+    // ✨ Handle manual pincode entry via submit button
     function handlePincodeCheck() {
       submitButton_2.addEventListener('click', () => {
         const zipcode = zipcodeInput.value.trim();
@@ -3156,93 +3189,55 @@
           return;
         }
 
-        const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;
-        const videoTrialUrl = `/pages/video-trial?view=video-trial&product_handle={{ product.handle }}`;
-
-        // If user is not logged in, redirect to login page first
-        if (!isLoggedIn()) {
-          // Save the intended redirection URL based on pincode validation
-          const targetUrl = validPincodes.includes(zipcode) ? tryAtHomeUrl : videoTrialUrl;
-
-          // Construct the login URL with the correct return_to parameter
-          const loginUrl = `/account/login?return_url=${encodeURIComponent(targetUrl)}&kp_login=true&kp_redirect=${encodeURIComponent(targetUrl)}`;
-
-          // Redirect the user to the login page
-          window.location.href = loginUrl;
-          return;
-        }
-
-        // If logged in, proceed with redirection
-        if (validPincodes.includes(zipcode)) {
-          res.textContent = 'Available';
-          res.className = 'try-at-home-pincode-result available';
-          window.location.href = tryAtHomeUrl;
-        } else {
-          res.textContent = 'Pincode Not Available';
-          res.className = 'try-at-home-pincode-result unavailable';
-          window.location.href = videoTrialUrl;
-        }
+        sessionStorage.setItem('user_tryathomepincode', zipcode);
+        handleDirectRedirect(zipcode); // Reuse same logic
       });
     }
 
-    // Restrict input to numbers only
+    // Only allow digits in pincode input
     zipcodeInput.addEventListener('input', (event) => {
       event.target.value = event.target.value.replace(/[^0-9]/g, '');
     });
 
-    // Update button visibility based on inventory status
     function updateButtonVisibility(buttonId, showOnStock) {
       const button = document.getElementById(buttonId);
-
       if (inventoryElement && button) {
         const inventoryText = inventoryElement.textContent.trim().toLowerCase();
-        // Functionality remains commented as per original script
+        // Custom logic could go here
       }
     }
 
-    // Move button inside the form on larger screens
     function moveButton(buttonId) {
       const button = document.getElementById(buttonId);
-
       if (window.innerWidth > 756 && button && productFormButtons) {
         productFormButtons.insertAdjacentElement('afterbegin', button);
-        // console.log(`#${buttonId} successfully moved into .product-form__buttons`);
       }
     }
 
-    // Observe changes in inventory to dynamically update button visibility
     function observeInventoryChanges(buttonId, showOnStock) {
       const observer = new MutationObserver(() => {
         updateButtonVisibility(buttonId, showOnStock);
       });
-
       if (inventoryElement) {
         observer.observe(inventoryElement, { childList: true, subtree: true });
       }
     }
 
-    // Initialize functionality for a button
     function initializeButton(buttonId, showOnStock) {
       togglePopup(buttonId);
       updateButtonVisibility(buttonId, showOnStock);
       observeInventoryChanges(buttonId, showOnStock);
 
       const intervalId = setInterval(() => moveButton(buttonId), 100);
-
       window.addEventListener('resize', () => {
         if (window.innerWidth > 756) {
           moveButton(buttonId);
         }
       });
-
-      // Stop moving after ensuring the button is repositioned
       setTimeout(() => clearInterval(intervalId), 3000);
     }
 
-    // Initialize both buttons
     initializeButton('tryAtHomeButton', true);
-
-    // Initialize common functionality
     handlePincodeCheck();
   });
 </script>

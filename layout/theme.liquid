@@ -768,7 +768,7 @@
       // ✅ Check for global pincode
       if (window.globalTryAtHomePincode && /^[1-9][0-9]{5}$/.test(window.globalTryAtHomePincode)) {
         zipcodeInput.value = window.globalTryAtHomePincode;
-        sessionStorage.setItem('user_tryathomepincode 1', window.globalTryAtHomePincode);
+        sessionStorage.setItem('user_tryathomepincode', window.globalTryAtHomePincode);
         console.log(window.globalTryAtHomePincode);
         handleDirectRedirect(window.globalTryAtHomePincode);
       } else {

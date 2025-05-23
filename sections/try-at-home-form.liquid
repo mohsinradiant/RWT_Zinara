@@ -649,11 +649,21 @@
       }
     });
 
+    // Prevent default back navigation to the previous page
+    window.addEventListener('beforeunload', function (event) {
+      history.replaceState({ content: 'content1' }, '', '#content1');
+    });
+
     // Initialize the page based on the current URL or state
     if (window.location.hash === '#content2') {
       showContent2();
     } else {
       showContent1();
+    }
+
+    // Push the initial state to history if none exists
+    if (!history.state) {
+      history.replaceState({ content: 'content1' }, '', '#content1');
     }
   });
 </script>
@@ -755,7 +765,7 @@
     }
   }
   }
-
+      
     // Initially update timeslots for the first selected date
     const initialSelectedDate = dateContainer.querySelector('.date-btn.selected').dataset.date;
     updateTimeslots(initialSelectedDate);
@@ -765,10 +775,10 @@
           // Remove the 'selected' class from all date buttons
           const allDateButtons = dateContainer.querySelectorAll('.date-btn');
           allDateButtons.forEach(button => button.classList.remove('selected'));
-
+      
           // Add the 'selected' class to the clicked button
           event.target.classList.add('selected');
-
+      
           // Update timeslots for the selected date
           const selectedDate = event.target.dataset.date;
           updateTimeslots(selectedDate);
@@ -780,15 +790,15 @@
       // Remove the 'selected' class from all timeslot buttons
       const allTimeslotButtons = timeslotContainer.querySelectorAll('.timeslot-btn');
       allTimeslotButtons.forEach(button => button.classList.remove('selected'));
-
+      
       // Add the 'selected' class to the clicked button
       event.target.classList.add('selected');
-
+      
       // ✅ Send GA Event
       const selectedDateBtn = document.querySelector('.date-btn.selected');
       const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
       const selectedTime = event.target.textContent.trim();
-
+      
       const customerData = window.customer || {};
       const eventPayload = {
         event: 'select_time_slot_tryathome',
@@ -814,9 +824,9 @@
             : '',
         },
       };
-
+      
       console.log('GA Event - select_time_slot_tryathome:', eventPayload);
-
+      
       if (typeof gtag === 'function') {
         gtag('event', 'select_time_slot_tryathome', {
           selected_date: selectedDate,
@@ -832,7 +842,7 @@
       }
     }
   });
-
+      
     });
 </script>
 <script>

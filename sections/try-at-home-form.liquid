@@ -109,8 +109,14 @@
         const productCardContainer = document.querySelector('.product-card-container');
         const selectedProductsContainer = document.querySelector('.selected-products-container');
         const content1TahSubHeading = document.querySelector('.content-1-tah-sub_heading');
+        // Ensure the container exists
+        if (!productCardContainer) {
+          console.warn('#productCardContainer not found inside .selected-products-container');
+          return;
+        }
 
-        if (productCardContainer) {
+        // Display toggle based on product count
+        function toggleVisibilityBasedOnCount() {
           const productCardCount = productCardContainer.querySelectorAll('.product-card').length;
 
           if (productCardCount > 0) {
@@ -120,11 +126,9 @@
             selectedProductsContainer.style.display = 'none';
             content1TahSubHeading.style.display = 'none';
           }
-        } else {
-          console.warn('.product-card-container not found in the DOM');
-          selectedProductsContainer.style.display = 'none';
-          content1TahSubHeading.style.display = 'none';
         }
+
+        toggleVisibilityBasedOnCount();
         // Load selected products from sessionStorage if available
         const savedSelectedProducts = sessionStorage.getItem('selectedProducts');
         const savedSelectedProductIds = sessionStorage.getItem('selectedProductIds');
@@ -132,28 +136,23 @@
           window.selectedProducts = JSON.parse(savedSelectedProducts);
           window.selectedProductIds = JSON.parse(savedSelectedProductIds);
 
-          // Render each saved product
+          // Render saved products
           window.selectedProducts.forEach((product) => {
-            selectedProductsContainer.innerHTML += `
-              <div class="product-card" data-id="${product.id}">
-                <img src="${product.image}" alt="${product.title}" class="product-card__image">
-                <div class="product-card-content">
-                  <h2 class="product-card__title">${product.title}</h2>
-                  <p class="product-card__price">${product.price}</p>
-                  <button class="remove-item-button">
-                    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
-                  </button>
-                </div>
-              </div>
-            `;
+            productCardContainer.innerHTML += `
+        <div class="product-card" data-id="${product.id}">
+          <img src="${product.image}" alt="${product.title}" class="product-card__image">
+          <div class="product-card-content">
+            <h2 class="product-card__title">${product.title}</h2>
+            <p class="product-card__price">${product.price}</p>
+            <button class="remove-item-button">
+              <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
+            </button>
+          </div>
+        </div>
+      `;
           });
 
-          // Show container if needed
-          selectedProductsContainer.style.display = 'flex';
-          document.querySelector('.selected-products-container').style.display = 'flex';
-          document.querySelector('.content-1-tah-sub_heading').style.display = 'inline-block';
-          document.querySelector('.content-1-tah .section-heading').style.display = 'block';
-
+          toggleVisibilityBasedOnCount();
           attachRemoveEvent();
         }
 

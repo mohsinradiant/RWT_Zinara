@@ -786,7 +786,6 @@ function handlePincodeCheck() {
       return;
     }
 
-    // Save the pincode in sessionStorage
     sessionStorage.setItem('user_tryathomepincode', zipcode);
 
     const tryAtHomeUrl = `/pages/try-at-home?view=try-at-home&product_handle={{ product.handle }}`;

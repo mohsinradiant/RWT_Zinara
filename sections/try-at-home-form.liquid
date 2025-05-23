@@ -727,6 +727,8 @@
 
     // Function to update timeslots based on selected date
 function updateTimeslots(selectedDate) {
+  console.log('Selected Date:', selectedDate); // Debugging
+
   timeslotContainer.innerHTML = ''; // Clear existing timeslots
   let startTime = 10; // Start at 10:00 AM
   let startMinutes = 0;
@@ -738,9 +740,13 @@ function updateTimeslots(selectedDate) {
     const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
     const timeslot = `${displayStart} - ${displayEnd}`;
 
+    console.log('Checking timeslot:', displayStart, '-', displayEnd); // Debugging
+
     // Check if timeslot is unavailable for the selected date
     const isUnavailable =
       unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
+
+    console.log('Is unavailable:', isUnavailable); // Debugging
 
     if (!isUnavailable) {
       // Render only if the slot is available
@@ -753,81 +759,82 @@ function updateTimeslots(selectedDate) {
   }
 }
 
-// Initialize timeslots for the first selected date
-const initialSelectedDate = dateContainer.querySelector('.date-btn.selected').dataset.date;
-updateTimeslots(initialSelectedDate);
 
-// Event listener for date buttons
-dateContainer.addEventListener('click', function (event) {
-  if (event.target.classList.contains('date-btn')) {
-    // Remove 'selected' from all date buttons
-    dateContainer.querySelectorAll('.date-btn').forEach(button => button.classList.remove('selected'));
+  // Initialize timeslots for the first selected date
+  const initialSelectedDate = dateContainer.querySelector('.date-btn.selected').dataset.date;
+  updateTimeslots(initialSelectedDate);
 
-    // Add 'selected' to clicked button
-    event.target.classList.add('selected');
+  // Event listener for date buttons
+  dateContainer.addEventListener('click', function (event) {
+    if (event.target.classList.contains('date-btn')) {
+      // Remove 'selected' from all date buttons
+      dateContainer.querySelectorAll('.date-btn').forEach(button => button.classList.remove('selected'));
 
-    // Update timeslots
-    const selectedDate = event.target.dataset.date;
-    updateTimeslots(selectedDate);
-  }
-});
+      // Add 'selected' to clicked button
+      event.target.classList.add('selected');
 
-// Event listener for timeslot buttons
-timeslotContainer.addEventListener('click', function (event) {
-  if (event.target.classList.contains('timeslot-btn')) {
-    // Remove 'selected' from all timeslot buttons
-    timeslotContainer.querySelectorAll('.timeslot-btn').forEach(button => button.classList.remove('selected'));
-
-    // Add 'selected' to clicked button
-    event.target.classList.add('selected');
-
-    // Send GA Event
-    const selectedDateBtn = document.querySelector('.date-btn.selected');
-    const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
-    const selectedTime = event.target.textContent.trim();
-
-    const customerData = window.customer || {};
-    const eventPayload = {
-      event: 'select_time_slot_tryathome',
-      date: selectedDate,
-      time: selectedTime,
-      customer: {
-        id: customerData.id || null,
-        email: customerData.email || null,
-        name: customerData.default_address?.name ||
-          `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
-        phone: customerData.phone || null,
-        address: customerData.default_address
-          ? [
-              customerData.default_address.address1,
-              customerData.default_address.city,
-              customerData.default_address.province,
-              customerData.default_address.country,
-              customerData.default_address.zip,
-            ]
-              .filter(Boolean)
-              .join(', ')
-          : '',
-      },
-    };
-
-    console.log('GA Event - select_time_slot_tryathome:', eventPayload);
-
-    if (typeof gtag === 'function') {
-      gtag('event', 'select_time_slot_tryathome', {
-        selected_date: selectedDate,
-        selected_time: selectedTime,
-        customer_id: eventPayload.customer.id,
-        customer_email: eventPayload.customer.email,
-        customer_name: eventPayload.customer.name,
-        customer_phone: eventPayload.customer.phone,
-        customer_address: eventPayload.customer.address,
-      });
-    } else {
-      console.warn('gtag not found – event not sent');
+      // Update timeslots
+      const selectedDate = event.target.dataset.date;
+      updateTimeslots(selectedDate);
     }
-  }
-});
+  });
+
+    // Event listener for timeslot buttons
+    timeslotContainer.addEventListener('click', function (event) {
+      if (event.target.classList.contains('timeslot-btn')) {
+        // Remove 'selected' from all timeslot buttons
+        timeslotContainer.querySelectorAll('.timeslot-btn').forEach(button => button.classList.remove('selected'));
+
+        // Add 'selected' to clicked button
+        event.target.classList.add('selected');
+
+        // Send GA Event
+        const selectedDateBtn = document.querySelector('.date-btn.selected');
+        const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
+        const selectedTime = event.target.textContent.trim();
+
+        const customerData = window.customer || {};
+        const eventPayload = {
+          event: 'select_time_slot_tryathome',
+          date: selectedDate,
+          time: selectedTime,
+          customer: {
+            id: customerData.id || null,
+            email: customerData.email || null,
+            name: customerData.default_address?.name ||
+              `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
+            phone: customerData.phone || null,
+            address: customerData.default_address
+              ? [
+                  customerData.default_address.address1,
+                  customerData.default_address.city,
+                  customerData.default_address.province,
+                  customerData.default_address.country,
+                  customerData.default_address.zip,
+                ]
+                  .filter(Boolean)
+                  .join(', ')
+              : '',
+          },
+        };
+
+        console.log('GA Event - select_time_slot_tryathome:', eventPayload);
+
+        if (typeof gtag === 'function') {
+          gtag('event', 'select_time_slot_tryathome', {
+            selected_date: selectedDate,
+            selected_time: selectedTime,
+            customer_id: eventPayload.customer.id,
+            customer_email: eventPayload.customer.email,
+            customer_name: eventPayload.customer.name,
+            customer_phone: eventPayload.customer.phone,
+            customer_address: eventPayload.customer.address,
+          });
+        } else {
+          console.warn('gtag not found – event not sent');
+        }
+      }
+    });
 
     });
 </script>

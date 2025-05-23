@@ -241,8 +241,6 @@ if (!isProductAdded) {
     price: `₹${Math.floor(price).toLocaleString('en-IN')}`,
   });
 
-  sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
-  sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
 }
 
 
@@ -341,6 +339,8 @@ if (!isProductAdded) {
           window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
           selectedProductIds = selectedProductIds.filter((id) => id !== productId);
           // Update sessionStorage after removal
+          sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+          sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
 
           productCard.remove();
 

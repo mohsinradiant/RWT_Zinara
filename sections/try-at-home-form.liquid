@@ -283,17 +283,17 @@
                   }
 
                   selectedProductsContainer.innerHTML += `
-            <div class="product-card" data-id="${productId}">
-              <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
-              <div class="product-card-content">
-                <h2 class="product-card__title">${truncatedTitle}</h2>
-                <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
-                <button class="remove-item-button">
-                  <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
-                </button>
-              </div>
-            </div>
-          `;
+                  <div class="product-card" data-id="${productId}">
+                      <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+                      <div class="product-card-content">
+                        <h2 class="product-card__title">${truncatedTitle}</h2>
+                        <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
+                        <button class="remove-item-button">
+                          <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
+                        </button>
+                      </div>
+                    </div>
+                  `;
 
                   // Update button state to "Added" (disabled)
                   updateAddButtonState(productId);
@@ -352,9 +352,7 @@
                   attachRemoveEvent();
                 }
               });
-
               collectionProductsContainer.appendChild(productCard);
-
               // Update button state on initial render
               updateAddButtonState(productId);
             });

@@ -348,10 +348,18 @@ if (!isProductAdded) {
 
           // Remove from arrays
           window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
-          selectedProductIds = selectedProductIds.filter((id) => id !== productId);
-          // Update sessionStorage after removal
-          sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
-          sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
+window.selectedProductIds = (window.selectedProductIds || []).filter((id) => id !== productId);
+// Remove from arrays
+window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
+window.selectedProductIds = (window.selectedProductIds || []).filter((id) => id !== productId);
+
+// Safe sessionStorage update
+try {
+  sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+  sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
+} catch (e) {
+  console.error('Error updating sessionStorage on remove:', e);
+}
 
           productCard.remove();
 

@@ -209,6 +209,24 @@
           if (subHeading) subHeading.style.display = 'none';
           if (headings.length > 0) headings[0].style.display = 'none';
         }
+        // Function to update Add button state based on whether product is added or not
+        function updateAddButtonState(productId) {
+          const productListContainer = document.getElementById('collectionProducts');
+          const addButton = productListContainer.querySelector(
+            `.product-card[data-id="${productId}"] .add-item-button`
+          );
+          if (!addButton) return;
+
+          if (window.selectedProductIds.includes(productId)) {
+            addButton.textContent = 'Added';
+            addButton.style.opacity = '0.7';
+            addButton.disabled = true;
+          } else {
+            addButton.innerHTML = `<span>+</span> Add`;
+            addButton.style.opacity = '1';
+            addButton.disabled = false;
+          }
+        }
         fetch(`/collections/{{ section.settings.collection_handle }}/products.json`)
           .then((response) => response.json())
           .then((data) => {
@@ -217,25 +235,6 @@
             // Initialize selectedProductIds array if not present
             window.selectedProductIds = window.selectedProductIds || [];
             window.selectedProducts = window.selectedProducts || [];
-
-            // Function to update Add button state based on whether product is added or not
-            function updateAddButtonState(productId) {
-              const productListContainer = document.getElementById('collectionProducts');
-              const addButton = productListContainer.querySelector(
-                `.product-card[data-id="${productId}"] .add-item-button`
-              );
-              if (!addButton) return;
-
-              if (window.selectedProductIds.includes(productId)) {
-                addButton.textContent = 'Added';
-                addButton.style.opacity = '0.7';
-                addButton.disabled = true;
-              } else {
-                addButton.innerHTML = `<span>+</span> Add`;
-                addButton.style.opacity = '1';
-                addButton.disabled = false;
-              }
-            }
 
             data.products.forEach((product) => {
               const featuredImage = product.images[0]?.src || '';

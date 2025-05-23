@@ -149,33 +149,40 @@
               return response.json();
             })
             .then((product) => {
-              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 25) + '...' : product.title;
-              window.selectedProducts = [];
+              const productId = product.id.toString();
 
-              const formattedProduct = {
-                id: product.id.toString(),
-                image: `https:${product.featured_image}`,
-                title: truncatedTitle,
-                price: `₹${Math.floor(product.price / 100)}`,
-              };
+              // Check if the product is already selected
+              const isAlreadySelected = window.selectedProductIds.includes(productId);
 
-              window.selectedProducts.push(formattedProduct);
-              selectedProductIds.push(product.id);
+              if (!isAlreadySelected) {
+                const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 25) + '...' : product.title;
+                const formattedProduct = {
+                  id: productId,
+                  image: `https:${product.featured_image}`,
+                  title: truncatedTitle,
+                  price: `₹${Math.floor(product.price / 100).toLocaleString('en-IN')}`,
+                };
 
-              selectedProductsContainer.innerHTML = `
-            <div class="product-card" data-id="${product.id}">
-              <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
-              <div class="product-card-content">
-                <h2 class="product-card__title">${truncatedTitle}</h2>
-                <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
-                <button class="remove-item-button">
-                  <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
-                </button>
-              </div>
-            </div>
-          `;
+                window.selectedProducts.push(formattedProduct);
+                window.selectedProductIds.push(productId);
 
-              // document.getElementById('loadingMessage').style.display = 'none';
+                selectedProductsContainer.innerHTML += `
+      <div class="product-card" data-id="${product.id}">
+        <img src="${product.featured_image}" alt="${product.title}" class="product-card__image">
+        <div class="product-card-content">
+          <h2 class="product-card__title">${truncatedTitle}</h2>
+          <p class="product-card__price">₹${Math.floor(product.price / 100).toLocaleString('en-IN')}</p>
+          <button class="remove-item-button">
+            <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
+          </button>
+        </div>
+      </div>
+    `;
+
+                sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+                sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
+              }
+
               selectedProductsContainer.style.display = 'flex';
               document.querySelector('.selected-products-container').style.display = 'flex';
               document.querySelector('.content-1-tah-sub_heading').style.display = 'inline-block';
@@ -183,6 +190,7 @@
 
               attachRemoveEvent();
             })
+
             .catch((error) => {
               console.error(error);
               // document.getElementById('loadingMessage').textContent = 'Product not found or invalid handle provided.';

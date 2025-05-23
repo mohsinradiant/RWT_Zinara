@@ -105,6 +105,25 @@
       document.addEventListener('DOMContentLoaded', function () {
         window.selectedProductIds = [];
         window.selectedProducts = [];
+
+        const productCardContainer = document.querySelector('#product-card-container');
+        const content1TahSubHeading = document.querySelector('.content-1-tah-sub_heading');
+
+        if (productCardContainer) {
+          const productCardCount = productCardContainer.querySelectorAll('.product-card').length;
+
+          if (productCardCount > 0) {
+            selectedProductsContainer.style.display = 'flex';
+            content1TahSubHeading.style.display = 'block';
+          } else {
+            selectedProductsContainer.style.display = 'none';
+            content1TahSubHeading.style.display = 'none';
+          }
+        } else {
+          console.warn('#product-card-container not found in the DOM');
+          selectedProductsContainer.style.display = 'none';
+          content1TahSubHeading.style.display = 'none';
+        }
         // Load selected products from sessionStorage if available
         const savedSelectedProducts = sessionStorage.getItem('selectedProducts');
         const savedSelectedProductIds = sessionStorage.getItem('selectedProductIds');
@@ -209,6 +228,25 @@
           if (subHeading) subHeading.style.display = 'none';
           if (headings.length > 0) headings[0].style.display = 'none';
         }
+        // Function to update Add button state based on whether product is added or not
+        function updateAddButtonState(productId) {
+          const productListContainer = document.getElementById('collectionProducts');
+          const addButton = productListContainer.querySelector(
+            `.product-card[data-id="${productId}"] .add-item-button`
+          );
+          if (!addButton) return;
+
+          if (window.selectedProductIds.includes(productId)) {
+            addButton.textContent = 'Added';
+            addButton.style.opacity = '0.7';
+            addButton.disabled = true;
+          } else {
+            addButton.innerHTML = `<span>+</span> Add`;
+            addButton.style.opacity = '1';
+            addButton.disabled = false;
+          }
+        }
+
         fetch(`/collections/{{ section.settings.collection_handle }}/products.json`)
           .then((response) => response.json())
           .then((data) => {
@@ -217,22 +255,6 @@
             // Initialize selectedProductIds array if not present
             window.selectedProductIds = window.selectedProductIds || [];
             window.selectedProducts = window.selectedProducts || [];
-
-            // Function to update Add button state based on whether product is added or not
-            function updateAddButtonState(productId) {
-              const addButton = document.querySelector(`.product-card[data-id="${productId}"] .add-item-button`);
-              if (!addButton) return;
-
-              if (window.selectedProductIds.includes(productId)) {
-                addButton.textContent = 'Added';
-                addButton.style.opacity = '0.7';
-                addButton.disabled = true;
-              } else {
-                addButton.innerHTML = `<span>+</span> Add`;
-                addButton.style.opacity = '1';
-                addButton.disabled = false;
-              }
-            }
 
             data.products.forEach((product) => {
               const featuredImage = product.images[0]?.src || '';
@@ -244,13 +266,13 @@
               productCard.classList.add('product-card');
               productCard.dataset.id = productId;
               productCard.innerHTML = `
-          <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
-          <div class="product-card-content">
-          <h2 class="product-card__title">${truncatedTitle}</h2>
-          <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
-          <button class="add-item-button"><span>+</span> Add</button>
-          </div>
-          `;
+                <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+                <div class="product-card-content">
+                <h2 class="product-card__title">${truncatedTitle}</h2>
+                <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
+                <button class="add-item-button"><span>+</span> Add</button>
+                </div>
+              `;
 
               // Attach click listener to Add button
               productCard.querySelector('.add-item-button').addEventListener('click', function () {
@@ -280,21 +302,20 @@
                   }
 
                   selectedProductsContainer.innerHTML += `
-            <div class="product-card" data-id="${productId}">
-              <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
-              <div class="product-card-content">
-                <h2 class="product-card__title">${truncatedTitle}</h2>
-                <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
-                <button class="remove-item-button">
-                  <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
-                </button>
-              </div>
-            </div>
-          `;
+                  <div class="product-card" data-id="${productId}">
+                      <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+                      <div class="product-card-content">
+                        <h2 class="product-card__title">${truncatedTitle}</h2>
+                        <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
+                        <button class="remove-item-button">
+                          <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
+                        </button>
+                      </div>
+                    </div>
+                  `;
 
                   // Update button state to "Added" (disabled)
                   updateAddButtonState(productId);
-
                   // GA Event Trigger (no change here)
                   const customerData = window.customer || {};
                   const productData = {
@@ -349,9 +370,7 @@
                   attachRemoveEvent();
                 }
               });
-
               collectionProductsContainer.appendChild(productCard);
-
               // Update button state on initial render
               updateAddButtonState(productId);
             });
@@ -365,7 +384,6 @@
             removeButton.addEventListener('click', handleRemoveEvent);
           });
         }
-
         // Remove product handler
         function handleRemoveEvent(event) {
           const productCard = event.target.closest('.product-card');
@@ -390,7 +408,6 @@
 
           // Re-enable the Add button on the product list
           updateAddButtonState(productId);
-
           // GA Event for removal
           if (removedProduct) {
             const customerData = window.customer || {};
@@ -444,7 +461,6 @@
             }
           }
         }
-
         // 🔁 MutationObserver to control display toggling
         const observer = new MutationObserver(() => {
           const container = document.querySelector('.selected-products-container');
@@ -467,7 +483,6 @@
           }
         });
         observer.observe(selectedProductsContainer, { childList: true });
-        updateAddButtonState(productId);
       });
     </script>
   </div>
@@ -600,14 +615,55 @@
     // Hide content-2-tah by default
     content2.style.display = 'none';
 
+    // Function to show content1 and hide content2
+    function showContent1() {
+      content1.style.display = 'block';
+      content2.style.display = 'none';
+    }
+
+    // Function to show content2 and hide content1
+    function showContent2() {
+      content1.style.display = 'none';
+      content2.style.display = 'flex';
+    }
+
     // Add click event listener to the button
     selectTimeSlotButton.addEventListener('click', function () {
-      // Hide content-1-tah
-      content1.style.display = 'none';
+      // Show content2 and hide content1
+      showContent2();
 
-      // Show content-2-tah
-      content2.style.display = 'flex';
+      // Scroll to the top of the page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Push state to history
+      history.pushState({ content: 'content2' }, '', '#content2');
     });
+
+    // Handle the back button using the popstate event
+    window.addEventListener('popstate', function (event) {
+      if (event.state && event.state.content === 'content2') {
+        showContent2();
+      } else {
+        showContent1();
+      }
+    });
+
+    // Prevent default back navigation to the previous page
+    window.addEventListener('beforeunload', function (event) {
+      history.replaceState({ content: 'content1' }, '', '#content1');
+    });
+
+    // Initialize the page based on the current URL or state
+    if (window.location.hash === '#content2') {
+      showContent2();
+    } else {
+      showContent1();
+    }
+
+    // Push the initial state to history if none exists
+    if (!history.state) {
+      history.replaceState({ content: 'content1' }, '', '#content1');
+    }
   });
 </script>
 
@@ -638,155 +694,146 @@
     // Debugging: Log unavailable slots map
     console.log('Adjusted Unavailable Slots Map:', unavailableSlotsMap);
 
-  // Generate Dates
-  const today = new Date();
-  for (let i = 0; i < 7; i++) {
-  const futureDate = new Date(today); // Clone today's date
-  futureDate.setDate(today.getDate() + i); // Increment by i days
-  
-  // Add 5 hours and 30 minutes
-  futureDate.setHours(futureDate.getHours() + 5);
-  futureDate.setMinutes(futureDate.getMinutes() + 30);
+    // Generate Dates
+    const today = new Date();
+    for (let i = 0; i < 7; i++) {
+    const futureDate = new Date(today); // Clone today's date
+    futureDate.setDate(today.getDate() + i); // Increment by i days
+      
+    // Add 5 hours and 30 minutes
+    futureDate.setHours(futureDate.getHours() + 5);
+    futureDate.setMinutes(futureDate.getMinutes() + 30);
 
-  // Format the `data-date` manually using local time
-  const year = futureDate.getFullYear();
-  const month = String(futureDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-  const day = String(futureDate.getDate()).padStart(2, '0');
-  const formattedDate = `${year}-${month}-${day}`;
-  
-  // Extract day, month, and weekday for display
-  const displayDay = futureDate.getDate();
-  const displayMonth = futureDate.toLocaleString('en-US', { month: 'short' });
-  const displayWeekday = futureDate.toLocaleString('en-US', { weekday: 'long' });
-  
-  const buttonHTML = `
+    // Format the `data-date` manually using local time
+    const year = futureDate.getFullYear();
+    const month = String(futureDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const day = String(futureDate.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+      
+    // Extract day, month, and weekday for display
+    const displayDay = futureDate.getDate();
+    const displayMonth = futureDate.toLocaleString('en-US', { month: 'short' });
+    const displayWeekday = futureDate.toLocaleString('en-US', { weekday: 'long' });
+      
+    const buttonHTML = `
     <button class="date-btn ${i === 0 ? 'selected' : ''}" data-date="${formattedDate}">
       ${displayMonth} ${String(displayDay).padStart(2, '0')}<br>
       <span>${displayWeekday}</span>
     </button>
-  `;
-  dateContainer.innerHTML += buttonHTML;
+    `;
+    dateContainer.innerHTML += buttonHTML;
   }
 
 
     // Function to update timeslots based on selected date
-function updateTimeslots(selectedDate) {
-  timeslotContainer.innerHTML = ''; // Clear existing timeslots
+  function updateTimeslots(selectedDate) {
+    console.log('Selected Date:', selectedDate);
+    console.log('Unavailable Slots for Selected Date:', unavailableSlotsMap[selectedDate] || []);
 
-  const currentDate = new Date();
-  const userHour = currentDate.getHours();
-  const userMinute = currentDate.getMinutes();
+    timeslotContainer.innerHTML = ''; // Clear existing timeslots
+      
+    let startTime = 10; // Start at 10:00 AM
+    let startMinutes = 0;
+      
+    for (let i = 0; i < 18; i++) {
+      const endMinutes = startMinutes + 30;
+      const endTime = startTime + Math.floor(endMinutes / 60);
+      const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+      const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+      const timeslot = `${displayStart} - ${displayEnd}`;
 
-  let startTime = 11; // Default: start at 11 AM
-  let slotsToGenerate = 8; // 11AM to 7PM = 8 slots
+      // Check if timeslot is unavailable for the selected date
+      const isUnavailable =
+        unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
 
-  if (userHour >= 11) {
-    // Round to next full hour
-    let nextHour = userHour + (userMinute > 0 ? 1 : 0);
-    // Skip one more hour
-    startTime = nextHour + 1;
-    // Adjust number of slots remaining in the day (until 7PM = 19:00)
-    slotsToGenerate = Math.max(0, 19 - startTime);
-  }
+      if (!isUnavailable) {
+        // Render only if the slot is available
+        const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
+        timeslotContainer.innerHTML += buttonHTML;
+      }
 
-  for (let i = 0; i < slotsToGenerate; i++) {
-    const slotStart = startTime + i;
-    const slotEnd = slotStart + 1;
-
-    const displayStart = `${String(slotStart).padStart(2, '0')}:00`;
-    const displayEnd = `${String(slotEnd).padStart(2, '0')}:00`;
-    const timeslot = `${displayStart} - ${displayEnd}`;
-
-    const isUnavailable =
-      unavailableSlotsMap[selectedDate] &&
-      unavailableSlotsMap[selectedDate].includes(displayStart);
-
-    if (!isUnavailable) {
-      const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
-      timeslotContainer.innerHTML += buttonHTML;
+      startTime += Math.floor((startMinutes + 30) / 60); // Update start time
+      startMinutes = (startMinutes + 30) % 60; // Reset minutes
     }
-  }
-}
+    }
+      
+  // Initialize timeslots for the first selected date
+  const initialSelectedDate = dateContainer.querySelector('.date-btn.selected').dataset.date;
+  updateTimeslots(initialSelectedDate);
 
-    // Initially update timeslots for the first selected date
-    const initialSelectedDate = dateContainer.querySelector('.date-btn.selected').dataset.date;
-    updateTimeslots(initialSelectedDate);
+  // Event listener for date buttons
+  dateContainer.addEventListener('click', function (event) {
+    if (event.target.classList.contains('date-btn')) {
+      // Remove 'selected' from all date buttons
+      dateContainer.querySelectorAll('.date-btn').forEach(button => button.classList.remove('selected'));
 
-    // Add click event listener to date buttons
-    dateContainer.addEventListener('click', function (event) {
-      if (event.target.classList.contains('date-btn')) {
-        // Remove the 'selected' class from all date buttons
-        const allDateButtons = dateContainer.querySelectorAll('.date-btn');
-        allDateButtons.forEach(button => button.classList.remove('selected'));
+      // Add 'selected' to clicked button
+      event.target.classList.add('selected');
 
-        // Add the 'selected' class to the clicked button
+      // Update timeslots
+      const selectedDate = event.target.dataset.date;
+      updateTimeslots(selectedDate);
+    }
+  });
+
+    // Event listener for timeslot buttons
+    timeslotContainer.addEventListener('click', function (event) {
+      if (event.target.classList.contains('timeslot-btn')) {
+        // Remove 'selected' from all timeslot buttons
+        timeslotContainer.querySelectorAll('.timeslot-btn').forEach(button => button.classList.remove('selected'));
+        
+        // Add 'selected' to clicked button
         event.target.classList.add('selected');
-
-        // Update timeslots for the selected date
-        const selectedDate = event.target.dataset.date;
-        updateTimeslots(selectedDate);
+        
+        // Send GA Event
+        const selectedDateBtn = document.querySelector('.date-btn.selected');
+        const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
+        const selectedTime = event.target.textContent.trim();
+        
+        const customerData = window.customer || {};
+        const eventPayload = {
+          event: 'select_time_slot_tryathome',
+          date: selectedDate,
+          time: selectedTime,
+          customer: {
+            id: customerData.id || null,
+            email: customerData.email || null,
+            name: customerData.default_address?.name ||
+              `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
+            phone: customerData.phone || null,
+            address: customerData.default_address
+              ? [
+                  customerData.default_address.address1,
+                  customerData.default_address.city,
+                  customerData.default_address.province,
+                  customerData.default_address.country,
+                  customerData.default_address.zip,
+                ]
+                  .filter(Boolean)
+                  .join(', ')
+              : '',
+          },
+        };
+        
+        console.log('GA Event - select_time_slot_tryathome:', eventPayload);
+        
+        if (typeof gtag === 'function') {
+          gtag('event', 'select_time_slot_tryathome', {
+            selected_date: selectedDate,
+            selected_time: selectedTime,
+            customer_id: eventPayload.customer.id,
+            customer_email: eventPayload.customer.email,
+            customer_name: eventPayload.customer.name,
+            customer_phone: eventPayload.customer.phone,
+            customer_address: eventPayload.customer.address,
+          });
+        } else {
+          console.warn('gtag not found – event not sent');
+        }
       }
     });
 
-// Add click event listener to timeslot buttons
-timeslotContainer.addEventListener('click', function (event) {
-  if (event.target.classList.contains('timeslot-btn')) {
-    // Remove the 'selected' class from all timeslot buttons
-    const allTimeslotButtons = timeslotContainer.querySelectorAll('.timeslot-btn');
-    allTimeslotButtons.forEach(button => button.classList.remove('selected'));
-
-    // Add the 'selected' class to the clicked button
-    event.target.classList.add('selected');
-
-    // ✅ Send GA Event
-    const selectedDateBtn = document.querySelector('.date-btn.selected');
-    const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
-    const selectedTime = event.target.textContent.trim();
-
-    const customerData = window.customer || {};
-    const eventPayload = {
-      event: 'select_time_slot_videotrial',
-      date: selectedDate,
-      time: selectedTime,
-      customer: {
-        id: customerData.id || null,
-        email: customerData.email || null,
-        name:
-          (customerData.default_address && customerData.default_address.name) ||
-          `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
-        phone: customerData.phone || null,
-        address: customerData.default_address
-          ? [
-              customerData.default_address.address1,
-              customerData.default_address.city,
-              customerData.default_address.province,
-              customerData.default_address.country,
-              customerData.default_address.zip,
-            ]
-              .filter(Boolean)
-              .join(', ')
-          : '',
-      },
-    };
-
-    console.log('GA Event - select_time_slot_videotrial:', eventPayload);
-
-    if (typeof gtag === 'function') {
-      gtag('event', 'select_time_slot_videotrial', {
-        selected_date: selectedDate,
-        selected_time: selectedTime,
-        customer_id: eventPayload.customer.id,
-        customer_email: eventPayload.customer.email,
-        customer_name: eventPayload.customer.name,
-        customer_phone: eventPayload.customer.phone,
-        customer_address: eventPayload.customer.address,
-      });
-    } else {
-      console.warn('gtag not found – event not sent');
-    }
-  }
-});
-  });
+    });
 </script>
 <script>
   const bookingSuccessContent = '{{ section.settings.booking_successful_content | escape }}';

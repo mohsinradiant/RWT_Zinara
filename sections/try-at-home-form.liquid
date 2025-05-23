@@ -220,7 +220,10 @@
 
             // Function to update Add button state based on whether product is added or not
             function updateAddButtonState(productId) {
-              const addButton = document.querySelector(`.product-card[data-id="${productId}"] .add-item-button`);
+              const productListContainer = document.getElementById('collectionProducts');
+              const addButton = productListContainer.querySelector(
+                `.product-card[data-id="${productId}"] .add-item-button`
+              );
               if (!addButton) return;
 
               if (window.selectedProductIds.includes(productId)) {

@@ -364,6 +364,7 @@
             removeButton.removeEventListener('click', handleRemoveEvent);
             removeButton.addEventListener('click', handleRemoveEvent);
           });
+          updateAddButtonState(productId);
         }
 
         // Remove product handler

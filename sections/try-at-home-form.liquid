@@ -107,11 +107,26 @@
         window.selectedProducts = [];
 
         const productCardContainer = document.querySelector('#product-card-container');
+        const productCardContainer = document.querySelector('#product-card-container');
         const content1TahSubHeading = document.querySelector('.content-1-tah-sub_heading');
 
         if (productCardContainer) {
           const productCardCount = productCardContainer.querySelectorAll('.product-card').length;
+        if (productCardContainer) {
+          const productCardCount = productCardContainer.querySelectorAll('.product-card').length;
 
+          if (productCardCount > 0) {
+            selectedProductsContainer.style.display = 'flex';
+            content1TahSubHeading.style.display = 'block';
+          } else {
+            selectedProductsContainer.style.display = 'none';
+            content1TahSubHeading.style.display = 'none';
+          }
+        } else {
+          console.warn('#product-card-container not found in the DOM');
+          selectedProductsContainer.style.display = 'none';
+          content1TahSubHeading.style.display = 'none';
+        }
           if (productCardCount > 0) {
             selectedProductsContainer.style.display = 'flex';
             content1TahSubHeading.style.display = 'block';
@@ -235,7 +250,33 @@
             `.product-card[data-id="${productId}"] .add-item-button`
           );
           if (!addButton) return;
+        // Function to update Add button state based on whether product is added or not
+        function updateAddButtonState(productId) {
+          const productListContainer = document.getElementById('collectionProducts');
+          const addButton = productListContainer.querySelector(
+            `.product-card[data-id="${productId}"] .add-item-button`
+          );
+          if (!addButton) return;
 
+          if (window.selectedProductIds.includes(productId)) {
+            addButton.textContent = 'Added';
+            addButton.style.opacity = '0.7';
+            addButton.disabled = true;
+          } else {
+            addButton.innerHTML = `<span>+</span> Add`;
+            addButton.style.opacity = '1';
+            addButton.disabled = false;
+          }
+        }
+
+        fetch(`/collections/{{ section.settings.collection_handle }}/products.json`)
+          .then((response) => response.json())
+          .then((data) => {
+            const collectionProductsContainer = document.getElementById('collectionProducts');
+
+            // Initialize selectedProductIds array if not present
+            window.selectedProductIds = window.selectedProductIds || [];
+            window.selectedProducts = window.selectedProducts || [];
           if (window.selectedProductIds.includes(productId)) {
             addButton.textContent = 'Added';
             addButton.style.opacity = '0.7';
@@ -627,8 +668,55 @@
       content2.style.display = 'flex';
     }
 
+    // Function to show content1 and hide content2
+    function showContent1() {
+      content1.style.display = 'block';
+      content2.style.display = 'none';
+    }
+
+    // Function to show content2 and hide content1
+    function showContent2() {
+      content1.style.display = 'none';
+      content2.style.display = 'flex';
+    }
+
     // Add click event listener to the button
     selectTimeSlotButton.addEventListener('click', function () {
+      // Show content2 and hide content1
+      showContent2();
+
+      // Scroll to the top of the page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Push state to history
+      history.pushState({ content: 'content2' }, '', '#content2');
+    });
+
+    // Handle the back button using the popstate event
+    window.addEventListener('popstate', function (event) {
+      if (event.state && event.state.content === 'content2') {
+        showContent2();
+      } else {
+        showContent1();
+      }
+    });
+
+    // Prevent default back navigation to the previous page
+    window.addEventListener('beforeunload', function (event) {
+      history.replaceState({ content: 'content1' }, '', '#content1');
+    });
+
+    // Initialize the page based on the current URL or state
+    if (window.location.hash === '#content2') {
+      showContent2();
+    } else {
+      showContent1();
+    }
+
+    // Push the initial state to history if none exists
+    if (!history.state) {
+      history.replaceState({ content: 'content1' }, '', '#content1');
+    }
       // Show content2 and hide content1
       showContent2();
 
@@ -741,7 +829,25 @@
       const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
       const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
       const timeslot = `${displayStart} - ${displayEnd}`;
+  function updateTimeslots(selectedDate) {
+    console.log('Selected Date:', selectedDate);
+    console.log('Unavailable Slots for Selected Date:', unavailableSlotsMap[selectedDate] || []);
 
+    timeslotContainer.innerHTML = ''; // Clear existing timeslots
+      
+    let startTime = 10; // Start at 10:00 AM
+    let startMinutes = 0;
+      
+    for (let i = 0; i < 18; i++) {
+      const endMinutes = startMinutes + 30;
+      const endTime = startTime + Math.floor(endMinutes / 60);
+      const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+      const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+      const timeslot = `${displayStart} - ${displayEnd}`;
+
+      // Check if timeslot is unavailable for the selected date
+      const isUnavailable =
+        unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
       // Check if timeslot is unavailable for the selected date
       const isUnavailable =
         unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
@@ -762,14 +868,25 @@
   updateTimeslots(initialSelectedDate);
 
   // Event listener for date buttons
+
+  // Event listener for date buttons
   dateContainer.addEventListener('click', function (event) {
+    if (event.target.classList.contains('date-btn')) {
+      // Remove 'selected' from all date buttons
+      dateContainer.querySelectorAll('.date-btn').forEach(button => button.classList.remove('selected'));
     if (event.target.classList.contains('date-btn')) {
       // Remove 'selected' from all date buttons
       dateContainer.querySelectorAll('.date-btn').forEach(button => button.classList.remove('selected'));
 
       // Add 'selected' to clicked button
       event.target.classList.add('selected');
+      // Add 'selected' to clicked button
+      event.target.classList.add('selected');
 
+      // Update timeslots
+      const selectedDate = event.target.dataset.date;
+      updateTimeslots(selectedDate);
+    }
       // Update timeslots
       const selectedDate = event.target.dataset.date;
       updateTimeslots(selectedDate);
@@ -833,6 +950,64 @@
       }
     });
 
+    // Event listener for timeslot buttons
+    timeslotContainer.addEventListener('click', function (event) {
+      if (event.target.classList.contains('timeslot-btn')) {
+        // Remove 'selected' from all timeslot buttons
+        timeslotContainer.querySelectorAll('.timeslot-btn').forEach(button => button.classList.remove('selected'));
+        
+        // Add 'selected' to clicked button
+        event.target.classList.add('selected');
+        
+        // Send GA Event
+        const selectedDateBtn = document.querySelector('.date-btn.selected');
+        const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
+        const selectedTime = event.target.textContent.trim();
+        
+        const customerData = window.customer || {};
+        const eventPayload = {
+          event: 'select_time_slot_tryathome',
+          date: selectedDate,
+          time: selectedTime,
+          customer: {
+            id: customerData.id || null,
+            email: customerData.email || null,
+            name: customerData.default_address?.name ||
+              `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
+            phone: customerData.phone || null,
+            address: customerData.default_address
+              ? [
+                  customerData.default_address.address1,
+                  customerData.default_address.city,
+                  customerData.default_address.province,
+                  customerData.default_address.country,
+                  customerData.default_address.zip,
+                ]
+                  .filter(Boolean)
+                  .join(', ')
+              : '',
+          },
+        };
+        
+        console.log('GA Event - select_time_slot_tryathome:', eventPayload);
+        
+        if (typeof gtag === 'function') {
+          gtag('event', 'select_time_slot_tryathome', {
+            selected_date: selectedDate,
+            selected_time: selectedTime,
+            customer_id: eventPayload.customer.id,
+            customer_email: eventPayload.customer.email,
+            customer_name: eventPayload.customer.name,
+            customer_phone: eventPayload.customer.phone,
+            customer_address: eventPayload.customer.address,
+          });
+        } else {
+          console.warn('gtag not found – event not sent');
+        }
+      }
+    });
+
+    });
     });
 </script>
 <script>

@@ -731,37 +731,37 @@
     console.log('Unavailable Slots for Selected Date:', unavailableSlotsMap[selectedDate] || []);
 
     timeslotContainer.innerHTML = ''; // Clear existing timeslots
+      
     let startTime = 10; // Start at 10:00 AM
     let startMinutes = 0;
-
+      
     for (let i = 0; i < 18; i++) {
-    const endMinutes = startMinutes + 30;
-    const endTime = startTime + Math.floor(endMinutes / 60);
-    const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
-    const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
-    const timeslot = `${displayStart} - ${displayEnd}`;
+      const endMinutes = startMinutes + 30;
+      const endTime = startTime + Math.floor(endMinutes / 60);
+      const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+      const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+      const timeslot = `${displayStart} - ${displayEnd}`;
 
-    console.log('Checking timeslot:', displayStart, '-', displayEnd);
+      // Check if timeslot is unavailable for the selected date
+      const isUnavailable =
+        unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
 
-    // Check if timeslot is unavailable for the selected date
-    const isUnavailable = unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
+      if (!isUnavailable) {
+        // Render only if the slot is available
+        const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
+        timeslotContainer.innerHTML += buttonHTML;
+      }
 
-    console.log('Is unavailable:', isUnavailable, 'for time', displayStart);
-
-    if (!isUnavailable) {
-      // Render only if the slot is available
-      const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
-      timeslotContainer.innerHTML += buttonHTML;
+      startTime += Math.floor((startMinutes + 30) / 60); // Update start time
+      startMinutes = (startMinutes + 30) % 60; // Reset minutes
     }
-
-    startTime += Math.floor((startMinutes + 30) / 60); // Update start time
-    startMinutes = (startMinutes + 30) % 60; // Reset minutes
     }
   }
       
   // Initialize timeslots for the first selected date
   const initialSelectedDate = dateContainer.querySelector('.date-btn.selected').dataset.date;
   updateTimeslots(initialSelectedDate);
+
   // Event listener for date buttons
   dateContainer.addEventListener('click', function (event) {
     if (event.target.classList.contains('date-btn')) {
@@ -776,6 +776,7 @@
       updateTimeslots(selectedDate);
     }
   });
+
     // Event listener for timeslot buttons
     timeslotContainer.addEventListener('click', function (event) {
       if (event.target.classList.contains('timeslot-btn')) {
@@ -832,6 +833,7 @@
         }
       }
     });
+
     });
 </script>
 <script>

@@ -110,16 +110,21 @@
         const selectedProductsContainer = document.querySelector('.selected-products-container');
         const content1TahSubHeading = document.querySelector('.content-1-tah-sub_heading');
 
-        const productCardCount = productCardContainer.querySelectorAll('.product-card').length;
+        if (productCardContainer) {
+          const productCardCount = productCardContainer.querySelectorAll('.product-card').length;
 
-        if (productCardCount > 0) {
-          selectedProductsContainer.style.display = 'block';
-          content1TahSubHeading.style.display = 'block';
+          if (productCardCount > 0) {
+            selectedProductsContainer.style.display = 'block';
+            content1TahSubHeading.style.display = 'block';
+          } else {
+            selectedProductsContainer.style.display = 'none';
+            content1TahSubHeading.style.display = 'none';
+          }
         } else {
+          console.warn('.product-card-container not found in the DOM');
           selectedProductsContainer.style.display = 'none';
           content1TahSubHeading.style.display = 'none';
         }
-
         // Load selected products from sessionStorage if available
         const savedSelectedProducts = sessionStorage.getItem('selectedProducts');
         const savedSelectedProductIds = sessionStorage.getItem('selectedProductIds');

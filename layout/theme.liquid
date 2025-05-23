@@ -592,6 +592,7 @@
       if (window.globalTryAtHomePincode && /^[1-9][0-9]{5}$/.test(window.globalTryAtHomePincode)) {
         zipcodeInput.value = window.globalTryAtHomePincode;
         sessionStorage.setItem('user_tryathomepincode', window.globalTryAtHomePincode);
+        console.log(window.globalTryAtHomePincode);
         handleDirectRedirect(window.globalTryAtHomePincode);
       } else {
         overlay.style.display = 'flex';
@@ -646,6 +647,8 @@
          }
 
          sessionStorage.setItem('user_tryathomepincode', zipcode);
+         console.log(window.globalTryAtHomePincode);
+
          handleDirectRedirect(zipcode); // Reuse same logic for consistency
        });
           }

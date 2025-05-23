@@ -214,23 +214,45 @@
           .then((data) => {
             const collectionProductsContainer = document.getElementById('collectionProducts');
 
+            // Initialize selectedProductIds array if not present
+            window.selectedProductIds = window.selectedProductIds || [];
+            window.selectedProducts = window.selectedProducts || [];
+
+            // Function to update Add button state based on whether product is added or not
+            function updateAddButtonState(productId) {
+              const addButton = document.querySelector(`.product-card[data-id="${productId}"] .add-item-button`);
+              if (!addButton) return;
+
+              if (window.selectedProductIds.includes(productId)) {
+                addButton.textContent = 'Added';
+                addButton.style.opacity = '0.7';
+                addButton.disabled = true;
+              } else {
+                addButton.innerHTML = `<span>+</span> Add`;
+                addButton.style.opacity = '1';
+                addButton.disabled = false;
+              }
+            }
+
             data.products.forEach((product) => {
               const featuredImage = product.images[0]?.src || '';
               const price = product.variants[0]?.price || 0;
               const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 25) + '...' : product.title;
+              const productId = product.id.toString();
 
               const productCard = document.createElement('div');
               productCard.classList.add('product-card');
-              productCard.dataset.id = product.id;
+              productCard.dataset.id = productId;
               productCard.innerHTML = `
-            <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
-            <div class="product-card-content">
-              <h2 class="product-card__title">${truncatedTitle}</h2>
-              <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
-              <button class="add-item-button"><span>+</span> Add</button>
-            </div>
-          `;
+        <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+        <div class="product-card-content">
+          <h2 class="product-card__title">${truncatedTitle}</h2>
+          <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
+          <button class="add-item-button"><span>+</span> Add</button>
+        </div>
+      `;
 
+              // Attach click listener to Add button
               productCard.querySelector('.add-item-button').addEventListener('click', function () {
                 if (window.selectedProducts.length >= 10) {
                   const errorModal = document.getElementById('errorModal');
@@ -238,7 +260,6 @@
                   return;
                 }
 
-                const productId = product.id.toString();
                 const isProductAdded = window.selectedProducts.some((p) => p.id === productId);
 
                 if (!isProductAdded) {
@@ -249,8 +270,6 @@
                     price: `₹${Math.floor(price).toLocaleString('en-IN')}`,
                   });
 
-                  // Ensure product IDs array is updated
-                  window.selectedProductIds = window.selectedProductIds || [];
                   window.selectedProductIds.push(productId);
 
                   try {
@@ -261,22 +280,22 @@
                   }
 
                   selectedProductsContainer.innerHTML += `
-                <div class="product-card" data-id="${productId}">
-                  <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
-                  <div class="product-card-content">
-                    <h2 class="product-card__title">${truncatedTitle}</h2>
-                    <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
-                    <button class="remove-item-button">
-                      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
-                    </button>
-                  </div>
-                </div>
-              `;
+            <div class="product-card" data-id="${productId}">
+              <img src="${featuredImage}" alt="${product.title}" class="product-card__image">
+              <div class="product-card-content">
+                <h2 class="product-card__title">${truncatedTitle}</h2>
+                <p class="product-card__price">₹${Math.floor(price).toLocaleString('en-IN')}</p>
+                <button class="remove-item-button">
+                  <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/trash_9915683.png?v=1745235216">
+                </button>
+              </div>
+            </div>
+          `;
 
-                  this.textContent = 'Added';
-                  this.style.opacity = '0.7';
-                  this.disabled = true;
-                  // ✅ GA Event Trigger
+                  // Update button state to "Added" (disabled)
+                  updateAddButtonState(productId);
+
+                  // GA Event Trigger (no change here)
                   const customerData = window.customer || {};
                   const productData = {
                     name: product.title,
@@ -332,16 +351,22 @@
               });
 
               collectionProductsContainer.appendChild(productCard);
+
+              // Update button state on initial render
+              updateAddButtonState(productId);
             });
           })
           .catch((error) => console.error('Error fetching collection products:', error));
 
+        // Attach remove event to dynamically created remove buttons
         function attachRemoveEvent() {
           document.querySelectorAll('.remove-item-button').forEach((removeButton) => {
             removeButton.removeEventListener('click', handleRemoveEvent);
             removeButton.addEventListener('click', handleRemoveEvent);
           });
         }
+
+        // Remove product handler
         function handleRemoveEvent(event) {
           const productCard = event.target.closest('.product-card');
           const productId = productCard.getAttribute('data-id');
@@ -352,11 +377,8 @@
           // Remove from arrays
           window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
           window.selectedProductIds = (window.selectedProductIds || []).filter((id) => id !== productId);
-          // Remove from arrays
-          window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
-          window.selectedProductIds = (window.selectedProductIds || []).filter((id) => id !== productId);
 
-          // Safe sessionStorage update
+          // Update sessionStorage
           try {
             sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
             sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
@@ -366,22 +388,17 @@
 
           productCard.remove();
 
-          // Re-enable the Add button
-          const addButton = document.querySelector(`.product-card[data-id="${productId}"] .add-item-button`);
-          if (addButton) {
-            addButton.textContent = '+ Add';
-            addButton.style.opacity = '1';
-            addButton.disabled = false;
-          }
+          // Re-enable the Add button on the product list
+          updateAddButtonState(productId);
 
-          // ✅ Send GA Event for remove
+          // GA Event for removal
           if (removedProduct) {
             const customerData = window.customer || {};
             const productData = {
               name: removedProduct.title,
-              handle: removedProduct.handle || '', // handle isn't stored in selectedProducts, so update if needed
+              handle: removedProduct.handle || '',
               price: removedProduct.price?.replace(/[₹,]/g, '') || null,
-              compare_at_price: null, // Not available in selectedProducts unless you store it earlier
+              compare_at_price: null,
             };
 
             const eventPayload = {
@@ -427,6 +444,7 @@
             }
           }
         }
+
         // 🔁 MutationObserver to control display toggling
         const observer = new MutationObserver(() => {
           const container = document.querySelector('.selected-products-container');

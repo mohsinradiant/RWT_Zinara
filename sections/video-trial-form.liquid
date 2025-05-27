@@ -1117,6 +1117,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
     margin-bottom: 20px;
   }
   .content-1-tah .section-heading-container .section-heading {
@@ -1286,6 +1287,7 @@
     line-height: 2.1rem;
     cursor: pointer;
     text-decoration: none;
+    text-wrap: nowrap;
   }
   .selected-products-container .product-card h2,
   .selected-products-container .product-card p,
@@ -1629,6 +1631,9 @@
     font-weight: 400;
   }
   @media (max-width: 756px) {
+      .try-at-home-grid-cta {
+    text-wrap: unset;
+  }
     .selected-products-container .product-card .product-card-content {
       width: 54%;
     }

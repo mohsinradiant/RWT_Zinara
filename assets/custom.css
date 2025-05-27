@@ -1135,7 +1135,6 @@ header .menu-drawer {
     display: flex;
     justify-content: start;
     align-items: start;
-    overflow-x: auto;
     gap: 15px;
 }
 .assisstance_buttons_image_container{
@@ -1145,6 +1144,10 @@ header .menu-drawer {
     gap: 10px;
     justify-content: center;
     align-items: center;
+}
+.assisstance_buttons_image_container img{
+    width: 100%;
+    height: auto;
 }
 @media(max-width:756px) {
     .filter-rts-button input {

@@ -1122,10 +1122,23 @@ header .menu-drawer {
     align-items: start;
     flex-direction: column;
 }
-.assistance_button_heading{
+
+.assistance_button_heading {
     margin-top: 0;
     margin-bottom: 20px;
+    font-family: 'Quicksand';
+    font-weight: 500;
+    font-size: 1.8rem;
 }
+
+.assisstance_buttons_images_container {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    overflow-x: auto;
+    gap: 15px;
+}
+
 @media(max-width:756px) {
     .filter-rts-button input {
         margin: -3px 0 -3px 10px;

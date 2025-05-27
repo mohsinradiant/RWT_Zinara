@@ -394,6 +394,7 @@ header .header__search {
     height: 100%;
     width: 100%;
 }
+
 #FacetsWrapperDesktop details:first-of-type {
     border-top: none !important;
 }
@@ -1113,6 +1114,50 @@ header .menu-drawer {
     background-color: #fff;
     /* Checkbox background */
     cursor: not-allowed;
+}
+
+.assistance_buttons_container {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+}
+
+.assistance_button_heading {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-family: 'Quicksand';
+    font-weight: 500;
+    font-size: 2.2rem;
+}
+
+.assisstance_buttons_images_container {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 35px;
+}
+
+.assisstance_buttons_image_container {
+    width: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.assisstance_buttons_image_container img {
+    width: 100%;
+    height: auto;
+}
+
+.assisstance_buttons_image_container p {
+    margin: 0;
+    font-weight: 400;
+    color: #000;
+    font-size: 1.6rem;
+    text-align: center;
 }
 
 @media(max-width:756px) {

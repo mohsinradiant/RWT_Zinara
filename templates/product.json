@@ -67,6 +67,10 @@
             "show_gift_card_recipient": true
           }
         },
+        "assistance_buttons_NnwHCV": {
+          "type": "assistance_buttons",
+          "settings": {}
+        },
         "se_wishlist_engine_product_page_fTBTnd": {
           "type": "shopify://apps/se-wishlist-engine/blocks/Product-Page/8f7c0857-8e71-463d-a168-8e133094753b",
           "settings": {}
@@ -83,6 +87,7 @@
         "inventory_iiPf7W",
         "description",
         "buy_buttons",
+        "assistance_buttons_NnwHCV",
         "se_wishlist_engine_product_page_fTBTnd"
       ],
       "settings": {

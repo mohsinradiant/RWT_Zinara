@@ -124,9 +124,9 @@
           selectedProductsContainer.style.display = 'none';
           content1TahSubHeading.style.display = 'none';
         }
-        // Load selected products from sessionStorage if available
-        const savedSelectedProducts = sessionStorage.getItem('selectedProducts');
-        const savedSelectedProductIds = sessionStorage.getItem('selectedProductIds');
+        // Load selected products from localStorage if available
+        const savedSelectedProducts = localStorage.getItem('selectedProducts');
+        const savedSelectedProductIds = localStorage.getItem('selectedProductIds');
         if (savedSelectedProducts && savedSelectedProductIds) {
           window.selectedProducts = JSON.parse(savedSelectedProducts);
           window.selectedProductIds = JSON.parse(savedSelectedProductIds);
@@ -198,8 +198,7 @@
           </div>
           `;
 
-                sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
-                sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
+                updateLocalStorage();
               }
 
               selectedProductsContainer.style.display = 'flex';
@@ -218,6 +217,10 @@
         } else {
           // document.getElementById('loadingMessage').textContent = 'No product handle provided in the URL.';
           hideSelectedProductSection();
+        }
+        function updateLocalStorage() {
+          localStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+          localStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
         }
         function hideSelectedProductSection() {
           const selectedContainer = document.querySelector('.selected-products-container');
@@ -295,10 +298,10 @@
                   window.selectedProductIds.push(productId);
 
                   try {
-                    sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
-                    sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
+                    localStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+                    localStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
                   } catch (e) {
-                    console.error('Error saving to sessionStorage:', e);
+                    console.error('Error saving to localStorage:', e);
                   }
 
                   selectedProductsContainer.innerHTML += `
@@ -396,12 +399,12 @@
           window.selectedProducts = window.selectedProducts.filter((product) => product.id !== productId);
           window.selectedProductIds = (window.selectedProductIds || []).filter((id) => id !== productId);
 
-          // Update sessionStorage
+          // Update localStorage
           try {
-            sessionStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
-            sessionStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
+            localStorage.setItem('selectedProducts', JSON.stringify(window.selectedProducts));
+            localStorage.setItem('selectedProductIds', JSON.stringify(window.selectedProductIds));
           } catch (e) {
-            console.error('Error updating sessionStorage on remove:', e);
+            console.error('Error updating localStorage on remove:', e);
           }
 
           productCard.remove();
@@ -483,6 +486,34 @@
           }
         });
         observer.observe(selectedProductsContainer, { childList: true });
+      });
+    </script>
+    {% comment %} show selected products section conditionally {% endcomment %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Select the productCardContainer
+        const productCardContainer = document.getElementById('productCardContainer');
+
+        // Check if productCardContainer is not empty and contains product-card elements
+        if (productCardContainer && productCardContainer.querySelectorAll('.product-card').length > 0) {
+          // Select the elements to update styles
+          const sectionHeading = document.querySelector('.section-heading');
+          const subHeading = document.querySelector('.content-1-tah-sub_heading');
+          const selectedProductsContainer = document.querySelector('.selected-products-container');
+
+          // Remove display: none styles if elements exist
+          if (sectionHeading) {
+            sectionHeading.style.display = 'block';
+          }
+
+          if (subHeading) {
+            subHeading.style.display = 'inline'; // Assuming it's inline text
+          }
+
+          if (selectedProductsContainer) {
+            selectedProductsContainer.style.display = 'block';
+          }
+        }
       });
     </script>
   </div>
@@ -1338,6 +1369,7 @@
   .content-1-tah-sub_heading {
     background-color: #610c270d;
     color: #000;
+    display: block !important;
     width: fit-content;
     padding: 4px 10px;
     font-size: 1.4rem;

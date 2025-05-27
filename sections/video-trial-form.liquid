@@ -1686,11 +1686,19 @@
       margin-bottom: 0;
     }
     .collection-products-container .product-card {
-      min-width: 49%;
+      min-width: 49vw;
+      width: 49vw;
+      max-width: 49vw;
     }
     #collectionProducts {
       gap: 1%;
       margin-top: 20px;
+      overflow-x: auto;
+      width: 100%;
+      flex-wrap: nowrap;
+    }
+    .collection-products-container {
+      overflow: hidden;
     }
     .collection-products-container .product-card h2 {
       font-size: 1.4rem;

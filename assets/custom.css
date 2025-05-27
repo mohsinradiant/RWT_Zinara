@@ -1154,7 +1154,8 @@ header .menu-drawer {
 
 .assisstance_buttons_image_container p {
     margin: 0;
-    font-weight: 400;
+    font-weight: 500;
+    color: #000;
     font-size: 1.6rem;
     text-align: center;
 }

@@ -488,6 +488,34 @@
         observer.observe(selectedProductsContainer, { childList: true });
       });
     </script>
+    {% comment %} show selected products section conditionally {% endcomment %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Select the productCardContainer
+        const productCardContainer = document.getElementById('productCardContainer');
+
+        // Check if productCardContainer is not empty and contains product-card elements
+        if (productCardContainer && productCardContainer.querySelectorAll('.product-card').length > 0) {
+          // Select the elements to update styles
+          const sectionHeading = document.querySelector('.section-heading');
+          const subHeading = document.querySelector('.content-1-tah-sub_heading');
+          const selectedProductsContainer = document.querySelector('.selected-products-container');
+
+          // Remove display: none styles if elements exist
+          if (sectionHeading) {
+            sectionHeading.style.display = 'block';
+          }
+
+          if (subHeading) {
+            subHeading.style.display = 'inline'; // Assuming it's inline text
+          }
+
+          if (selectedProductsContainer) {
+            selectedProductsContainer.style.display = 'block';
+          }
+        }
+      });
+    </script>
   </div>
 
   <div class="content-2-tah">

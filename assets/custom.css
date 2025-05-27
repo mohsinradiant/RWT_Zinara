@@ -1135,7 +1135,7 @@ header .menu-drawer {
     display: flex;
     justify-content: start;
     align-items: start;
-    gap: 15px;
+    gap: 35px;
 }
 
 .assisstance_buttons_image_container {

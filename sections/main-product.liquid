@@ -699,6 +699,20 @@
                   section_id: section.id,
                   show_pickup_availability: true
                 -%}
+              {%- when 'assistance_buttons' -%}
+                <div class="assistance_buttons_container">
+                  <h1 class="assistance_button_heading">Any Assistance?</h1>
+                  <div class="assisstance_buttons_images_container">
+                    <a class="assisstance_buttons_image_container">
+                      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/call_4517529.png?v=1748344487">
+                      <p>Call</p>
+                    </a>
+                    <a class="assisstance_buttons_image_container">
+                      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/whatssapp-big-logo_81279.png?v=1748344489">
+                      <p>WhatsApp</p>
+                    </a>
+                  </div>
+                </div>
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">
@@ -3767,6 +3781,10 @@
           "info": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.info"
         }
       ]
+    },
+    {
+      "type": "assistance_buttons",
+      "name": "assistance_buttons"
     },
     {
       "type": "description",

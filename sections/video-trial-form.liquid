@@ -14,7 +14,7 @@
 
     <div class="collection-products-container">
       <div class="section-heading-container">
-        <h2 class="section-heading">Add More to try more!</h2>
+        <h2 class="section-heading">Try more!</h2>
         <a class="try-at-home-grid-cta" href="{{section.settings.cta_link}}">View All Products</a>
       </div>
       <div id="collectionProducts">
@@ -1252,19 +1252,14 @@
     row-gap: 20px;
   }
   .try-at-home-grid-cta {
-    background: #712242;
-    color: #fff;
-    font-size: 1.6rem;
-    width: fit-content;
-    border: none;
+    margin: 0;
+    color: #712242;
+    font-weight: 600;
+    text-decoration: underline;
     cursor: pointer !important;
-    padding: 10px 30px;
-    font-family: 'Quicksand';
-    font-weight: 400;
-    line-height: 2.1rem;
-    cursor: pointer;
-    text-decoration: none;
-    text-wrap: nowrap;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
   }
   .selected-products-container .product-card h2,
   .selected-products-container .product-card p,
@@ -1609,9 +1604,6 @@
     font-weight: 400;
   }
   @media (max-width: 756px) {
-    .try-at-home-grid-cta {
-      text-wrap: unset;
-    }
     .selected-products-container .product-card .product-card-content {
       width: 54%;
     }

@@ -715,35 +715,30 @@
       return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
     }
 
-    // Parse unavailable slots into a structured format (e.g., { 'YYYY-MM-DD': ['HH:mm', ...] })
+    // Parse unavailable slots into a structured format
     const unavailableSlotsMap = unavailableSlots.reduce((acc, slot) => {
       const [date, time] = slot.trim().split('T');
-      const adjustedTime = addTimeOffset(time.split(':').slice(0, 2).join(':'), 5, 30); // Add offset
+      const adjustedTime = addTimeOffset(time.split(':').slice(0, 2).join(':'), 5, 30);
       if (!acc[date]) acc[date] = [];
-      acc[date].push(adjustedTime); // Push the adjusted time
+      acc[date].push(adjustedTime);
       return acc;
     }, {});
 
-    // Debugging: Log unavailable slots map
     console.log('Adjusted Unavailable Slots Map:', unavailableSlotsMap);
 
     // Generate Dates
     const today = new Date();
     for (let i = 0; i < 7; i++) {
-      const futureDate = new Date(today); // Clone today's date
-      futureDate.setDate(today.getDate() + i); // Increment by i days
-
-      // Add 5 hours and 30 minutes
+      const futureDate = new Date(today);
+      futureDate.setDate(today.getDate() + i);
       futureDate.setHours(futureDate.getHours() + 5);
       futureDate.setMinutes(futureDate.getMinutes() + 30);
 
-      // Format the `data-date` manually using local time
       const year = futureDate.getFullYear();
-      const month = String(futureDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+      const month = String(futureDate.getMonth() + 1).padStart(2, '0');
       const day = String(futureDate.getDate()).padStart(2, '0');
       const formattedDate = `${year}-${month}-${day}`;
 
-      // Extract day, month, and weekday for display
       const displayDay = futureDate.getDate();
       const displayMonth = futureDate.toLocaleString('en-US', { month: 'short' });
       const displayWeekday = futureDate.toLocaleString('en-US', { weekday: 'long' });
@@ -757,41 +752,32 @@
       dateContainer.innerHTML += buttonHTML;
     }
 
-    // Function to get the current hour and the next hour
-    function getBlockedHours() {
-      const now = new Date();
-      return [now.getHours(), now.getHours() + 1];
-    }
-
     // Function to update timeslots based on selected date
     function updateTimeslots(selectedDate) {
       console.log('Selected Date:', selectedDate);
       console.log('Unavailable Slots for Selected Date:', unavailableSlotsMap[selectedDate] || []);
 
       timeslotContainer.innerHTML = ''; // Clear existing timeslots
+      let startTime = 10;
+      let startMinutes = 0;
 
-      let startTime = 11; // Start at 11:00 AM
-      for (let i = 0; i < 12; i++) {
-        const endMinutes = 0;
-        const endTime = startTime + 1;
-        const displayStart = `${String(startTime).padStart(2, '0')}:00`;
-        const displayEnd = `${String(endTime % 24).padStart(2, '0')}:00`;
+      for (let i = 0; i < 18; i++) {
+        const endMinutes = startMinutes + 30;
+        const endTime = startTime + Math.floor(endMinutes / 60);
+        const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
+        const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
         const timeslot = `${displayStart} - ${displayEnd}`;
 
-        const blockedHours = getBlockedHours();
-        const isBlocked = blockedHours.includes(startTime);
-
-        // Check if timeslot is unavailable for the selected date
         const isUnavailable =
           unavailableSlotsMap[selectedDate] && unavailableSlotsMap[selectedDate].includes(displayStart);
 
-        if (!isBlocked && !isUnavailable) {
-          // Render only if the slot is available and not blocked
+        if (!isUnavailable) {
           const buttonHTML = `<button class="timeslot-btn">${timeslot}</button>`;
           timeslotContainer.innerHTML += buttonHTML;
         }
 
-        startTime++; // Increment by 1 hour
+        startTime += Math.floor((startMinutes + 30) / 60);
+        startMinutes = (startMinutes + 30) % 60;
       }
     }
 
@@ -804,6 +790,7 @@
       if (event.target.classList.contains('date-btn')) {
         dateContainer.querySelectorAll('.date-btn').forEach(button => button.classList.remove('selected'));
         event.target.classList.add('selected');
+
         const selectedDate = event.target.dataset.date;
         updateTimeslots(selectedDate);
       }
@@ -827,16 +814,15 @@
           customer: {
             id: customerData.id || null,
             email: customerData.email || null,
-            name: customerData.default_address?.name ||
-              `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
+            name: customerData.default_address?.name || `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
             phone: customerData.phone || null,
             address: customerData.default_address
               ? [
                   customerData.default_address.address1,
                   customerData.default_address.city,
-                  customerData.default_address.province,
-                  customerData.default_address.country,
-                  customerData.default_address.zip,
+                  customerData.province,
+                  customerData.country,
+                  customerData.zip,
                 ]
                   .filter(Boolean)
                   .join(', ')

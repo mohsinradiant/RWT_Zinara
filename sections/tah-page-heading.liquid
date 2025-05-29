@@ -11,8 +11,11 @@
     <a class="changepincode"> <span id="pincode-display"></span> Change Pincode </a>
 
     <script>
-      // Display the global variable value directly
-      document.getElementById('pincode-display').textContent = `${window.globalTryAtHomePincode}`;
+      // Wait for the DOM to load
+      document.addEventListener('DOMContentLoaded', () => {
+        // Safely access and display the global variable
+        document.getElementById('pincode-display').textContent = `${window.globalTryAtHomePincode || 'Not Set'}`;
+      });
     </script>
 
     <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Filter_Icon_Container.png?v=1745235101">

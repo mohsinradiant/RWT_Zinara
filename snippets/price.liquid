@@ -132,7 +132,9 @@
         </span>
       </small>
     </div>
-    <span class="prices-container-subheading">(Inclusive of all taxes & shipping)</span>
+    {% if template == 'product' %}
+      <span class="prices-container-subheading">(Exclusive of taxes)</span>
+    {% endif %}
     {%- if show_badges -%}
       <span class="badge price__badge-sale color-{{ settings.sale_badge_color_scheme }}">
         {{ 'products.product.on_sale' | t }}

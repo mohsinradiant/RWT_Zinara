@@ -318,8 +318,15 @@
     align-items: center;
     z-index: 1000;
   }
-  .try-at-home-grid-cta {
+  .try-at-home-grid-cta-mobile,
+  .try-at-home-grid-cta-desktop {
     cursor: pointer !important;
+  }
+  .try-at-home-grid-cta-mobile {
+    display: none !important;
+  }
+  .try-at-home-grid-cta-desktop {
+    display: flex !important;
   }
   /* Popup container */
   .try-at-home-pincode-popup {
@@ -420,6 +427,14 @@
 
   .try-at-home-pincode-result.unavailable {
     color: orange;
+  }
+  @media (max-width: 756px) {
+    .try-at-home-grid-cta-mobile {
+      display: flex !important;
+    }
+    .try-at-home-grid-cta-desktop {
+      display: none !important;
+    }
   }
 </style>
 {% comment %} Change Pincode End {% endcomment %}

@@ -524,19 +524,23 @@
     <div class="tryAtHomePopup-input_container_parent">
       <div class="tryAtHomePopup-input_container">
         <h2>Add Address</h2>
-        <div style="width:100%" class="input-group">
-          <input type="text" id="house" class="input-field" placeholder="House/Apartment">
-        </div>
-        <div style="width:100%" class="input-group">
-          <input type="text" id="locality" class="input-field" placeholder="Locality/Area/Landmark">
-        </div>
+        {% comment %}
+          <div style="width:100%" class="input-group">
+            <input type="text" id="house" class="input-field" placeholder="House/Apartment">
+          </div>
+          <div style="width:100%" class="input-group">
+            <input type="text" id="locality" class="input-field" placeholder="Locality/Area/Landmark">
+          </div>
+        {% endcomment %}
         <div style="width:100%" class="input-group row">
           <input style="width: calc(50% - 5px);" type="text" id="city" class="input-field" placeholder="City">
           <input style="width: calc(50% - 5px);" type="text" id="state" class="input-field" placeholder="State">
         </div>
-        <div style="width:100%" class="input-group">
-          <input type="text" id="pincode" class="input-field" placeholder="Pincode">
-        </div>
+        {% comment %}
+          <div style="width:100%" class="input-group">
+            <input type="text" id="pincode" class="input-field" placeholder="Pincode">
+          </div>
+        {% endcomment %}
 
         {% unless customer.phone %}
           <h2>Phone</h2>

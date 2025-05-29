@@ -940,6 +940,8 @@
         email,
         phone,
         // address,
+        city,
+        state,
         // pincode,
         product_ids: productVariant,
         slot_status: 'Slot Booked',
@@ -998,7 +1000,7 @@
                 ${productCards}
               </div>
               <div class="address-details">
-                <p><strong>Address:</strong> ${tryAtHomeData.address}</p>
+                <p><strong>Address:</strong> ${tryAtHomeData.city}</p>
                 <p><strong>Booked Time Slot:</strong> ${formattedDate} | ${formattedTime}</p>
               </div>
               <p class="trial_booked_bottom_text">${bookingSuccessContent}</p>

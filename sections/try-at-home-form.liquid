@@ -1260,19 +1260,14 @@
     row-gap: 20px;
   }
   .try-at-home-grid-cta {
-    background: #712242;
-    color: #fff;
-    font-size: 1.6rem;
+    margin: 0;
+    color: #712242;
+    font-weight: 600;
+    text-decoration: underline;
     cursor: pointer !important;
-    width: fit-content;
-    border: none;
-    padding: 10px 30px;
-    font-family: 'Quicksand';
-    font-weight: 400;
-    cursor: pointer;
-    text-decoration: none;
-    line-height: 2.1rem;
-    text-wrap: nowrap;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
   }
   .selected-products-container .product-card h2,
   .selected-products-container .product-card p,
@@ -1616,9 +1611,6 @@
     font-weight: 400;
   }
   @media (max-width: 756px) {
-    .try-at-home-grid-cta {
-      text-wrap: unset;
-    }
     .selected-products-container .product-card .product-card-content {
       width: 54%;
     }

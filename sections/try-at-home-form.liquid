@@ -706,33 +706,19 @@
     const dateContainer = document.querySelector('.date-container');
     const timeslotContainer = document.querySelector('.timeslot-container');
 
-    // Function to add 5 hours and 30 minutes to a time string
-    function addTimeOffset(timeString, offsetHours, offsetMinutes) {
-      const [hours, minutes] = timeString.split(':').map(Number);
-      const date = new Date();
-      date.setHours(hours + offsetHours);
-      date.setMinutes(minutes + offsetMinutes);
-      return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-    }
-
     // Parse unavailable slots into a structured format
     const unavailableSlotsMap = unavailableSlots.reduce((acc, slot) => {
       const [date, time] = slot.trim().split('T');
-      const adjustedTime = addTimeOffset(time.split(':').slice(0, 2).join(':'), 5, 30);
       if (!acc[date]) acc[date] = [];
-      acc[date].push(adjustedTime);
+      acc[date].push(time);
       return acc;
     }, {});
-
-    console.log('Adjusted Unavailable Slots Map:', unavailableSlotsMap);
 
     // Generate Dates
     const today = new Date();
     for (let i = 0; i < 7; i++) {
       const futureDate = new Date(today);
       futureDate.setDate(today.getDate() + i);
-      futureDate.setHours(futureDate.getHours() + 5);
-      futureDate.setMinutes(futureDate.getMinutes() + 30);
 
       const year = futureDate.getFullYear();
       const month = String(futureDate.getMonth() + 1).padStart(2, '0');
@@ -754,18 +740,20 @@
 
     // Function to update timeslots based on selected date
     function updateTimeslots(selectedDate) {
-      console.log('Selected Date:', selectedDate);
-      console.log('Unavailable Slots for Selected Date:', unavailableSlotsMap[selectedDate] || []);
-
       timeslotContainer.innerHTML = ''; // Clear existing timeslots
-      let startTime = 10;
-      let startMinutes = 0;
 
-      for (let i = 0; i < 18; i++) {
-        const endMinutes = startMinutes + 30;
-        const endTime = startTime + Math.floor(endMinutes / 60);
-        const displayStart = `${String(startTime).padStart(2, '0')}:${String(startMinutes).padStart(2, '0')}`;
-        const displayEnd = `${String(endTime % 24).padStart(2, '0')}:${String(endMinutes % 60).padStart(2, '0')}`;
+      const currentTime = new Date();
+      const isToday = selectedDate === currentTime.toISOString().split('T')[0];
+
+      let startTime = isToday
+        ? Math.max(11, currentTime.getHours() + 2) // Start from 2 hours ahead for today
+        : 11; // Default start time is 11 AM
+      const endTime = 19; // End time is 7 PM
+
+      while (startTime < endTime) {
+        const endSlotTime = startTime + 1;
+        const displayStart = `${String(startTime).padStart(2, '0')}:00`;
+        const displayEnd = `${String(endSlotTime).padStart(2, '0')}:00`;
         const timeslot = `${displayStart} - ${displayEnd}`;
 
         const isUnavailable =
@@ -776,8 +764,7 @@
           timeslotContainer.innerHTML += buttonHTML;
         }
 
-        startTime += Math.floor((startMinutes + 30) / 60);
-        startMinutes = (startMinutes + 30) % 60;
+        startTime++;
       }
     }
 

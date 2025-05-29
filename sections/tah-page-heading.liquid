@@ -1,15 +1,16 @@
 <div class="page-width tah-content-header_helpline-container">
   <div>
-    <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Expand_Arrow_2.png?v=1745235024">
-    {% if page.handle == 'try-at-home' %}
-      <p>Try at Home</p>
-    {% elsif page.handle == 'video-trial' %}
-      <p>Video Trial</p>
-    {% endif %}
+    <div>
+      <img src="https://cdn.shopify.com/s/files/1/0661/8336/4792/files/Expand_Arrow_2.png?v=1745235024">
+      {% if page.handle == 'try-at-home' %}
+        <p>Try at Home</p>
+      {% elsif page.handle == 'video-trial' %}
+        <p>Video Trial</p>
+      {% endif %}
+    </div>
+    <a class="changepincode"> <span id="pincode-display"></span> Change Pincode </a>
   </div>
   <div>
-    <a class="changepincode"> <span id="pincode-display"></span> Change Pincode </a>
-
     <script>
       // Wait for the DOM to load
       document.addEventListener('DOMContentLoaded', () => {

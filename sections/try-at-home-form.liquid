@@ -177,7 +177,7 @@
               const isAlreadySelected = window.selectedProductIds.includes(productId);
 
               if (!isAlreadySelected) {
-                const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 25) + '...' : product.title;
+                const truncatedTitle = product.title.length > 15 ? product.title.slice(0, 20) + '...' : product.title;
                 const formattedProduct = {
                   id: productId,
                   image: `https:${product.featured_image}`,
@@ -265,7 +265,7 @@
             data.products.forEach((product) => {
               const featuredImage = product.images[0]?.src || '';
               const price = product.variants[0]?.price || 0;
-              const truncatedTitle = product.title.length > 20 ? product.title.slice(0, 25) + '...' : product.title;
+                const truncatedTitle = product.title.length > 15 ? product.title.slice(0, 20) + '...' : product.title;
               const productId = product.id.toString();
 
               const productCard = document.createElement('div');

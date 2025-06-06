@@ -560,7 +560,7 @@
         }
       </style>
       <script>
-        const savedPin = sessionStorage.getItem('user_tryathomepincode');
+        const savedPin = localStorage.getItem('user_tryathomepincode');
         if (/^[1-9][0-9]{5}$/.test(savedPin)) {
           window.globalTryAtHomePincode = savedPin;
         }
@@ -766,15 +766,16 @@
                 e.preventDefault();
 
                 // ✅ Check for global pincode
-                if (window.globalTryAtHomePincode && /^[1-9][0-9]{5}$/.test(window.globalTryAtHomePincode)) {
-                  zipcodeInput.value = window.globalTryAtHomePincode;
-                  sessionStorage.setItem('user_tryathomepincode', window.globalTryAtHomePincode);
-                  console.log(window.globalTryAtHomePincode);
-                  handleDirectRedirect(window.globalTryAtHomePincode);
-                } else {
-                  overlay.style.display = 'flex';
-                  lastClickedButton = 'try-at-home';
-                }
+if (window.globalTryAtHomePincode && /^[1-9][0-9]{5}$/.test(window.globalTryAtHomePincode)) {
+  zipcodeInput.value = window.globalTryAtHomePincode;
+  localStorage.setItem('user_tryathomepincode', window.globalTryAtHomePincode);
+  console.log(window.globalTryAtHomePincode);
+  handleDirectRedirect(window.globalTryAtHomePincode);
+} else {
+  overlay.style.display = 'flex';
+  lastClickedButton = 'try-at-home';
+}
+
               });
             });
 
@@ -823,7 +824,7 @@
               return;
             }
       
-            sessionStorage.setItem('user_tryathomepincode', zipcode);
+            localStorage.setItem('user_tryathomepincode', zipcode);
             console.log(window.globalTryAtHomePincode);
       
             handleDirectRedirect(zipcode); // Reuse same logic for consistency

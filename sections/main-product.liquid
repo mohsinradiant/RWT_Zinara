@@ -3205,13 +3205,14 @@
 
         // ✨ If valid global pincode exists, use it directly
         if (globalPin && pincodeRegex.test(globalPin)) {
-          zipcodeInput.value = globalPin; // For consistency
-          sessionStorage.setItem('user_tryathomepincode', globalPin);
-          handleDirectRedirect(globalPin);
-        } else {
-          overlay.style.display = 'flex'; // Show popup if no valid global pin
-          lastClickedButton = buttonId;
-        }
+  zipcodeInput.value = globalPin; // For consistency
+  localStorage.setItem('user_tryathomepincode', globalPin);
+  handleDirectRedirect(globalPin);
+} else {
+  overlay.style.display = 'flex'; // Show popup if no valid global pin
+  lastClickedButton = buttonId;
+}
+
       });
 
       closeButton.addEventListener('click', () => {
@@ -3237,7 +3238,7 @@
           return;
         }
 
-        sessionStorage.setItem('user_tryathomepincode', zipcode);
+       localStorage.setItem('user_tryathomepincode', zipcode);
         handleDirectRedirect(zipcode); // Reuse same logic
       });
     }

@@ -40,7 +40,7 @@
           }, ${address.country || ''}`.trim(),
         };
 
-        // Send event to GA4
+        // ✅ Send event to GA4
         gtag('event', 'occasion_click', {
           occasion_name: occasionName,
           occasion_url: occasionUrl,
@@ -48,6 +48,17 @@
           page_location: currentUrl,
           ...customerInfo,
         });
+
+        // ✅ Send event to Meta Pixel
+        if (typeof fbq === 'function') {
+          fbq('trackCustom', 'occasion_click', {
+            occasion_name: occasionName,
+            occasion_url: occasionUrl,
+            page_title: document.title,
+            page_location: currentUrl,
+            ...customerInfo,
+          });
+        }
 
         console.log('occasion_click sent:', {
           occasion_name: occasionName,

@@ -3350,6 +3350,11 @@
 
         gtag('event', 'try_at_home', eventData);
 
+        // ✅ Meta Pixel: fire same event
+        if (typeof fbq === 'function') {
+          fbq('trackCustom', 'try_at_home', eventData);
+        }
+
         console.log('try_at_home event fired:', eventData);
       });
     }

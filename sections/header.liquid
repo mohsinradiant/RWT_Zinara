@@ -611,6 +611,19 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
             customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${address.zip || ''}, ${address.country || ''}`.trim()
           });
 
+          if (typeof fbq === 'function') {
+            fbq('trackCustom', 'try_at_home', {
+              source: 'Header Menu',
+              source_url: sourceUrl,
+              redirect_url: redirectUrl,
+              customer_id: customer.id || null,
+              customer_email: customer.email || null,
+              customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+              customer_phone: customer.phone || null,
+              customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${address.zip || ''}, ${address.country || ''}`.trim()
+            });
+          }
+
           console.log('try_at_home sent (Header Menu):', {
             source: 'Header Menu',
             source_url: sourceUrl,
@@ -645,6 +658,19 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
             customer_phone: customer.phone || null,
             customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${address.zip || ''}, ${address.country || ''}`.trim()
           });
+
+          if (typeof fbq === 'function') {
+            fbq('trackCustom', 'shop_all', {
+              source: 'Header Menu',  // Set source as 'Header Menu'
+              source_url: sourceUrl,
+              redirect_url: redirectUrl,
+              customer_id: customer.id || null,
+              customer_email: customer.email || null,
+              customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+              customer_phone: customer.phone || null,
+              customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${address.zip || ''}, ${address.country || ''}`.trim()
+            });
+          }
 
           console.log('shop_all event sent (Header Menu):', {
             source: 'Header Menu',
@@ -686,6 +712,19 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
             customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${address.zip || ''}, ${address.country || ''}`.trim()
           });
 
+          if (typeof fbq === 'function') {
+            fbq('trackCustom', 'about_us', {
+              source: 'Header Menu',  // Set source as 'Header Menu'
+              source_url: sourceUrl,
+              redirect_url: redirectUrl,
+              customer_id: customer.id || null,
+              customer_email: customer.email || null,
+              customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+              customer_phone: customer.phone || null,
+              customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${address.zip || ''}, ${address.country || ''}`.trim()
+            });
+          }
+
           console.log('about_us event sent (Header Menu):', {
             source: 'Header Menu',
             source_url: sourceUrl,
@@ -706,6 +745,7 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
     });
   });
 </script>
+
 
 
 

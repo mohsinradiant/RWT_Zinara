@@ -63,7 +63,7 @@
           }, ${address.country || ''}`.trim(),
         };
 
-        // Send event to GA4
+        // ✅ Send event to GA4
         gtag('event', 'category_click', {
           category_name: categoryName,
           category_url: categoryUrl,
@@ -71,6 +71,17 @@
           page_location: currentUrl,
           ...customerInfo,
         });
+
+        // ✅ Send event to Meta Pixel
+        if (typeof fbq === 'function') {
+          fbq('trackCustom', 'category_click', {
+            category_name: categoryName,
+            category_url: categoryUrl,
+            page_title: document.title,
+            page_location: currentUrl,
+            ...customerInfo,
+          });
+        }
 
         console.log('category_click sent:', {
           category_name: categoryName,

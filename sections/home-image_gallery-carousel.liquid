@@ -233,7 +233,7 @@
           }, ${address.country || ''}`.trim(),
         };
 
-        // Fire GA4 event: home_carousel_banner
+        // ✅ GA4 event: home_carousel_banner
         gtag('event', 'home_carousel_banner', {
           redirect_url: redirectUrl,
           image_url: imageUrl,
@@ -242,13 +242,24 @@
           ...customerInfo,
         });
 
+        // ✅ Meta event: home_carousel_banner
+        if (typeof fbq === 'function') {
+          fbq('trackCustom', 'home_carousel_banner', {
+            redirect_url: redirectUrl,
+            image_url: imageUrl,
+            page_title: document.title,
+            page_location: sourceUrl,
+            ...customerInfo,
+          });
+        }
+
         console.log('home_carousel_banner sent:', {
           redirect_url: redirectUrl,
           image_url: imageUrl,
           ...customerInfo,
         });
 
-        // If it's the Home Trial banner, fire extra event
+        // ✅ Extra GA4 event: try_at_home
         if (redirectUrl.includes('/collections/home-trial')) {
           gtag('event', 'try_at_home', {
             redirect_url: redirectUrl,
@@ -256,6 +267,16 @@
             source: 'Home Images Carousel',
             ...customerInfo,
           });
+
+          // ✅ Meta event: try_at_home
+          if (typeof fbq === 'function') {
+            fbq('trackCustom', 'try_at_home', {
+              redirect_url: redirectUrl,
+              source_url: sourceUrl,
+              source: 'Home Images Carousel',
+              ...customerInfo,
+            });
+          }
 
           console.log('try_at_home sent (carousel):', {
             redirect_url: redirectUrl,

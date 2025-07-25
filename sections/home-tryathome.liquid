@@ -58,6 +58,11 @@
 
           gtag('event', eventName, eventData);
 
+          // ✅ Meta Pixel: send same custom event
+          if (typeof fbq === 'function') {
+            fbq('trackCustom', eventName, eventData);
+          }
+
           console.log(`${eventName} event sent with customer data:`, eventData);
 
           setTimeout(() => {

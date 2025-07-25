@@ -380,7 +380,25 @@
       gtag('js', new Date());
       gtag('config', 'G-9HTXCELBNX');
     </script>
-  </head>
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1058880252490692');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1058880252490692&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+</head>
+</head>
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
@@ -898,47 +916,50 @@ if (window.globalTryAtHomePincode && /^[1-9][0-9]{5}$/.test(window.globalTryAtHo
           }
         };
       </script>
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          const link = document.getElementById('HeaderDrawer-try-at-home');
+     <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const link = document.getElementById('HeaderDrawer-try-at-home');
 
-          if (link) {
-            link.addEventListener('click', function () {
-              const linkText = link.innerText.trim().toLowerCase();
+    if (link) {
+      link.addEventListener('click', function () {
+        const linkText = link.innerText.trim().toLowerCase();
 
-              if (linkText.includes('try at home')) {
-                const sourceUrl = window.location.href;
+        if (linkText.includes('try at home')) {
+          const sourceUrl = window.location.href;
 
-                // Full customer info if available
-                const customer = window.customer || {};
-                const address = customer.default_address || {};
+          // Full customer info if available
+          const customer = window.customer || {};
+          const address = customer.default_address || {};
 
-                gtag('event', 'try_at_home', {
-                  source: 'Burger Menu',
-                  source_url: sourceUrl,
-                  customer_id: customer.id || null,
-                  customer_email: customer.email || null,
-                  customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
-                  customer_phone: customer.phone || null,
-                  customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${
-                    address.zip || ''
-                  }, ${address.country || ''}`.trim(),
-                });
+          const customerInfo = {
+            source: 'Burger Menu',
+            source_url: sourceUrl,
+            customer_id: customer.id || null,
+            customer_email: customer.email || null,
+            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+            customer_phone: customer.phone || null,
+            customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${
+              address.zip || ''
+            }, ${address.country || ''}`.trim(),
+          };
 
-                console.log('try_at_home sent (Burger Menu):', {
-                  source: 'Burger Menu',
-                  source_url: sourceUrl,
-                  customer_id: customer.id,
-                  customer_email: customer.email,
-                  customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
-                  customer_phone: customer.phone,
-                  customer_address: address,
-                });
-              }
-            });
+          // ✅ GA4 event
+          gtag('event', 'try_at_home', customerInfo);
+
+          // ✅ Meta Pixel event
+          if (typeof fbq === 'function') {
+            fbq('trackCustom', 'try_at_home', customerInfo);
           }
-        });
-      </script>
+
+          console.log('try_at_home sent (Burger Menu):', {
+            ...customerInfo
+          });
+        }
+      });
+    }
+  });
+</script>
+
       <script>
         document.addEventListener('DOMContentLoaded', function () {
           const link = document.getElementById('HeaderDrawer-about-us');
@@ -1207,8 +1228,8 @@ if (window.globalTryAtHomePincode && /^[1-9][0-9]{5}$/.test(window.globalTryAtHo
       {% endif %}
     {% endcomment %}
     {% render 'kwikpass' %}
-    {% comment %} Google Analytics homepage_view {% endcomment %}
-    <script>
+{% comment %} Google Analytics homepage_view + Meta Pixel {% endcomment %}
+<script>
   document.addEventListener('DOMContentLoaded', function () {
     const pageTitle = document.title;
     const pageUrl = window.location.href;
@@ -1257,6 +1278,20 @@ if (window.globalTryAtHomePincode && /^[1-9][0-9]{5}$/.test(window.globalTryAtHo
       customer_address: `${customerData.address.address1 || ''}, ${customerData.address.city || ''}, ${customerData.address.province || ''}, ${customerData.address.zip || ''}, ${customerData.address.country || ''}`.trim()
     });
 
+    // ✅ Meta Pixel: Send same event to Meta
+    if (typeof fbq === 'function') {
+      fbq('trackCustom', isHomePage ? 'homepage_view' : 'page_view_custom', {
+        page_title: pageTitle,
+        page_location: pageUrl,
+        customer_id: customerData.id,
+        customer_email: customerData.email,
+        customer_first_name: customerData.first_name,
+        customer_last_name: customerData.last_name,
+        customer_phone: customerData.phone,
+        customer_address: `${customerData.address.address1 || ''}, ${customerData.address.city || ''}, ${customerData.address.province || ''}, ${customerData.address.zip || ''}, ${customerData.address.country || ''}`.trim()
+      });
+    }
+
     console.log('Page view event sent:', {
       page_title: pageTitle,
       page_location: pageUrl,
@@ -1268,7 +1303,8 @@ if (window.globalTryAtHomePincode && /^[1-9][0-9]{5}$/.test(window.globalTryAtHo
       customer_address: customerData.address
     });
   });
-    </script>
+</script>
+
     {% comment %} Whatsapp Floater {% endcomment %}
     <script
       type="text/javascript"

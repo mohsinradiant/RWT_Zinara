@@ -281,6 +281,11 @@
 
                         gtag('event', 'price_breakdown', eventData);
                         console.log('price_breakdown event sent with:', eventData);
+
+                        // ✅ Meta Pixel tracking
+                        if (typeof fbq === 'function') {
+                          fbq('trackCustom', 'price_breakdown', eventData);
+                        }
                       }, 100);
                     }
 
@@ -2544,6 +2549,11 @@
 
                       gtag('event', 'check_availability_ship', eventData);
                       console.log('check_availability_ship event sent with:', eventData);
+
+                      // ✅ Meta Pixel tracking
+                      if (typeof fbq === 'function') {
+                        fbq('trackCustom', 'check_availability_ship', eventData);
+                      }
                     }
 
                     checkerButton?.addEventListener('click', () => {
@@ -3536,11 +3546,20 @@
           } else {
             console.warn('⚠️ gtag function not found, skipping analytics event');
           }
+
+          // ✅ Meta Pixel tracking
+          if (typeof fbq === 'function') {
+            fbq('trackCustom', 'add_to_cart', eventData);
+            console.log('add_to_cart Meta Pixel event sent');
+          } else {
+            console.warn('⚠️ fbq function not found, skipping Meta event');
+          }
         });
       });
     });
   })();
 </script>
+
 <script>
   (function () {
     document.addEventListener('DOMContentLoaded', function () {
@@ -3597,11 +3616,19 @@
 
         console.log('check_availability_tryathome event data:', eventData);
 
-        // Push event via gtag if available
+        // ✅ gtag event
         if (typeof gtag === 'function') {
           gtag('event', 'check_availability_tryathome', eventData);
         } else {
           console.warn('gtag not found, event not sent');
+        }
+
+        // ✅ Meta Pixel event
+        if (typeof fbq === 'function') {
+          fbq('trackCustom', 'check_availability_tryathome', eventData);
+          console.log('check_availability_tryathome Meta Pixel event sent');
+        } else {
+          console.warn('fbq not found, Meta Pixel event not sent');
         }
 
         // If you want to proceed with the redirect or other default logic, do it here

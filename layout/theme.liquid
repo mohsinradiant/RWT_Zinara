@@ -381,7 +381,7 @@
       gtag('config', 'G-9HTXCELBNX');
     </script>
   <!-- Meta Pixel Code -->
-  {% comment %} <script>
+  <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -395,7 +395,7 @@
   </script>
   <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=1058880252490692&ev=PageView&noscript=1"
-  /></noscript> {% endcomment %}
+  /></noscript> 
   <!-- End Meta Pixel Code -->
 </head>
 </head>
@@ -960,47 +960,50 @@ if (window.globalTryAtHomePincode && /^[1-9][0-9]{5}$/.test(window.globalTryAtHo
   });
 </script>
 
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          const link = document.getElementById('HeaderDrawer-about-us');
+    <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const link = document.getElementById('HeaderDrawer-about-us');
 
-          if (link) {
-            link.addEventListener('click', function () {
-              const linkText = link.innerText.trim().toLowerCase();
+    if (link) {
+      link.addEventListener('click', function () {
+        const linkText = link.innerText.trim().toLowerCase();
 
-              if (linkText.includes('about us')) {
-                const sourceUrl = window.location.href;
+        if (linkText.includes('about us')) {
+          const sourceUrl = window.location.href;
 
-                // Full customer info if available
-                const customer = window.customer || {};
-                const address = customer.default_address || {};
+          // Full customer info if available
+          const customer = window.customer || {};
+          const address = customer.default_address || {};
 
-                gtag('event', 'about_us', {
-                  source: 'Burger Menu',
-                  source_url: sourceUrl,
-                  customer_id: customer.id || null,
-                  customer_email: customer.email || null,
-                  customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
-                  customer_phone: customer.phone || null,
-                  customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${
-                    address.zip || ''
-                  }, ${address.country || ''}`.trim(),
-                });
+          const eventData = {
+            source: 'Burger Menu',
+            source_url: sourceUrl,
+            customer_id: customer.id || null,
+            customer_email: customer.email || null,
+            customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
+            customer_phone: customer.phone || null,
+            customer_address: `${address.address1 || ''}, ${address.city || ''}, ${address.province || ''}, ${
+              address.zip || ''
+            }, ${address.country || ''}`.trim(),
+          };
 
-                console.log('about_us sent (Burger Menu):', {
-                  source: 'Burger Menu',
-                  source_url: sourceUrl,
-                  customer_id: customer.id,
-                  customer_email: customer.email,
-                  customer_name: `${customer.first_name || ''} ${customer.last_name || ''}`.trim(),
-                  customer_phone: customer.phone,
-                  customer_address: address,
-                });
-              }
-            });
+          gtag('event', 'about_us', eventData);
+
+          // ✅ Meta Pixel: send same custom event
+          if (typeof fbq === 'function') {
+            fbq('trackCustom', 'about_us', eventData);
           }
-        });
-      </script>
+
+          console.log('about_us sent (Burger Menu):', {
+            ...eventData,
+            customer_address: address, // keep full object here for debug if needed
+          });
+        }
+      });
+    }
+  });
+</script>
+
     </main>
 
     {% sections 'footer-group' %}

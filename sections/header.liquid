@@ -363,14 +363,39 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
 
     console.log('GA4 view_cart event data:', eventData);
 
+    // Google Analytics
     gtag('event', 'view_cart', eventData);
+
+    // ✅ Meta Pixel (added)
+    if (typeof fbq === 'function') {
+      fbq('trackCustom', 'view_cart', {
+        customer_id: eventData.customer_id,
+        customer_email: eventData.customer_email,
+        customer_name: eventData.customer_name,
+        customer_phone: eventData.customer_phone,
+        customer_address: eventData.customer_address,
+        customer_city: eventData.customer_city,
+        customer_state: eventData.customer_state,
+        customer_zip: eventData.customer_zip,
+        customer_country: eventData.customer_country,
+
+        item_count: eventData.item_count,
+        value: eventData.value,
+        currency: eventData.currency,
+        product_names: eventData.product_names
+      });
+
+      console.log('Meta Pixel view_cart event fired');
+    } else {
+      console.warn('fbq not defined – Meta event not fired');
+    }
 
   } catch (error) {
     console.error('Error sending view_cart event:', error);
   }
 });
-
 </script>
+
     </div>
   </header>
   <div class="c-menu3">
@@ -392,7 +417,7 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
       {% endif %}
     {% endfor %}
   </div>
-  <script>
+<script>
   document.addEventListener('DOMContentLoaded', function () {
     const menuLinks = document.querySelectorAll('.c-menu3 .dropdown a');
 
@@ -422,6 +447,11 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
         // Send event to GA
         gtag('event', 'view_product_list', eventData);
 
+        // ✅ Send event to Meta Pixel
+        if (typeof fbq === 'function') {
+          fbq('trackCustom', 'view_product_list', eventData);
+        }
+
         console.log('view_product_list event sent with:', eventData);
 
         // Optional: add delay for event to register before navigation
@@ -433,6 +463,7 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
     });
   });
 </script>
+
 
   {% if template == 'index' %}
   <div class="mobile-search">
@@ -831,7 +862,7 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
       wishlistIcon.addEventListener('click', function () {
         const currentUrl = window.location.href;
 
-        gtag('event', 'view_wishlist', {
+        const eventData = {
           event_category: 'Navigation',
           event_label: 'Wishlist Icon',
           source: 'Header Icon',
@@ -840,7 +871,14 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
           customer_id: {{ customer.id | json }},
           customer_first_name: {{ customer.first_name | json }},
           customer_last_name: {{ customer.last_name | json }}
-        });
+        };
+
+        gtag('event', 'view_wishlist', eventData);
+
+        // ✅ Meta Pixel: send same custom event
+        if (typeof fbq === 'function') {
+          fbq('trackCustom', 'view_wishlist', eventData);
+        }
 
         console.log('view_wishlist fired:', {
           event_label: 'Wishlist Icon',
@@ -850,6 +888,7 @@ document.getElementById('cart-icon-bubble').addEventListener('click', async func
     }
   });
 </script>
+
 
 {% schema %}
 {

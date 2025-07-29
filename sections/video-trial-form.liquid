@@ -265,7 +265,7 @@
             data.products.forEach((product) => {
               const featuredImage = product.images[0]?.src || '';
               const price = product.variants[0]?.price || 0;
-                const truncatedTitle = product.title.length > 15 ? product.title.slice(0, 20) + '...' : product.title;
+              const truncatedTitle = product.title.length > 15 ? product.title.slice(0, 20) + '...' : product.title;
               const productId = product.id.toString();
 
               const productCard = document.createElement('div');
@@ -357,6 +357,7 @@
 
                   console.log('GA Event - add_product_tryathome:', eventPayload);
 
+                  // Inside the Add button click event
                   if (typeof gtag === 'function') {
                     gtag('event', 'add_product_tryathome', {
                       product_name: productData.name,
@@ -371,6 +372,24 @@
                     });
                   } else {
                     console.warn('gtag not found – event not sent');
+                  }
+
+                  // ✅ Meta Pixel event
+                  if (typeof fbq === 'function') {
+                    fbq('trackCustom', 'add_product_tryathome', {
+                      product_name: productData.name,
+                      product_handle: productData.handle,
+                      product_price: productData.price,
+                      product_compare_at_price: productData.compare_at_price,
+                      customer_id: eventPayload.customer.id,
+                      customer_email: eventPayload.customer.email,
+                      customer_name: eventPayload.customer.name,
+                      customer_phone: eventPayload.customer.phone,
+                      customer_address: eventPayload.customer.address,
+                    });
+                    console.log('Meta Pixel Event - add_product_tryathome:', eventPayload);
+                  } else {
+                    console.warn('fbq not found – Meta event not sent');
                   }
 
                   attachRemoveEvent();
@@ -464,6 +483,24 @@
               });
             } else {
               console.warn('gtag not found – event not sent');
+            }
+
+            // ✅ Meta Pixel event
+            if (typeof fbq === 'function') {
+              fbq('trackCustom', 'remove_product_tryathome', {
+                product_name: productData.name,
+                product_handle: productData.handle,
+                product_price: productData.price,
+                product_compare_at_price: productData.compare_at_price,
+                customer_id: eventPayload.customer.id,
+                customer_email: eventPayload.customer.email,
+                customer_name: eventPayload.customer.name,
+                customer_phone: eventPayload.customer.phone,
+                customer_address: eventPayload.customer.address,
+              });
+              console.log('Meta Pixel Event - remove_product_tryathome:', eventPayload);
+            } else {
+              console.warn('fbq not found – Meta event not sent');
             }
           }
         }
@@ -790,54 +827,71 @@
 
     // Event listener for timeslot buttons
     timeslotContainer.addEventListener('click', function (event) {
-      if (event.target.classList.contains('timeslot-btn')) {
-        timeslotContainer.querySelectorAll('.timeslot-btn').forEach(button => button.classList.remove('selected'));
-        event.target.classList.add('selected');
+if (event.target.classList.contains('timeslot-btn')) {
+  timeslotContainer.querySelectorAll('.timeslot-btn').forEach(button => button.classList.remove('selected'));
+  event.target.classList.add('selected');
 
-        const selectedDateBtn = document.querySelector('.date-btn.selected');
-        const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
-        const selectedTime = event.target.textContent.trim();
+  const selectedDateBtn = document.querySelector('.date-btn.selected');
+  const selectedDate = selectedDateBtn ? selectedDateBtn.dataset.date : null;
+  const selectedTime = event.target.textContent.trim();
 
-        const customerData = window.customer || {};
-        const eventPayload = {
-          event: 'select_time_slot_tryathome',
-          date: selectedDate,
-          time: selectedTime,
-          customer: {
-            id: customerData.id || null,
-            email: customerData.email || null,
-            name: customerData.default_address?.name || `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
-            phone: customerData.phone || null,
-            address: customerData.default_address
-              ? [
-                  customerData.default_address.address1,
-                  customerData.default_address.city,
-                  customerData.province,
-                  customerData.country,
-                  customerData.zip,
-                ]
-                  .filter(Boolean)
-                  .join(', ')
-              : '',
-          },
-        };
+  const customerData = window.customer || {};
+  const eventPayload = {
+    event: 'select_time_slot_tryathome',
+    date: selectedDate,
+    time: selectedTime,
+    customer: {
+      id: customerData.id || null,
+      email: customerData.email || null,
+      name: customerData.default_address?.name || `${customerData.first_name || ''} ${customerData.last_name || ''}`.trim(),
+      phone: customerData.phone || null,
+      address: customerData.default_address
+        ? [
+            customerData.default_address.address1,
+            customerData.default_address.city,
+            customerData.province,
+            customerData.country,
+            customerData.zip,
+          ]
+            .filter(Boolean)
+            .join(', ')
+        : '',
+    },
+  };
 
-        console.log('GA Event - select_time_slot_tryathome:', eventPayload);
+  console.log('GA Event - select_time_slot_tryathome:', eventPayload);
 
-        if (typeof gtag === 'function') {
-          gtag('event', ' ', {
-            selected_date: selectedDate,
-            selected_time: selectedTime,
-            customer_id: eventPayload.customer.id,
-            customer_email: eventPayload.customer.email,
-            customer_name: eventPayload.customer.name,
-            customer_phone: eventPayload.customer.phone,
-            customer_address: eventPayload.customer.address,
-          });
-        } else {
-          console.warn('gtag not found – event not sent');
-        }
-      }
+  if (typeof gtag === 'function') {
+    gtag('event', ' ', {
+      selected_date: selectedDate,
+      selected_time: selectedTime,
+      customer_id: eventPayload.customer.id,
+      customer_email: eventPayload.customer.email,
+      customer_name: eventPayload.customer.name,
+      customer_phone: eventPayload.customer.phone,
+      customer_address: eventPayload.customer.address,
+    });
+  } else {
+    console.warn('gtag not found – event not sent');
+  }
+
+  // ✅ Meta Pixel tracking (unchanged logic, just added)
+  if (typeof fbq === 'function') {
+    fbq('trackCustom', 'select_time_slot_tryathome', {
+      selected_date: selectedDate,
+      selected_time: selectedTime,
+      customer_id: eventPayload.customer.id,
+      customer_email: eventPayload.customer.email,
+      customer_name: eventPayload.customer.name,
+      customer_phone: eventPayload.customer.phone,
+      customer_address: eventPayload.customer.address,
+    });
+    console.log('Meta Pixel Event - select_time_slot_tryathome:', eventPayload);
+  } else {
+    console.warn('fbq not found – Meta event not sent');
+  }
+}
+
     });
   });
 </script>
@@ -1027,6 +1081,30 @@
           console.log('GA event book_video_trial fired with products');
         } else {
           console.warn('gtag not defined – GA event not fired');
+        }
+
+        // ✅ Meta Pixel Tracking (added below, without changing GA logic)
+        if (typeof fbq === 'function') {
+          const productNames = window.selectedProducts?.map((p) => p.title).join(', ') || '';
+          const productHandles = window.selectedProducts?.map((p) => p.handle).join(', ') || '';
+
+          fbq('trackCustom', 'book_video_trial', {
+            customer_id: tryAtHomeData.customer || '',
+            name: tryAtHomeData.name || '',
+            email: tryAtHomeData.email || '',
+            phone: tryAtHomeData.phone || '',
+            address: tryAtHomeData.address || '',
+            pincode: tryAtHomeData.pincode || '',
+            timeslot: tryAtHomeData.timeslot || '',
+            slot_status: tryAtHomeData.slot_status || '',
+            product_ids: Array.isArray(tryAtHomeData.product_ids) ? tryAtHomeData.product_ids.join(',') : '',
+            product_names: productNames,
+            product_handles: productHandles,
+          });
+
+          console.log('Meta Pixel event book_video_trial fired with products');
+        } else {
+          console.warn('fbq not defined – Meta event not fired');
         }
       } else {
         alert(`Submission failed: ${jsonResponse.message || 'Unknown error'}`);

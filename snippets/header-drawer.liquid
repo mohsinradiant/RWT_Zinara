@@ -25,8 +25,8 @@
             const clickedElement = e.target;
 
             if (clickedElement.closest('svg') && clickedElement.closest('svg').outerHTML.includes('icon-hamburger')) {
-              // Fire GA4 event
-              gtag('event', 'menu_click', {
+              // Prepare event data
+              const eventData = {
                 event_category: 'Navigation',
                 event_label: 'Hamburger Menu',
                 source: 'Header Drawer',
@@ -34,7 +34,15 @@
                 customer_id: {{ customer.id | json }},
                 customer_first_name: {{ customer.first_name | json }},
                 customer_last_name: {{ customer.last_name | json }}
-              });
+              };
+
+              // Fire GA4 event
+              gtag('event', 'menu_click', eventData);
+
+              // ✅ Meta Pixel: send same custom event
+              if (typeof fbq === 'function') {
+                fbq('trackCustom', 'menu_click', eventData);
+              }
 
               console.log('menu_click event triggered with customer details');
             }
@@ -404,7 +412,7 @@
           // Trim and check if the text content includes 'Shop'
           const text = summary.textContent.trim().toLowerCase();
           if (text.includes('shop')) {
-            gtag('event', 'menu_shop_click', {
+            const eventData = {
               event_category: 'Navigation',
               event_label: 'Shop Menu Click',
               source: 'Menu Drawer',
@@ -412,7 +420,14 @@
               customer_id: {{ customer.id | json }},
               customer_first_name: {{ customer.first_name | json }},
               customer_last_name: {{ customer.last_name | json }}
-            });
+            };
+
+            gtag('event', 'menu_shop_click', eventData);
+
+            // ✅ Meta Pixel: fire the same event
+            if (typeof fbq === 'function') {
+              fbq('trackCustom', 'menu_shop_click', eventData);
+            }
 
             console.log('menu_shop_click triggered with customer details');
           }
@@ -420,6 +435,7 @@
       });
     });
   </script>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const shopSummary = document.querySelector('.menu-drawer summary.menu-drawer__menu-item');
@@ -437,7 +453,7 @@
                 const categoryHref = link.getAttribute('href');
                 const liContent = li.innerHTML.trim();
 
-                gtag('event', 'menu_category_click', {
+                const eventData = {
                   event_category: 'Navigation',
                   event_label: categoryText,
                   category_url: categoryHref,
@@ -447,7 +463,14 @@
                   customer_id: {{ customer.id | json }},
                   customer_first_name: {{ customer.first_name | json }},
                   customer_last_name: {{ customer.last_name | json }}
-                });
+                };
+
+                gtag('event', 'menu_category_click', eventData);
+
+                // ✅ Meta Pixel: fire same event
+                if (typeof fbq === 'function') {
+                  fbq('trackCustom', 'menu_category_click', eventData);
+                }
 
                 console.log('menu_category_click fired:', {
                   event_label: categoryText,
@@ -461,6 +484,7 @@
       }
     });
   </script>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const buybackLink = document.querySelector('.menu-drawer__menu-item.list-menu__item[href*="buyback-policy"]');
@@ -470,7 +494,7 @@
           const linkText = buybackLink.textContent.trim();
           const linkHref = buybackLink.getAttribute('href');
 
-          gtag('event', 'menu_buyback_click', {
+          const eventData = {
             event_category: 'Navigation',
             event_label: linkText,
             url: linkHref,
@@ -479,7 +503,14 @@
             customer_id: {{ customer.id | json }},
             customer_first_name: {{ customer.first_name | json }},
             customer_last_name: {{ customer.last_name | json }}
-          });
+          };
+
+          gtag('event', 'menu_buyback_click', eventData);
+
+          // ✅ Meta Pixel: track same custom event
+          if (typeof fbq === 'function') {
+            fbq('trackCustom', 'menu_buyback_click', eventData);
+          }
 
           console.log('menu_buyback_click fired:', {
             event_label: linkText,
@@ -489,6 +520,7 @@
       }
     });
   </script>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const exchangeLink = Array.from(document.querySelectorAll('.menu-drawer__menu-item.list-menu__item'))
@@ -499,7 +531,7 @@
           const linkText = exchangeLink.textContent.trim();
           const linkHref = exchangeLink.getAttribute('href');
 
-          gtag('event', 'menu_exchange_click', {
+          const eventData = {
             event_category: 'Navigation',
             event_label: linkText,
             url: linkHref,
@@ -508,7 +540,14 @@
             customer_id: {{ customer.id | json }},
             customer_first_name: {{ customer.first_name | json }},
             customer_last_name: {{ customer.last_name | json }}
-          });
+          };
+
+          gtag('event', 'menu_exchange_click', eventData);
+
+          // ✅ Meta Pixel: send same custom event
+          if (typeof fbq === 'function') {
+            fbq('trackCustom', 'menu_exchange_click', eventData);
+          }
 
           console.log('menu_exchange_click fired:', {
             event_label: linkText,
@@ -518,6 +557,7 @@
       }
     });
   </script>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const ordersLink = Array.from(document.querySelectorAll('.menu-drawer__menu-item.list-menu__item'))
@@ -528,7 +568,7 @@
           const linkText = ordersLink.textContent.trim();
           const linkHref = ordersLink.getAttribute('href');
 
-          gtag('event', 'menu_orders_click', {
+          const eventData = {
             event_category: 'Navigation',
             event_label: linkText,
             url: linkHref,
@@ -537,7 +577,14 @@
             customer_id: {{ customer.id | json }},
             customer_first_name: {{ customer.first_name | json }},
             customer_last_name: {{ customer.last_name | json }}
-          });
+          };
+
+          gtag('event', 'menu_orders_click', eventData);
+
+          // ✅ Meta Pixel: send same custom event
+          if (typeof fbq === 'function') {
+            fbq('trackCustom', 'menu_orders_click', eventData);
+          }
 
           console.log('menu_orders_click fired:', {
             event_label: linkText,

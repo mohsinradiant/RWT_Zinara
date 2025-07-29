@@ -1627,7 +1627,7 @@
         const checkbox = rtsLink.querySelector('input.filter-checkbox');
         const checkboxStatus = checkbox && checkbox.checked ? 'Close' : 'Open';
 
-        gtag('event', 'ready_to_ship', {
+        const eventData = {
           event_category: 'Filter Click',
           event_label: linkText,
           url: linkHref,
@@ -1637,17 +1637,21 @@
           customer_id: {{ customer.id | json }},
           customer_first_name: {{ customer.first_name | json }},
           customer_last_name: {{ customer.last_name | json }}
-        });
+        };
+
+        // GA4 tracking
+        gtag('event', 'ready_to_ship', eventData);
+
+        // ✅ Meta Pixel tracking
+        if (typeof fbq === 'function') {
+          fbq('trackCustom', 'ready_to_ship', eventData);
+        }
 
         console.log('ready_to_ship fired:', {
           event_label: linkText,
           url: linkHref,
-          checkbox_status: checkboxStatus
-        });
-      });
-    }
-  });
-</script>
+          checkbox_status: checkbox_
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const filterSections = document.querySelectorAll('details.js-filter');
@@ -1674,14 +1678,16 @@
               status: filterStatus,
             });
 
+            const eventData = {
+              event_category: 'Filter Click',
+              event_label: `${filterHeading} - ${filterName}`,
+              filter_heading: filterHeading,
+              filter_name: filterName,
+              filter_status: filterStatus,
+            };
+
             if (typeof gtag === 'function') {
-              gtag('event', 'filter_applied', {
-                event_category: 'Filter Click',
-                event_label: `${filterHeading} - ${filterName}`,
-                filter_heading: filterHeading,
-                filter_name: filterName,
-                filter_status: filterStatus,
-              });
+              gtag('event', 'filter_applied', eventData);
 
               console.log('✅ gtag event fired:', {
                 event: 'filter_applied',
@@ -1692,9 +1698,15 @@
             } else {
               console.warn('⚠️ gtag is not defined');
             }
+
+            // ✅ Meta Pixel tracking
+            if (typeof fbq === 'function') {
+              fbq('trackCustom', 'filter_applied', eventData);
+            }
           }, 10); // Let checkbox update
         });
       });
     });
   });
 </script>
+

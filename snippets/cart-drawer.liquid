@@ -685,7 +685,32 @@
 
       console.log('GA4 checkout_initiated event data:', eventData);
 
+      // Google Analytics
       gtag('event', 'checkout_initiated', eventData);
+
+      // ✅ Meta Pixel
+      if (typeof fbq === 'function') {
+        fbq('trackCustom', 'checkout_initiated', {
+          customer_id: eventData.customer_id,
+          customer_email: eventData.customer_email,
+          customer_name: eventData.customer_name,
+          customer_phone: eventData.customer_phone,
+          customer_address: eventData.customer_address,
+          customer_city: eventData.customer_city,
+          customer_state: eventData.customer_state,
+          customer_zip: eventData.customer_zip,
+          customer_country: eventData.customer_country,
+
+          item_count: eventData.item_count,
+          cart_value: eventData.cart_value,
+          currency: eventData.currency,
+          cart_products: eventData.cart_products,
+        });
+
+        console.log('Meta Pixel checkout_initiated event fired');
+      } else {
+        console.warn('fbq not defined – Meta event not fired');
+      }
     } catch (error) {
       console.error('Error triggering checkout_initiated event:', error);
     }

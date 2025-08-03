@@ -37,6 +37,7 @@
         },
         "slide_HHiCAy": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Black_Banner.jpg",
             "image_alt": "",
@@ -59,6 +60,7 @@
         },
         "slide_ByegG4": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/web_banner_2.png",
             "image_alt": "",
@@ -81,6 +83,7 @@
         },
         "slide_eATNGz": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/web_banner_3.png",
             "image_alt": "",
@@ -103,7 +106,6 @@
         },
         "slide_TTdXHa": {
           "type": "slide",
-          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/web_banner_rakhi.png",
             "image_alt": "",
